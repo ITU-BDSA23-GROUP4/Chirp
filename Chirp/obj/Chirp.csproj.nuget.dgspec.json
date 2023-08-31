@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\olive\\Documents\\BDSA\\BDSAProjects\\Chirp\\Chirp\\Chirp.csproj": {}
+    "/mnt/c/Users/lukas/documents/lukas/universitet/bdsa/Chirp/Chirp/Chirp.csproj": {}
   },
   "projects": {
-    "C:\\Users\\olive\\Documents\\BDSA\\BDSAProjects\\Chirp\\Chirp\\Chirp.csproj": {
+    "/mnt/c/Users/lukas/documents/lukas/universitet/bdsa/Chirp/Chirp/Chirp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\olive\\Documents\\BDSA\\BDSAProjects\\Chirp\\Chirp\\Chirp.csproj",
+        "projectUniqueName": "/mnt/c/Users/lukas/documents/lukas/universitet/bdsa/Chirp/Chirp/Chirp.csproj",
         "projectName": "Chirp",
-        "projectPath": "C:\\Users\\olive\\Documents\\BDSA\\BDSAProjects\\Chirp\\Chirp\\Chirp.csproj",
-        "packagesPath": "C:\\Users\\olive\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\olive\\Documents\\BDSA\\BDSAProjects\\Chirp\\Chirp\\obj\\",
+        "projectPath": "/mnt/c/Users/lukas/documents/lukas/universitet/bdsa/Chirp/Chirp/Chirp.csproj",
+        "packagesPath": "/home/lukas/.nuget/packages/",
+        "outputPath": "/mnt/c/Users/lukas/documents/lukas/universitet/bdsa/Chirp/Chirp/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\olive\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "/home/lukas/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net7.0"
@@ -53,7 +53,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.400\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/7.0.400/RuntimeIdentifierGraph.json"
         }
       }
     }
