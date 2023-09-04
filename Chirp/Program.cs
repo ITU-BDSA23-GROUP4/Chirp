@@ -4,8 +4,9 @@ string path = "ccirp_cli_db.csv";
 
 void saveToFile(string line) {
     try {
-        var sw = new StreamWriter(path);
-        sw.WriteLine(line);
+        using (StreamWriter sw = File.AppendText(path)) {
+            sw.WriteLine(line);
+        }
     } catch {
         Console.WriteLine("Can't write to file");
     }
@@ -13,13 +14,14 @@ void saveToFile(string line) {
 
 void readFromFile() {
     try {
-        var sr = new StreamReader(path);
-        while(sr.Peek() >= 0) {
-            string line = sr.ReadLine();
-            // First line contains headers and not data. Therfore we skip it
-            if (line.StartsWith("Author,Message,Timestamp"))
-                continue;
-            printToCLI(line.Split(","));
+        using (StreamReader sr = File.OpenText(path)) {
+            while(sr.Peek() >= 0) {
+                string line = sr.ReadLine();
+                // First line contains headers and not data. Therfore we skip it
+                if (line.StartsWith("Author,Message,Timestamp"))
+                    continue;
+                printToCLI(line.Split(","));
+            }
         }
 
     } catch {
@@ -28,9 +30,14 @@ void readFromFile() {
 }
 
 void printToCLI(String[] line) {
-    Console.WriteLine("User" + line[0]);
+    Console.WriteLine("User: " + line[0]);
     var message = line[1].Replace("/comma/", ",");
     Console.WriteLine(message);
+    // https://stackoverflow.com/questions/249760/how-can-i-convert-a-unix-timestamp-to-datetime-and-vice-versa
+    //DateTime dateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+    //dateTime = dateTime.AddSeconds(line[2]).ToLocalTime();
+
+
     Console.WriteLine("At time: " + line[2]);
 }
 
@@ -42,8 +49,7 @@ void readFromCLI() {
     TimeSpan epochTicks = new TimeSpan(new DateTime(1970, 1, 1).Ticks);
     TimeSpan unixTicks = new TimeSpan(DateTime.Now.Ticks) - epochTicks;
     Int32 time = (Int32) unixTicks.TotalSeconds;
-    //saveToFile(author + "," + message + "," + time);
-    saveToFile("TEst");
+    saveToFile(author + "," + message + "," + time);
 }
 
 Console.WriteLine("Possible commands: post, read, quit");
