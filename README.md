@@ -11,6 +11,6 @@ Project repository for BDSA course by:
 
 ## Command prompt version
 Running the program in the terminal
-- enter the correct folder to where program.cs is
-- .net run
+- Enter the correct folder to where program.cs is
+- dotnet run
 
