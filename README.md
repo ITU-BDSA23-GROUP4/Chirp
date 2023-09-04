@@ -4,6 +4,7 @@ Project repository for BDSA course by:
 - Oliver Asger-Sharp Johansen (Oash)
 - Marius Thomsen (Mariu)
 - Anna Høybye Johansen (annaj)
+- Niels Christian Skov Faber (nfab)
 
 
 # Running the program
