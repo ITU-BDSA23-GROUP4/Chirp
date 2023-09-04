@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "6pWNVbe/EWORoR9QxLfznPZ+6aX3ezXFuBBAzR6q3BNSr+aCq1tz6ec2XfNxx0iWkuHDL2s4WFgW7X/yptrUxw==",
+  "dgSpecHash": "ZyZNjpV25bMQuzq5DM28InRg3YDdQ5OiMUbgVYqXBL/dzlvMhoLUIZBP6pZMUfVRzEH0yEn6qOOSuiT1zJLvIQ==",
   "success": true,
-  "projectFilePath": "/mnt/c/Users/lukas/documents/lukas/universitet/bdsa/Chirp/Chirp/Chirp.csproj",
+  "projectFilePath": "/mnt/c/Users/lukas/documents/lukas/universitet/bdsa/chirp/Chirp/Chirp.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }
