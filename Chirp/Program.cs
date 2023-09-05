@@ -1,69 +1,66 @@
 ﻿using System;
 
-string path = "ccirp_cli_db.csv";
+class CLI {
+    static string path = "ccirp_cli_db.csv";
 
-void saveToFile(string line) {
-    try {
-        using (StreamWriter sw = File.AppendText(path)) {
-            sw.WriteLine(line);
+    static void Main(string[] args) {
+        switch (args[0].ToLower()) {
+            case "help":
+                Console.WriteLine("Possible commands: cheep, read, help");
+                break;
+            case "cheep":
+                ReadFromCLI(args[1]);
+                break;
+            case "read":
+                ReadFromFile();
+                break;
+            default:
+                break;
         }
-    } catch {
-        Console.WriteLine("Can't write to file");
     }
-}
-
-void readFromFile() {
-    try {
-        using (StreamReader sr = File.OpenText(path)) {
-            while(sr.Peek() >= 0) {
-                string line = sr.ReadLine();
-                // First line contains headers and not data. Therfore we skip it
-                if (line.StartsWith("Author,Message,Timestamp"))
-                    continue;
-                printToCLI(line.Split(","));
+    
+    static void SaveToFile(string line) {
+        try {
+            using (StreamWriter sw = File.AppendText(path)) {
+                sw.WriteLine(line);
             }
         }
-
-    } catch {
-        Console.WriteLine("Can't read from file");
+        catch {
+            Console.WriteLine("Can't write to file");
+        }
     }
-}
 
-void printToCLI(String[] line) {
-    Console.WriteLine("User: " + line[0]);
-    var message = line[1].Replace("/comma/", ",");
-    Console.WriteLine(message);
-    // https://stackoverflow.com/questions/249760/how-can-i-convert-a-unix-timestamp-to-datetime-and-vice-versa
-    //DateTime dateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
-    //dateTime = dateTime.AddSeconds(line[2]).ToLocalTime();
-
-
-    Console.WriteLine("At time: " + line[2]);
-}
-
-void readFromCLI() {
-    Console.WriteLine("Please enter your message");
-    string message = Console.ReadLine().Replace(",", "/comma/");
-    string author = Environment.UserName;
-    // https://www.delftstack.com/howto/csharp/how-to-get-the-unix-timestamp-in-csharp/
-    TimeSpan epochTicks = new TimeSpan(new DateTime(1970, 1, 1).Ticks);
-    TimeSpan unixTicks = new TimeSpan(DateTime.Now.Ticks) - epochTicks;
-    Int32 time = (Int32) unixTicks.TotalSeconds;
-    saveToFile(author + "," + message + "," + time);
-}
-
-Console.WriteLine("Possible commands: post, read, quit");
-
-string cmd = Console.ReadLine();
-while(!cmd.Equals("quit")) {
-    if (cmd.Equals("post")) {
-        readFromCLI(); 
-    } else if (cmd.Equals("read")) {
-        readFromFile();
-    } else if (cmd.Equals("quit")) {
-        break;
-    } else {
-        Console.WriteLine("Possible commands: post, read, quit");
+    static void ReadFromFile() {
+        try {
+            using (StreamReader sr = File.OpenText(path)) {
+                while (sr.Peek() >= 0) {
+                    string line = sr.ReadLine();
+                    // First line contains headers and not data. Therfore we skip it
+                    if (line.StartsWith("Author,Message,Timestamp"))
+                        continue;
+                    PrintToCLI(line.Split(","));
+                }
+            }
+        }
+        catch {
+            Console.WriteLine("Can't read from file");
+        }
     }
-    cmd = Console.ReadLine();
+
+    static void PrintToCLI(String[] line) {
+        Console.WriteLine("User: " + line[0]);
+        var message = line[1].Replace("/comma/", ",");
+        Console.WriteLine(message);
+        // Creates time obejct from unix time stamp and prints it in local time zone
+        DateTimeOffset time = DateTimeOffset.FromUnixTimeSeconds(long.Parse(line[2]));
+        Console.WriteLine("At time: " + time.LocalDateTime);
+    }
+
+    static void ReadFromCLI(string message) {
+        message = message.Replace(",", "/comma/");
+        string author = Environment.UserName;
+        // Creates time object with current time in UTC 00. Saves as unix time stamp
+        DateTimeOffset time = DateTimeOffset.Now;    
+        SaveToFile(author + "," + message + "," + time.ToUnixTimeSeconds());
+    }
 }
