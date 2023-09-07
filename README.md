@@ -6,7 +6,11 @@ Project repository for BDSA course by:
 - Anna Høybye Johansen (annaj)
 - Niels Christian Skov Faber (nfab)
 
-Co-authored by: Marius <mariu@itu.dk>, Oliver <Oash@itu.dk> Lukas <lukan@itu.dk>. Niels <nfab@itu.dk>, Anna <annaj@itu.dk>
+Co-authored by: Marius <mariu@itu.dk>
+Co-authored-by: Oliver <Oash@itu.dk> 
+Co-authored-by: Lukas <lukan@itu.dk>
+Co-authored-by: Niels <nfab@itu.dk>
+Co-authored-by: Anna <annaj@itu.dk>
 
 # Running the program
 
@@ -14,4 +18,3 @@ Co-authored by: Marius <mariu@itu.dk>, Oliver <Oash@itu.dk> Lukas <lukan@itu.dk>
 Running the program in the terminal
 - Enter the correct folder to where program.cs is
 - dotnet run
-
