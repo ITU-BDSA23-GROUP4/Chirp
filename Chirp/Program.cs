@@ -30,6 +30,7 @@ class CLI {
         List<Cheep>  Allcheeps = new List<Cheep>();
         Allcheeps.Add(newCheep);
         try {
+            //https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/record
             //https://joshclose.github.io/CsvHelper/examples/writing/appending-to-an-existing-file/
              var config = new CsvConfiguration(CultureInfo.InvariantCulture)
             {
