@@ -1,4 +1,11 @@
 ﻿using System;
+using System.Globalization;
+using System.Reflection.Metadata.Ecma335;
+using System.Runtime.CompilerServices;
+using System.Xml.Serialization;
+using CsvHelper;
+using CsvHelper.Configuration;
+using CsvHelper.Configuration.Attributes;
 
 class CLI {
     static string path = "ccirp_cli_db.csv";
@@ -12,48 +19,65 @@ class CLI {
                 ReadFromCLI(args[1]);
                 break;
             case "read":
-                ReadFromFile();
+                PrintCheeps();
                 break;
             default:
                 break;
         }
     }
     
-    static void SaveToFile(string line) {
+    static void SaveToFile(Cheep newCheep) {
+        List<Cheep>  Allcheeps = new List<Cheep>();
+        Allcheeps.Add(newCheep);
         try {
-            using (StreamWriter sw = File.AppendText(path)) {
-                sw.WriteLine(line);
+            //https://joshclose.github.io/CsvHelper/examples/writing/appending-to-an-existing-file/
+             var config = new CsvConfiguration(CultureInfo.InvariantCulture)
+            {
+            // Don't write the header again.
+            HasHeaderRecord = false,
+            };
+            using (var stream = File.Open(path,FileMode.Append)) 
+            using (var writer = new StreamWriter(stream))
+            using (var csv = new CsvWriter(writer, config))
+            {
+                csv.WriteRecords(Allcheeps);;
             }
         }
-        catch {
+        catch (Exception e){
+            Console.WriteLine(e.Message);
             Console.WriteLine("Can't write to file");
         }
     }
-
-    static void ReadFromFile() {
+    public static void PrintCheeps(){PrintToCLI(ReadFromFile());}
+    static List<Cheep> ReadFromFile(){
+        List<Cheep>  Allcheeps = new List<Cheep>();
         try {
-            using (StreamReader sr = File.OpenText(path)) {
-                while (sr.Peek() >= 0) {
-                    string line = sr.ReadLine();
-                    // First line contains headers and not data. Therfore we skip it
-                    if (line.StartsWith("Author,Message,Timestamp"))
-                        continue;
-                    PrintToCLI(line.Split(","));
+            //https://joshclose.github.io/CsvHelper/examples/reading/enumerate-class-records/
+            using (StreamReader sr = File.OpenText(path)) 
+            using ( var csv = new CsvReader(sr,CultureInfo.InvariantCulture)){
+            IEnumerable<Cheep> cheeps = csv.EnumerateRecords(new Cheep());
+                foreach (Cheep cheep in cheeps){
+                    Allcheeps.Add(cheep);
                 }
+                return Allcheeps;
             }
-        }
-        catch {
+            
+        } catch (Exception e){
+            Console.WriteLine(e.Message);
             Console.WriteLine("Can't read from file");
+            return null;
         }
     }
 
-    static void PrintToCLI(String[] line) {
-        Console.WriteLine("User: " + line[0]);
-        var message = line[1].Replace("/comma/", ",");
-        Console.WriteLine(message);
-        // Creates time obejct from unix time stamp and prints it in local time zone
-        DateTimeOffset time = DateTimeOffset.FromUnixTimeSeconds(long.Parse(line[2]));
-        Console.WriteLine("At time: " + time.LocalDateTime);
+    static void PrintToCLI(IEnumerable<Cheep> cheeps) {
+        foreach (Cheep cheep in cheeps) {
+            Console.WriteLine("User: " +cheep.Author);
+            var message = cheep.Message.Replace("/comma/", ",");
+            Console.WriteLine(message);
+           // Creates time obejct from unix time stamp and prints it in local time zone
+            DateTimeOffset time = DateTimeOffset.FromUnixTimeSeconds(cheep.Timestamp);
+            Console.WriteLine("At time: " + time.LocalDateTime);
+        }
     }
 
     static void ReadFromCLI(string message) {
@@ -61,6 +85,15 @@ class CLI {
         string author = Environment.UserName;
         // Creates time object with current time in UTC 00. Saves as unix time stamp
         DateTimeOffset time = DateTimeOffset.Now;    
-        SaveToFile(author + "," + message + "," + time.ToUnixTimeSeconds());
+        SaveToFile(new Cheep {Author = author,Message=message, Timestamp = (int)time.ToUnixTimeSeconds()});
     }
+}
+//Author,Message,Timestamp
+public record Cheep{
+     [Index( 0)]
+    public string Author { get; set;}
+    [Index(1)]
+    public string Message { get; set;}
+    [Index( 2)]
+    public int Timestamp {get;set;}
 }
