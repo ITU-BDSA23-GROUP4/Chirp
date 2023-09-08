@@ -56,10 +56,14 @@ class CLI {
             //https://joshclose.github.io/CsvHelper/examples/reading/enumerate-class-records/
             using (StreamReader sr = File.OpenText(path)) 
             using ( var csv = new CsvReader(sr,CultureInfo.InvariantCulture)){
-            IEnumerable<Cheep> cheeps = csv.EnumerateRecords(new Cheep());
-                foreach (Cheep cheep in cheeps){
-                    Allcheeps.Add(cheep);
-                }
+            csv.Read();
+            // reading The header and not saving it 
+            csv.ReadHeader();
+            //Reading whole document. 
+            while (csv.Read()){
+                var cheep = csv.GetRecord<Cheep>();
+                Allcheeps.Add(cheep);
+            }
                 return Allcheeps;
             }
             
