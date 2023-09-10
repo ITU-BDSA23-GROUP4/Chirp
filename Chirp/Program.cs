@@ -38,22 +38,14 @@ class CLI {
                     // First line contains headers and not data. Therfore we skip it
                     if (line.StartsWith("Author,Message,Timestamp"))
                         continue;
-                    PrintToCLI(line.Split(","));
+                    Userinterface.PrintCheeps(line.Split(","));
+                    //PrintToCLI(line.Split(","));
                 }
             }
         }
         catch {
             Console.WriteLine("Can't read from file");
         }
-    }
-
-    static void PrintToCLI(String[] line) {
-        Console.WriteLine("User: " + line[0]);
-        var message = line[1].Replace("/comma/", ",");
-        Console.WriteLine(message);
-        // Creates time obejct from unix time stamp and prints it in local time zone
-        DateTimeOffset time = DateTimeOffset.FromUnixTimeSeconds(long.Parse(line[2]));
-        Console.WriteLine("At time: " + time.LocalDateTime);
     }
 
     static void ReadFromCLI(string message) {
