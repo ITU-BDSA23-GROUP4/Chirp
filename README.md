@@ -6,11 +6,11 @@ Project repository for BDSA course by:
 - Anna Høybye Johansen (annaj)
 - Niels Christian Skov Faber (nfab)
 
-Co-authored by: Marius <mariu@itu.dk>
-Co-authored-by: Oliver <Oash@itu.dk> 
-Co-authored-by: Lukas <lukan@itu.dk>
-Co-authored-by: Niels <nfab@itu.dk>
-Co-authored-by: Anna <annaj@itu.dk>
+Co-authored by: Marius <mariu@itu.dk><br />
+Co-authored-by: Oliver <Oash@itu.dk><br />
+Co-authored-by: Lukas <lukan@itu.dk><br />
+Co-authored-by: Niels <nfab@itu.dk><br />
+Co-authored-by: Anna <annaj@itu.dk><br />
 
 # Running the program
 
