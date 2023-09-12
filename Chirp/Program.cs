@@ -6,11 +6,15 @@ using System.Xml.Serialization;
 using CsvHelper;
 using CsvHelper.Configuration;
 using CsvHelper.Configuration.Attributes;
+using SimpleDB.CSVDatabase<Cheep>;
+
 
 class CLI {
     static string path = "ccirp_cli_db.csv";
+    CSVDatabase<Cheep> DB;
 
     static void Main(string[] args) {
+        
         switch (args[0].ToLower()) {
             case "help":
                 Console.WriteLine("Possible commands: cheep, read, help");
@@ -19,7 +23,7 @@ class CLI {
                 ReadFromCLI(args[1]);
                 break;
             case "read":
-                PrintCheeps();
+                Userinterface<Cheep>.PrintCheeps(DB.ReadFromFile());
                 break;
             default:
                 break;
@@ -39,7 +43,6 @@ class CLI {
             Console.WriteLine("Can't write to file");
         }
     }
-    public static void PrintCheeps(){PrintToCLI(ReadFromFile());}
     static List<Cheep> ReadFromFile(){
         List<Cheep>  Allcheeps = new List<Cheep>();
         try {
@@ -69,7 +72,7 @@ class CLI {
         string author = Environment.UserName;
         // Creates time object with current time in UTC 00. Saves as unix time stamp
         DateTimeOffset time = DateTimeOffset.Now;    
-        SaveToFile(new Cheep {Author = author,Message=message, Timestamp = (int)time.ToUnixTimeSeconds()});
+        DB.SaveToFile(new Cheep {Author = author,Message=message, Timestamp = (int)time.ToUnixTimeSeconds()});
     }
 }
 //Author,Message,Timestamp
@@ -79,5 +82,5 @@ public record Cheep{
     [Index(1)]
     public string Message { get; set;}
     [Index( 2)]
-    public int Timestamp {get;set;}
+    public long Timestamp {get;set;}
 }

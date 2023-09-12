@@ -1,17 +1,15 @@
 using System;
 using System.ComponentModel.Design;
 
-public static class Userinterface {
+public static class Userinterface<T> {
 
-    /* public static void PrintCheeps(IEnumerable<Cheep> cheeps){
-        Cheep not yet defined
-    } */
-    public static void PrintCheeps(String[] line){
-        Console.WriteLine("User: " + line[0]);
-        var message = line[1].Replace("/comma/", ",");
+    public static void PrintCheeps(List<T> cheeps){
+        Console.WriteLine("User: " + cheeps.Author);
+        var message = cheeps.Message.Replace("/comma/", ",");
         Console.WriteLine(message);
         // Creates time obejct from unix time stamp and prints it in local time zone
-        DateTimeOffset time = DateTimeOffset.FromUnixTimeSeconds(long.Parse(line[2]));
+        DateTimeOffset time = DateTimeOffset.FromUnixTimeSeconds(cheeps.Timestamp);
         Console.WriteLine("At time: " + time.LocalDateTime);
-    }
+    } 
+    
 }

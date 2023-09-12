@@ -9,10 +9,15 @@ using CsvHelper.Configuration;
 using CsvHelper.Configuration.Attributes;
 public sealed class CSVDatabase<T> : IDatabaseRepository<T>
 {
-    static string path = "ccirp_cli_db.csv";
+    string path;
+    public CSVDatabase(string path)
+    {
+        path = this.path;
+    }
+
     public void SaveToFile(T item)
     {
-         List<T>  AllItems = new List<T>();
+        List<T>  AllItems = new List<T>();
         AllItems.Add(item);
         try {
             //https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/record
