@@ -13,7 +13,6 @@ class CLI {
 
 
     static void Main(string[] args) {
-        
         switch (args[0].ToLower()) {
             case "help":
                 Console.WriteLine("Possible commands: cheep, read, help");
@@ -22,7 +21,12 @@ class CLI {
                 ReadFromCLI(args[1]);
                 break;
             case "read":
-                //Userinterface<Cheep>.PrintCheeps(DB.ReadFromFile());
+            try{
+                Userinterface<Cheep>.PrintCheeps(DB.ReadFromFile());
+            }
+            catch (Exception e){
+            Console.WriteLine(e.Message);
+            }
                 break;
             default:
                 break;
@@ -71,7 +75,7 @@ class CLI {
         string author = Environment.UserName;
         // Creates time object with current time in UTC 00. Saves as unix time stamp
         DateTimeOffset time = DateTimeOffset.Now;    
-        DB.SaveToFile(new Cheep {Author = author,Message=message, Timestamp = (int)time.ToUnixTimeSeconds()});
+        DB.SaveToFile(new Cheep {Author = author, Message=message, Timestamp = (int)time.ToUnixTimeSeconds()});
     }
 }
 //Author,Message,Timestamp

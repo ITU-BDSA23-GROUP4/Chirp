@@ -12,7 +12,7 @@ public sealed class CSVDatabase<T> : IDatabaseRepository<T>
     string path;
     public CSVDatabase(string path)
     {
-        path = this.path;
+        this.path = path;
     }
 
     public void SaveToFile(T item)
