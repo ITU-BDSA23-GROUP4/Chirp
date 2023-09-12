@@ -30,18 +30,8 @@ class CLI {
         List<Cheep>  Allcheeps = new List<Cheep>();
         Allcheeps.Add(newCheep);
         try {
-            //https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/record
-            //https://joshclose.github.io/CsvHelper/examples/writing/appending-to-an-existing-file/
-             var config = new CsvConfiguration(CultureInfo.InvariantCulture)
-            {
-            // Don't write the header again.
-            HasHeaderRecord = false,
-            };
-            using (var stream = File.Open(path,FileMode.Append)) 
-            using (var writer = new StreamWriter(stream))
-            using (var csv = new CsvWriter(writer, config))
-            {
-                csv.WriteRecords(Allcheeps);;
+            using (StreamWriter sw = File.AppendText(path)) {
+                sw.WriteLine(line);
             }
         }
         catch (Exception e){
@@ -71,17 +61,6 @@ class CLI {
             Console.WriteLine(e.Message);
             Console.WriteLine("Can't read from file");
             return null;
-        }
-    }
-
-    static void PrintToCLI(IEnumerable<Cheep> cheeps) {
-        foreach (Cheep cheep in cheeps) {
-            Console.WriteLine("User: " +cheep.Author);
-            var message = cheep.Message.Replace("/comma/", ",");
-            Console.WriteLine(message);
-           // Creates time obejct from unix time stamp and prints it in local time zone
-            DateTimeOffset time = DateTimeOffset.FromUnixTimeSeconds(cheep.Timestamp);
-            Console.WriteLine("At time: " + time.LocalDateTime);
         }
     }
 
