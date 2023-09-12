@@ -39,7 +39,6 @@ class CLI {
                     if (line.StartsWith("Author,Message,Timestamp"))
                         continue;
                     Userinterface.PrintCheeps(line.Split(","));
-                    //PrintToCLI(line.Split(","));
                 }
             }
         }

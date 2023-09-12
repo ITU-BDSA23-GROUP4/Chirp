@@ -2,6 +2,10 @@ using System;
 using System.ComponentModel.Design;
 
 public static class Userinterface {
+
+    /* public static void PrintCheeps(IEnumerable<Cheep> cheeps){
+        Cheep not yet defined
+    } */
     public static void PrintCheeps(String[] line){
         Console.WriteLine("User: " + line[0]);
         var message = line[1].Replace("/comma/", ",");
