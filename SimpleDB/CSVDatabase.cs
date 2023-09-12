@@ -1,4 +1,3 @@
-﻿namespace SimpleDB;
 ﻿using System;
 using System.Globalization;
 using System.Reflection.Metadata.Ecma335;
@@ -7,6 +6,7 @@ using System.Xml.Serialization;
 using CsvHelper;
 using CsvHelper.Configuration;
 using CsvHelper.Configuration.Attributes;
+
 public sealed class CSVDatabase<T> : IDatabaseRepository<T>
 {
     string path;
@@ -40,7 +40,7 @@ public sealed class CSVDatabase<T> : IDatabaseRepository<T>
         }
     }
 
-    public List<T> ReadFromFile(T item)
+    public List<T> ReadFromFile()
     {
         List<T> AllItems = new List<T>();
         try
