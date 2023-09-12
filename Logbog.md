@@ -8,7 +8,7 @@ Jobs of the day:
 - plan for next lecture/assignments
 
 ### Issues resolved 
-#2, #4, #5, #3 <br />
+[Issue #2](/../../issues/2), [Issue #4](/../../issues/4), [Issue #5](/../../issues/5), [Issue #3](/../../issues/3)<br />
 We wanted to move the record cheeps, for our concerns. <br />
 There was a lot of reference issue, to get a hold on the database, which is a different project. <br />
 Working on 2c - we had issues. We split up in to, working on it with some getting help from TA's, and others continue working in the group, to find a solution. <br />
