@@ -11,7 +11,7 @@ public static class Userinterface<T> {
         Console.WriteLine(message);
         // Creates time obejct from unix time stamp and prints it in local time zone
         DateTimeOffset time = DateTimeOffset.FromUnixTimeSeconds(Cheep.Timestamp);
-        Console.WriteLine("At time: " + time.LocalDateTime);
+        Console.WriteLine("At time: " + time.LocalDateTime +"\n");
         }
        
     } 
