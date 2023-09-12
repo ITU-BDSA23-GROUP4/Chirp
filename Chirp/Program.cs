@@ -6,12 +6,11 @@ using System.Xml.Serialization;
 using CsvHelper;
 using CsvHelper.Configuration;
 using CsvHelper.Configuration.Attributes;
-using SimpleDB.CSVDatabase<Cheep>;
-
 
 class CLI {
     static string path = "ccirp_cli_db.csv";
-    CSVDatabase<Cheep> DB;
+    static CSVDatabase<Cheep> DB = new CSVDatabase<Cheep>(path);
+
 
     static void Main(string[] args) {
         
@@ -23,7 +22,7 @@ class CLI {
                 ReadFromCLI(args[1]);
                 break;
             case "read":
-                Userinterface<Cheep>.PrintCheeps(DB.ReadFromFile());
+                //Userinterface<Cheep>.PrintCheeps(DB.ReadFromFile());
                 break;
             default:
                 break;
@@ -35,7 +34,7 @@ class CLI {
         Allcheeps.Add(newCheep);
         try {
             using (StreamWriter sw = File.AppendText(path)) {
-                sw.WriteLine(line);
+                sw.WriteLine(newCheep);
             }
         }
         catch (Exception e){
@@ -77,7 +76,7 @@ class CLI {
 }
 //Author,Message,Timestamp
 public record Cheep{
-     [Index( 0)]
+    [Index( 0)]
     public string Author { get; set;}
     [Index(1)]
     public string Message { get; set;}

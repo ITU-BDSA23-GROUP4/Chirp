@@ -3,7 +3,7 @@ using System.ComponentModel.Design;
 
 public static class Userinterface<T> {
 
-    public static void PrintCheeps(List<T> cheeps){
+    public static void PrintCheeps(List<Cheep> cheeps){
         Console.WriteLine("User: " + cheeps.Author);
         var message = cheeps.Message.Replace("/comma/", ",");
         Console.WriteLine(message);
