@@ -2,8 +2,8 @@ using System;
 using System.ComponentModel.Design;
 
 public static class Userinterface<T> {
-
-    public static void PrintCheeps(List<Cheep> cheeps){
+ 
+    public static void PrintCheeps(IEnumerable<Cheep> cheeps ){
         foreach (var Cheep in cheeps)
         {
         Console.WriteLine("User: " + Cheep.Author);
