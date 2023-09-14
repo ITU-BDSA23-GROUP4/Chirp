@@ -16,10 +16,13 @@ class CLI
     static void Main(string[] args)
     {
         Parser.Default.ParseArguments<CheepOptions, ReadOptions>(args)
-        .WithParsed<CheepOptions>(options  => {
-            ConstructCheep(options.Message);
-        })
-        .WithParsed<ReadOptions>(options => {
+        .WithParsed<CheepOptions>(result => {
+            if (result.MessageOption != null)
+                ConstructCheep(result.MessageOption);
+            if (result.MessageValue != null)
+                ConstructCheep(result.MessageValue);
+            })
+        .WithParsed<ReadOptions>(result => {
             try
             {
                 Userinterface<Cheep>.PrintCheeps(DB.ReadFromFile());
@@ -49,9 +52,13 @@ class CLI
 }
 
 [Verb("cheep", HelpText = "Post a cheep.")]
-public class CheepOptions {
-    [Option('m', "message", Required = true, HelpText = "Cheep message.")]
-    public string Message { get; set; }
+public class CheepOptions 
+{
+    [Option('m', "message", HelpText = "Cheep message.")]
+    public string MessageOption { get; set; }
+
+    [Value(0, HelpText = "Cheep message.")]
+    public string MessageValue { get; set; }
 }
 
 [Verb("read", HelpText = "Read all cheeps.")]
