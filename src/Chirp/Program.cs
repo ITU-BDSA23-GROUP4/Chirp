@@ -1,4 +1,5 @@
 ﻿using System;
+using CommandLine;
 using System.Globalization;
 using System.Reflection.Metadata.Ecma335;
 using System.Runtime.CompilerServices;
@@ -12,33 +13,28 @@ class CLI
     static string path = "ccirp_cli_db.csv";
     static CSVDatabase<Cheep> DB = new CSVDatabase<Cheep>(path);
 
-
     static void Main(string[] args)
     {
-        switch (args[0].ToLower())
-        {
-            case "help":
-                Console.WriteLine("Possible commands: cheep, read, help");
-                break;
-            case "cheep":
-                ReadFromCLI(args[1]);
-                break;
-            case "read":
-                try
-                {
-                    Userinterface<Cheep>.PrintCheeps(DB.ReadFromFile());
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e.Message);
-                }
-                break;
-            default:
-                break;
-        }
+        Parser.Default.ParseArguments<CheepOptions, ReadOptions>(args)
+        .WithParsed<CheepOptions>(result => {
+            if (result.MessageOption != null)
+                ConstructCheep(result.MessageOption);
+            if (result.MessageValue != null)
+                ConstructCheep(result.MessageValue);
+            })
+        .WithParsed<ReadOptions>(result => {
+            try
+            {
+                Userinterface<Cheep>.PrintCheeps(DB.ReadFromFile());
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+        });
     }
 
-    static void ReadFromCLI(string message)
+    static void ConstructCheep(string message)
     {
         message = message.Replace(",", "/comma/");
         string author = Environment.UserName;
@@ -51,11 +47,23 @@ class CLI
         catch (Exception e)
         {
             Console.WriteLine(e.Message);
-            
         }
-
     }
 }
+
+[Verb("cheep", HelpText = "Post a cheep.")]
+public class CheepOptions 
+{
+    [Option('m', "message", HelpText = "Cheep message.")]
+    public string MessageOption { get; set; }
+
+    [Value(0, HelpText = "Cheep message.")]
+    public string MessageValue { get; set; }
+}
+
+[Verb("read", HelpText = "Read all cheeps.")]
+public class ReadOptions {}
+
 //Author,Message,Timestamp
 public record Cheep
 {
