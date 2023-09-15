@@ -10,14 +10,14 @@ using CsvHelper.Configuration.Attributes;
 
 class CLI
 {
-    static string path = "ccirp_cli_db.csv";
-    static CSVDatabase<Cheep> DB = new CSVDatabase<Cheep>(path);
+    static string path = "ccirp_cli_db.csv";   //The file where we store our cheeps
+    static CSVDatabase<Cheep> DB = new CSVDatabase<Cheep>(path);    //Initializing the database
 
     static void Main(string[] args)
     {
         Parser.Default.ParseArguments<CheepOptions, ReadOptions>(args)
         .WithParsed<CheepOptions>(result => {
-            if (result.MessageOption != null)
+            if (result.MessageOption != null)    //Will see which commands the user are requesting, and then create a cheep from that
                 ConstructCheep(result.MessageOption);
             if (result.MessageValue != null)
                 ConstructCheep(result.MessageValue);
@@ -33,13 +33,14 @@ class CLI
             }
         });
     }
-
     static void ConstructCheep(string message)
     {
-        message = message.Replace(",", "/comma/");
+        message = message.Replace(",", "/comma/"); //Replaces the comma to a more readable format in our datafiles
         string author = Environment.UserName;
-        // Creates time object with current time in UTC 00. Saves as unix time stamp
-        DateTimeOffset time = DateTimeOffset.Now;
+
+        DateTimeOffset time = DateTimeOffset.Now;   // Creates time object with current time in UTC 00. Saves as unix time stamp
+
+        //Tries to add the cheep to the databse, which requires all variabels to be filled. Otherwise it will print error message
         try
         {
             DB.SaveToFile(new Cheep { Author = author, Message = message, Timestamp = time.ToUnixTimeSeconds() });
@@ -50,6 +51,8 @@ class CLI
         }
     }
 }
+//End of class CLI
+
 
 [Verb("cheep", HelpText = "Post a cheep.")]
 public class CheepOptions 
@@ -61,8 +64,10 @@ public class CheepOptions
     public string MessageValue { get; set; }
 }
 
+
 [Verb("read", HelpText = "Read all cheeps.")]
 public class ReadOptions {}
+
 
 //Author,Message,Timestamp
 public record Cheep
