@@ -10,11 +10,15 @@ using CsvHelper.Configuration.Attributes;
 
 class CLI
 {
-    static string path = "ccirp_cli_db.csv";   //The file where we store our cheeps
-    static CSVDatabase<Cheep> DB = new CSVDatabase<Cheep>(path);    //Initializing the database
+    static string path = "ccirp_cli_db.csv";   //The file where we store our cheeps¨
+    static CSVDatabase<Cheep> DB;
 
     static void Main(string[] args)
     {
+
+        DB = CSVDatabase<Cheep>.GetCSVDatabase();    //Initializing the database
+        DB.SetPath(path);
+
         Parser.Default.ParseArguments<CheepOptions, ReadOptions>(args)
         .WithParsed<CheepOptions>(result => {
             if (result.MessageOption != null)    //Will see which commands the user are requesting, and then create a cheep from that

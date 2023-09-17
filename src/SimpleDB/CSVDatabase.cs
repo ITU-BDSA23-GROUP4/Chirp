@@ -10,8 +10,18 @@ using CsvHelper.Configuration.Attributes;
 public sealed class CSVDatabase<T> : IDatabaseRepository<T> //Inherits method from IDatabaseRepository
 {
     string path;
-    public CSVDatabase(string path)    //The class constructor
+
+    private static readonly CSVDatabase<T> instance = new CSVDatabase<T>();
+    private CSVDatabase()    //The class constructor
     {
+        this.path = "";
+    }
+
+    public static CSVDatabase<T> GetCSVDatabase() {
+        return instance;
+    }
+
+    public void SetPath(string path) {
         this.path = path;
     }
 
