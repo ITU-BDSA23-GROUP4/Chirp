@@ -1,7 +1,6 @@
 using Xunit;
 using CheepNS;
 using System.Globalization;
-using CLINS;
 namespace Chirp.CLI.Client.Tests;
 public class UnitTest1
 {
@@ -73,7 +72,7 @@ public class UnitTest1
             Message="User Input",
             Timestamp= DateTimeOffset.Now.ToUnixTimeSeconds()}; 
         //Act 
-        Cheep TestCheep = ConstructCheep(input);
+        Cheep TestCheep = CLINS.CLI.ConstructCheep(input);
 
         //Asset
         Assert.Equal(comparison,TestCheep);

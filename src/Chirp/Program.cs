@@ -1,8 +1,9 @@
 ﻿using CommandLine;
 using CheepNS;
+
 namespace CLINS
 {
-    class CLI
+    public class CLI
     {
         static string path = "ccirp_cli_db.csv";   //The file where we store our cheeps¨
         static CSVDatabase<Cheep> DB;
