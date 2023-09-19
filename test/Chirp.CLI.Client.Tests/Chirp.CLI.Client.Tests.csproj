@@ -23,5 +23,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Chirp\chirp.csproj" />
+  </ItemGroup>
 
 </Project>
