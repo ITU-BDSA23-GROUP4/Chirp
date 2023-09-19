@@ -17,4 +17,8 @@ Co-authored-by: Anna <annaj@itu.dk><br />
 ## Command prompt version
 Running the program in the terminal
 - Enter the correct folder to where program.cs is
-- dotnet run
+- dotnet run <br />
+<br />
+To read all files type: dotnet run read <br />
+To make a cheep type: dotnet run cheep "message" <br />
+To get help, type: dotnet run help
