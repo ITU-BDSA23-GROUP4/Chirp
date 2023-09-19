@@ -20,13 +20,15 @@ class CLI
         DB.SetPath(path);
 
         Parser.Default.ParseArguments<CheepOptions, ReadOptions>(args)
-        .WithParsed<CheepOptions>(result => {
+        .WithParsed<CheepOptions>(result =>
+        {
             if (result.MessageOption != null)    //Will see which commands the user are requesting, and then create a cheep from that
                 ConstructCheep(result.MessageOption);
             if (result.MessageValue != null)
                 ConstructCheep(result.MessageValue);
-            })
-        .WithParsed<ReadOptions>(result => {
+        })
+        .WithParsed<ReadOptions>(result =>
+        {
             try
             {
                 Userinterface<Cheep>.PrintCheeps(DB.ReadFromFile());
@@ -59,7 +61,7 @@ class CLI
 
 
 [Verb("cheep", HelpText = "Post a cheep.")]
-public class CheepOptions 
+public class CheepOptions
 {
     [Option('m', "message", HelpText = "Cheep message.")]
     public string MessageOption { get; set; }
@@ -70,6 +72,6 @@ public class CheepOptions
 
 
 [Verb("read", HelpText = "Read all cheeps.")]
-public class ReadOptions {}
+public class ReadOptions { }
 
 
