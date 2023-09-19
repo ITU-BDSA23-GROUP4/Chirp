@@ -21,10 +21,10 @@ public class EndToEndTest
 
         //Assert
         //First the message we expect and then compared to the one we are reading
-        Assert.Equal("ropf @ 01-08-2023 14:09:20: Hello, BDSA students!", fstCheep[0]);
-        Assert.Equal("rnie @ 02-08-2023 14:19:38: Welcome to the course!", fstCheep[1]);
-        Assert.Equal("rnie @ 02-08-2023 14:37:38: I hope you had a good summer.", fstCheep[2]);
-        Assert.Equal("ropf @ 02-08-2023 15:04:47: Cheeping cheeps on Chirp :)", fstCheep[3]);
+        Assert.Equal("ropf @ 01/08/2023 14.09.20: Hello, BDSA students!", fstCheep[0]);
+        Assert.Equal("rnie @ 02/08/2023 14.19.38: Welcome to the course!", fstCheep[1]);
+        Assert.Equal("rnie @ 02/08/2023 14.37.38: I hope you had a good summer.", fstCheep[2]);
+        Assert.Equal("ropf @ 02/08/2023 15.04.47: Cheeping cheeps on Chirp :)", fstCheep[3]);
     }
 
 

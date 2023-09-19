@@ -12,8 +12,8 @@ namespace CheepNS
             public long Timestamp { get; set; }
         public override string ToString(){
         DateTimeOffset time = DateTimeOffset.FromUnixTimeSeconds(Timestamp);
-        
-        return $" {Author} @ {time.LocalDateTime}: {Message} ";
+        var printMessage = Message.Replace("/comma/", ","); //Replaces what we did earlier, for a cleaner output
+        return $"{Author} @ {time.LocalDateTime}: {printMessage}";
     }
 }
 }
