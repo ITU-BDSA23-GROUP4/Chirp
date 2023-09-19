@@ -1,4 +1,4 @@
-name: .NET Build and Test
+name: Mannual .NET Build and Test
 
 on: workflow_dispatch 
 
