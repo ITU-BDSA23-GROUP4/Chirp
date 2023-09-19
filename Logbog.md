@@ -34,7 +34,7 @@ Jobs of the day:
 ### Issues resolves
 [Issue #12](/../../issues/12), [Issue #10](/../../issues/10), [Issue #9](/../../issues/9), [Issue #7](/../../issues/7) <br />
 (1) - There were no issues when merging singleton and EndToEnd into development. When working with tests, we had issues when getting a hold of the database, in the endToEnd test, we struggles to get the chirp.dll file and the dotnet file, so that it would be used globally, and not only depend on the single computer.  <br />
-(2) -  <br />
+(2) - When merging the refactored cheeps branch into the other, the layout of the dates where changes, giving it a few complications <br />
 (3) -  <br />
 (4) -  <br />
 (5) -  <br />
