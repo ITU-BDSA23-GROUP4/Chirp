@@ -20,24 +20,33 @@ public class IntegrationTest
             DB.SetPath(path);
 
             // Act
-            ConstructCheep("***IntegrationTestStatement***");
+            ConstructCheep("***IntegrationTestStatement***"); //Methods creates a cheep and saves it to the database  
+            List<Cheep> CheepList = DB.ReadFromFile(); //Read From 
             
-            List<Cheep> CheepList = DB.ReadFromFile();
-            Console.WriteLine(CheepList[CheepList.Count-2]);
-            Console.WriteLine("This is the last Cheep: " + CheepList.Count);
-            
-        
             // Assert
-            Assert.Equal("***IntegrationTestStatement***", CheepList[CheepList.Count-2].ToString().Contains("***IntegrationTestStatement***")); //Compares the two messages  
-
-    
-            // Assert
-            //Console.WriteLine(lastCheep);
-            //string lastLine = lastCheep[lastCheep.Length-]; // Get the last line from the array
-            //Console.WriteLine("THIS IS THE LASTLINE: " + lastLine);
-            //Assert.Equal(lastLine.Contains("*** IntegrationTestStatement ***"),true);
+            Assert.Equal(true, CheepList[CheepList.Count-2].ToString().Contains("***IntegrationTestStatement***")); //Compares the two messages  
 
     }
+
+    /* [Fact]
+    public void testThatCheepWithNoMessageDoesntGetSaves(){
+            //Arrange
+            DB = CSVDatabase<Cheep>.GetCSVDatabase();    //Initializing the database
+            DB.SetPath(path);
+            List<Cheep> CheepList = DB.ReadFromFile(); //Read From
+
+            //ACT
+            string CheepBeforeNewesTest = CheepList[CheepList.Count-2].ToString(); //saves the last Cheep and ocnverts to string
+            ConstructCheep(""); //Methods creates an empty cheep and saves it to the database  
+            List<Cheep> CheepListAfterNewCheep = DB.ReadFromFile(); //Read From 
+            Console.WriteLine(CheepBeforeNewesTest);
+
+
+            // Assert
+            Assert.Equal(true, CheepListAfterNewCheep[CheepListAfterNewCheep.Count-2].ToString().Contains(CheepBeforeNewesTest)); //Compares the two messages  
+ //Compares the two messages  
+
+    } */
 
     //This method should be removed and simpy called from it original source, but since CLI is
     //Protected this is used for the time being.
@@ -56,30 +65,6 @@ public class IntegrationTest
         catch (Exception e)
         {
             Console.WriteLine(e.Message);
-        }
-    }
-    static string ExecuteCLICommand(string command) //Takes the command we are using in tests
-    {
-        using (Process process = new Process())
-        {
-            //This section specifies all the information needed to run the file
-            process.StartInfo.FileName = "dotnet"; // e.g., "dotnet" for .NET CLI
-            process.StartInfo.Arguments = "./src/Chirp/bin/Debug/net7.0/chirp.dll " + command;
-            process.StartInfo.UseShellExecute = false;
-            process.StartInfo.RedirectStandardOutput = true;
-            process.StartInfo.CreateNoWindow = true;
-            process.StartInfo.WorkingDirectory = "../../../../../"; //sets the working directory for the process.
-
-            //Starts the program
-            process.Start();
-
-            //Copies the entire output received when running the given command.
-            string output = process.StandardOutput.ReadToEnd();
-
-            //Stops the program
-            process.WaitForExit();
-
-            return output;
         }
     }
 }
