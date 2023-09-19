@@ -1,5 +1,7 @@
 //Author,Message,Timestamp
 using System;
+using System.Globalization;
+
 namespace CheepNS
 {
         public record Cheep
@@ -13,7 +15,8 @@ namespace CheepNS
         public override string ToString(){
         DateTimeOffset time = DateTimeOffset.FromUnixTimeSeconds(Timestamp);
         var printMessage = Message.Replace("/comma/", ","); //Replaces what we did earlier, for a cleaner output
-        return $"{Author} @ {time.LocalDateTime}: {printMessage}";
+        // Changing cutlture date and time format from this source: https://code-maze.com/csharp-datetime-format/
+        return $"{Author} @ {time.ToString("G", new CultureInfo("sw-SW"))}: {printMessage}";
     }
 }
 }

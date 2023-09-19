@@ -32,7 +32,7 @@ class CLI
                 Userinterface<Cheep>.PrintCheeps(DB.ReadFromFile());
             }
             catch (Exception e)
-            {
+            {;
                 Console.WriteLine(e.Message);
             }
         });
