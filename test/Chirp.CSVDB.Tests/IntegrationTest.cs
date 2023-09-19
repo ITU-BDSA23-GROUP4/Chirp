@@ -19,23 +19,16 @@ public class IntegrationTest
             DB = CSVDatabase<Cheep>.GetCSVDatabase();    //Initializing the database
             DB.SetPath(path);
 
-            string[] output; //Whole array of the database split by line
-            string[] line; //Array that contains everything in the line we are adding to the database
-            string fullMessage = ""; //The message that we will later compare
-
             // Act
             ConstructCheep("***IntegrationTestStatement***");
-            output = ExecuteCLICommand("read").Replace("\r", "").Split("\n");
-            line = output[output.Length - 2].Split(" "); //Splits the line we are interested in by spaces
-
             
-            for (int i = 4; i < line.Length; i++){  //starts at 4, since that is the array index where the message starts
-                Console.WriteLine(line[i]);
-                fullMessage += " " + line[i]; //Will keep adding the rest of the message
-            }
+            List<Cheep> CheepList = DB.ReadFromFile();
+            Console.WriteLine(CheepList[CheepList.Count-2]);
+            Console.WriteLine("This is the last Cheep: " + CheepList.Count);
+            
         
             // Assert
-            Assert.Equal("***IntegrationTestStatement***", fullMessage); //Compares the two messages  
+            Assert.Equal("***IntegrationTestStatement***", CheepList[CheepList.Count-2].ToString().Contains("***IntegrationTestStatement***")); //Compares the two messages  
 
     
             // Assert
