@@ -35,8 +35,9 @@ Jobs of the day:
 [Issue #12](/../../issues/12), [Issue #10](/../../issues/10), [Issue #9](/../../issues/9), [Issue #7](/../../issues/7), [Issue #8](/../../issues/8) <br />
 (1) - There were no issues when merging singleton and EndToEnd into development. When working with tests, we had issues when getting a hold of the database, in the endToEnd test, we struggles to get the chirp.dll file and the dotnet file, so that it would be used globally, and not only depend on the single computer.  <br />
 (2) - When merging the refactored cheeps branch into the other, the layout of the dates where changes, giving it a few complications. We solves this by setting a default culture to the date and time, making it be in the same format across devices. <br />
-(3) -  <br />
+(3) - The main soltuion file in the root folder of the project did not contain the refrences to each project file. Furthermore a second solution file existed in the SimpleDB folder, all contributing to VS code and Visual Studio not being able to load the projects properly. The refrences has now ben added and the second solution file has been deleted. <br />
 (4) -  <br />
 (5) -  <br />
 
 ### Next assignments
+- Marius will finish Unit test
