@@ -4,7 +4,7 @@ Project repository for BDSA course by:
 - Oliver Asger-Sharp Johansen (Oash)
 - Marius Thomsen (Mariu) ITU email: mariu@itu.dk, Puplic git hup: AlbinoLoaf
 - Anna Høybye Johansen (annaj)
-- Niels Christian Skov Faber (nfab)
+- Niels Christian Skov Faber (nfab) ITU email: nfab@itu.dk, Puplic github: Faberen
 
 Co-authored by: Marius <mariu@itu.dk><br />
 Co-authored-by: Oliver <Oash@itu.dk><br />
