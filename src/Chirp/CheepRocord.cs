@@ -21,7 +21,7 @@ namespace CheepNS
 
         private string CreateTimeString(long TimeStamp) {
             DateTimeOffset utcTime = DateTimeOffset.FromUnixTimeSeconds(Timestamp);
-            return utcTime.ToLocalTime().ToString("G", new CultureInfo("sw-SW"));
+            return utcTime.ToLocalTime().ToString("dd/MM/yyyy HH:mm:ss", new CultureInfo("sw-SW"));
         }
     }
 }
