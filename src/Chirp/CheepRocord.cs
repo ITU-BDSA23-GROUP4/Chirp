@@ -13,10 +13,10 @@ namespace CheepNS
             //[Index(2)]
             public long Timestamp { get; set; }
         public override string ToString(){
-        DateTimeOffset time = DateTimeOffset.FromUnixTimeSeconds(Timestamp);
+        DateTimeOffset utcTime = DateTimeOffset.FromUnixTimeSeconds(Timestamp);
         var printMessage = Message.Replace("/comma/", ","); //Replaces what we did earlier, for a cleaner output
         // Changing cutlture date and time format from this source: https://code-maze.com/csharp-datetime-format/
-        return $"{Author} @ {time.ToString("G", new CultureInfo("sw-SW"))}: {printMessage}";
+        return $"{Author} @ {utcTime.ToLocalTime().ToString("G", new CultureInfo("sw-SW"))}: {printMessage}";
     }
 }
 }
