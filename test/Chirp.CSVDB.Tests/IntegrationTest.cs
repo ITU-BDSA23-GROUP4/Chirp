@@ -8,8 +8,8 @@ using CheepNS;
 
 public class IntegrationTest
 {
-    static string path = "/Users/nielsfaber/Documents/GitHub/Chirp/src/Chirp/ccirp_cli_db.csv";
-       //The file where we store our cheeps¨
+    static string path = "../../../../../src/Chirp/ccirp_cli_db.csv";
+    //The file where we store our test-cheeps¨ we need to go back a few times since the wdr is in the bin folder
     static CSVDatabase<Cheep> DB;
 
     [Fact]
@@ -21,10 +21,10 @@ public class IntegrationTest
 
             // Act
             ConstructCheep("***IntegrationTestStatement***"); //Methods creates a cheep and saves it to the database  
-            List<Cheep> CheepList = DB.ReadFromFile(); //Read From 
-            
+            List<Cheep> CheepList = DB.ReadFromFile();
+    
             // Assert
-            Assert.Equal(true, CheepList[CheepList.Count-2].ToString().Contains("***IntegrationTestStatement***")); //Compares the two messages  
+            Assert.Equal(true, CheepList[CheepList.Count-1].ToString().Contains("***IntegrationTestStatement***")); //Compares the two messages  
 
     }
 
