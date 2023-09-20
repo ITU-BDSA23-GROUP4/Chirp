@@ -30,6 +30,7 @@ Jobs of the day:
 3. Life compiler fix (compiler dont work)
 4. Finish unit and integration test
 5. Merge everything into main
+6. Make workflow for publish
 
 ### Issues resolves
 [Issue #12](/../../issues/12), [Issue #10](/../../issues/10), [Issue #9](/../../issues/9), [Issue #7](/../../issues/7), [Issue #8](/../../issues/8) <br />
@@ -41,3 +42,4 @@ Jobs of the day:
 
 ### Next assignments
 - Marius will finish Unit test
+- Oliver work on the workflow for publish of executable file
