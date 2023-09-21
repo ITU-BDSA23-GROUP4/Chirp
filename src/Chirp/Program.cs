@@ -20,7 +20,7 @@ namespace CLINS
                 if (result.MessageOption != null)    //Will see which commands the user are requesting, and then create a cheep from that
                     try
                     {
-                        DB.SaveToFile(ConstructCheep(result.MessageOption));
+                        DB.SaveToFile(Cheep.ConstructCheep(result.MessageOption));
                     }
                     catch (Exception e)
                     {
@@ -30,7 +30,7 @@ namespace CLINS
                 if (result.MessageValue != null)
                     try
                     {
-                        DB.SaveToFile(ConstructCheep(result.MessageValue));
+                        DB.SaveToFile(Cheep.ConstructCheep(result.MessageValue));
                     }
                     catch (Exception e)
                     {
@@ -50,19 +50,7 @@ namespace CLINS
                 }
             });
         }
-        public static Cheep ConstructCheep(string message)
-        {
-            //Replaces the comma to a more readable format in our datafiles
-            message = message.Replace(",", "/comma/");
-            string author = Environment.UserName;
-            // Creates time object with current time in UTC 00. Saves as unix time stamp
-            DateTimeOffset time = DateTimeOffset.Now;
-            //Returns the cheep
-            return new Cheep { Author = author, Message = message, Timestamp = time.ToUnixTimeSeconds() };
-        }
     }
-    //End of class CLI
-
 
     [Verb("cheep", HelpText = "Post a cheep.")]
     public class CheepOptions

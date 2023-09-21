@@ -23,6 +23,15 @@ namespace CheepNS
             DateTimeOffset utcTime = DateTimeOffset.FromUnixTimeSeconds(Timestamp);
             return utcTime.ToLocalTime().ToString("dd/MM/yyyy HH:mm:ss", new CultureInfo("sw-SW"));
         }
-    
+        public static Cheep ConstructCheep(string message)
+        {
+            //Replaces the comma to a more readable format in our datafiles
+            message = message.Replace(",", "/comma/");
+            string author = Environment.UserName;
+            // Creates time object with current time in UTC 00. Saves as unix time stamp
+            DateTimeOffset time = DateTimeOffset.Now;
+            //Returns the cheep
+            return new Cheep { Author = author, Message = message, Timestamp = time.ToUnixTimeSeconds() };
+        }
     }
 }
