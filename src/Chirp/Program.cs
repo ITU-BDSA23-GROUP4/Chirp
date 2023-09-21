@@ -1,6 +1,7 @@
 ﻿using CommandLine;
 using CheepNS;
-using System.ComponentModel.DataAnnotations;
+using ReadOptionsNS;
+using CheepOptionsNS;
 
 namespace CLINS
 {
@@ -51,15 +52,4 @@ namespace CLINS
             return new Cheep { Author = author, Message = message, Timestamp = time.ToUnixTimeSeconds() };
         }
     }
-    //End of class CLI
-
-    [Verb("cheep", HelpText = "Post a cheep.")]
-    public class CheepOptions
-    {
-        [Value(0, HelpText = "Cheep message.", Required = true)]
-        public string MessageValue { get; set; }
-    }
-
-    [Verb("read", HelpText = "Read all cheeps.")]
-    public class ReadOptions { }
 }
