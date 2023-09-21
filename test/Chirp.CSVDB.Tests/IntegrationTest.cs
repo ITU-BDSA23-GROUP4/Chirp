@@ -8,7 +8,7 @@ using CheepNS;
 
 public class IntegrationTest
 {
-    static string path = "../../../../../src/Chirp/ccirp_cli_db.csv";
+    static string path = "../../../../../src/Chirp/chirp_cli_db.csv";
     //The file where we store our test-cheeps¨ we need to go back a few times since the wdr is in the bin folder
     static CSVDatabase<Cheep> DB;
 
