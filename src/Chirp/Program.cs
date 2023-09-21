@@ -1,5 +1,6 @@
 ﻿using CommandLine;
 using CheepNS;
+using System.ComponentModel.DataAnnotations;
 
 namespace CLINS
 {
@@ -16,26 +17,15 @@ namespace CLINS
 
             Parser.Default.ParseArguments<CheepOptions, ReadOptions>(args)
             .WithParsed<CheepOptions>(result =>
-            {
-                if (result.MessageOption != null)    //Will see which commands the user are requesting, and then create a cheep from that
-                    try
-                    {
-                        DB.SaveToFile(ConstructCheep(result.MessageOption));
-                    }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine(e.Message);
-                    }
-
-                if (result.MessageValue != null)
-                    try
-                    {
-                        DB.SaveToFile(ConstructCheep(result.MessageValue));
-                    }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine(e.Message);
-                    }
+            {  
+                try
+                {
+                    DB.SaveToFile(ConstructCheep(result.MessageValue));
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
             })
             .WithParsed<ReadOptions>(result =>
             {
@@ -63,19 +53,13 @@ namespace CLINS
     }
     //End of class CLI
 
-
     [Verb("cheep", HelpText = "Post a cheep.")]
     public class CheepOptions
     {
-        [Option('m', "message", HelpText = "Cheep message.")]
-        public string MessageOption { get; set; }
-
-        [Value(0, HelpText = "Cheep message.")]
+        [Value(0, HelpText = "Cheep message.", Required = true)]
         public string MessageValue { get; set; }
     }
 
-
     [Verb("read", HelpText = "Read all cheeps.")]
     public class ReadOptions { }
-
 }
