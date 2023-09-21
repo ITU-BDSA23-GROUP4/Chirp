@@ -1,22 +1,13 @@
 name: Publish
-on: workflow_dispatch 
+on: 
+  push:
+    branches: [ main ]
+    tags: [ 'v*.*.*' ]
+    
 jobs:
   release:
     name: Release
-    strategy:
-      matrix:
-        kind: ['linux', 'windows', 'macOS']
-        include:
-          - kind: linux
-            os: ubuntu-latest
-            target: linux-x64
-          - kind: windows
-            os: windows-latest
-            target: win-x64
-          - kind: macOS
-            os: macos-latest
-            target: osx-x64
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
@@ -26,29 +17,33 @@ jobs:
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: 7.0.x
+      - name: Restore
+        run: dotnet restore
 
-      - name: Build
-        shell: bash
+      - name: Test
+        run: dotnet test --verbosity normal
+
+      - name: Build for Windows
+        run: dotnet publish ./src/Chirp/chirp.csproj --no-restore --configuration Release -r win-x64 --no-self-contained -p:PublishSingleFile=true 
+      
+      - name: Build for MacOS
+        run: dotnet publish ./src/Chirp/chirp.csproj --no-restore --configuration Release -r osx-x64 --no-self-contained -p:PublishSingleFile=true 
+      
+      - name: Build for Linux
+        run: dotnet publish ./src/Chirp/chirp.csproj --no-restore --configuration Release -r linux-x64 --no-self-contained -p:PublishSingleFile=true 
+
+      - name: Zipping files
         run: |
-          # Define some variables for things we need
-          tag=$(git describe --tags --abbrev=0)
-          release_name="App-$tag-${{ matrix.target }}"
-
-          # Build everything
-          dotnet publish src/App/App.csproj --framework netcoreapp3.1 --runtime "${{ matrix.target }}" -c Release -o "$release_name"
-
-          # Pack files
-          if [ "${{ matrix.target }}" == "win-x64" ]; then
-            7z a -tzip "${release_name}.zip" "./${release_name}/*"
-          else
-            tar czvf "${release_name}.tar.gz" "$release_name"
-          fi
-
-          # Delete output directory
-          rm -r "$release_name"
+          cd ./src/Chirp/bin/Release/net7.0/win-x64/publish && zip ../../../../../../../Chirp-${{github.ref_name}}-win-x64.zip Chirp.exe
+          cd ./src/Chirp/bin/Release/net7.0/osx-x64/publish && zip ../../../../../../../Chirp-${{github.ref_name}}-osx-x64.zip Chirp.exe
+          cd ./src/Chirp/bin/Release/net7.0/linux-x64/publish && zip ../../../../../../../Chirp-${{github.ref_name}}-linux-x64.zip Chirp.exe
+        
       - name: Publish
         uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
         with:
-          files: "Chirp*"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          files: |
+            Chirp-${{github.ref_name}}-win-x64.zip
+            Chirp-${{github.ref_name}}-osx-x64.zip
+            Chirp-${{github.ref_name}}-linux-x64.zip
+        

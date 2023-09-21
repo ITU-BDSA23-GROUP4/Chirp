@@ -43,3 +43,10 @@ Jobs of the day:
 ### Next assignments
 - Marius will finish Unit test
 - Oliver work on the workflow for publish of executable file
+
+## Wednesday 20-09-2023
+Resolved problem and finished work on Unit test branch.
+Merged it into development, with only minor conflicts to the data csv file and Program.cs where the ConstructCheep method had been refactored on the incomming changes. The incomming changes were resolved.
+
+### Added issues
+The tests should be refactored to create, use and delete their own temporary data files, within the tests project folder. See [Issue #20](/../../issues/20)
