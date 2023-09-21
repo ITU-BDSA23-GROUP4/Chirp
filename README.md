@@ -1,7 +1,7 @@
 # Chirp
 Project repository for BDSA course by:
 - Lukas Andersson (Lukan)
-- Oliver Asger-Sharp Johansen (Oash)
+- Oliver Asger-Sharp Johansen (oash) ITU email: oash@itu.dk, Public github: SkarpCat
 - Marius Thomsen (Mariu) ITU email: mariu@itu.dk, Puplic git hup: AlbinoLoaf
 - Anna Høybye Johansen (annaj)
 - Niels Christian Skov Faber (nfab) ITU email: nfab@itu.dk, Puplic github: Faberen
