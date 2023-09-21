@@ -43,7 +43,7 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/')
         with:
           files: |
-          Chirp-${{github.ref_name}}-win-x64.zip
-          Chirp-${{github.ref_name}}-osx-x64.zip
-          Chirp-${{github.ref_name}}-linux-x64.zip
+            Chirp-${{github.ref_name}}-win-x64.zip
+            Chirp-${{github.ref_name}}-osx-x64.zip
+            Chirp-${{github.ref_name}}-linux-x64.zip
         
