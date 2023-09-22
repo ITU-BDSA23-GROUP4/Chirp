@@ -46,7 +46,10 @@ public sealed class CSVDatabase<T> : IDatabaseRepository<T> //Inherits method fr
 
     }
 
-
+    public bool SaveToFileAsync(T item) {
+        SaveToFile(item);
+        return true;
+    }
     public void SaveToFile(T item)    //Method used to save our Cheep in our csv file
     {
         List<T> AllItems = new List<T>();    //Has a list of items (cheeps)

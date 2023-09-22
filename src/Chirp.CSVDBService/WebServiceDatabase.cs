@@ -1,37 +1,41 @@
 using CheepNS;
-using CLINS;
 
 public class WebS
 {
+    static string path = "../Chirp/ccirp_cli_db.csv";
     static CSVDatabase<Cheep> DB;
 
-    static void main(String[] args)
+    static void Main(String[] args)
     {
         DB = CSVDatabase<Cheep>.GetCSVDatabase();
+        DB.SetPath(path);
         var builder = WebApplication.CreateBuilder(args);
         var app = builder.Build();
-
-        app.MapGet("/cheeps", () => { Cheeps(); });  //readFromFile
-        app.MapPost("/cheep", () => { Cheep(); });    //SaveFromFile
+        app.MapGet("/cheeps",  () => { GetCheeps();});
+        app.MapPost("/cheep",  (Cheep cheep) => {postCheep(cheep);});
 
         app.Run();
     }
 
-    static void Cheep()
-    { //Post
+    /// <summary>
+    /// From the database at the directory "../Chirp/ccirp_cli_db.csv"
+    /// It gets a list of all priviously written cheeps
+    /// </summary>
+    /// <returns>List<Cheep></returns>
+    static IEnumerable<Cheep> GetCheeps()
+    {
+        return DB.ReadFromFile();
+    }
+
+    static void postCheep(Cheep input)
+    {
         try
         {
-            DB.SaveToFile(Cheep.ConstructCheep());
+            DB.SaveToFile(input);
         }
         catch (Exception e)
         {
             Console.WriteLine(e.Message);
         }
-    }
-
-    static void Cheeps()
-    { //get
-
-        Userinterface<Cheep>.PrintCheeps(DB.ReadFromFile());
     }
 }
