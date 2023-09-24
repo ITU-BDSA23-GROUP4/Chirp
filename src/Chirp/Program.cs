@@ -8,7 +8,7 @@ namespace CLINS
     public class CLI
     {
         static string path = "chirp_cli_db.csv";   //The file where we store our cheeps¨
-        static CSVDatabase<Cheep> DB;
+        static CSVDatabase<Cheep>? DB;
 
         static void Main(string[] args)
         {

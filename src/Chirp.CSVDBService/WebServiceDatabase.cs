@@ -2,7 +2,7 @@ using CheepNS;
 
 public class WebS
 {
-    static string path = "../Chirp/ccirp_cli_db.csv";
+    static string path = "../Chirp/chirp_cli_db.csv";
     static CSVDatabase<Cheep>? DB;
 
     static void Main(String[] args)
