@@ -4,9 +4,6 @@ using System.Text;
 using CsvHelper;
 using CsvHelper.Configuration;
 
-using System.Net;
-using System.Net.Http.Headers;
-using System.Net.Http.Json;
 public sealed class CSVDatabase<T> : IDatabaseRepository<T> //Inherits method from IDatabaseRepository
 {
     string path;
@@ -46,10 +43,6 @@ public sealed class CSVDatabase<T> : IDatabaseRepository<T> //Inherits method fr
 
     }
 
-    public bool SaveToFileAsync(T item) {
-        SaveToFile(item);
-        return true;
-    }
     public void SaveToFile(T item)    //Method used to save our Cheep in our csv file
     {
         List<T> AllItems = new List<T>();    //Has a list of items (cheeps)
@@ -75,7 +68,7 @@ public sealed class CSVDatabase<T> : IDatabaseRepository<T> //Inherits method fr
         }
     }
 
-    public List<T> ReadFromFile()  //Method used to read all Cheeps in our csv file
+    public IEnumerable<T> ReadFromFile()  //Method used to read all Cheeps in our csv file
     {
         List<T> AllItems = new List<T>();    //List of all cheeps, that will handle cheeps in the database as items
         try
@@ -101,5 +94,18 @@ public sealed class CSVDatabase<T> : IDatabaseRepository<T> //Inherits method fr
             Console.WriteLine("Can't read from file");
             return null;
         }
+    }
+
+    /* Following two methods is constructed from the answer to this question on stackoverflow:
+     https://stackoverflow.com/questions/21700846/how-to-write-an-awaitable-method 
+     
+     Returning a task allows the caller method to be asynchronous and wait for the returned task to finish
+     */
+    public Task SaveToFileAsync(T item) {
+        return Task.Run(() => SaveToFile(item));
+    }
+
+    public Task<IEnumerable<T>> ReadFromFileAsync() {
+        return Task.Run(() => ReadFromFile());
     }
 }
