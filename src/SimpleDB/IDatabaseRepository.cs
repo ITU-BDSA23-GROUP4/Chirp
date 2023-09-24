@@ -4,6 +4,5 @@ interface IDatabaseRepository<T> //Contains the base methods used later in CSVDa
     void SetPath(string path);
     void SaveToFile(T item);
 
-    List<T> ReadFromFile();
-
+    IEnumerable<T> ReadFromFile();
 }
