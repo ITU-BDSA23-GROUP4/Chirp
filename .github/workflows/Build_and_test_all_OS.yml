@@ -1,18 +1,16 @@
-name: .NET Build and Test
+name: Mannual .NET Build and Test
 
-on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+on: workflow_dispatch 
+
 
 jobs:
-   build:
+  build:
     runs-on: ${{ matrix.os }}
 
     strategy:
       matrix:
          os: [ubuntu-latest, windows-latest, macos-latest]
+                
 
     steps:
     - uses: actions/checkout@v3
