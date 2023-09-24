@@ -11,6 +11,8 @@ using CsvHelper;
 
 public class IntegrationTest
 {
+    static string path = "../../../../../src/Chirp/ccirp_cli_db.csv";
+    //The file where we store our test-cheeps¨ we need to go back a few times since the wdr is in the bin folder
     static CSVDatabase<Cheep> DB;
 
     [Fact]
@@ -31,16 +33,10 @@ public class IntegrationTest
 
             // Act
             ConstructCheep("***IntegrationTestStatement***"); //Methods creates a cheep and saves it to the database  
-            List<Cheep> CheepList = DB.ReadFromFile(); //Reads all the cheeps in the database and returns a list of them
-            Console.WriteLine("Last Cheep : " + CheepList[CheepList.Count-1].ToString());
-            Console.WriteLine("Size of list: " + CheepList.Count);
-            foreach (var item in CheepList)
-            {
-                Console.WriteLine(item.ToString());
-            }
-
+            List<Cheep> CheepList = DB.ReadFromFile().ToList();
+    
             // Assert
-            Assert.Equal(true, CheepList[CheepList.Count-1].ToString().Contains("***IntegrationTestStatement***")); //Compares the two messages  
+            Assert.Contains("***IntegrationTestStatement***", CheepList[CheepList.Count-1].ToString()); //Compares the two messages  
             
             //Deletes the testDatabase, this step should only be done when using test database
             try{
@@ -103,7 +99,7 @@ public class IntegrationTest
         //Tries to add the cheep to the databse, which requires all variabels to be filled. Otherwise it will print error message
         try
         {
-            DB.SaveToFile(new Cheep { Author = author, Message = message, Timestamp = time.ToUnixTimeSeconds() });
+            DB?.SaveToFile(new Cheep { Author = author, Message = message, Timestamp = time.ToUnixTimeSeconds() });
         }
         catch (Exception e)
         {

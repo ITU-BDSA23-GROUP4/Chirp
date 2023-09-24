@@ -63,7 +63,6 @@ public class EndToEndTest
             process.StartInfo.RedirectStandardOutput = true;
             process.StartInfo.CreateNoWindow = true;
             process.StartInfo.WorkingDirectory = "../../../../../"; //sets the working directory for the process.
-
             //Starts the program
             process.Start();
 

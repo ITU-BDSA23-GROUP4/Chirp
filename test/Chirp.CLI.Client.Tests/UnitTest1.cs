@@ -56,8 +56,8 @@ public class UnitTest1
             Author ="TestAuthor",
             Message= "Test", 
             Timestamp =timeStamp };
-        DateTimeOffset time = DateTimeOffset.FromUnixTimeSeconds(timeStamp);
-        string comparison = $"TestAuthor @ {time.ToLocalTime().ToString("G", new CultureInfo("sw-SW"))}: Test";
+        DateTimeOffset utcTime = DateTimeOffset.FromUnixTimeSeconds(timeStamp);
+        string comparison = $"TestAuthor @ {utcTime.ToLocalTime().ToString("dd/MM/yyyy HH:mm:ss", new CultureInfo("sw-SW"))}: Test";
         //Act
         //Assert
         Assert.Equal(comparison, testToString.ToString());
