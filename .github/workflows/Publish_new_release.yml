@@ -35,8 +35,8 @@ jobs:
       - name: Zipping files
         run: |
           cd ./src/Chirp/bin/Release/net7.0/win-x64/publish && zip ../../../../../../../Chirp-${{github.ref_name}}-win-x64.zip chirp.exe
-          cd ../../osx-x64/publish && zip ../../../../../../../Chirp-${{github.ref_name}}-osx-x64.zip chirp.exe
-          cd ../../linux-x64/publish && zip ../../../../../../../Chirp-${{github.ref_name}}-linux-x64.zip chirp.exe
+          cd ../../osx-x64/publish && zip ../../../../../../../Chirp-${{github.ref_name}}-osx-x64.zip chirp
+          cd ../../linux-x64/publish && zip ../../../../../../../Chirp-${{github.ref_name}}-linux-x64.zip chirp
         
       - name: Publish
         uses: softprops/action-gh-release@v1
