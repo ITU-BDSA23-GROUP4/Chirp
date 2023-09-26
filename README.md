@@ -6,7 +6,10 @@ Project repository for BDSA course by:
 - Anna Høybye Johansen (annaj)
 - Niels Christian Skov Faber (nfab) ITU email: nfab@itu.dk, Puplic github: Faberen
 
-Co-authored by: Marius <mariu@itu.dk><br />
+## Co-author lines
+Remember to but diamondbrackets around the email if they don't come on the copy<br />
+<br />
+Co-authored-by: Marius <mariu@itu.dk><br />
 Co-authored-by: Oliver <oash@itu.dk><br />
 Co-authored-by: Lukas <lukan@itu.dk><br />
 Co-authored-by: Niels <nfab@itu.dk><br />
