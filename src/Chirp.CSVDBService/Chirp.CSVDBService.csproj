@@ -3,6 +3,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Chirp\chirp.csproj" />
     <ProjectReference Include="..\SimpleDB\SimpleDB.csproj" />
+    <EmbeddedResource Include="..\Chirp\chirp.CVSDBService.cscproj">
   </ItemGroup>
 
   <PropertyGroup>
