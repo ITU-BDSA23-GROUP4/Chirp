@@ -2,7 +2,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SimpleDB\SimpleDB.csproj" />
-    <EmbeddedResource Include="..\Chirp\chirp_cli_db.csv"/>
+    <EmbeddedResource Include="chirp_cli_db.csv"/>
   </ItemGroup>
 
   <PropertyGroup>
