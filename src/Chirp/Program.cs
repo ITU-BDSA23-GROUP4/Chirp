@@ -7,7 +7,7 @@ namespace CLINS
 {
     public class CLI
     {
-        static string path = "chirp_cli_db.csv";   //The file where we store our cheeps¨
+        static string path = "../Chirp.CSVDBService/chirp_cli_db.csv";   //The file where we store our cheeps¨
         static CSVDatabase<Cheep>? DB;
 
         static void Main(string[] args)
@@ -15,11 +15,12 @@ namespace CLINS
 
             DB = CSVDatabase<Cheep>.GetCSVDatabase(); //Initializing the database
              //temporary code this if statements makes it so that the EndToEndTest works, need to figure out a better solution
-            if (File.Exists("src/Chirp/chirp_cli_db.csv")) {
-            DB.SetPath("src/Chirp/chirp_cli_db.csv");
+            if (File.Exists("src/Chirp.CSVDBService/chirp_cli_db.csv")) {
+            DB.SetPath("src/Chirp.CSVDBService/chirp_cli_db.csv");
+            //../Chirp.CSVDBService/chirp_cli_db.csv
             }
             else {
-                DB.SetPath("chirp_cli_db.csv");
+                DB.SetPath("../Chirp.CSVDBService/chirp_cli_db.csv");
             }   
             //DB.SetPath(path);
 
