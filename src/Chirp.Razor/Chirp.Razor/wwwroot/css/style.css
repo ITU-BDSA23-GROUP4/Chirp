@@ -226,3 +226,7 @@ li.topic {
   -webkit-border-radius: 5px;
   min-height: 20px;
 }
+
+.logoStyling {
+  text-decoration: none;
+}
