@@ -18,6 +18,5 @@ namespace SQLDB {
         public SqliteConnection? GetConnection() {
             return connection;
         }
-
     }
 }
