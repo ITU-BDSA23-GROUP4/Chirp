@@ -226,3 +226,10 @@ li.topic {
   -webkit-border-radius: 5px;
   min-height: 20px;
 }
+
+
+.pageNumber{
+  display: flex;
+  color: #26776F;
+  flex-direction: row;
+}

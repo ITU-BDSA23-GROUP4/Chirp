@@ -25,6 +25,11 @@
                 </li>
             }
         </ul>
+         <div class="pageNumber">
+            <button onclick="location.href='?change=-1'" >previous</button>
+            <p>@Model.getPage()</p>
+            <button onclick="location.href='?change=+1'" >next</button>
+          </div>
     }
     else
     {
