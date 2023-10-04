@@ -16,10 +16,10 @@ public class UserTimelineModel : PageModel
 
     public ActionResult OnGet(int author, int ? change)
     {   
-        Cheeps = _service.GetCheepsFromAuthor(author);
         if (change.HasValue){
-           _service.AlterPage(Cheeps.Count(), change.Value );
+           _service.AlterPage(_service.GetAllCheepsFromAuthor(author).Count, change.Value );
         }
+        Cheeps = _service.GetCheepsFromAuthor(author);
         return Page();
     }
       public int getPage(){

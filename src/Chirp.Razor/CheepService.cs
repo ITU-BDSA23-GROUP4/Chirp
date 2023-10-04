@@ -10,9 +10,10 @@ public interface ICheepService
     public List<CheepViewModel> GetCheeps();
     public void AlterPage(int listSize, int change) ;
     public int GetPage();
-    
-    
+
     public List<CheepViewModel> GetCheepsFromAuthor(int author);
+    public List<CheepViewModel> GetAllCheeps();
+    public List<CheepViewModel> GetAllCheepsFromAuthor(int author);
 }
 
 public class CheepService : ICheepService
@@ -33,7 +34,6 @@ public class CheepService : ICheepService
     {      
         List<CheepViewModel> list = new List<CheepViewModel>();
         int limit = db.GetCheeps().Count > page*32 ?page*32: db.GetCheeps().Count;
-
         for(int i = 32*(page-1);i <limit ;i++ ){
             list.Add(db.GetCheeps()[i]);
         }
@@ -46,9 +46,16 @@ public class CheepService : ICheepService
         int limit =  db.GetCheepsByAuthor(author).Count > page*32 ?page*32:  db.GetCheepsByAuthor(author).Count;
 
         for(int i = 32*(page-1);i <limit ;i++ ){
-            list.Add( db.GetCheepsByAuthor(author)[i]);
+            list.Add(db.GetCheepsByAuthor(author)[i]);
         }
         return list;
+    }
+
+    public List<CheepViewModel> GetAllCheepsFromAuthor(int author){
+        return db.GetCheepsByAuthor(author);
+    }
+    public List<CheepViewModel> GetAllCheeps(){
+        return db.GetCheeps();
     }
 
     private static string UnixTimeStampToDateTimeString(double unixTimeStamp)

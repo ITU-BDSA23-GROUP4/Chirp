@@ -19,10 +19,10 @@ public class PublicModel : PageModel
 
     public ActionResult OnGet(int ? change )
     {
-        Cheeps = _service.GetCheeps();
         if (change.HasValue){
-               _service.AlterPage(Cheeps.Count(), change.Value );
+               _service.AlterPage(_service.GetAllCheeps().Count(), change.Value );
         }
+        Cheeps = _service.GetCheeps();
         return Page();
     } 
     
