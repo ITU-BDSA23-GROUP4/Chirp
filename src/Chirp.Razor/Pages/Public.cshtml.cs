@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using CheepRecord;
 
 namespace Chirp.Razor.Pages;
 
@@ -16,16 +17,12 @@ public class PublicModel : PageModel
         return  _service.GetPage();
     }
 
-    public void AlterPage(int change){
-        _service.AlterP(change);
-    }
-
     public ActionResult OnGet(int ? change )
     {
-        if (change.HasValue){
-               _service.AlterP(change.Value );
-        }
         Cheeps = _service.GetCheeps();
+        if (change.HasValue){
+               _service.AlterPage(Cheeps.Count(), change.Value );
+        }
         return Page();
     } 
     

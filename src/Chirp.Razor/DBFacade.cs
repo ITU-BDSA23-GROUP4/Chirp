@@ -9,6 +9,9 @@ namespace SQLDB
         private static SqliteConnection? connection;
         
         private DB() {
+            if(!File.Exists("../../data/chirp.db")) {
+                // https://stackoverflow.com/questions/46084560/how-do-i-create-sqlite-database-files-in-net-core
+            }
             connection = new SqliteConnection("Data Source=../../data/chirp.db");
             connection.Open();
         }
@@ -17,24 +20,23 @@ namespace SQLDB
             return instance;
         }
 
-        public Task AddCheepAsync(Cheep cheep, int authorID)
+        public Task AddCheepAsync(CheepViewModel cheep, int authorID)
         {
             return Task.Run(() => AddCheep(cheep, authorID));
         }
 
-        public Task<IEnumerable<Cheep>> GetCheepsAsync()
+        public Task<List<CheepViewModel>> GetCheepsAsync()
         {
             return Task.Run(() => GetCheeps());
         }
 
-        public Task<IEnumerable<Cheep>> GetCheepsByAuthorAsync(int authorID)
+        public Task<List<CheepViewModel>> GetCheepsByAuthorAsync(int authorID)
         {
             return Task.Run(() => GetCheepsByAuthor(authorID));
         }
 
-        public void AddCheep(Cheep cheep, int authorID)
+        public void AddCheep(CheepViewModel cheep, int authorID)
         {
-            //SqliteConnection? connection = instance.GetConnection();
             if (connection != null)
             {
                 SqliteCommand command = connection.CreateCommand();
@@ -49,9 +51,9 @@ namespace SQLDB
             }
         }
 
-        public IEnumerable<Cheep> GetCheeps()
+        public List<CheepViewModel> GetCheeps()
         {
-            List<Cheep> returnList = new List<Cheep>();
+            List<CheepViewModel> returnList = new List<CheepViewModel>();
             if (connection != null)
             {
                 SqliteCommand command = connection.CreateCommand();
@@ -66,16 +68,16 @@ namespace SQLDB
                 {
                     while (reader.Read())
                     {
-                        returnList.Add(new Cheep { Author = reader.GetString(0), Message = reader.GetString(1), Timestamp = reader.GetInt64(2) });
+                        returnList.Add(new CheepViewModel(reader.GetString(0), reader.GetString(1), reader.GetString(2)));
                     }
                 }
             }
             return returnList;
         }
 
-        public IEnumerable<Cheep> GetCheepsByAuthor(int authorID)
+        public List<CheepViewModel> GetCheepsByAuthor(int authorID)
         {
-            List<Cheep> returnList = new List<Cheep>();
+            List<CheepViewModel> returnList = new List<CheepViewModel>();
             if (connection != null)
             {
                 SqliteCommand command = connection.CreateCommand();
@@ -90,7 +92,7 @@ namespace SQLDB
                 {
                     while (reader.Read())
                     {
-                        returnList.Add(new Cheep { Author = reader.GetString(0), Message = reader.GetString(1), Timestamp = reader.GetInt64(2) });
+                        returnList.Add(new CheepViewModel(reader.GetString(0), reader.GetString(1), reader.GetString(2)));
                     }
                 }
             }

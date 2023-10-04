@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using CheepRecord;
 
 namespace Chirp.Razor.Pages;
 
@@ -13,19 +14,15 @@ public class UserTimelineModel : PageModel
         _service = service;
     }
 
-    public ActionResult OnGet(string author, int ? change)
+    public ActionResult OnGet(int author, int ? change)
     {   
-        if (change.HasValue){
-           _service.AlterP(change.Value );
-        }
         Cheeps = _service.GetCheepsFromAuthor(author);
+        if (change.HasValue){
+           _service.AlterPage(Cheeps.Count(), change.Value );
+        }
         return Page();
     }
       public int getPage(){
         return  _service.GetPage();
-    }
-
-    public void AlterPage(int change){
-        _service.AlterP(change);
     }
 }
