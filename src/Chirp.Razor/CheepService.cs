@@ -31,20 +31,24 @@ public class CheepService : ICheepService
     }
     public List<CheepViewModel> GetCheeps()
     {      
-        return db.GetCheeps();
+        List<CheepViewModel> list = new List<CheepViewModel>();
+        int limit = db.GetCheeps().Count > page*32 ?page*32: db.GetCheeps().Count;
+
+        for(int i = 32*(page-1);i <limit ;i++ ){
+            list.Add(db.GetCheeps()[i]);
+        }
+        return list;
     }
 
-   /*   public PaginatedList(List<T> items, int count, int pageIndex, int pageSize)
-        {
-            PageIndex = pageIndex;
-            TotalPages = (int)Math.Ceiling(count / (double)pageSize);
-
-            this.AddRange(items);
-        }
- */
     public List<CheepViewModel> GetCheepsFromAuthor(int author)
     {
-        return db.GetCheepsByAuthor(author);
+        List<CheepViewModel> list = new List<CheepViewModel>();
+        int limit =  db.GetCheepsByAuthor(author).Count > page*32 ?page*32:  db.GetCheepsByAuthor(author).Count;
+
+        for(int i = 32*(page-1);i <limit ;i++ ){
+            list.Add( db.GetCheepsByAuthor(author)[i]);
+        }
+        return list;
     }
 
     private static string UnixTimeStampToDateTimeString(double unixTimeStamp)
