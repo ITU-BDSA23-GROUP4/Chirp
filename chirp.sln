@@ -7,7 +7,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{2956C6F5-59A
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Chirp.Razor", "Chirp.Razor", "{F7CC292D-0BAB-47B0-B43E-BFD8F0C8D26C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chirp.Razor", "src\Chirp.Razor\Chirp.Razor\Chirp.Razor.csproj", "{169B3871-F019-43FA-BC8D-B119AF92F256}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chirp.Razor", "src\Chirp.Razor\Chirp.Razor.csproj", "{169B3871-F019-43FA-BC8D-B119AF92F256}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
