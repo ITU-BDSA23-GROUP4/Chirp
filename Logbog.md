@@ -20,8 +20,6 @@ We agreed to be more specific with naming conventions. <br />
 
 
 
-
-
 ## Tuesday 19-09-2023 
 Met at 10:00 am. <br />
 Jobs of the day:
@@ -50,3 +48,36 @@ Merged it into development, with only minor conflicts to the data csv file and P
 
 ### Added issues
 The tests should be refactored to create, use and delete their own temporary data files, within the tests project folder. See [Issue #20](/../../issues/20)
+
+
+
+## Wednesday 4-10-2023
+The SQLite and Razor page created yesterday has been merged into development.
+DEVELOPMENT IS NOW UP TO DATE WITH ALL NEW CHANGES TO BOTH SQLite and Razorpage.
+
+All unecessary branhces (that is all other branches than main, chirp_cli and development) has been deleted, except SQLiteImplementation and web_app. Theese should only be kept until develpoment is in a working stage (acorrding to requirement and issues), and not be updated with new work.
+
+All new work, should be done at new short lived branches, created from development.
+
+Project folders and files (except tests, theese are yet to come) regarding the chirp_cli application, is now deleted in development.
+That is, development is now cleaned up to only a raazor page and sqlite application. This provides a better overview, in sense of actual code used. The deletion and merging of old branches, so that all new changes resides in develop, provides a better overview in what is the correct version of our code, to work on forward.
+
+### Regarding the old chirp_cli.
+Three issues have been closed but not resolved, regarding the CLI application.
+Since we have moved forward to a razor page version of the chirp application, the Teaching assistents have advised us not to work on them any more.
+
+They reside in the column "Related to CLI application".
+The three issues are: [Issue #23](/../../issues/23), [Issue #24](/../../issues/24), [Issue #27](/../../issues/27)
+
+### Next assignemnts
+Theese issues is in progress and should be finished before tomorrow (Thursday 5-10-2023):
+- [Issue #39](/../../issues/39)
+- [Issue #35](/../../issues/35)
+- [Issue #32](/../../issues/32)
+- [Issue #34](/../../issues/34)
+- [Issue #36](/../../issues/36)
+
+Theese issues is todo and should be finished before tomorrow (Thursday 5-10-2023) or at latests friday 6-10-2023
+- [Issue #40](/../../issues/40)
+- [Issue #33](/../../issues/33)
+- [Issue #37](/../../issues/37)
