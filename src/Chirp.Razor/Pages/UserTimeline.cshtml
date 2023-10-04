@@ -25,8 +25,9 @@
                 </li>
             }
         </ul>
+        //For later add this https://github.com/itu-bdsa/lecture_notes/blob/main/sessions/session_05/Slides.md#mapping-of-razor-pages-to-endpoints
          <div class="pageNumber">
-            <button onclick="location.href='?change=-1'" >previous</button>
+            <button onclick="location.href='?change=-1'" >previous</button> //should be href="/"
             <p>@Model.getPage()</p>
             <button onclick="location.href='?change=+1'" >next</button>
           </div>

@@ -3,20 +3,58 @@ using CheepRecord;
 
 namespace SQLDB
 {
-    public class DB {
-        
+    public class DB
+    {
+
+        string sqlDBFilePath;
         private static readonly DB instance = new DB();
         private static SqliteConnection? connection;
+
         
-        private DB() {
-            if(!File.Exists("../../data/chirp.db")) {
-                // https://stackoverflow.com/questions/46084560/how-do-i-create-sqlite-database-files-in-net-core
+
+        private DB()
+        {
+            if(String.IsNullOrEmpty(Environment.GetEnvironmentVariable("CHIRPDBPATH"))){
+                sqlDBFilePath = Path.GetTempPath() + "chirp.db";
+            } else 
+            {
+                sqlDBFilePath = Environment.GetEnvironmentVariable("CHIRPDBPATH");
             }
-            connection = new SqliteConnection("Data Source=../../data/chirp.db");
-            connection.Open();
+            Console.WriteLine(sqlDBFilePath);
+            if (!File.Exists(sqlDBFilePath))
+            {
+                string schemaScirpt = File.ReadAllText("../../data/schema.sql");
+                string dumpScirpt = File.ReadAllText("../../data/dump.sql");
+                Console.WriteLine(schemaScirpt);
+                // https://stackoverflow.com/questions/46084560/how-do-i-create-sqlite-database-files-in-net-core
+                using (var connection = new SqliteConnection($"Data Source={sqlDBFilePath}"))
+                {
+                    connection.Open();
+
+                    
+
+                    SqliteCommand command = connection.CreateCommand();
+                    command.CommandText = schemaScirpt;
+                    command.ExecuteNonQuery();
+
+                    
+                    
+                    command.CommandText = dumpScirpt;
+                    command.ExecuteNonQuery();
+
+
+                }
+            }
+            else
+            {
+                connection = new SqliteConnection($"Data Source={sqlDBFilePath}");
+                connection.Open();
+            }
+
         }
 
-        public static DB GetInstance() {
+        public static DB GetInstance()
+        {
             return instance;
         }
 
@@ -30,7 +68,7 @@ namespace SQLDB
             return Task.Run(() => GetCheeps());
         }
 
-        public Task<List<CheepViewModel>> GetCheepsByAuthorAsync(int authorID)
+        public Task<List<CheepViewModel>> GetCheepsByAuthorAsync(string authorID)
         {
             return Task.Run(() => GetCheepsByAuthor(authorID));
         }
@@ -75,7 +113,7 @@ namespace SQLDB
             return returnList;
         }
 
-        public List<CheepViewModel> GetCheepsByAuthor(int authorID)
+        public List<CheepViewModel> GetCheepsByAuthor(string authorID)
         {
             List<CheepViewModel> returnList = new List<CheepViewModel>();
             if (connection != null)
@@ -84,7 +122,7 @@ namespace SQLDB
                 command.CommandText = @"
                     SELECT U.username, M.text, M.pub_date
                     FROM user U, message M
-                    WHERE U.user_id = $authorID
+                    WHERE U.username = $authorID
                 ";
                 command.Parameters.AddWithValue("$authorID", authorID);
 

@@ -11,9 +11,9 @@ public interface ICheepService
     public void AlterPage(int listSize, int change) ;
     public int GetPage();
 
-    public List<CheepViewModel> GetCheepsFromAuthor(int author);
+    public List<CheepViewModel> GetCheepsFromAuthor(string author);
     public List<CheepViewModel> GetAllCheeps();
-    public List<CheepViewModel> GetAllCheepsFromAuthor(int author);
+    public List<CheepViewModel> GetAllCheepsFromAuthor(string author);
 }
 
 public class CheepService : ICheepService
@@ -40,7 +40,7 @@ public class CheepService : ICheepService
         return list;
     }
 
-    public List<CheepViewModel> GetCheepsFromAuthor(int author)
+    public List<CheepViewModel> GetCheepsFromAuthor(string author)
     {
         List<CheepViewModel> list = new List<CheepViewModel>();
         int limit =  db.GetCheepsByAuthor(author).Count > page*32 ?page*32:  db.GetCheepsByAuthor(author).Count;
@@ -51,7 +51,7 @@ public class CheepService : ICheepService
         return list;
     }
 
-    public List<CheepViewModel> GetAllCheepsFromAuthor(int author){
+    public List<CheepViewModel> GetAllCheepsFromAuthor(string author){
         return db.GetCheepsByAuthor(author);
     }
     public List<CheepViewModel> GetAllCheeps(){
