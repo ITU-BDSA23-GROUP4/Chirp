@@ -12,10 +12,23 @@ public class PublicModel : PageModel
     {
         _service = service;
     }
+    public int getPage(){
+        return  _service.GetPage();
+    }
 
-    public ActionResult OnGet()
+    public void AlterPage(int change){
+        _service.AlterP(change);
+    }
+
+    public ActionResult OnGet(int ? change )
     {
+        if (change.HasValue){
+               _service.AlterP(change.Value );
+        }
         Cheeps = _service.GetCheeps();
         return Page();
-    }
+    } 
+    
+
+    
 }

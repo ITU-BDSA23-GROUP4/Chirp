@@ -227,6 +227,9 @@ li.topic {
   min-height: 20px;
 }
 
-.logoStyling {
-  text-decoration: none;
+
+.pageNumber{
+  display: flex;
+  color: #26776F;
+  flex-direction: row;
 }
