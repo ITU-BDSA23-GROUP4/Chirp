@@ -233,3 +233,12 @@ li.topic {
   color: #26776F;
   flex-direction: row;
 }
+
+.logoStyling {
+  color: white;
+  text-decoration: none;
+}
+
+.logoStyling:hover {
+  color: white;
+}

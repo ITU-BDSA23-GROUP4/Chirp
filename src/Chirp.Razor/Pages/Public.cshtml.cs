@@ -17,11 +17,8 @@ public class PublicModel : PageModel
         return  _service.GetPage();
     }
 
-    public ActionResult OnGet(int ? change )
+    public ActionResult OnGet()
     {
-        if (change.HasValue){
-               _service.AlterPage(_service.GetAllCheeps().Count(), change.Value );
-        }
         Cheeps = _service.GetCheeps();
         return Page();
     } 
