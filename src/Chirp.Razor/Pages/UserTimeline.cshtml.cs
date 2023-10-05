@@ -14,12 +14,8 @@ public class UserTimelineModel : PageModel
         _service = service;
     }
 
-    public ActionResult OnGet(string author, int ? change)
+    public ActionResult OnGet(string author)
     {   
-        Console.WriteLine("This is the current Author: " + author + " size of list: " + _service.GetAllCheepsFromAuthor(author).Count );
-        if (change.HasValue){
-           _service.AlterPage(_service.GetAllCheepsFromAuthor(author).Count, change.Value );
-        }
         Cheeps = _service.GetCheepsFromAuthor(author);
         return Page();
     }

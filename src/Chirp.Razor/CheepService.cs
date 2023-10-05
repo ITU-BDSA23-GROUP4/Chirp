@@ -1,19 +1,13 @@
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.SignalR;
 using CheepRecord;
 using SQLDB;
-
-//public record Cheep(string Author, string Message, string Timestamp);
+using Microsoft.Data.Sqlite;
 
 public interface ICheepService
 {
     public List<CheepViewModel> GetCheeps();
     public void AlterPage(int listSize, int change) ;
     public int GetPage();
-
     public List<CheepViewModel> GetCheepsFromAuthor(string author);
-    public List<CheepViewModel> GetAllCheeps();
-    public List<CheepViewModel> GetAllCheepsFromAuthor(string author);
 }
 
 public class CheepService : ICheepService
@@ -33,29 +27,55 @@ public class CheepService : ICheepService
     public List<CheepViewModel> GetCheeps()
     {      
         List<CheepViewModel> list = new List<CheepViewModel>();
-        int limit = db.GetCheeps().Count > page*32 ?page*32: db.GetCheeps().Count;
-        for(int i = 32*(page-1);i <limit ;i++ ){
-            list.Add(db.GetCheeps()[i]);
+
+        using (var reader = db.Query(
+            @"SELECT U.username, M.text, M.pub_date 
+            FROM user U, message M 
+            WHERE U.user_id = M.author_id 
+            ORDER BY M.pub_date DESC"))
+        {
+            list = ReaderToCheepViewModelList(reader);
         }
+
         return list;
     }
 
     public List<CheepViewModel> GetCheepsFromAuthor(string author)
     {
+        Console.WriteLine(author);
         List<CheepViewModel> list = new List<CheepViewModel>();
-        int limit =  db.GetCheepsByAuthor(author).Count > page*32 ?page*32:  db.GetCheepsByAuthor(author).Count;
-
-        for(int i = 32*(page-1);i <limit ;i++ ){
-            list.Add(db.GetCheepsByAuthor(author)[i]);
+        
+        using (var reader = db.Query(
+            @"SELECT U.username, M.text, M.pub_date
+            FROM user U, message M
+            WHERE M.author_id = (
+                SELECT user_id FROM User
+                WHERE username = $author
+            ) AND U.username = $author
+            ORDER BY M.pub_date DESC"
+            , new Dictionary<string, string>()
+            {
+	            {"$author", author}
+            }
+        )) {
+            list = ReaderToCheepViewModelList(reader);
         }
+
         return list;
     }
 
-    public List<CheepViewModel> GetAllCheepsFromAuthor(string author){
-        return db.GetCheepsByAuthor(author);
-    }
-    public List<CheepViewModel> GetAllCheeps(){
-        return db.GetCheeps();
+    private static List<CheepViewModel> ReaderToCheepViewModelList(SqliteDataReader reader) {
+        List<CheepViewModel> list = new List<CheepViewModel>();
+        if (reader != null) {
+            while (reader.Read()) {
+                list.Add(new CheepViewModel(
+                    reader.GetString(0), 
+                    reader.GetString(1),
+                    UnixTimeStampToDateTimeString(reader.GetDouble(2))
+                ));
+            }
+        }
+        return list;
     }
 
     private static string UnixTimeStampToDateTimeString(double unixTimeStamp)

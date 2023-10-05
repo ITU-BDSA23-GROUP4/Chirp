@@ -8,11 +8,9 @@ namespace SQLDB
     public class DB
     {
 
-        string sqlDBFilePath;
+        string? sqlDBFilePath;
         private static readonly DB instance = new DB();
         private static SqliteConnection? connection;
-
-        
 
         private DB()
         {
@@ -22,11 +20,8 @@ namespace SQLDB
             {
                 sqlDBFilePath = Environment.GetEnvironmentVariable("CHIRPDBPATH");
             }
-            Console.WriteLine(sqlDBFilePath);
             if (!File.Exists(sqlDBFilePath))
             {
-                // string schemaScirpt = File.ReadAllText("../../data/schema.sql");
-                // string dumpScirpt = File.ReadAllText("../../data/dump.sql");
                 var embeddedProvider = new EmbeddedFileProvider(Assembly.GetExecutingAssembly());
                 using var reader = embeddedProvider.GetFileInfo("schema.sql").CreateReadStream();
                 using var sr = new StreamReader(reader);
@@ -39,24 +34,20 @@ namespace SQLDB
                 // https://stackoverflow.com/questions/46084560/how-do-i-create-sqlite-database-files-in-net-core
                 connection = new SqliteConnection($"Data Source={sqlDBFilePath}");
                 
-                    connection.Open();
+                connection.Open();
 
-                    SqliteCommand command = connection.CreateCommand();
-                    command.CommandText = schemaScript;
-                    command.ExecuteNonQuery();
-                    
-                    command.CommandText = dumpScript;
-                    command.ExecuteNonQuery();
-
-
+                SqliteCommand command = connection.CreateCommand();
+                command.CommandText = schemaScript;
+                command.ExecuteNonQuery();
                 
+                command.CommandText = dumpScript;
+                command.ExecuteNonQuery();
             }
             else
             {
                 connection = new SqliteConnection($"Data Source={sqlDBFilePath}");
                 connection.Open();
             }
-
         }
 
         public static DB GetInstance()
@@ -64,88 +55,22 @@ namespace SQLDB
             return instance;
         }
 
-        public Task AddCheepAsync(CheepViewModel cheep, int authorID)
-        {
-            return Task.Run(() => AddCheep(cheep, authorID));
-        }
-
-        public Task<List<CheepViewModel>> GetCheepsAsync()
-        {
-            return Task.Run(() => GetCheeps());
-        }
-
-        public Task<List<CheepViewModel>> GetCheepsByAuthorAsync(string authorID)
-        {
-            return Task.Run(() => GetCheepsByAuthor(authorID));
-        }
-
-        public void AddCheep(CheepViewModel cheep, int authorID)
-        {
-            if (connection != null)
-            {
+        public SqliteDataReader? Query(string sql, Dictionary<String, String>? parameters = null) {
+            if (connection != null) {
                 SqliteCommand command = connection.CreateCommand();
 
-                command.CommandText = @"
-                    INSERT INTO message (authorid, text, pub_date)
-                    ADD VALUES $authorID, $message, $timeStamp
-                ";
-                command.Parameters.AddWithValue("$authorID", authorID);
-                command.Parameters.AddWithValue("$txtString", cheep.Message);
-                command.Parameters.AddWithValue("$timeStamp", cheep.Timestamp);
-            }
-        }
+                command.CommandText = sql;
 
-        public List<CheepViewModel> GetCheeps()
-        {
-            List<CheepViewModel> returnList = new List<CheepViewModel>();
-            if (connection != null)
-            {
-                SqliteCommand command = connection.CreateCommand();
-
-                command.CommandText = @"
-                    SELECT U.username, M.text, M.pub_date
-                    FROM user U, message M
-                    WHERE U.user_id = M.author_id
-                    ORDER BY M.pub_date DESC
-                ";
-
-                using (var reader = command.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        returnList.Add(new CheepViewModel(reader.GetString(0), reader.GetString(1), reader.GetString(2)));
+                if (parameters != null) {
+                    foreach (KeyValuePair<string, String> parameter in parameters) {
+                        command.Parameters.AddWithValue(parameter.Key, parameter.Value);
+                        Console.WriteLine($"key {parameter.Key}, value: {parameter.Value}");
                     }
                 }
-            }
-            return returnList;
-        }
 
-        public List<CheepViewModel> GetCheepsByAuthor(string authorID)
-        {
-            List<CheepViewModel> returnList = new List<CheepViewModel>();
-            if (connection != null)
-            {
-                SqliteCommand command = connection.CreateCommand();
-                command.CommandText = @"
-                    SELECT U.username, M.text, M.pub_date
-                    FROM user U, message M
-                    WHERE M.author_id = (
-                        SELECT user_id FROM User
-                        WHERE username = $authorID
-                    ) AND U.username = $authorID
-                    ORDER BY M.pub_date DESC
-                ";
-                command.Parameters.AddWithValue("$authorID", authorID);
-
-                using (var reader = command.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        returnList.Add(new CheepViewModel(reader.GetString(0), reader.GetString(1), reader.GetString(2)));
-                    }
-                }
+                return command.ExecuteReader();
             }
-            return returnList;
+            return null;
         }
     }
 }
