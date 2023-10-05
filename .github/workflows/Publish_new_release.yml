@@ -27,13 +27,13 @@ jobs:
         run: dotnet test --verbosity normal
 
       - name: Build for Windows
-        run: dotnet publish ./src/Chirp.Razor/Chirp.Razor.csproj --no-restore --configuration Release -r win-x64 --no-self-contained -p:PublishSingleFile=true 
+        run: dotnet publish ./src/Chirp.Razor/Chirp.Razor.csproj --configuration Release -r win-x64 --no-self-contained -p:PublishSingleFile=true 
       
       - name: Build for MacOS
-        run: dotnet publish ./src/Chirp.Razor/Chirp.Razor.csproj --no-restore --configuration Release -r osx-x64 --no-self-contained -p:PublishSingleFile=true 
+        run: dotnet publish ./src/Chirp.Razor/Chirp.Razor.csproj --configuration Release -r osx-x64 --no-self-contained -p:PublishSingleFile=true 
       
       - name: Build for Linux
-        run: dotnet publish ./src/Chirp.Razor/Chirp.Razor.csproj --no-restore --configuration Release -r linux-x64 --no-self-contained -p:PublishSingleFile=true 
+        run: dotnet publish ./src/Chirp.Razor/Chirp.Razor.csproj --configuration Release -r linux-x64 --no-self-contained -p:PublishSingleFile=true 
 
       - name: Zipping files
         run: |
