@@ -106,6 +106,7 @@ namespace SQLDB
                     SELECT U.username, M.text, M.pub_date
                     FROM user U, message M
                     WHERE U.user_id = M.author_id
+                    ORDER BY M.pub_date DESC
                 ";
 
                 using (var reader = command.ExecuteReader())
@@ -132,6 +133,7 @@ namespace SQLDB
                         SELECT user_id FROM User
                         WHERE username = $authorID
                     ) AND U.username = $authorID
+                    ORDER BY M.pub_date DESC
                 ";
                 command.Parameters.AddWithValue("$authorID", authorID);
 
