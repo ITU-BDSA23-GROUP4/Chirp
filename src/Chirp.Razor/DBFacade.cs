@@ -1,5 +1,7 @@
 using Microsoft.Data.Sqlite;
 using CheepRecord;
+using Microsoft.Extensions.FileProviders;
+using System.Reflection;
 
 namespace SQLDB
 {
@@ -23,19 +25,27 @@ namespace SQLDB
             Console.WriteLine(sqlDBFilePath);
             if (!File.Exists(sqlDBFilePath))
             {
-                string schemaScirpt = File.ReadAllText("../../data/schema.sql");
-                string dumpScirpt = File.ReadAllText("../../data/dump.sql");
-                Console.WriteLine(schemaScirpt);
+                // string schemaScirpt = File.ReadAllText("../../data/schema.sql");
+                // string dumpScirpt = File.ReadAllText("../../data/dump.sql");
+                var embeddedProvider = new EmbeddedFileProvider(Assembly.GetExecutingAssembly());
+                using var reader = embeddedProvider.GetFileInfo("schema.sql").CreateReadStream();
+                using var sr = new StreamReader(reader);
+                var schemaScript = sr.ReadToEnd();
+                using var reader2 = embeddedProvider.GetFileInfo("dump.sql").CreateReadStream();
+                using var sr2 = new StreamReader(reader2);
+                var dumpScript = sr2.ReadToEnd();
+                
+                Console.WriteLine(schemaScript);
                 // https://stackoverflow.com/questions/46084560/how-do-i-create-sqlite-database-files-in-net-core
                 connection = new SqliteConnection($"Data Source={sqlDBFilePath}");
                 
                     connection.Open();
 
                     SqliteCommand command = connection.CreateCommand();
-                    command.CommandText = schemaScirpt;
+                    command.CommandText = schemaScript;
                     command.ExecuteNonQuery();
                     
-                    command.CommandText = dumpScirpt;
+                    command.CommandText = dumpScript;
                     command.ExecuteNonQuery();
 
 
