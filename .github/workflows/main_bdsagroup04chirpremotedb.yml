@@ -6,7 +6,7 @@ name: Build and deploy ASP.Net Core app to Azure Web App - bdsagroup04chirpremot
 on:
   push:
     branches:
-      - main
+      - chirp_cli
   workflow_dispatch:
 
 jobs:
