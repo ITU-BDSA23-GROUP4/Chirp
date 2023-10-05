@@ -128,7 +128,10 @@ namespace SQLDB
                 command.CommandText = @"
                     SELECT U.username, M.text, M.pub_date
                     FROM user U, message M
-                    WHERE U.username = $authorID
+                    WHERE M.author_id = (
+                        SELECT user_id FROM User
+                        WHERE username = $authorID
+                    ) AND U.username = $authorID
                 ";
                 command.Parameters.AddWithValue("$authorID", authorID);
 
