@@ -27,23 +27,19 @@ namespace SQLDB
                 string dumpScirpt = File.ReadAllText("../../data/dump.sql");
                 Console.WriteLine(schemaScirpt);
                 // https://stackoverflow.com/questions/46084560/how-do-i-create-sqlite-database-files-in-net-core
-                using (var connection = new SqliteConnection($"Data Source={sqlDBFilePath}"))
-                {
+                connection = new SqliteConnection($"Data Source={sqlDBFilePath}");
+                
                     connection.Open();
-
-                    
 
                     SqliteCommand command = connection.CreateCommand();
                     command.CommandText = schemaScirpt;
                     command.ExecuteNonQuery();
-
-                    
                     
                     command.CommandText = dumpScirpt;
                     command.ExecuteNonQuery();
 
 
-                }
+                
             }
             else
             {
