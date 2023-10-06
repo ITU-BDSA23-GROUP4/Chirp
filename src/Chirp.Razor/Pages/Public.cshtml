@@ -1,4 +1,5 @@
 ﻿@page "/"
+
 @model Chirp.Razor.Pages.PublicModel
 @{
     ViewData["Title"] = "Chirp!";
@@ -23,11 +24,11 @@
                 </li>
             }
         </ul> 
-        @* window.location.href.reload() *@
-          <div class="pageNumber">
-            <button onclick="location.href='?change=-1'" >previous</button>
-            <p>@Model.getPage()</p>
-            <button onclick="location.href='?change=+1'" >next</button>
+           <div class="pageNumber">
+            <button onclick="location.href='?page=1'">Go to page 1</button>
+        @*   <button onclick="@GetDecrement()" >previous</button>
+            <p>@Model.GetPage()</p>
+            <button onclick="location.href=@GetIncrement()">next</button>*@
           </div>
     }
     else
@@ -35,3 +36,4 @@
         <em>There are no cheeps so far.</em>
     }
 </div>
+

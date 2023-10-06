@@ -1,11 +1,15 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using CheepRecord;
+using System.Collections.Specialized;
 
 namespace Chirp.Razor.Pages;
 
 public class PublicModel : PageModel
 {
+    [BindProperty(SupportsGet = true)]
+    public int CurrentPage { get; set; } = 1;
+    public int Count { get; set; }
     private readonly ICheepService _service;
     public List<CheepViewModel> Cheeps { get; set; }
 
@@ -13,16 +17,29 @@ public class PublicModel : PageModel
     {
         _service = service;
     }
-    public int getPage(){
+    public int GetPage(){
         return  _service.GetPage();
     }
 
+    public int GetDecrement() {
+        return GetPage() - 1;
+    }
+
+    public int GetIncrement() {
+        return GetPage() + 1;
+    }
+  
+    [FromQuery(Name = "page")]
+    public int? pageNum { get; set; }
     public ActionResult OnGet()
-    {
-        Cheeps = _service.GetCheeps();
+    {  
+        if (pageNum.HasValue){
+            Cheeps = _service.GetCheeps(pageNum.Value);
+        } else {
+            Cheeps = _service.GetCheeps(1);
+        }
+
         return Page();
     } 
-    
 
-    
 }
