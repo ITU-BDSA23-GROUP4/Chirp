@@ -33,11 +33,11 @@ public class CheepService : ICheepService
             @"SELECT U.username, M.text, M.pub_date 
             FROM user U, message M 
             WHERE U.user_id = M.author_id 
-            AND M.message_id >= $startId
             ORDER BY M.pub_date DESC
-            LIMIT $pageSize",
+            LIMIT $pageSize
+            OFFSET $offsetNum",
             new Dictionary<string, string>() {
-                {"$startId", ((page-1)*32).ToString()},
+                {"$offsetNum", ((page-1)*32).ToString()},
                 {"$pageSize", PageSize.ToString()}
             }
         ))
@@ -60,12 +60,12 @@ public class CheepService : ICheepService
                 SELECT user_id FROM User
                 WHERE username = $author
             ) AND U.username = $author
-            AND M.message_id >= $startId
             ORDER BY M.pub_date DESC
-            LIMIT $pageSize",
+            LIMIT $pageSize
+            OFFSET $OffsetNum",
             new Dictionary<string, string>()
             {
-                {"$startId", ((page-1)*32).ToString()},
+                {"$OffsetNum", ((page-1)*32).ToString()},
                 {"$pageSize", PageSize.ToString()},
                 {"$author", author}
             }

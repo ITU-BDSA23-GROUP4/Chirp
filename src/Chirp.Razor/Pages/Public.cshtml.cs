@@ -20,11 +20,18 @@ public class PublicModel : PageModel
     public int getPage(){
         return  _service.GetPage();
     }
+  
 
-    public ActionResult OnGet(int? page)
+    [FromQuery(Name = "page")]
+    public int? pageNum { get; set; }
+    public ActionResult OnGet()
     {  
-        // string param = Request.FromQuery("Page");
-        Cheeps = _service.GetCheeps(1);
+        if (pageNum.HasValue){
+            Cheeps = _service.GetCheeps(pageNum.Value);
+        } else {
+            Cheeps = _service.GetCheeps(1);
+        }
+
         return Page();
     } 
 
