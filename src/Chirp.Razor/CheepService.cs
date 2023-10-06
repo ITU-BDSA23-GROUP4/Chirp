@@ -4,16 +4,17 @@ using Microsoft.Data.Sqlite;
 
 public interface ICheepService
 {
-    public List<CheepViewModel> GetCheeps();
+    public List<CheepViewModel> GetCheeps(int page);
     public void AlterPage(int listSize, int change) ;
     public int GetPage();
-    public List<CheepViewModel> GetCheepsFromAuthor(string author);
+    public List<CheepViewModel> GetCheepsFromAuthor(int page, string author);
 }
 
 public class CheepService : ICheepService
 {
-    DB db = DB.GetInstance();
 
+    DB db = DB.GetInstance();
+    public int PageSize { get; set; } = 32;
     private int page = 1;
     public int GetPage(){
         return page;
@@ -24,7 +25,7 @@ public class CheepService : ICheepService
         }
         
     }
-    public List<CheepViewModel> GetCheeps()
+    public List<CheepViewModel> GetCheeps(int page)
     {      
         List<CheepViewModel> list = new List<CheepViewModel>();
 
@@ -32,7 +33,14 @@ public class CheepService : ICheepService
             @"SELECT U.username, M.text, M.pub_date 
             FROM user U, message M 
             WHERE U.user_id = M.author_id 
-            ORDER BY M.pub_date DESC"))
+            AND M.message_id >= $startId
+            ORDER BY M.pub_date DESC
+            LIMIT $pageSize",
+            new Dictionary<string, string>() {
+                {"$startId", ((page-1)*32).ToString()},
+                {"$pageSize", PageSize.ToString()}
+            }
+        ))
         {
             list = ReaderToCheepViewModelList(reader);
         }
@@ -40,7 +48,7 @@ public class CheepService : ICheepService
         return list;
     }
 
-    public List<CheepViewModel> GetCheepsFromAuthor(string author)
+    public List<CheepViewModel> GetCheepsFromAuthor(int page, string author)
     {
         Console.WriteLine(author);
         List<CheepViewModel> list = new List<CheepViewModel>();
@@ -52,10 +60,14 @@ public class CheepService : ICheepService
                 SELECT user_id FROM User
                 WHERE username = $author
             ) AND U.username = $author
-            ORDER BY M.pub_date DESC"
-            , new Dictionary<string, string>()
+            AND M.message_id >= $startId
+            ORDER BY M.pub_date DESC
+            LIMIT $pageSize",
+            new Dictionary<string, string>()
             {
-	            {"$author", author}
+                {"$startId", ((page-1)*32).ToString()},
+                {"$pageSize", PageSize.ToString()},
+                {"$author", author}
             }
         )) {
             list = ReaderToCheepViewModelList(reader);
