@@ -7,7 +7,7 @@ Project repository for BDSA course by:
 - Niels Christian Skov Faber (nfab) ITU email: nfab@itu.dk, Puplic github: Faberen
 
 ## Co-author lines
-Remember to but diamondbrackets around the email if they don't come on the copy<br />
+Remember to put diamondbrackets around the email if they don't come on the copy<br />
 <br />
 Co-authored-by: Marius <mariu@itu.dk><br />
 Co-authored-by: Oliver <oash@itu.dk><br />
