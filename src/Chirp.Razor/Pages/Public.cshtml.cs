@@ -17,11 +17,18 @@ public class PublicModel : PageModel
     {
         _service = service;
     }
-    public int getPage(){
+    public int GetPage(){
         return  _service.GetPage();
     }
-  
 
+    public int GetDecrement() {
+        return GetPage() - 1;
+    }
+
+    public int GetIncrement() {
+        return GetPage() + 1;
+    }
+  
     [FromQuery(Name = "page")]
     public int? pageNum { get; set; }
     public ActionResult OnGet()

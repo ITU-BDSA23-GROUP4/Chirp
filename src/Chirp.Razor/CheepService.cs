@@ -5,7 +5,6 @@ using Microsoft.Data.Sqlite;
 public interface ICheepService
 {
     public List<CheepViewModel> GetCheeps(int page);
-    public void AlterPage(int listSize, int change) ;
     public int GetPage();
     public List<CheepViewModel> GetCheepsFromAuthor(int page, string author);
 }
@@ -19,14 +18,9 @@ public class CheepService : ICheepService
     public int GetPage(){
         return page;
     }
-    public void AlterPage(int listSize, int change){
-        if ((page+change)>=1 && (page+change)<=(listSize/32+1)){
-            page= page+change;    
-        }
-        
-    }
     public List<CheepViewModel> GetCheeps(int page)
     {      
+        this.page = page;
         List<CheepViewModel> list = new List<CheepViewModel>();
 
         using (var reader = db.Query(
@@ -50,6 +44,7 @@ public class CheepService : ICheepService
 
     public List<CheepViewModel> GetCheepsFromAuthor(int page, string author)
     {
+        this.page = page;
         Console.WriteLine(author);
         List<CheepViewModel> list = new List<CheepViewModel>();
         
