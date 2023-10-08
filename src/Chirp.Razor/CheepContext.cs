@@ -6,10 +6,10 @@ namespace CheepDB;
 
 public class ChirpDBContext : DbContext
 {
-    public DbSet<Cheep>? Cheeps;
-    public DbSet<Author>? Authors;
+    public DbSet<Cheep> Cheeps { get; set; }
+    public DbSet<Author> Authors { get; set; }
 
-    public  string? DbPath { get; }
+    public string? DbPath { get; }
 
 
 
@@ -23,6 +23,7 @@ public class ChirpDBContext : DbContext
         {
             DbPath = Environment.GetEnvironmentVariable("CHIRPDBPATH");
         }
+
     }
     protected override void OnConfiguring(DbContextOptionsBuilder options)
         => options.UseSqlite($"Data Source={DbPath}");
@@ -44,5 +45,5 @@ public class Cheep
     public required string Text { get; set; }
     public required DateTime TimeStamp { get; set; }
 
-    
+
 }
