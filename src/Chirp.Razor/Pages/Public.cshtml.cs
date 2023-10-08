@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using CheepRecord;
 using System.Collections.Specialized;
+using Repository;
 
 namespace Chirp.Razor.Pages;
 
@@ -10,22 +11,22 @@ public class PublicModel : PageModel
     [BindProperty(SupportsGet = true)]
     public int CurrentPage { get; set; } = 1;
     public int Count { get; set; }
-    private readonly ICheepService _service;
+    // private readonly ICheepService _service;
     public List<CheepViewModel>? Cheeps { get; set; }
 
-    public PublicModel(ICheepService service)
-    {
-        _service = service;
-    }
+    // public PublicModel(ICheepService service)
+    // {
+    //     _service = service;
+    // }
 
     [FromQuery(Name = "page")]
     public int? pageNum { get; set; }
     public ActionResult OnGet()
     {  
         if (pageNum.HasValue){
-            Cheeps = _service.GetCheeps(pageNum.Value);
+            Cheeps = CheepRepository.GetCheeps();
         } else {
-            Cheeps = _service.GetCheeps(1);
+            Cheeps = CheepRepository.GetCheeps();
         }
 
         return Page();

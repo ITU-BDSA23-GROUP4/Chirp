@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using CheepRecord;
 using Repository;
 
-// namespace Chirp.Razor.Pages;
+namespace Chirp.Razor.Pages;
 
 public class UserTimelineModel : PageModel
 {
