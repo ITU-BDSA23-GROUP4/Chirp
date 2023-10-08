@@ -15,6 +15,14 @@ Co-authored-by: Lukas <lukan@itu.dk><br />
 Co-authored-by: Niels <nfab@itu.dk><br />
 Co-authored-by: Anna <annaj@itu.dk><br />
 
+## Versioning
+Use this semantic for versioning on releases.
+v1.2.3
+- The first position is a breaking update, indicating that it is not safe to update to.
+An examle is an breaking API change.
+- The second position is a feature update, indicating that it is safe to update to.
+- The third position is a bug fix, indicating that it is safe to update to.
+
 # Running the program
 
 ## Command prompt version
