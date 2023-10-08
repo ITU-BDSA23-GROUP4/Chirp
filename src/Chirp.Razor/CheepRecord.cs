@@ -1,4 +1,4 @@
 using System.Globalization;
 
 namespace CheepRecord;
-public record CheepViewModel (string? Author, string? Message, string? Timestamp);
+public record CheepViewModel (int? id,string? Author, string? Message, string? Timestamp);
