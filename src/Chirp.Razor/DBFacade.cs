@@ -1,5 +1,4 @@
 using Microsoft.Data.Sqlite;
-using CheepRecord;
 using Microsoft.Extensions.FileProviders;
 using System.Reflection;
 
@@ -64,7 +63,6 @@ namespace SQLDB
                 if (parameters != null) {
                     foreach (KeyValuePair<string, String> parameter in parameters) {
                         command.Parameters.AddWithValue(parameter.Key, parameter.Value);
-                        Console.WriteLine($"key {parameter.Key}, value: {parameter.Value}");
                     }
                 }
 
