@@ -13,9 +13,14 @@ public static class CheepRepository
     static CheepRepository()
     {
         db = new ChirpDBContext();
-        DbInitializer.SeedDatabase(db);
-        
 
+
+
+    }
+
+    public static void InitDB()
+    {
+        DbInitializer.SeedDatabase(db);
     }
 
     public static List<CheepViewModel> GetCheeps()
@@ -24,9 +29,9 @@ public static class CheepRepository
 
         var cheeps = db.Cheeps.Select(cheep => new CheepViewModel(
             cheep.CheepId,
+            cheep.Author.Name,
             cheep.Text,
-            cheep.TimeStamp.ToString(),
-            cheep.Author.Name
+            cheep.TimeStamp.ToString()
         ));
 
         cheepsToReturn.AddRange(cheeps);
@@ -38,12 +43,14 @@ public static class CheepRepository
     {
         List<CheepViewModel> cheepsToReturn = new List<CheepViewModel>();
 
-        var cheeps = db.Cheeps.Select(cheep => new CheepViewModel(
-            cheep.CheepId,
-            cheep.Text,
-            cheep.TimeStamp.ToString(),
-            cheep.Author.Name
-        )).Where(cheepAuthor => cheepAuthor.Author.Contains(author));
+        var cheeps = db.Cheeps
+            .Where(cheep => cheep.Author != null && cheep.Author.Name != null && cheep.Author.Name.Equals(author))
+            .Select(cheep => new CheepViewModel(
+                cheep.CheepId,
+                cheep.Author.Name,
+                cheep.Text,
+                cheep.TimeStamp.ToString()
+            ));
 
         cheepsToReturn.AddRange(cheeps);
 
