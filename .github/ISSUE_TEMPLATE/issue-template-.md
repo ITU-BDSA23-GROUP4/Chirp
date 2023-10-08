@@ -9,7 +9,7 @@ assignees: ''
 
 ##User story
 Write it from the user perspective (end-user, admin) if it's a feature.
-Write if from the developers (or equal) perspective, if it's a change to the code architechture or 
+Write it from the developers (or equal) perspective, if it's a change to the code architechture or 
 similar.
 
 ## Precise description of what to do and evt. time estimate
