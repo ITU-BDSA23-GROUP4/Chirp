@@ -3,11 +3,14 @@ using CheepDB;
 using CheepRecord;
 using Initializer;
 
-public class CheepRepository
-{
-    private ChirpDBContext db;
 
-    public CheepRepository()
+namespace Repository;
+
+public static class CheepRepository
+{
+    private static readonly ChirpDBContext db;
+
+    static CheepRepository()
     {
         db = new ChirpDBContext();
         DbInitializer.SeedDatabase(db);
@@ -15,7 +18,7 @@ public class CheepRepository
 
     }
 
-    public List<CheepViewModel> GetCheeps()
+    public static List<CheepViewModel> GetCheeps()
     {
         List<CheepViewModel> cheepsToReturn = new List<CheepViewModel>();
 
@@ -31,7 +34,7 @@ public class CheepRepository
         return cheepsToReturn;
     }
 
-    public List<CheepViewModel> GetCheepsFromAuthor(string author)
+    public static List<CheepViewModel> GetCheepsFromAuthor(string author)
     {
         List<CheepViewModel> cheepsToReturn = new List<CheepViewModel>();
 
