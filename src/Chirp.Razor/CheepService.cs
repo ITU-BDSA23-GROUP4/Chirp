@@ -2,10 +2,11 @@ using CheepRecord;
 using SQLDB;
 using Microsoft.Data.Sqlite;
 
+namespace Chirp.Razor.Pages;
+
 public interface ICheepService
 {
     public List<CheepViewModel> GetCheeps(int page);
-    public int GetPage();
     public List<CheepViewModel> GetCheepsFromAuthor(int page, string author);
 }
 
@@ -14,13 +15,9 @@ public class CheepService : ICheepService
 
     DB db = DB.GetInstance();
     public int PageSize { get; set; } = 32;
-    private int page = 1;
-    public int GetPage(){
-        return page;
-    }
+   
     public List<CheepViewModel> GetCheeps(int page)
     {      
-        this.page = page;
         List<CheepViewModel> list = new List<CheepViewModel>();
 
         using (var reader = db.Query(
@@ -44,8 +41,6 @@ public class CheepService : ICheepService
 
     public List<CheepViewModel> GetCheepsFromAuthor(int page, string author)
     {
-        this.page = page;
-        Console.WriteLine(author);
         List<CheepViewModel> list = new List<CheepViewModel>();
         
         using (var reader = db.Query(
@@ -71,7 +66,7 @@ public class CheepService : ICheepService
         return list;
     }
 
-    private static List<CheepViewModel> ReaderToCheepViewModelList(SqliteDataReader reader) {
+    private static List<CheepViewModel> ReaderToCheepViewModelList(SqliteDataReader? reader) {
         List<CheepViewModel> list = new List<CheepViewModel>();
         if (reader != null) {
             while (reader.Read()) {
@@ -85,7 +80,7 @@ public class CheepService : ICheepService
         return list;
     }
 
-    private static string UnixTimeStampToDateTimeString(double unixTimeStamp)
+    public static string UnixTimeStampToDateTimeString(double unixTimeStamp)
     {
         // Unix timestamp is seconds past epoch
         DateTime dateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);

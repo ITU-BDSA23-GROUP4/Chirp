@@ -8,32 +8,33 @@
 
 <div>
     <h2> Public Timeline </h2>
-    @if (Model.Cheeps.Any())
-    {
-        <ul id="messagelist" class="cheeps">
-          @foreach (var cheep in Model.Cheeps)
+    @{  if (Model.Cheeps != null) 
+        {
+            if (Model.Cheeps.Any()) 
             {
-                <li>
-                    <p>
-                        <strong>
-                            <a href="/@cheep.Author">@cheep.Author</a>
-                        </strong>
-                        @cheep.Message
-                        <small>&mdash; @cheep.Timestamp</small>
-                    </p>
-                </li>
+                <ul id="messagelist" class="cheeps">
+                @foreach (var cheep in Model.Cheeps)
+                    {
+                        <li>
+                            <p>
+                                <strong>
+                                    <a href="/@cheep.Author">@cheep.Author</a>
+                                </strong>
+                                @cheep.Message
+                                <small>&mdash; @cheep.Timestamp</small>
+                            </p>
+                        </li>
+                    }
+                </ul> 
+                <div class="pageNumber">
+                    <button onclick="location.href='?page=1'">Go to page 1</button>
+                </div>
             }
-        </ul> 
-           <div class="pageNumber">
-            <button onclick="location.href='?page=1'">Go to page 1</button>
-        @*   <button onclick="@GetDecrement()" >previous</button>
-            <p>@Model.GetPage()</p>
-            <button onclick="location.href=@GetIncrement()">next</button>*@
-          </div>
-    }
-    else
-    {
-        <em>There are no cheeps so far.</em>
+            else
+            {
+                <em>There are no cheeps so far.</em>
+            }
+        }
     }
 </div>
 

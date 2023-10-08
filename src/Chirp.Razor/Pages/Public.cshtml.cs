@@ -11,24 +11,13 @@ public class PublicModel : PageModel
     public int CurrentPage { get; set; } = 1;
     public int Count { get; set; }
     private readonly ICheepService _service;
-    public List<CheepViewModel> Cheeps { get; set; }
+    public List<CheepViewModel>? Cheeps { get; set; }
 
     public PublicModel(ICheepService service)
     {
         _service = service;
     }
-    public int GetPage(){
-        return  _service.GetPage();
-    }
 
-    public int GetDecrement() {
-        return GetPage() - 1;
-    }
-
-    public int GetIncrement() {
-        return GetPage() + 1;
-    }
-  
     [FromQuery(Name = "page")]
     public int? pageNum { get; set; }
     public ActionResult OnGet()
@@ -41,5 +30,4 @@ public class PublicModel : PageModel
 
         return Page();
     } 
-
 }
