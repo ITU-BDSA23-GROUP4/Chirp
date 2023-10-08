@@ -1,0 +1,44 @@
+﻿@page "/{author}"
+@model Chirp.Razor.Pages.UserTimelineModel
+@{
+    ViewData["Title"] = "Chirp!";
+    Layout = "Shared/_Layout";
+    var routeName = HttpContext.GetRouteValue("author");
+}
+
+<div>
+    <h2> @routeName's Timeline </h2>
+
+    @{  if (Model.Cheeps != null) 
+        {
+            if (Model.Cheeps.Any())
+            {
+                <ul id="messagelist" class="cheeps">
+                    @foreach (var cheep in Model.Cheeps)
+                    {
+                        <li>
+                            <p>
+                                <strong>
+                                    <a href="/@cheep.Author">@cheep.Author</a>
+                                </strong>
+                                @cheep.Message
+                                <small>&mdash; @cheep.Timestamp</small>
+                            </p>
+                        </li>
+                    }
+                </ul>
+                //For later add this https://github.com/itu-bdsa/lecture_notes/blob/main/sessions/session_05/Slides.md#mapping-of-razor-pages-to-endpoints
+                <div class="pageNumber">
+                    <button onclick="location.href='?page=1'">Go to page 1</button>
+                    @* <button onclick="location.href='?change=-1'" >previous</button>
+                    <p>@Model.getPage()</p>
+                    <button onclick="location.href='?change=+1'" >next</button> *@
+                </div>
+            }
+            else
+            {
+                <em>There are no cheeps so far.</em>
+            }
+        }
+    }
+</div>

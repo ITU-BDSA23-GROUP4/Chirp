@@ -27,19 +27,19 @@ jobs:
         run: dotnet test --verbosity normal
 
       - name: Build for Windows
-        run: dotnet publish ./src/Chirp/chirp.csproj --no-restore --configuration Release -r win-x64 --no-self-contained -p:PublishSingleFile=true 
+        run: dotnet publish ./src/Chirp.Razor/Chirp.Razor.csproj --configuration Release -r win-x64 --no-self-contained -p:PublishSingleFile=true 
       
       - name: Build for MacOS
-        run: dotnet publish ./src/Chirp/chirp.csproj --no-restore --configuration Release -r osx-x64 --no-self-contained -p:PublishSingleFile=true 
+        run: dotnet publish ./src/Chirp.Razor/Chirp.Razor.csproj --configuration Release -r osx-x64 --no-self-contained -p:PublishSingleFile=true 
       
       - name: Build for Linux
-        run: dotnet publish ./src/Chirp/chirp.csproj --no-restore --configuration Release -r linux-x64 --no-self-contained -p:PublishSingleFile=true 
+        run: dotnet publish ./src/Chirp.Razor/Chirp.Razor.csproj --configuration Release -r linux-x64 --no-self-contained -p:PublishSingleFile=true 
 
       - name: Zipping files
         run: |
-          cd ./src/Chirp/bin/Release/net7.0/win-x64/publish && zip ../../../../../../../Chirp-${{github.ref_name}}-win-x64.zip chirp.exe
-          cd ../../osx-x64/publish && zip ../../../../../../../Chirp-${{github.ref_name}}-osx-x64.zip chirp
-          cd ../../linux-x64/publish && zip ../../../../../../../Chirp-${{github.ref_name}}-linux-x64.zip chirp
+          cd ./src/Chirp.Razor/bin/Release/net7.0/win-x64/publish && zip ../../../../../../../Chirp-${{github.ref_name}}-win-x64.zip Chirp.Razor.exe
+          cd ../../osx-x64/publish && zip ../../../../../../../Chirp-${{github.ref_name}}-osx-x64.zip Chirp.Razor
+          cd ../../linux-x64/publish && zip ../../../../../../../Chirp-${{github.ref_name}}-linux-x64.zip Chirp.Razor
         
       - name: Publish
         uses: softprops/action-gh-release@v1
