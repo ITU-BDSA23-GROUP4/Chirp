@@ -4,10 +4,10 @@ using System.Collections.Generic;
 
 public class CheepContext : DbContext
 {
-    public DbSet<Message> messages;
-    public DbSet<User> users;
+    public DbSet<Message>? messages;
+    public DbSet<User>= users;
 
-    public string DbPath { get; }
+    public  string? DbPath { get; }
 
 
 
@@ -29,9 +29,9 @@ public class CheepContext : DbContext
 public class User
 {
     public int UserId { get; set; }
-    public string UserName { get; set; }
-    public string Email { get; set; }
-    public string PWHash { get; set; }
+    public required string UserName { get; set; }
+    public required string Email { get; set; }
+    public required string PWHash { get; set; }
 
 }
 
@@ -39,8 +39,8 @@ public class Message
 {
     public int MessageId { get; set; }
     public int AuthorId { get; set; }
-    public string text { get; set; }
-    public string pubDate { get; set; }
+    public required string text { get; set; }
+    public required string pubDate { get; set; }
 
-    public User Author { get; set; }
+    public required User Author { get; set; }
 }
