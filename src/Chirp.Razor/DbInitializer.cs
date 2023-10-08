@@ -1,6 +1,8 @@
 using System;
 using CheepDB;
 
+namespace Initializer;
+
 public static class DbInitializer
 {
     public static void SeedDatabase(ChirpDBContext chirpContext)
