@@ -25,6 +25,18 @@ public class ChirpDBContext : DbContext
         }
 
     }
+    public ChirpDBContext(string repoName)
+    {
+        if (String.IsNullOrEmpty(Environment.GetEnvironmentVariable("CHIRPDBPATH")))
+        {
+            DbPath = Path.GetTempPath() + repoName +".db";
+        }
+        else
+        {
+            DbPath = Environment.GetEnvironmentVariable("CHIRPDBPATH");
+        }
+
+    }
     protected override void OnConfiguring(DbContextOptionsBuilder options)
         => options.UseSqlite($"Data Source={DbPath}");
 }
