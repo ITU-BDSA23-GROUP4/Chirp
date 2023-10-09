@@ -24,7 +24,7 @@ public class TestAPI : IClassFixture<WebApplicationFactory<Program>>
     [Fact]
     public async void CanSeePublicTimeline()
     {
-        var response = await _client.GetAsync("/public");
+        var response = await _client.GetAsync("/");
         response.EnsureSuccessStatusCode();
         var content = await response.Content.ReadAsStringAsync();
 
@@ -33,8 +33,8 @@ public class TestAPI : IClassFixture<WebApplicationFactory<Program>>
     }
 
     [Theory]
-    [InlineData("/Helge")]
-    [InlineData("/Rasmus")]
+    [InlineData("Helge")]
+    [InlineData("Rasmus")]
     public async void CanSeePrivateTimeline(string author)
     {
         var response = await _client.GetAsync($"/{author}");
