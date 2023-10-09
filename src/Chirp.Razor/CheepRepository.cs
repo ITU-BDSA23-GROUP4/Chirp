@@ -31,7 +31,7 @@ public class CheepRepository
     {
         List<CheepViewModel> cheepsToReturn = new List<CheepViewModel>();
 
-        var cheeps = db.Cheeps.Select(cheep => new CheepViewModel(
+        var cheeps = db.Cheeps.OrderByDescending(c=>c.TimeStamp.Ticks).Select(cheep => new CheepViewModel(
             cheep.CheepId,
             cheep.Author.Name,
             cheep.Text,
@@ -58,7 +58,7 @@ public class CheepRepository
     {
         List<CheepViewModel> cheepsToReturn = new List<CheepViewModel>();
 
-        var cheeps = db.Cheeps
+        var cheeps = db.Cheeps.OrderByDescending(c=>c.TimeStamp.Ticks)
             .Where(cheep => cheep.Author != null && cheep.Author.Name != null && cheep.Author.Name.Equals(author))
             .Select(cheep => new CheepViewModel(
                 cheep.CheepId,
