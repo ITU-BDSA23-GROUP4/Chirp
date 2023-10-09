@@ -22,9 +22,9 @@ public class UserTimelineModel : PageModel
     public ActionResult OnGet(string author)
     {   
         if (pageNum.HasValue) {
-            Cheeps = CheepRepository.GetCheepsFromAuthor( author);
+            Cheeps = CheepRepository.GetCheepsFromAuthor(author, pageNum);
         } else {
-            Cheeps = CheepRepository.GetCheepsFromAuthor(author);
+            Cheeps = CheepRepository.GetCheepsFromAuthor(author, pageNum);
         }
         return Page();
     }
