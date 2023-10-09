@@ -1,3 +1,15 @@
+using System.Net;
+using System.Net.Http.Headers;
+using System.Security.Claims;
+using System.Text.Encodings.Web;
+using AngleSharp.Html.Dom;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.AspNetCore.TestHost;
+using Microsoft.Extensions.Options;
+using Xunit;
+using Chirp.Razor.Pages;
+using CheepRecord;
 public class TestAPI : IClassFixture<WebApplicationFactory<Program>>
 {
     private readonly WebApplicationFactory<Program> _fixture;
@@ -21,8 +33,8 @@ public class TestAPI : IClassFixture<WebApplicationFactory<Program>>
     }
 
     [Theory]
-    [InlineData("Helge")]
-    [InlineData("Rasmus")]
+    [InlineData("/Helge")]
+    [InlineData("/Rasmus")]
     public async void CanSeePrivateTimeline(string author)
     {
         var response = await _client.GetAsync($"/{author}");
