@@ -14,6 +14,8 @@ public class PublicModel : PageModel
     // private readonly ICheepService _service;
     public List<CheepViewModel>? Cheeps { get; set; }
 
+    CheepRepository cheepRepo = new CheepRepository();
+
     // public PublicModel(ICheepService service)
     // {
     //     _service = service;
@@ -24,9 +26,9 @@ public class PublicModel : PageModel
     public ActionResult OnGet()
     {  
         if (pageNum.HasValue){
-            Cheeps = CheepRepository.GetCheeps(pageNum);
+            Cheeps = cheepRepo.GetCheeps(pageNum);
         } else {
-            Cheeps = CheepRepository.GetCheeps(pageNum);
+            Cheeps = cheepRepo.GetCheeps(pageNum);
         }
 
         return Page();

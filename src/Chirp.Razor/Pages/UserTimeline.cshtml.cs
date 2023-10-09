@@ -11,20 +11,26 @@ public class UserTimelineModel : PageModel
 
     public List<CheepViewModel>? Cheeps { get; set; }
 
+    CheepRepository cheepRepo = new CheepRepository();
+
     // public UserTimelineModel(ICheepService service)
     // {
     //     _service = service;
     // }
 
+
     [FromQuery(Name = "page")]
     public int? pageNum { get; set; }
 
     public ActionResult OnGet(string author)
-    {   
-        if (pageNum.HasValue) {
-            Cheeps = CheepRepository.GetCheepsFromAuthor(author, pageNum);
-        } else {
-            Cheeps = CheepRepository.GetCheepsFromAuthor(author, pageNum);
+    {
+        if (pageNum.HasValue)
+        {
+            Cheeps = cheepRepo.GetCheepsFromAuthor(author, pageNum);
+        }
+        else
+        {
+            Cheeps = cheepRepo.GetCheepsFromAuthor(author, pageNum);
         }
         return Page();
     }
