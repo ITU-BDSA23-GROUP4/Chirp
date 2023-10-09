@@ -23,7 +23,7 @@ public static class CheepRepository
         DbInitializer.SeedDatabase(db);
     }
 
-    public static List<CheepViewModel> GetCheeps()
+    public static List<CheepViewModel> GetCheeps(int? pageNum)
     {
         List<CheepViewModel> cheepsToReturn = new List<CheepViewModel>();
 
@@ -36,10 +36,21 @@ public static class CheepRepository
 
         cheepsToReturn.AddRange(cheeps);
 
-        return cheepsToReturn;
+        int? page = (pageNum - 1) * 32;
+
+        if (page == null)
+        {
+            return cheepsToReturn.GetRange(0, 32);
+        }
+        else
+        {
+            return cheepsToReturn.GetRange((int)page, (int)(page + 32));
+        }
+
+
     }
 
-    public static List<CheepViewModel> GetCheepsFromAuthor(string author)
+    public static List<CheepViewModel> GetCheepsFromAuthor(string author, int? pageNum)
     {
         List<CheepViewModel> cheepsToReturn = new List<CheepViewModel>();
 
@@ -54,6 +65,15 @@ public static class CheepRepository
 
         cheepsToReturn.AddRange(cheeps);
 
-        return cheepsToReturn;
+        int? page = (pageNum - 1) * 32;
+
+        if (page == null)
+        {
+            return cheepsToReturn.GetRange(0, 32);
+        }
+        else
+        {
+            return cheepsToReturn.GetRange((int)page, (int)(page + 32));
+        }
     }
 }
