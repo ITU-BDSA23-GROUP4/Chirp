@@ -10,6 +10,7 @@ using Microsoft.Extensions.Options;
 using Xunit;
 using Chirp.Razor.Pages;
 using CheepRecord;
+using System.Text.RegularExpressions;
 public class TestAPI : IClassFixture<WebApplicationFactory<Program>>
 {
     private readonly WebApplicationFactory<Program> _fixture;
@@ -44,20 +45,18 @@ public class TestAPI : IClassFixture<WebApplicationFactory<Program>>
         Assert.Contains("Chirp!", content);
         Assert.Contains($"{author}'s Timeline", content);
     }
-
-  /*   public async void Check32Cheeps()
+    [Fact]
+    public async void Check32Cheeps()
     {
         var response = await _client.GetAsync("/");
         response.EnsureSuccessStatusCode();
         var content = await response.Content.ReadAsStringAsync();
 
-        //run each message and see that they are there
-        foreach (var item in collection)
-        {
-            AssAssert.Contains("Chirp!", content);
-
-        }
-    } */
+        //https://stackoverflow.com/questions/3016522/count-the-number-of-times-a-string-appears-within-a-string
+        MatchCollection matches = Regex.Matches(content, "<li>");
+        int count = matches.Count;
+        Assert.Equal(32, count);
+    }
 
     [Fact]
     public async void CheepsOnPage0IsTheSameAsPage1()
@@ -87,8 +86,8 @@ public class TestAPI : IClassFixture<WebApplicationFactory<Program>>
         var responseFromPageTwo = await _client.GetAsync("/?page=1");
         responseFromPageTwo.EnsureSuccessStatusCode();
         var contentFromPageTwo = await responseFromPageTwo.Content.ReadAsStringAsync();
-        Console.WriteLine(contentFromPageTwo);
 
         Assert.NotEqual(contentFromPageTwo, content);
     }
+
 }
