@@ -6,24 +6,28 @@ using Initializer;
 
 namespace Repository;
 
-public static class CheepRepository
+public class CheepRepository
 {
-    private static readonly ChirpDBContext db;
+    private readonly ChirpDBContext db;
 
-    static CheepRepository()
+
+
+    public CheepRepository()
     {
         db = new ChirpDBContext();
-
-
-
     }
 
-    public static void InitDB()
+    public CheepRepository(string dbName)
+    {
+        db = new ChirpDBContext(dbName);
+    }
+
+    public void InitDB()
     {
         DbInitializer.SeedDatabase(db);
     }
 
-    public static List<CheepViewModel> GetCheeps(int? pageNum)
+    public List<CheepViewModel> GetCheeps(int? pageNum)
     {
         List<CheepViewModel> cheepsToReturn = new List<CheepViewModel>();
 
@@ -50,7 +54,7 @@ public static class CheepRepository
 
     }
 
-    public static List<CheepViewModel> GetCheepsFromAuthor(string author, int? pageNum)
+    public List<CheepViewModel> GetCheepsFromAuthor(string author, int? pageNum)
     {
         List<CheepViewModel> cheepsToReturn = new List<CheepViewModel>();
 
