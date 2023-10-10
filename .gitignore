@@ -479,4 +479,3 @@ $RECYCLE.BIN/
 
 # Migrattion files
 src/Chirp.Razor/Migrations/*.cs
-!src/Chirp.Razor/Migrations/ChirpDBContextModelSnapshot.cs
