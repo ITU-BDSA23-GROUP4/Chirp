@@ -1,6 +1,7 @@
 using Chirp.Razor.Pages;
 using CheepDB;
 using Repository;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,7 +11,15 @@ new CheepRepository().InitDB();
 builder.Services.AddSingleton<ICheepService, CheepService>();
 builder.Services.AddRazorPages();
 
+builder.Services.AddDbContext<ChirpDBContext>();
+
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+    {
+        var db = scope.ServiceProvider.GetRequiredService<ChirpDBContext>();
+        db.Database.Migrate();
+    }
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
