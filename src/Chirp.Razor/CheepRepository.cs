@@ -44,7 +44,7 @@ public class CheepRepository
         List<CheepDTO> cheepsToReturn = new List<CheepDTO>();
 
         var cheepsDTO = db.Cheeps.OrderByDescending(c => c.TimeStamp.Ticks).Select(CheepDTO => new CheepDTO{
-            //cheep.CheepId,
+            CheepId = CheepDTO.CheepId,
             Author = CheepDTO.Author.Name,
             Message = CheepDTO.Text,
             Timestamp = CheepDTO.TimeStamp.ToString()
@@ -73,6 +73,7 @@ public class CheepRepository
         var cheepsDTO = db.Cheeps.OrderByDescending(c => c.TimeStamp.Ticks)
             .Where(cheep => cheep.Author != null && cheep.Author.Name != null && cheep.Author.Name.Equals(author))
             .Select(CheepDTO => new CheepDTO{
+            CheepId = CheepDTO.CheepId,
             Author = CheepDTO.Author.Name,
             Message = CheepDTO.Text,
             Timestamp = CheepDTO.TimeStamp.ToString()

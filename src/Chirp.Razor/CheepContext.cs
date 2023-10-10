@@ -61,6 +61,7 @@ public class Cheep
 
 public class CheepDTO
 {
+    public required int CheepId { get; set; }
     public required string Author { get; set; }
     public required string Message { get; set; }
     public required string Timestamp { get; set; }
