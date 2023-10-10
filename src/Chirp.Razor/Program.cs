@@ -1,6 +1,10 @@
 using Chirp.Razor.Pages;
+using CheepDB;
+using Repository;
 
 var builder = WebApplication.CreateBuilder(args);
+
+new CheepRepository().InitDB();
 
 // Add services to the container.
 builder.Services.AddSingleton<ICheepService, CheepService>();

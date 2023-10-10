@@ -3,13 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{95A76D9B-F21E-4CB4-B56F-01FC414D5B72}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{8BDDB909-80D3-4E33-9978-218ED07502DE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chirp.Razor", "src\Chirp.Razor\Chirp.Razor.csproj", "{AC875540-08D1-40B0-A9FE-F551207331C8}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{FC7640C0-8332-4D45-94B2-45B902F9475D}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chirp.Razor.Test", "test\Chirp.Razor.Test\Chirp.Razor.Test.csproj", "{7135D1BB-362F-4C81-89F9-FA5EC76AB66D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chirp.Razor", "src\Chirp.Razor\Chirp.Razor.csproj", "{AA5AD6CA-EF27-485D-B65C-4A7DF9B19752}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chirp.CLI.Client.Tests", "test\Chirp.CLI.Client.Tests\Chirp.CLI.Client.Tests.csproj", "{49D65451-691E-4F0E-B7F6-506EE7C4C229}"
 EndProject
@@ -22,22 +18,12 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{AC875540-08D1-40B0-A9FE-F551207331C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AC875540-08D1-40B0-A9FE-F551207331C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AC875540-08D1-40B0-A9FE-F551207331C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AC875540-08D1-40B0-A9FE-F551207331C8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7135D1BB-362F-4C81-89F9-FA5EC76AB66D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7135D1BB-362F-4C81-89F9-FA5EC76AB66D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7135D1BB-362F-4C81-89F9-FA5EC76AB66D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7135D1BB-362F-4C81-89F9-FA5EC76AB66D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{49D65451-691E-4F0E-B7F6-506EE7C4C229}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{49D65451-691E-4F0E-B7F6-506EE7C4C229}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{49D65451-691E-4F0E-B7F6-506EE7C4C229}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{49D65451-691E-4F0E-B7F6-506EE7C4C229}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AA5AD6CA-EF27-485D-B65C-4A7DF9B19752}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AA5AD6CA-EF27-485D-B65C-4A7DF9B19752}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AA5AD6CA-EF27-485D-B65C-4A7DF9B19752}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AA5AD6CA-EF27-485D-B65C-4A7DF9B19752}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{AC875540-08D1-40B0-A9FE-F551207331C8} = {95A76D9B-F21E-4CB4-B56F-01FC414D5B72}
-		{7135D1BB-362F-4C81-89F9-FA5EC76AB66D} = {FC7640C0-8332-4D45-94B2-45B902F9475D}
-		{49D65451-691E-4F0E-B7F6-506EE7C4C229} = {FC7640C0-8332-4D45-94B2-45B902F9475D}
+		{AA5AD6CA-EF27-485D-B65C-4A7DF9B19752} = {8BDDB909-80D3-4E33-9978-218ED07502DE}
 	EndGlobalSection
 EndGlobal

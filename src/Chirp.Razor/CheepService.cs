@@ -71,6 +71,7 @@ public class CheepService : ICheepService
         if (reader != null) {
             while (reader.Read()) {
                 list.Add(new CheepViewModel(
+                    null,
                     reader.GetString(0), 
                     reader.GetString(1),
                     UnixTimeStampToDateTimeString(reader.GetDouble(2))
