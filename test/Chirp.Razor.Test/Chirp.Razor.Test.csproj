@@ -29,7 +29,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Chirp.Razor\Chirp.Razor.csproj" />
-  </ItemGroup>
+     <InternalsVisibleTo Include="Program" />
+</ItemGroup>
+
+<ItemGroup>
+  <ProjectReference Include="..\..\src\Chirp.Razor\Chirp.Razor.csproj" />
+</ItemGroup>
+
 
 </Project>
