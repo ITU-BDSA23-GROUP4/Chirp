@@ -1,25 +1,22 @@
 using Chirp.Razor.Pages;
 using CheepDB;
 using Repository;
-using Microsoft.EntityFrameworkCore;
+using Initializer;
 
 var builder = WebApplication.CreateBuilder(args);
 
-new CheepRepository().InitDB();
-
 // Add services to the container.
-builder.Services.AddSingleton<ICheepService, CheepService>();
 builder.Services.AddRazorPages();
+builder.Services.AddSingleton<ICheepService, CheepService>();
 
-builder.Services.AddDbContext<ChirpDBContext>();
+// Seed data into database. Is it correct to have this code here?
+using (var context = new ChirpDBContext())
+{
+    context.Database.EnsureCreated();
+    DbInitializer.SeedDatabase(context);
+}
 
 var app = builder.Build();
-
-using (var scope = app.Services.CreateScope())
-    {
-        var db = scope.ServiceProvider.GetRequiredService<ChirpDBContext>();
-        db.Database.Migrate();
-    }
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
