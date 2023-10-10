@@ -84,6 +84,10 @@ public class CheepRepository
 
         int? page = (pageNum - 1) * 32;
 
+
+        if(cheepsToReturn.Count < 32){
+            return cheepsToReturn.GetRange(0, cheepsToReturn.Count);
+        }
         if (page == null)
         {
             return cheepsToReturn.GetRange(0, 32);
