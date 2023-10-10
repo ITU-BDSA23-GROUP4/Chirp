@@ -10,8 +10,6 @@ public class CheepRepository
 {
     private readonly ChirpDBContext db;
 
-
-
     public CheepRepository()
     {
         db = new ChirpDBContext();

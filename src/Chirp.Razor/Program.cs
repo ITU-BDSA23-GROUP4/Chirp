@@ -7,7 +7,6 @@ var builder = WebApplication.CreateBuilder(args);
 new CheepRepository().InitDB();
 
 // Add services to the container.
-builder.Services.AddSingleton<ICheepService, CheepService>();
 builder.Services.AddRazorPages();
 
 var app = builder.Build();
