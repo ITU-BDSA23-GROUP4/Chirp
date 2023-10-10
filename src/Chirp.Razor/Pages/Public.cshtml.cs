@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using CheepRecord;
+using CheepDB;
 using System.Collections.Specialized;
 using Repository;
 
@@ -12,7 +12,7 @@ public class PublicModel : PageModel
     public int CurrentPage { get; set; } = 1;
     public int Count { get; set; }
     // private readonly ICheepService _service;
-    public List<CheepViewModel>? Cheeps { get; set; }
+    public List<CheepDTO>? Cheeps { get; set; }
 
     CheepRepository cheepRepo = new CheepRepository();
 

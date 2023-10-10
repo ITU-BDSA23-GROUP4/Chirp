@@ -1,4 +1,3 @@
-using System.Linq;
 using CheepDB;
 using CheepRecord;
 using Initializer;
@@ -40,18 +39,18 @@ public class CheepRepository
                 TimeStamp = DateTime.Now });
     }
 
-    public List<CheepViewModel> GetCheeps(int? pageNum)
+    public List<CheepDTO> GetCheeps(int? pageNum)
     {
-        List<CheepViewModel> cheepsToReturn = new List<CheepViewModel>();
+        List<CheepDTO> cheepsToReturn = new List<CheepDTO>();
 
-        var cheeps = db.Cheeps.OrderByDescending(c => c.TimeStamp.Ticks).Select(cheep => new CheepViewModel(
-            cheep.CheepId,
-            cheep.Author.Name,
-            cheep.Text,
-            cheep.TimeStamp.ToString()
-        ));
+        var cheepsDTO = db.Cheeps.OrderByDescending(c => c.TimeStamp.Ticks).Select(CheepDTO => new CheepDTO{
+            //cheep.CheepId,
+            Author = CheepDTO.Author.Name,
+            Message = CheepDTO.Text,
+            Timestamp = CheepDTO.TimeStamp.ToString()
+        });
 
-        cheepsToReturn.AddRange(cheeps);
+        cheepsToReturn.AddRange(cheepsDTO);
 
         int? page = (pageNum - 1) * 32;
 
@@ -67,20 +66,18 @@ public class CheepRepository
 
     }
 
-    public List<CheepViewModel> GetCheepsFromAuthor(string author, int? pageNum)
+    public List<CheepDTO> GetCheepsFromAuthor(string author, int? pageNum)
     {
-        List<CheepViewModel> cheepsToReturn = new List<CheepViewModel>();
+        List<CheepDTO> cheepsToReturn = new List<CheepDTO>();
 
-        var cheeps = db.Cheeps.OrderByDescending(c => c.TimeStamp.Ticks)
+        var cheepsDTO = db.Cheeps.OrderByDescending(c => c.TimeStamp.Ticks)
             .Where(cheep => cheep.Author != null && cheep.Author.Name != null && cheep.Author.Name.Equals(author))
-            .Select(cheep => new CheepViewModel(
-                cheep.CheepId,
-                cheep.Author.Name,
-                cheep.Text,
-                cheep.TimeStamp.ToString()
-            ));
-
-        cheepsToReturn.AddRange(cheeps);
+            .Select(CheepDTO => new CheepDTO{
+            Author = CheepDTO.Author.Name,
+            Message = CheepDTO.Text,
+            Timestamp = CheepDTO.TimeStamp.ToString()
+        });
+        cheepsToReturn.AddRange(cheepsDTO);
 
         int? page = (pageNum - 1) * 32;
 

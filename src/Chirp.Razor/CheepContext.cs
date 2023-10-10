@@ -47,7 +47,6 @@ public class Author
     public required string Name { get; set; }
     public required string Email { get; set; }
     public required List<Cheep> Cheeps;
-
 }
 
 public class Cheep
@@ -57,5 +56,12 @@ public class Cheep
     public required string Text { get; set; }
     public required DateTime TimeStamp { get; set; }
 
+}
 
+
+public class CheepDTO
+{
+    public required string Author { get; set; }
+    public required string Message { get; set; }
+    public required string Timestamp { get; set; }
 }
