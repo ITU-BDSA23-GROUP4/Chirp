@@ -1,6 +1,7 @@
 using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.FileProviders;
 using System.Reflection;
+using System;
 
 namespace SQLDB
 {
@@ -15,9 +16,11 @@ namespace SQLDB
         {
             if(String.IsNullOrEmpty(Environment.GetEnvironmentVariable("CHIRPDBPATH"))){
                 sqlDBFilePath = Path.GetTempPath() + "chirp.db";
+                Console.WriteLine(sqlDBFilePath);
             } else 
             {
                 sqlDBFilePath = Environment.GetEnvironmentVariable("CHIRPDBPATH");
+                Console.WriteLine(sqlDBFilePath);
             }
             if (!File.Exists(sqlDBFilePath))
             {

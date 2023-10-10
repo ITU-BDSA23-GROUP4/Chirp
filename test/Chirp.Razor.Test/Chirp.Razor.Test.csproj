@@ -23,7 +23,18 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Chirp.Razor\Chirp.Razor.csproj" />
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="7.0.11" />
+    <EmbeddedResource Include="../../data/**/*" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.11" />
   </ItemGroup>
+
+  <ItemGroup>
+     <InternalsVisibleTo Include="Program" />
+</ItemGroup>
+
+<ItemGroup>
+  <ProjectReference Include="..\..\src\Chirp.Razor\Chirp.Razor.csproj" />
+</ItemGroup>
+
 
 </Project>
