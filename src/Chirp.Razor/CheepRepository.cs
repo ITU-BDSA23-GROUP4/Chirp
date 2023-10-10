@@ -34,7 +34,10 @@ public class CheepRepository
 
     public void AddCheep(int authorId, string text)
     {
-        db.Add(new Cheep { Author = db.Authors.Where(author => author.AuthorId == authorId).First(), Text = text, TimeStamp = DateTime.Now });
+        db.Add(new Cheep { Author = db.Authors.
+            Where(author => author.AuthorId == authorId).First(),
+                Text = text,
+                TimeStamp = DateTime.Now });
     }
 
     public List<CheepViewModel> GetCheeps(int? pageNum)
