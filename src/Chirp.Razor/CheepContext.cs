@@ -13,7 +13,7 @@ public class ChirpDBContext : DbContext
 
 
 
-    public ChirpDBContext()
+    public ChirpDBContext() //Finds the current db in temp folder
     {
         if (String.IsNullOrEmpty(Environment.GetEnvironmentVariable("CHIRPDBPATH")))
         {
@@ -25,7 +25,7 @@ public class ChirpDBContext : DbContext
         }
 
     }
-    public ChirpDBContext(string repoName)
+    public ChirpDBContext(string repoName) //If wanting to create a db
     {
         if (String.IsNullOrEmpty(Environment.GetEnvironmentVariable("CHIRPDBPATH")))
         {
@@ -58,7 +58,8 @@ public class Cheep
 
 }
 
-
+/*Cheep DTO is the information that we want the client to know
+In the future, this will by example not include password*/
 public class CheepDTO
 {
     public required int AuthorId { get; set; }
