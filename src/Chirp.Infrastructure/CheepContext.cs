@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 
-namespace CheepDB;
+namespace Chirp.Infrastructure;
 
 public class ChirpDBContext : DbContext
 {
@@ -39,31 +39,4 @@ public class ChirpDBContext : DbContext
     }
     protected override void OnConfiguring(DbContextOptionsBuilder options)
         => options.UseSqlite($"Data Source={DbPath}");
-}
-
-public class Author
-{
-    public int AuthorId { get; set; }
-    public required string Name { get; set; }
-    public required string Email { get; set; }
-    public required List<Cheep> Cheeps;
-}
-
-public class Cheep
-{
-    public int CheepId { get; set; }
-    public required Author Author { get; set; }
-    public required string Text { get; set; }
-    public required DateTime TimeStamp { get; set; }
-
-}
-
-/*Cheep DTO is the information that we want the client to know
-In the future, this will by example not include password*/
-public class CheepDTO
-{
-    public required int AuthorId { get; set; }
-    public required string Author { get; set; }
-    public required string Message { get; set; }
-    public required string Timestamp { get; set; }
 }
