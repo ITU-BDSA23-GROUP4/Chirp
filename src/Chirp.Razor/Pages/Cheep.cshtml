@@ -1,0 +1,24 @@
+﻿@page "/Cheep"
+@model Chirp.Razor.Pages.UserTimelineModel
+@{
+    ViewData["Title"] = "Chirp!";
+    Layout = "Shared/_Layout";
+}
+
+<div>
+    <form action="#" method="post">
+        <div>
+            <label for="author">Author:</label>
+            <input type="text" id="author" name="author" minlength="5" maxlength="50" required>
+        </div>
+
+        <div>
+            <label for="message">Message:</label>
+            <textarea id="message" name="message" rows="4" cols="50" maxlength="160" required></textarea>
+        </div>
+
+        <div>
+            <input type="submit" value="Submit">
+        </div>
+    </form>
+</div>
