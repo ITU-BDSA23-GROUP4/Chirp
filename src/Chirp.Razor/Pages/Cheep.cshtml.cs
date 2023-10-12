@@ -1,28 +1,33 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Chirp.Infrastructure;
+using Chirp.Core;
 
-namespace MyApp.Namespace
+namespace Chirp.Razor.Pages;
+
+public class CheepModel : PageModel
 {
-    public class CheepModel : PageModel
+
+    CheepRepository cheepRepo = new CheepRepository();
+
+    [BindProperty]
+    public CheepMessage cheepMessage { get; set; }
+    public ActionResult OnPostSendCheep()
     {
-
-        [BindProperty]
-        public required string Author { get; set; }
-
-        [BindProperty]
-        public required string Message { get; set; }
-
-        public void onGet()
-        {
-
-        }
-        public void OnPost()
-        {
-            string author = Author;
-            string message = Message;
-
-            Console.WriteLine($"Author: {author}, Message: {message}");
-            
-        }
+        var cheep = cheepMessage;
+        Console.WriteLine($"Author: {cheepMessage.Author}, Message: {cheepMessage.Message}");
+        Console.WriteLine(cheep);
+        cheepRepo.AddCheep(1111, cheepMessage.Message);
+        return Page();
     }
+    public class CheepMessage
+    {
+        public string Author { get; set; }
+        public string Message { get; set; }
+    }
+
 }
+    
+    
+
+
