@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using CheepDB;
-using System.Collections.Specialized;
-using Repository;
+using Chirp.Infrastructure;
+using Chirp.Core;
+
 
 namespace Chirp.Razor.Pages;
 

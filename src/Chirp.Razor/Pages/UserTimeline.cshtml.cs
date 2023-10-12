@@ -1,9 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using CheepRecord;
-using Repository;
-using CheepDB;
-
+using Chirp.Infrastructure;
+using Chirp.Core;
 namespace Chirp.Razor.Pages;
 
 public class UserTimelineModel : PageModel

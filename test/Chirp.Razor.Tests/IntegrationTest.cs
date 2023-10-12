@@ -1,15 +1,5 @@
-using System.Net;
-using System.Net.Http.Headers;
-using System.Security.Claims;
-using System.Text.Encodings.Web;
-using AngleSharp.Html.Dom;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.AspNetCore.TestHost;
-using Microsoft.Extensions.Options;
 using Xunit;
-using Chirp.Razor.Pages;
-using CheepRecord;
 using System.Text.RegularExpressions;
 public class TestAPI : IClassFixture<WebApplicationFactory<Program>>
 {

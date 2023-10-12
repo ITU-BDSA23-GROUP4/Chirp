@@ -1,9 +1,7 @@
-using CheepDB;
-using CheepRecord;
-using Initializer;
+using Chirp.Core;
 
 
-namespace Repository;
+namespace Chirp.Infrastructure;
 
 public class CheepRepository
 {
@@ -19,11 +17,6 @@ public class CheepRepository
     public CheepRepository(string dbName) //If creating a new db is needed
     {
         db = new ChirpDBContext(dbName);
-    }
-
-    public void InitDB()
-    {
-        DbInitializer.SeedDatabase(db);
     }
 
     public void AddAuthor(string name, string email)
