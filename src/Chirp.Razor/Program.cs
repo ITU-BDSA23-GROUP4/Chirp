@@ -9,13 +9,24 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddSingleton<ICheepService, CheepService>();
 
-/* Lecture notes
+
+/* Lecture notes for reference for later work. 
 builder.service.addScoped<ICheeprepository, CheepRepository()
+Connections
 
 In database add 
-[StringLenghth(160) minimum(5)]
+[StringLenghth(160. MinimumLength = 5)] -- NOT SUPPORTED IN SQLITE
+
 dotnet ef migrations add limitCheepSize
- */
+
+
+builder.Services.AddDbContext<ChirpDBContext>(
+    options =>
+    options.UseSqlite(builder.Configuration.GetConnectionString("Chirp")));
+builder.Services.AddScoped<ICheepRepository, CheepRepository>();
+
+
+Lecture notes stops here */
 
 //Seed data into database. 
 using (var context = new ChirpDBContext())
