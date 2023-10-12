@@ -9,7 +9,15 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddSingleton<ICheepService, CheepService>();
 
-// Seed data into database. Is it correct to have this code here?
+/* Lecture notes
+builder.service.addScoped<ICheeprepository, CheepRepository()
+
+In database add 
+[StringLenghth(160) minimum()]
+dotnet ef add migrations limitCheepSize
+ */
+
+//Seed data into database. 
 using (var context = new ChirpDBContext())
 {
     context.Database.EnsureCreated();
@@ -36,3 +44,4 @@ app.MapRazorPages();
 app.Run();
 
 public partial class Program { }
+
