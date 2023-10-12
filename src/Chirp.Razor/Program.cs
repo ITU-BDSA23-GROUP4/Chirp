@@ -13,8 +13,8 @@ builder.Services.AddSingleton<ICheepService, CheepService>();
 builder.service.addScoped<ICheeprepository, CheepRepository()
 
 In database add 
-[StringLenghth(160) minimum()]
-dotnet ef add migrations limitCheepSize
+[StringLenghth(160) minimum(5)]
+dotnet ef migrations add limitCheepSize
  */
 
 //Seed data into database. 
