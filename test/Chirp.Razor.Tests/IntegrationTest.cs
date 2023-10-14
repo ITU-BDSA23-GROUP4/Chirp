@@ -28,10 +28,14 @@ public class TestAPI : IClassFixture<WebApplicationFactory<Program>>
     [InlineData("Rasmus")]
     public async void CanSeePrivateTimeline(string author)
     {
+        //Arrange
         var response = await _client.GetAsync($"/{author}");
         response.EnsureSuccessStatusCode();
+
+        //Act 
         var content = await response.Content.ReadAsStringAsync();
 
+        //Assert
         Assert.Contains("Chirp!", content);
         Assert.Contains($"{author}'s Timeline", content);
     }
@@ -41,44 +45,54 @@ public class TestAPI : IClassFixture<WebApplicationFactory<Program>>
     [InlineData("/Jacqualine Gilcoine/")]
     public async void Check32Cheeps(string path)
     {
+        //Arrange
         var response = await _client.GetAsync(path);
         response.EnsureSuccessStatusCode();
-        var content = await response.Content.ReadAsStringAsync();
 
+        //Act
+        var content = await response.Content.ReadAsStringAsync();
         //https://stackoverflow.com/questions/3016522/count-the-number-of-times-a-string-appears-within-a-string
         MatchCollection matches = Regex.Matches(content, "<li>");
         int count = matches.Count;
+
+        //Assert 
         Assert.Equal(32, count);
     }
-    // [Theory]
-    // [InlineData("/")]
-    // [InlineData("/Jacqualine Gilcoine/")]
-    // public async void Check32CheepsOnPage2(string path)
-    // {
-    //     //arange 
-    //     var response = await _client.GetAsync(path+"?page=2");
-    //     response.EnsureSuccessStatusCode();
-    //     //Act
-    //     var content = await response.Content.ReadAsStringAsync();
-    //     MatchCollection matches = Regex.Matches(content, "<li>");
-    //     int count = matches.Count;
-    //     //Assert
-    //     Assert.Equal(32, count);
-    // }
-    
-    [Fact]
-    public async void CheepsOnPage0IsTheSameAsPage1()
+    [Theory]
+    [InlineData("/")]
+    [InlineData("/Jacqualine Gilcoine/")]
+    public async void Check32CheepsOnPage2(string path)
     {
-        //Content from standard page: Localhost/
-        var response = await _client.GetAsync("/");
+        //Arange 
+        var response = await _client.GetAsync(path+"?page=2");
         response.EnsureSuccessStatusCode();
-        var content = await response.Content.ReadAsStringAsync();
 
+        //Act
+        var content = await response.Content.ReadAsStringAsync();
+        MatchCollection matches = Regex.Matches(content, "<li>");
+        int count = matches.Count;
+
+        //Assert
+        Assert.Equal(32, count);
+    }
+    [Theory]
+    [InlineData("/")]
+    [InlineData("/Jacqualine Gilcoine/")]
+    public async void CheepsOnPage0IsTheSameAsPage1(string path)
+    {
+        //Assert
+        //Content from standard page: Localhost/
+        var response = await _client.GetAsync(path);
+        response.EnsureSuccessStatusCode();
         //Content from page 1
-        var responseFromPageOne = await _client.GetAsync("/?page=1");
+        var responseFromPageOne = await _client.GetAsync(path + "?page=1");
         responseFromPageOne.EnsureSuccessStatusCode();
+
+        //Act
+        var content = await response.Content.ReadAsStringAsync();
         var contentFromPageOne = await responseFromPageOne.Content.ReadAsStringAsync();
-        
+
+        //Assert
         Assert.Contains(contentFromPageOne, content);
     }
     [Theory]
@@ -86,35 +100,24 @@ public class TestAPI : IClassFixture<WebApplicationFactory<Program>>
     [InlineData("/Jacqualine Gilcoine/")]
     public async void CheepsOnPage1IsNotTheSameAsPage2(string path)
     {
+        //Arange
         //Content from standard page 1
-        var response = await _client.GetAsync(path+"?page=2");
+        var response = await _client.GetAsync(path+"?page=1");
         response.EnsureSuccessStatusCode();
-        var content = await response.Content.ReadAsStringAsync();
 
         //Content from page 2
-        var responseFromPageTwo = await _client.GetAsync(path+"?page=1");
+        var responseFromPageTwo = await _client.GetAsync(path+"?page=2");
         responseFromPageTwo.EnsureSuccessStatusCode();
+
+        //Act 
+        // page 1 
+        var content = await response.Content.ReadAsStringAsync();
+        // page 2
         var contentFromPageTwo = await responseFromPageTwo.Content.ReadAsStringAsync();
 
+        //Assert
         Assert.NotEqual(contentFromPageTwo, content);
     }
-
-  
-   
-    [Fact]
-    public async void CheepsOnPage1ITheSameAsRootAuthor(){
-        //Arrange  
-        //Root
-        var response_Root = await _client.GetAsync("/Jacqualine Gilcoine/");
-        response_Root.EnsureSuccessStatusCode();
-        //Page 1
-        var response_Page1 = await _client.GetAsync("/Jacqualine Gilcoine/?page=1");
-        response_Page1.EnsureSuccessStatusCode();
-        //Act 
-        var content_Root = await response_Root.Content.ReadAsStringAsync();
-        var content_Page1 = await response_Page1.Content.ReadAsStringAsync();
-        //Assert
-        
-        Assert.Contains(content_Root, content_Page1);
-    }
 }
+
+
