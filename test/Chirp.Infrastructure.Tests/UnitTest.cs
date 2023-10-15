@@ -4,18 +4,21 @@ using FluentAssertions;
 
 public class UnitTest
 {
-    [Fact]
-    public void TestRestrictedCreationOfCheepOver160Char(){
-        //Arrange
-        //Runs in memory
+    private readonly ChirpDBContext context;
+    private readonly CheepRepository repository;
+    public UnitTest(){
+        //Runs in memory and is the arrange part of tests
         using var connection = new SqliteConnection("Filename=:memory:");
         var builder = new DbContextOptionsBuilder<ChirpDBContext>();
         builder.UseSqlite(connection);
-        var context = new ChirpDBContext(builder.Options);
+        context = new ChirpDBContext(builder.Options);
         context.Database.EnsureCreated();
-        var repository = new CheepRepository(context);
+        repository = new CheepRepository(context);
         connection.Open();
+    }
 
+    [Fact]
+    public void TestRestrictedCreationOfCheepOver160Char(){
         //Act
         CheepDTO cheep = new()
         {
@@ -33,16 +36,6 @@ public class UnitTest
 
     [Fact]
     public void TestRestrictedCreationOfCheepAt160Char(){
-        //Arrange
-        //Runs in memory
-        using var connection = new SqliteConnection("Filename=:memory:");
-        var builder = new DbContextOptionsBuilder<ChirpDBContext>();
-        builder.UseSqlite(connection);
-        var context = new ChirpDBContext(builder.Options);
-        context.Database.EnsureCreated();
-        var repository = new CheepRepository(context);
-        connection.Open();
-
         //Act
         CheepDTO cheep = new()
         {
@@ -60,16 +53,6 @@ public class UnitTest
 
      [Fact]
     public void TestRestrictedCreationOfCheepUnder160Char(){
-        //Arrange
-        //Runs in memory
-        using var connection = new SqliteConnection("Filename=:memory:");
-        var builder = new DbContextOptionsBuilder<ChirpDBContext>();
-        builder.UseSqlite(connection);
-        var context = new ChirpDBContext(builder.Options);
-        context.Database.EnsureCreated();
-        var repository = new CheepRepository(context);
-        connection.Open();
-
         //Act
         CheepDTO cheep = new()
         {
@@ -87,16 +70,6 @@ public class UnitTest
 
      [Fact]
     public void TestRestrictedCreationOfCheepOf0Char(){
-        //Arrange
-        //Runs in memory
-        using var connection = new SqliteConnection("Filename=:memory:");
-        var builder = new DbContextOptionsBuilder<ChirpDBContext>();
-        builder.UseSqlite(connection);
-        var context = new ChirpDBContext(builder.Options);
-        context.Database.EnsureCreated();
-        var repository = new CheepRepository(context);
-        connection.Open();
-
         //Act
         CheepDTO cheep = new()
         {
