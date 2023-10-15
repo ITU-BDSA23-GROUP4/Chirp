@@ -19,6 +19,10 @@ public class CheepRepository
         db = new ChirpDBContext(dbName);
     }
 
+    public CheepRepository(ChirpDBContext chirpDBContext){
+        db = chirpDBContext;
+    }
+
     public void AddAuthor(string name, string email)
     {
         db.Add(new Author {Name = name, Cheeps = new List<Cheep>(), Email = email});
@@ -36,7 +40,7 @@ public class CheepRepository
     {
         //Creates a list of max 32 CheepDTO sorted by recent cheep
 
-        List<CheepDTO> cheepsToReturn = new List<CheepDTO>();
+        List<CheepDTO> cheepsToReturn = new();
 
         var cheepsDTO = db.Cheeps.OrderByDescending(c => c.TimeStamp.Ticks).Select(CheepDTO => new CheepDTO{
             //Sets the properties of the Cheep
