@@ -49,6 +49,7 @@ public class ChirpDBContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Cheep>().Property(C => C.Text).HasMaxLength(160);
+        modelBuilder.Entity<Cheep>().Property(C => C.Text).IsRequired(true);
         modelBuilder.Entity<Author>().Property(a => a.Name).HasMaxLength(50);
         modelBuilder.Entity<Author>().Property(a => a.Email).HasMaxLength(50);
     }
