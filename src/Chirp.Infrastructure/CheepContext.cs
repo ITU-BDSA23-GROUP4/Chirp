@@ -48,6 +48,7 @@ public class ChirpDBContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        //Sets the max length, and makes sure that the text field is not empty for the Cheep
         modelBuilder.Entity<Cheep>().Property(C => C.Text).HasMaxLength(160);
         modelBuilder.Entity<Cheep>().Property(C => C.Text).IsRequired(true);
         modelBuilder.Entity<Author>().Property(a => a.Name).HasMaxLength(50);
