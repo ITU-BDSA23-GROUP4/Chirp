@@ -30,10 +30,18 @@ public class CheepRepository
 
     public void AddCheep(int authorId, string text) 
     {
-        db.Add(new Cheep { Author = db.Authors.
-            Where(author => author.AuthorId == authorId).First(),
-                Text = text,
-                TimeStamp = DateTime.Now });
+        int TLength = text.Length;
+        if(TLength < 161 && TLength > 0)
+        {
+            db.Add(new Cheep { Author = db.Authors.
+                Where(author => author.AuthorId == authorId).First(),
+                    Text = text,
+                    TimeStamp = DateTime.Now });
+        }
+        else
+        {
+            throw new ArgumentException("Message is too long or short");
+        }
     }
 
     public List<CheepDTO> GetCheeps(int? pageNum)
