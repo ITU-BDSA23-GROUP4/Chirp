@@ -19,11 +19,6 @@ public class CheepRepository
         db = new ChirpDBContext(dbName);
     }
 
-    public void AddAuthor(string name, string email)
-    {
-        db.Add(new Author {Name = name, Cheeps = new List<Cheep>(), Email = email});
-    }
-
     public void AddCheep(int authorId, string text) 
     {
         db.Add(new Cheep { Author = db.Authors.
