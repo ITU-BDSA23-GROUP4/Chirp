@@ -1,26 +1,24 @@
 ﻿@page "/Cheep"
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @model Chirp.Razor.Pages.CheepModel
 @{
     ViewData["Title"] = "Chirp!";
     Layout = "Shared/_Layout";
 }
 
-<form asp-page-handler="sendCheep" id="contact-form" method="post">
-    <div class="messages"></div>
-    <div class="controls">
-        <div class="row">
-            <div class="col-md-6">
-                <input asp-for="CheepMessage.Author" placeholder="Author" required="required" class="form-control">
-            </div>
-            <div class="col-md-6">
-                <input asp-for="CheepMessage.Message" placeholder="Cheep-text" required="required" class="form-control">
-            </div>
-            <div class="col-md-12 text-center">
-                <button type="submit" asp-route-data="HttpPostAttribute" asp-page-handler="SendEmail" class="btn btn-outline-primary">Send message</button>
-            </div>
+<form  method="post">
+    <div class="row">
+        <div class="col-md-6">
+            <input type="text" id="authorInput" asp-for="Author" placeholder="Author" required="required">
         </div>
-    </div>
-    <div class="pageNumber">
-        <button onclick="location.href='/?page=1'">Go to page 1</button>
+        <div class="col-md-6">
+            <input type="text" id="CheepMessageInput" asp-for="CheepMessage" placeholder="Message" required="required">
+        </div>
+        <div class="col-md-12 text-center">
+            <button type="submit" asp-page-handler="Submit">Submit</button>
+        </div>
+         <div class="pageNumber">
+            <button onclick="location.href='?page=1'">Go to page 1</button>
+        </div>
     </div>
 </form>
