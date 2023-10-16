@@ -21,7 +21,7 @@ public class CheepModel : PageModel
         Console.WriteLine($"Author: {Author}, Message: {CheepMessage}");
 
         //Cheep ID is just 1111 for testing, will add real identifaction later
-        //cheepRepo.AddCheep(1111, Message);
+        //cheepRepo.AddCheep(1111, CheepMessage);
         return Page();
        
     }
