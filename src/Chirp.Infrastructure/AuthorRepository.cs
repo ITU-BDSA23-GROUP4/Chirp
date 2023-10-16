@@ -19,6 +19,7 @@ namespace Chirp.Infrastructure
         public AuthorDTO GetAuthor(int ID)
         {
             var author = db.Authors.Where(author => author.AuthorId == ID).Select(authorDTO => new AuthorDTO{
+                AuthorId = ID,
                 Name = authorDTO.Name,
                 Email = authorDTO.Email,
                 Cheeps = authorDTO.Cheeps.Select(cheepDTO => new CheepDTO{
