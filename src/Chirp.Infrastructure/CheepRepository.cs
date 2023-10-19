@@ -57,10 +57,8 @@ public class CheepRepository
         }
         else
         {   
-            Console.WriteLine("\n \n \n \n");
-            Console.WriteLine(" Page " + page.Value + " page max " + (page + 32));
-            Console.WriteLine("\n \n \n \n");
-            return cheepsToReturn.GetRange((int)page, (int)(page + 32));
+            int endIndex = Math.Min((int)page + 32, (int)cheepsToReturn.Count);
+            return cheepsToReturn.GetRange((int)page, endIndex-(int)(page));
         }
 
 
@@ -95,7 +93,8 @@ public class CheepRepository
         }
         else
         {   
-            return cheepsToReturn.GetRange((int)page, (int)(page + 32));
+            int endIndex = Math.Min((int)page + 32, (int)cheepsToReturn.Count);
+            return cheepsToReturn.GetRange((int)page, endIndex-(int)(page));
         }
     }
 }
