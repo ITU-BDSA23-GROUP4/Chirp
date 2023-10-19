@@ -42,7 +42,9 @@ public class TestAPI : IClassFixture<WebApplicationFactory<Program>>
     
     [Theory]
     [InlineData("/")]
+    [InlineData("/?page=2")]
     [InlineData("/Jacqualine Gilcoine/")]
+    [InlineData("/Jacqualine Gilcoine/?page=2")]
     public async void Check32Cheeps(string path)
     {
         //Arrange
@@ -56,23 +58,6 @@ public class TestAPI : IClassFixture<WebApplicationFactory<Program>>
         int count = matches.Count;
 
         //Assert 
-        Assert.Equal(32, count);
-    }
-    [Theory]
-    [InlineData("/")]
-    [InlineData("/Jacqualine Gilcoine/")]
-    public async void Check32CheepsOnPage2(string path)
-    {
-        //Arange 
-        var response = await _client.GetAsync(path+"?page=2");
-        response.EnsureSuccessStatusCode();
-
-        //Act
-        var content = await response.Content.ReadAsStringAsync();
-        MatchCollection matches = Regex.Matches(content, "<li>");
-        int count = matches.Count;
-
-        //Assert
         Assert.Equal(32, count);
     }
     [Theory]
