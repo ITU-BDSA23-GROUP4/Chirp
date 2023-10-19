@@ -15,10 +15,14 @@ public class TestAPI : IClassFixture<WebApplicationFactory<Program>>
     [Fact]
     public async void CanSeePublicTimeline()
     {
+        //Arrange 
         var response = await _client.GetAsync("/");
         response.EnsureSuccessStatusCode();
+
+        //Act 
         var content = await response.Content.ReadAsStringAsync();
 
+        //Assert
         Assert.Contains("Chirp!", content);
         Assert.Contains("Public Timeline", content);
     }
