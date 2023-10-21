@@ -32,4 +32,9 @@ Running the program in the terminal
 <br />
 To read all files type: dotnet run read <br />
 To make a cheep type: dotnet run cheep "message" <br />
-To get help, type: dotnet run help
+To get help, type: dotnet run help <br />
+<br />
+
+Running the programs tests <br />
+- Enter the correct folder for the type of test
+- dotnet test<br />
