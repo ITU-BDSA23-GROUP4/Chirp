@@ -1,11 +1,15 @@
 using Initializer;
 using Chirp.Infrastructure;
+using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
-
+builder.Services.AddMvc().AddRazorPagesOptions(options =>
+{
+    options.Conventions.ConfigureFilter(new IgnoreAntiforgeryTokenAttribute());
+});
 
 /* Lecture notes for reference for later work. 
 builder.service.addScoped<ICheeprepository, CheepRepository()
