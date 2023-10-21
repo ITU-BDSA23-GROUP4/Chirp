@@ -11,17 +11,17 @@ public class CheepModel : PageModel
     CheepRepository cheepRepo = new CheepRepository();
 
     [BindProperty]
-    public string Author { get; set; }
+    public string? Author { get; set; }
 
     [BindProperty]
-    public string CheepMessage { get; set; }
+    public string? CheepMessage { get; set; }
  
     public ActionResult OnPostSubmit()
     {
         Console.WriteLine($"Author: {Author}, Message: {CheepMessage}");
 
         //Cheep ID is just 1111 for testing, will add real identifaction later
-        //cheepRepo.AddCheep(1111, CheepMessage);
+        cheepRepo.AddCheep(12, CheepMessage);
         return Page();
        
     }
