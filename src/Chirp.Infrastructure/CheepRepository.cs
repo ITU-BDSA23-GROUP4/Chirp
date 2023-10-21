@@ -23,10 +23,6 @@ public class CheepRepository
         db = chirpDBContext;
     }
 
-    public void AddAuthor(string name, string email)
-    {
-        db.Add(new Author {Name = name, Cheeps = new List<Cheep>(), Email = email});
-    }
 
     public void AddCheep(int authorId, string text) 
     {
@@ -69,7 +65,8 @@ public class CheepRepository
         }
         else
         {
-            return cheepsToReturn.GetRange((int)page, (int)(page + 32));
+            int endIndex = Math.Min((int)page + 32, (int)cheepsToReturn.Count);
+            return cheepsToReturn.GetRange((int)page, endIndex-(int)(page));
         }
 
 
