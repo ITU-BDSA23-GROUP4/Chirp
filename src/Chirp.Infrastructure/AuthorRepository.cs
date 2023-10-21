@@ -6,6 +6,8 @@ namespace Chirp.Infrastructure
     {
         private readonly ChirpDBContext db;
 
+        private CheepRepository cheepRepo = new CheepRepository();
+
         public AuthorRepository()
         {
             db = new ChirpDBContext();
@@ -16,20 +18,46 @@ namespace Chirp.Infrastructure
             db.Add(new Author { Name = name, Cheeps = new List<Cheep>(), Email = email });
         }
 
-        public AuthorDTO GetAuthor(int ID)
+        public AuthorDTO GetAuthorByID(int ID)
         {
-            var author = db.Authors.Where(author => author.AuthorId == ID).Select(authorDTO => new AuthorDTO{
+            var author = db.Authors.Where(author => author.AuthorId == ID).FirstOrDefault();
+
+            var authorDTO = new AuthorDTO
+            {
                 AuthorId = ID,
-                Name = authorDTO.Name,
-                Email = authorDTO.Email,
-                Cheeps = authorDTO.Cheeps.Select(cheepDTO => new CheepDTO{
-                    AuthorId = ID,
-                    Author = authorDTO.Name,
-                    Message = cheepDTO.Text,
-                    Timestamp = cheepDTO.TimeStamp.ToString()
-                }).ToList()
-            }).First();
-            return author;
+                Name = author.Name,
+                Email = author.Email,
+                Cheeps = cheepRepo.GetAllCheepsFromAuthor(author.Name)
+            };
+
+            return authorDTO;
+        }
+        public AuthorDTO GetAuthorByName(string name)
+        {
+            var author = db.Authors.Where(author => author.Name == name).FirstOrDefault();
+
+            var authorDTO = new AuthorDTO
+            {
+                AuthorId = author.AuthorId,
+                Name = author.Name,
+                Email = author.Email,
+                Cheeps = cheepRepo.GetAllCheepsFromAuthor(author.Name)
+            };
+
+            return authorDTO;
+        }
+        public AuthorDTO GetAuthorByEmail(string email)
+        {
+            var author = db.Authors.Where(author => author.Name == email).FirstOrDefault();
+
+            var authorDTO = new AuthorDTO
+            {
+                AuthorId = author.AuthorId,
+                Name = author.Name,
+                Email = author.Email,
+                Cheeps = cheepRepo.GetAllCheepsFromAuthor(author.Name)
+            };
+            return authorDTO;
         }
 
 
