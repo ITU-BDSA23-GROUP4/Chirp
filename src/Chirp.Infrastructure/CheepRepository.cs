@@ -28,45 +28,35 @@ public class CheepRepository
         
     }
 
-    public List<CheepDTO> GetCheeps()
+    public List<CheepDTO> GetCheeps(int? pageNum)
     {
         //Creates a list of max 32 CheepDTO sorted by recent cheep
 
         List<CheepDTO> cheepsToReturn = new List<CheepDTO>();
 
-        var cheeps = db.Cheeps.OrderByDescending(c => c.TimeStamp.Ticks);
-        var cheepDTOList = cheeps.Select(cheep => new CheepDTO
-        {
+        var cheepsDTO = db.Cheeps.OrderByDescending(c => c.TimeStamp.Ticks).Select(CheepDTO => new CheepDTO{
             //Sets the properties of the Cheep
-            Author = cheep.Author.Name,
-            Message = cheep.Text,
-            Timestamp = cheep.TimeStamp
-        });
-        cheepsToReturn.AddRange(cheepDTOList);
-
-        return cheepsToReturn;
-
-
-    }
-
-    public List<CheepDTO> GetAllCheepsFromAuthor(string author)
-    {
-        //Creates a list of max 32 CheepDTO sorted by recent cheep and only for the given author
-        
-        List<CheepDTO> cheepsToReturn = new List<CheepDTO>();
-
-        var cheepsDTO = db.Cheeps.OrderByDescending(c => c.TimeStamp.Ticks)
-            .Where(cheep => cheep.Author != null && cheep.Author.Name != null && cheep.Author.Name.Equals(author))
-            .Select(CheepDTO => new CheepDTO{
-                //Sets the properties of the Cheep
-                Author = CheepDTO.Author.Name,
-                Message = CheepDTO.Text,
-                Timestamp = CheepDTO.TimeStamp
+            AuthorId = CheepDTO.Author.AuthorId,
+            Author = CheepDTO.Author.Name,
+            Message = CheepDTO.Text,
+            Timestamp = CheepDTO.TimeStamp
             }
         );
+
         cheepsToReturn.AddRange(cheepsDTO);
 
-        return cheepsToReturn;
+        int? page = (pageNum - 1) * 32;
+
+        if (page == null)
+        {
+            return cheepsToReturn.GetRange(0, 32);
+        }
+        else
+        {
+            int endIndex = Math.Min((int)page + 32, (int)cheepsToReturn.Count);
+            return cheepsToReturn.GetRange((int)page, endIndex-(int)(page));
+        }
+
     }
 
     public List<CheepDTO> GetCheepsFromAuthor(string author, int? pageNum)
@@ -79,6 +69,7 @@ public class CheepRepository
             .Where(cheep => cheep.Author != null && cheep.Author.Name != null && cheep.Author.Name.Equals(author))
             .Select(CheepDTO => new CheepDTO{
                 //Sets the properties of the Cheep
+                AuthorId = CheepDTO.Author.AuthorId,
                 Author = CheepDTO.Author.Name,
                 Message = CheepDTO.Text,
                 Timestamp = CheepDTO.TimeStamp
@@ -86,42 +77,39 @@ public class CheepRepository
         );
         cheepsToReturn.AddRange(cheepsDTO);
 
+        int? page = (pageNum - 1) * 32;
+
+
+        if(cheepsToReturn.Count < 32){
+            return cheepsToReturn.GetRange(0, cheepsToReturn.Count);
+        }
+        if (page == null)
+        {
+            return cheepsToReturn.GetRange(0, 32);
+        }
+        else
+        {
+            return cheepsToReturn.GetRange((int)page, (int)(page + 32));
+        }
+    }
+
+    public List<CheepDTO> GetAllCheepsFromAuthor(string author)
+    {
+        //Creates a list of max 32 CheepDTO sorted by recent cheep
+
+        List<CheepDTO> cheepsToReturn = new List<CheepDTO>();
+
+        var cheepsDTO = db.Cheeps.OrderByDescending(c => c.TimeStamp.Ticks).Select(CheepDTO => new CheepDTO{
+            //Sets the properties of the Cheep
+            AuthorId = CheepDTO.Author.AuthorId,
+            Author = CheepDTO.Author.Name,
+            Message = CheepDTO.Text,
+            Timestamp = CheepDTO.TimeStamp
+            }
+        );
+
+        cheepsToReturn.AddRange(cheepsDTO);
+
         return cheepsToReturn;
-    }
-    
-    public List<CheepDTO> Pagination(int? pageNum)
-    {
-        int? page = (pageNum - 1) * 32;
-
-
-        if(GetCheeps().Count < 32){
-            return GetCheeps().GetRange(0, GetCheeps().Count);
-        }
-        if (page == null)
-        {
-            return GetCheeps().GetRange(0, 32);
-        }
-        else
-        {
-            return GetCheeps().GetRange((int)page, (int)(page + 32));
-        }
-    }
-
-    public List<CheepDTO> Pagination(string author,int? pageNum)
-    {
-        int? page = (pageNum - 1) * 32;
-
-
-        if(GetCheepsFromAuthor(author).Count < 32){
-            return GetCheepsFromAuthor(author).GetRange(0, GetCheepsFromAuthor(author).Count);
-        }
-        if (page == null)
-        {
-            return GetCheepsFromAuthor(author).GetRange(0, 32);
-        }
-        else
-        {
-            return GetCheepsFromAuthor(author).GetRange((int)page, (int)(page + 32));
-        }
     }
 }

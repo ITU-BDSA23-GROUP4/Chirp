@@ -26,9 +26,9 @@ public class PublicModel : PageModel
     public ActionResult OnGet()
     {  
         if (pageNum.HasValue){
-            Cheeps = cheepRepo.Pagination(pageNum);
+            Cheeps = cheepRepo.GetCheeps(pageNum);
         } else {
-            Cheeps = cheepRepo.Pagination(pageNum);
+            Cheeps = cheepRepo.GetCheeps(pageNum);
         }
 
         return Page();

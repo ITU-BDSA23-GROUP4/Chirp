@@ -17,10 +17,6 @@ namespace Chirp.Infrastructure
         {
             var author = db.Authors.Where(author => author.AuthorId == ID).FirstOrDefault();
 
-        public AuthorDTO GetAuthorByID(int ID)
-        {
-            var author = db.Authors.Where(author => author.AuthorId == ID).FirstOrDefault();
-
             var authorDTO = new AuthorDTO
             {
                 AuthorId = ID,
@@ -56,46 +52,6 @@ namespace Chirp.Infrastructure
                 Email = author.Email,
                 Cheeps = cheepRepo.GetAllCheepsFromAuthor(author.Name)
             };
-            return authorDTO;
-        }
-
-        public AuthorDTO GetAuthorByName(string name)
-        {
-            var author = db.Authors.Where(author => author.Name == name).FirstOrDefault();
-
-            if(author == null)
-            {
-                return null;
-            }
-            
-            var authorDTO = new AuthorDTO
-            {
-                AuthorId = author.AuthorId,
-                Name = name,
-                Email = author.Email,
-                Cheeps = CheepRepository.GetCheepsFromAuthor(name)
-            };
-
-            return authorDTO;
-        }
-
-        public AuthorDTO GetAuthorByEmail(string name)
-        {
-            var author = db.Authors.Where(author => author.Name == name).FirstOrDefault();
-
-            if(author == null)
-            {
-                return null;
-            }
-
-            var authorDTO = new AuthorDTO
-            {
-                AuthorId = author.AuthorId,
-                Name = name,
-                Email = author.Email,
-                Cheeps = CheepRepository.GetCheepsFromAuthor(name)
-            };
-
             return authorDTO;
         }
 
