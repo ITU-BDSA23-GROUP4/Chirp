@@ -25,11 +25,11 @@ public class UserTimelineModel : PageModel
     {
         if (pageNum.HasValue)
         {
-            Cheeps = cheepRepo.GetCheepsFromAuthor(author, pageNum);
+            Cheeps = cheepRepo.Pagination(author, pageNum);
         }
         else
         {
-            Cheeps = cheepRepo.GetCheepsFromAuthor(author, pageNum);
+            Cheeps = cheepRepo.Pagination(author, pageNum);
         }
         return Page();
     }
