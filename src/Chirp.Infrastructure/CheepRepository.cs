@@ -19,14 +19,9 @@ public class CheepRepository
         db = new ChirpDBContext(dbName);
     }
 
-    public CheepRepository(ChirpDBContext chirpDBContext){
-        db = chirpDBContext;
-    }
-
-
     public void AddCheep(int authorId, string text) 
     {
-        int TLength = text.Length;
+        int TLength = text.Length; //Sets a scalable length that we can use for if statement
         if(TLength < 161 && TLength > 0)
         {
             db.Add(new Cheep { Author = db.Authors.

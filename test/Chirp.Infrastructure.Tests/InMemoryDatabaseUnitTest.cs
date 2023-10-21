@@ -30,6 +30,7 @@ public class InMemoryDatabaseTest
     public void MemoryDatabaseShouldntAffectDatabaseTest()
     {
         //Arrange
+
         //Creates a database in memory
         using var connection = new SqliteConnection("Filename=:memory:");
         var builder = new DbContextOptionsBuilder<ChirpDBContext>();
@@ -40,6 +41,13 @@ public class InMemoryDatabaseTest
         connection.Open(); //This needs to be last or an error occurs because of the repository being set
 
         //Somehow initiate the existing database??
+        using var connection_ = new SqliteConnection("Filename=:chirp.db:");
+        var builder_ = new DbContextOptionsBuilder<ChirpDBContext>();
+        builder.UseSqlite(connection);
+        ChirpDBContext context_ = new();
+        context_.Database.EnsureCreated();
+        CheepRepository repository_ = new();
+        connection.Open();
 
         //Create a cheep object
         CheepDTO cheep = new()
@@ -50,9 +58,13 @@ public class InMemoryDatabaseTest
             Message = "This is a cheep for testing"
         };
 
+
         //Act
-        Action act = () => repository.AddCheep(cheep.AuthorId, cheep.Message);
-        //Check if the created message is in the normal database
+        Action act1 = () => repository.AddCheep(cheep.AuthorId, cheep.Message);
+        act1.Should().NotThrow<Exception>(); //Making sure it is possible
+
+        //Check if the created message is in the normal database?
+
 
         //Assert
         //If not in the normal database PASS
