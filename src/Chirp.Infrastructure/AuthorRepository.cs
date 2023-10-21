@@ -6,7 +6,6 @@ namespace Chirp.Infrastructure
     {
         private readonly ChirpDBContext db;
 
-        private static readonly ChirpDBContext dbStatic;
 
         public AuthorRepository()
         {
@@ -24,7 +23,7 @@ namespace Chirp.Infrastructure
                 AuthorId = ID,
                 Name = authorDTO.Name,
                 Email = authorDTO.Email,
-                Cheeps = GetAllCheepsFromAuthor(authorDTO.Name)
+                Cheeps = GetAllCheepsFromAuthor(authorDTO.Name, db)
             }).First();
             return author;
         }
@@ -35,7 +34,7 @@ namespace Chirp.Infrastructure
                 AuthorId = authorDTO.AuthorId,
                 Name = authorDTO.Name,
                 Email = authorDTO.Email,
-                Cheeps = GetAllCheepsFromAuthor(authorDTO.Name)
+                Cheeps = GetAllCheepsFromAuthor(authorDTO.Name, db)
             }).First();
             return author;
         }
@@ -46,12 +45,12 @@ namespace Chirp.Infrastructure
                 AuthorId = authorDTO.AuthorId,
                 Name = authorDTO.Name,
                 Email = authorDTO.Email,
-                Cheeps = GetAllCheepsFromAuthor(authorDTO.Name)
+                Cheeps = GetAllCheepsFromAuthor(authorDTO.Name, db)
             }).First();
             return author;
         }
 
-        private static List<CheepDTO> GetAllCheepsFromAuthor(string author)
+        private static List<CheepDTO> GetAllCheepsFromAuthor(string author, ChirpDBContext dbStatic)
     {
 
         List<CheepDTO> cheepsToReturn = new List<CheepDTO>();
