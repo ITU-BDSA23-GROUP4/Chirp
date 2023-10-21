@@ -51,7 +51,6 @@ namespace Chirp.Infrastructure
 
         public List<CheepDTO> GetAllCheepsFromAuthor(string author)
     {
-        //Creates a list of max 32 CheepDTO sorted by recent cheep
 
         List<CheepDTO> cheepsToReturn = new List<CheepDTO>();
 
