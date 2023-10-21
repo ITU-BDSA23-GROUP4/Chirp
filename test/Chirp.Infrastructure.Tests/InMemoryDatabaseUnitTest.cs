@@ -18,11 +18,11 @@ public class InMemoryDatabaseTest
         CheepRepository repository = new(context);
         connection.Open(); //This needs to be last or an error occurs because of the repository being set
 
-        //Act
-        //Check if not empty
+        //Act    Check if the database is empty
+        Action act = () => repository.GetCheeps(1);
 
-        //Assert
-        //If not empty PASS
+        //Assert    If not empty it should PASS
+        act.Should().NotThrow<Exception>(); //Making sure it is possible
     }
 
 
@@ -32,22 +32,23 @@ public class InMemoryDatabaseTest
         //Arrange
 
         //Creates a database in memory
-        using var connection = new SqliteConnection("Filename=:memory:");
-        var builder = new DbContextOptionsBuilder<ChirpDBContext>();
-        builder.UseSqlite(connection);
-        ChirpDBContext context = new(builder.Options);
-        context.Database.EnsureCreated();
+        using var connection = new SqliteConnection("Filename=:memory:"); //Creates a database in memory
+        var builder = new DbContextOptionsBuilder<ChirpDBContext>(); //Creates a new context
+        builder.UseSqlite(connection); //Sets the context to use the in memory database
+        ChirpDBContext context = new(builder.Options); //Creates a new context
+        context.Database.EnsureCreated(); //Makes sure the database is created
         CheepRepository repository = new(context);
         connection.Open(); //This needs to be last or an error occurs because of the repository being set
 
-        //Somehow initiate the existing database??
-        using var connection_ = new SqliteConnection("Filename=:chirp.db:");
-        var builder_ = new DbContextOptionsBuilder<ChirpDBContext>();
-        builder.UseSqlite(connection);
-        ChirpDBContext context_ = new();
-        context_.Database.EnsureCreated();
+        //initializes the current database
         CheepRepository repository_ = new();
-        connection.Open();
+
+        //Copy the content of the repository_ object into the repository object
+        var cheeps_ = repository_.GetCheeps(1); //NOT WORKING?
+        foreach (var cheep_ in cheeps_)
+        {
+            repository.AddCheep(cheep_.AuthorId, cheep_.Message);
+        }
 
         //Create a cheep object
         CheepDTO cheep = new()
@@ -58,15 +59,19 @@ public class InMemoryDatabaseTest
             Message = "This is a cheep for testing"
         };
 
-
         //Act
-        Action act1 = () => repository.AddCheep(cheep.AuthorId, cheep.Message);
+        Action act1 = () => repository.AddCheep(cheep.AuthorId, cheep.Message); //Add the cheep to the in memory database
         act1.Should().NotThrow<Exception>(); //Making sure it is possible
 
-        //Check if the created message is in the normal database?
-
+        //Get the cheeps from the current database
+        Action act2 = () => repository_.GetCheeps(1); //Get the first page of cheeps
+        act2.Should().NotThrow<Exception>(); //Making sure it is possible
 
         //Assert
         //If not in the normal database PASS
+        var cheeps = repository_.GetCheeps(1); //Get the first page of cheeps 
+        cheeps.Should().NotBeNull(); //Making sure it is possible
+        //See if the cheep is in the normal database
+        cheeps.Should().NotContain(c => c.AuthorId == cheep.AuthorId && c.Message == cheep.Message); 
     }
 }

@@ -19,6 +19,11 @@ public class CheepRepository
         db = new ChirpDBContext(dbName);
     }
 
+    public CheepRepository(ChirpDBContext context) //If we want to use an existing db
+    {
+        db = context;
+    }
+
     public void AddCheep(int authorId, string text) 
     {
         int TLength = text.Length; //Sets a scalable length that we can use for if statement
