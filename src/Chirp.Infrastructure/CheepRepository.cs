@@ -48,7 +48,28 @@ public class CheepRepository
 
 
     }
-    public List<CheepDTO> GetCheepsFromAuthor(string author)
+
+    public List<CheepDTO> GetAllCheepsFromAuthor(string author)
+    {
+        //Creates a list of max 32 CheepDTO sorted by recent cheep and only for the given author
+        
+        List<CheepDTO> cheepsToReturn = new List<CheepDTO>();
+
+        var cheepsDTO = db.Cheeps.OrderByDescending(c => c.TimeStamp.Ticks)
+            .Where(cheep => cheep.Author != null && cheep.Author.Name != null && cheep.Author.Name.Equals(author))
+            .Select(CheepDTO => new CheepDTO{
+                //Sets the properties of the Cheep
+                Author = CheepDTO.Author.Name,
+                Message = CheepDTO.Text,
+                Timestamp = CheepDTO.TimeStamp
+            }
+        );
+        cheepsToReturn.AddRange(cheepsDTO);
+
+        return cheepsToReturn;
+    }
+
+    public List<CheepDTO> GetCheepsFromAuthor(string author, int? pageNum)
     {
         //Creates a list of max 32 CheepDTO sorted by recent cheep and only for the given author
         
