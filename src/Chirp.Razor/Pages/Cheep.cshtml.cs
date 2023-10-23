@@ -9,21 +9,30 @@ public class CheepModel : PageModel
 {
 
     CheepRepository cheepRepo = new CheepRepository();
+    AuthorRepository authorRepo = new AuthorRepository();
+
 
     [BindProperty]
-    public string? Author { get; set; }
+    public string Author { get; set; } = "";
 
     [BindProperty]
-    public string? CheepMessage { get; set; }
+    public string CheepMessage { get; set; } = "";
  
-    public ActionResult OnPostSubmit()
+    public IActionResult OnPost()
     {
         Console.WriteLine($"Author: {Author}, Message: {CheepMessage}");
+        //Console.WriteLine($"Author ID: {authorRepo.GetAuthorByName(Author).AuthorId}");
 
-        //Cheep ID is just 1111 for testing, will add real identifaction later
-        cheepRepo.AddCheep(12, CheepMessage);
-        return Page();
-       
+        if(authorRepo.GetAuthorByName(Author)!=null){
+            cheepRepo.AddCheep(authorRepo.GetAuthorByName(Author).AuthorId, CheepMessage);
+            return Redirect($"/{Author}");
+        }
+        else
+        {
+            Console.WriteLine("Author Doesn't Exist"); 
+            return Redirect("/");
+        }
+
     }
 }
     

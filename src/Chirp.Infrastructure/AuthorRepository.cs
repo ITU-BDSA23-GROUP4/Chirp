@@ -22,20 +22,29 @@ namespace Chirp.Infrastructure
                 AuthorId = ID,
                 Name = authorDTO.Name,
                 Email = authorDTO.Email,
-                Cheeps = GetAllCheepsFromAuthor(authorDTO.Name)
+                Cheeps = GetAllCheepsFromAuthor(authorDTO.Name, db)
             }).First();
             return author;
         }
 
-        public AuthorDTO GetAuthorByName(string name)
-        {
-            var author = db.Authors.Where(author => author.Name == name).Select(authorDTO => new AuthorDTO{
+        public AuthorDTO? GetAuthorByName(string name)
+        {   
+            try
+            {
+                var author = db.Authors.Where(author => author.Name == name).Select(authorDTO => new AuthorDTO{
                 AuthorId = authorDTO.AuthorId,
                 Name = authorDTO.Name,
                 Email = authorDTO.Email,
-                Cheeps = GetAllCheepsFromAuthor(authorDTO.Name)
+                Cheeps = GetAllCheepsFromAuthor(authorDTO.Name, db)
             }).First();
             return author;
+            }
+            catch (System.Exception)
+            {
+                
+                return null;
+            }
+            
         }
 
         public AuthorDTO GetAuthorByEmail(string email)
@@ -44,30 +53,30 @@ namespace Chirp.Infrastructure
                 AuthorId = authorDTO.AuthorId,
                 Name = authorDTO.Name,
                 Email = authorDTO.Email,
-                Cheeps = GetAllCheepsFromAuthor(authorDTO.Name)
+                Cheeps = GetAllCheepsFromAuthor(authorDTO.Name, db)
             }).First();
             return author;
         }
 
-        public List<CheepDTO> GetAllCheepsFromAuthor(string author)
-    {
-
-        List<CheepDTO> cheepsToReturn = new List<CheepDTO>();
-
-        var cheepsDTO = db.Cheeps.OrderByDescending(c => c.TimeStamp.Ticks).Select(CheepDTO => new CheepDTO
+        private static List<CheepDTO> GetAllCheepsFromAuthor(string author, ChirpDBContext DBcontext)
         {
-            //Sets the properties of the Cheep
-            AuthorId = CheepDTO.Author.AuthorId,
-            Author = CheepDTO.Author.Name,
-            Message = CheepDTO.Text,
-            Timestamp = CheepDTO.TimeStamp
+
+            List<CheepDTO> cheepsToReturn = new List<CheepDTO>();
+
+            var cheepsDTO = DBcontext.Cheeps.OrderByDescending(c => c.TimeStamp.Ticks).Select(CheepDTO => new CheepDTO
+            {
+                //Sets the properties of the Cheep
+                AuthorId = CheepDTO.Author.AuthorId,
+                Author = CheepDTO.Author.Name,
+                Message = CheepDTO.Text,
+                Timestamp = CheepDTO.TimeStamp
+            }
+            );
+
+            cheepsToReturn.AddRange(cheepsDTO);
+
+            return cheepsToReturn;
         }
-        );
-
-        cheepsToReturn.AddRange(cheepsDTO);
-
-        return cheepsToReturn;
-    }
 
 
     }
