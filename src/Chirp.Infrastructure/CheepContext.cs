@@ -38,13 +38,12 @@ public class ChirpDBContext : DbContext
 
     }
 
-    public ChirpDBContext(DbContextOptions options) : base(options)
+    public ChirpDBContext(DbContextOptions<ChirpDBContext> options) : base(options)
     {
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder options)
         => options.UseSqlite($"Data Source={DbPath}");
-
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

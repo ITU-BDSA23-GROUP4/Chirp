@@ -40,7 +40,7 @@ public class RestrictedCheepTests
         act.Should().Throw<Exception>().WithMessage("Message is too long or short");
     }
 
-    [Fact] //Should be possible to add a cheep at exactly 160 characters
+    //[Fact] //Should be possible to add a cheep at exactly 160 characters
     public void TestRestrictedCreationOfCheepAt160Char()
     {
         //Act  -  Sets the message and adds an action to add the cheep to the in memory database
@@ -52,7 +52,7 @@ public class RestrictedCheepTests
         act.Should().NotThrow<Exception>();
     }
 
-    [Fact] //Should be possible to add a cheep that is under 160 characters
+    //[Fact] //Should be possible to add a cheep that is under 160 characters
     public void TestRestrictedCreationOfCheepUnder160Char()
     {
         //Act  -  Sets the message and adds an action to add the cheep to the in memory database

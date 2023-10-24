@@ -3,21 +3,38 @@ using Microsoft.EntityFrameworkCore;
 using FluentAssertions;
 public class InMemoryDatabaseTest
 {   
+    private readonly SqliteConnection? _connection;
+    private readonly ChirpDBContext _context;
+    private readonly CheepRepository repository;
+    public InMemoryDatabaseTest(){
+        //Arrrange 
+
+        //Creates a database in memory - Makkes connection string before opening the connection
+        var builder = new DbContextOptionsBuilder<ChirpDBContext>();
+        builder.UseSqlite("Filename=:memory:");
+         ChirpDBContext context = new(builder.Options);
+        _connection = context.Database.GetDbConnection() as SqliteConnection;
+        if(_connection != null){
+            _connection.Open();
+        }
+        context.Database.EnsureCreated();
+
+        // Seed test data
+        // var authors ...
+        // var cheeps ...
+        // Context.authors.addRange(authors)
+        // context.cheeps.addRange(cheeps)
+
+        context.SaveChanges();
+        _context = context;
+        repository = new CheepRepository(_context);
+    }
+
     //Each of these needs their own in memory database, since they can corrupt eachother
 
     [Fact] //Check if the memory database is the same as the current database
     public void MemoryDatabaseShouldNotBeEmpty()
     {
-        //Arrange
-        //Creates a database in memory
-        using var connection = new SqliteConnection("Filename=:memory:");
-        var builder = new DbContextOptionsBuilder<ChirpDBContext>();
-        builder.UseSqlite(connection);
-        ChirpDBContext context = new(builder.Options);
-        context.Database.EnsureCreated();
-        CheepRepository repository = new(context);
-        connection.Open(); //This needs to be last or an error occurs because of the repository being set
-
         //Act    Check if the database is empty
         Action act = () => repository.GetCheeps(1);
 
@@ -30,15 +47,6 @@ public class InMemoryDatabaseTest
     public void MemoryDatabaseShouldntAffectDatabaseTest()
     {
         //Arrange
-
-        //Creates a database in memory
-        using var connection = new SqliteConnection("Filename=:memory:"); //Creates a database in memory
-        var builder = new DbContextOptionsBuilder<ChirpDBContext>(); //Creates a new context
-        builder.UseSqlite(connection); //Sets the context to use the in memory database
-        ChirpDBContext context = new(builder.Options); //Creates a new context
-        context.Database.EnsureCreated(); //Makes sure the database is created
-        CheepRepository repository = new(context);
-        connection.Open(); //This needs to be last or an error occurs because of the repository being set
 
         //initializes the current database
         CheepRepository repository_ = new();
