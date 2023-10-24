@@ -6,7 +6,7 @@ namespace Chirp.Infrastructure;
 public class CheepRepository
 {
     private readonly ChirpDBContext db; //Needed to get our CheepDTO
-
+    private AuthorRepository AuthorRepository = new AuthorRepository(); //Needed to get our AuthorDTO
 
 
     public CheepRepository() //Initializes our model
@@ -38,6 +38,16 @@ public class CheepRepository
         {
             throw new ArgumentException("Message is too long or short");
         }
+    public void AddCheep(int authorId, string text)
+    {
+        var author = AuthorRepository.GetAuthorByID(authorId);
+        db.Add(new Cheep
+        {
+            Author = new Author { AuthorId = author.AuthorId, Name = author.Name, Email = author.Email, Cheeps = new List<Cheep>() },
+            Text = text,
+            TimeStamp = DateTime.Now
+        });
+
     }
 
     public List<CheepDTO> GetCheeps(int? pageNum)
@@ -46,13 +56,14 @@ public class CheepRepository
 
         List<CheepDTO> cheepsToReturn = new();
 
-        var cheepsDTO = db.Cheeps.OrderByDescending(c => c.TimeStamp.Ticks).Select(CheepDTO => new CheepDTO{
+        var cheepsDTO = db.Cheeps.OrderByDescending(c => c.TimeStamp.Ticks).Select(CheepDTO => new CheepDTO
+        {
             //Sets the properties of the Cheep
             AuthorId = CheepDTO.Author.AuthorId,
             Author = CheepDTO.Author.Name,
             Message = CheepDTO.Text,
-            Timestamp = CheepDTO.TimeStamp.ToString()
-            }
+            Timestamp = CheepDTO.TimeStamp
+        }
         );
 
         cheepsToReturn.AddRange(cheepsDTO);
@@ -66,7 +77,7 @@ public class CheepRepository
         else
         {
             int endIndex = Math.Min((int)page + 32, (int)cheepsToReturn.Count);
-            return cheepsToReturn.GetRange((int)page, endIndex-(int)(page));
+            return cheepsToReturn.GetRange((int)page, endIndex - (int)(page));
         }
 
 
@@ -75,17 +86,18 @@ public class CheepRepository
     public List<CheepDTO> GetCheepsFromAuthor(string author, int? pageNum)
     {
         //Creates a list of max 32 CheepDTO sorted by recent cheep and only for the given author
-        
+
         List<CheepDTO> cheepsToReturn = new List<CheepDTO>();
 
         var cheepsDTO = db.Cheeps.OrderByDescending(c => c.TimeStamp.Ticks)
             .Where(cheep => cheep.Author != null && cheep.Author.Name != null && cheep.Author.Name.Equals(author))
-            .Select(CheepDTO => new CheepDTO{
+            .Select(CheepDTO => new CheepDTO
+            {
                 //Sets the properties of the Cheep
                 AuthorId = CheepDTO.Author.AuthorId,
                 Author = CheepDTO.Author.Name,
                 Message = CheepDTO.Text,
-                Timestamp = CheepDTO.TimeStamp.ToString()
+                Timestamp = CheepDTO.TimeStamp
             }
         );
         cheepsToReturn.AddRange(cheepsDTO);
@@ -93,7 +105,8 @@ public class CheepRepository
         int? page = (pageNum - 1) * 32;
 
 
-        if(cheepsToReturn.Count < 32){
+        if (cheepsToReturn.Count < 32)
+        {
             return cheepsToReturn.GetRange(0, cheepsToReturn.Count);
         }
         if (page == null)
@@ -105,4 +118,6 @@ public class CheepRepository
             return cheepsToReturn.GetRange((int)page, (int)(page + 32));
         }
     }
+
+    
 }

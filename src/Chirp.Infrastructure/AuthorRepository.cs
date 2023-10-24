@@ -6,6 +6,7 @@ namespace Chirp.Infrastructure
     {
         private readonly ChirpDBContext db;
 
+
         public AuthorRepository()
         {
             db = new ChirpDBContext();
@@ -16,21 +17,58 @@ namespace Chirp.Infrastructure
             db.Add(new Author { Name = name, Cheeps = new List<Cheep>(), Email = email });
         }
 
-        public AuthorDTO GetAuthor(int ID)
+        public AuthorDTO GetAuthorByID(int ID)
         {
             var author = db.Authors.Where(author => author.AuthorId == ID).Select(authorDTO => new AuthorDTO{
                 AuthorId = ID,
                 Name = authorDTO.Name,
                 Email = authorDTO.Email,
-                Cheeps = authorDTO.Cheeps.Select(cheepDTO => new CheepDTO{
-                    AuthorId = ID,
-                    Author = authorDTO.Name,
-                    Message = cheepDTO.Text,
-                    Timestamp = cheepDTO.TimeStamp.ToString()
-                }).ToList()
+                Cheeps = GetAllCheepsFromAuthor(authorDTO.Name, db)
             }).First();
             return author;
         }
+
+        public AuthorDTO GetAuthorByName(string name)
+        {
+            var author = db.Authors.Where(author => author.Name == name).Select(authorDTO => new AuthorDTO{
+                AuthorId = authorDTO.AuthorId,
+                Name = authorDTO.Name,
+                Email = authorDTO.Email,
+                Cheeps = GetAllCheepsFromAuthor(authorDTO.Name, db)
+            }).First();
+            return author;
+        }
+
+        public AuthorDTO GetAuthorByEmail(string email)
+        {
+            var author = db.Authors.Where(author => author.Email == email).Select(authorDTO => new AuthorDTO{
+                AuthorId = authorDTO.AuthorId,
+                Name = authorDTO.Name,
+                Email = authorDTO.Email,
+                Cheeps = GetAllCheepsFromAuthor(authorDTO.Name, db)
+            }).First();
+            return author;
+        }
+
+        private static List<CheepDTO> GetAllCheepsFromAuthor(string author, ChirpDBContext dbStatic)
+    {
+
+        List<CheepDTO> cheepsToReturn = new List<CheepDTO>();
+
+        var cheepsDTO = dbStatic.Cheeps.OrderByDescending(c => c.TimeStamp.Ticks).Select(CheepDTO => new CheepDTO
+        {
+            //Sets the properties of the Cheep
+            AuthorId = CheepDTO.Author.AuthorId,
+            Author = CheepDTO.Author.Name,
+            Message = CheepDTO.Text,
+            Timestamp = CheepDTO.TimeStamp
+        }
+        );
+
+        cheepsToReturn.AddRange(cheepsDTO);
+
+        return cheepsToReturn;
+    }
 
 
     }
