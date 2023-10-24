@@ -27,17 +27,19 @@ public class InMemoryDatabaseTest
         // Context.authors.addRange(authors)
         // context.cheeps.addRange(cheeps)
 
-        cheep = new()
-        {
-            AuthorId = 3,
-            Author = "fjkd",
-            Timestamp = DateTime.Now,
-            Message = ""
-        };
-
         context.SaveChanges();
         _context = context;
         repository = new CheepRepository(_context);
+        AuthorRepository authorRepository = new(_context);
+        authorRepository.AddAuthor("fjkd","fjdk@gmail.com");
+
+        cheep = new()
+        {
+            AuthorId = authorRepository.GetAuthorByName("fjkd").AuthorId,
+            Author = authorRepository.GetAuthorByName("fjkd").Name,
+            Timestamp = DateTime.Now,
+            Message = ""
+        };
     }
 
     //Each of these needs their own in memory database, since they can corrupt eachother
