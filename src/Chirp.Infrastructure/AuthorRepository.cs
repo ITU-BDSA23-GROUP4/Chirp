@@ -18,43 +18,54 @@ namespace Chirp.Infrastructure
 
         public AuthorDTO GetAuthorByID(int ID)
         {
-            var author = db.Authors.Where(author => author.AuthorId == ID).Select(authorDTO => new AuthorDTO{
+            var author = db.Authors.Where(author => author.AuthorId == ID).Select(authorDTO => new AuthorDTO
+            {
                 AuthorId = ID,
                 Name = authorDTO.Name,
                 Email = authorDTO.Email,
                 Cheeps = GetAllCheepsFromAuthor(authorDTO.Name, db)
-            }).First();
-            return author;
+            }).FirstOrDefault();
+            if(author != null){
+                return author;
+            } else {
+                throw new ArgumentException("Author with ID " + ID + " does not exist");
+            }
         }
 
         public AuthorDTO GetAuthorByName(string name)
-        {   
-            try
+        {
+
+            var author = db.Authors.Where(author => author.Name == name).Select(authorDTO => new AuthorDTO
             {
-                var author = db.Authors.Where(author => author.Name == name).Select(authorDTO => new AuthorDTO{
                 AuthorId = authorDTO.AuthorId,
                 Name = authorDTO.Name,
                 Email = authorDTO.Email,
                 Cheeps = GetAllCheepsFromAuthor(authorDTO.Name, db)
-                }).First();
+            }).FirstOrDefault();
+            if(author != null){
                 return author;
+            } else {
+                throw new ArgumentException("Author with name " + name + " does not exist");
             }
-            catch (Exception)
-            {    
-                throw;
-            }
-            
+
+
         }
 
         public AuthorDTO GetAuthorByEmail(string email)
         {
-            var author = db.Authors.Where(author => author.Email == email).Select(authorDTO => new AuthorDTO{
+            var author = db.Authors.Where(author => author.Email == email).Select(authorDTO => new AuthorDTO
+            {
                 AuthorId = authorDTO.AuthorId,
                 Name = authorDTO.Name,
                 Email = authorDTO.Email,
                 Cheeps = GetAllCheepsFromAuthor(authorDTO.Name, db)
-            }).First();
-            return author;
+            }).FirstOrDefault();
+
+            if(author != null){
+                return author;
+            } else {
+                throw new ArgumentException("Author with email " + email + " does not exist");
+            }
         }
 
         private static List<CheepDTO> GetAllCheepsFromAuthor(string author, ChirpDBContext DBcontext)
