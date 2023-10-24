@@ -21,13 +21,20 @@ public class CheepRepository
 
     public void AddCheep(int authorId, string text)
     {
-        var author = AuthorRepository.GetAuthorByID(authorId);
-        db.Add(new Cheep
+        try
         {
-            Author = new Author { AuthorId = author.AuthorId, Name = author.Name, Email = author.Email, Cheeps = new List<Cheep>() },
-            Text = text,
-            TimeStamp = DateTime.Now
-        });
+            var author = AuthorRepository.GetAuthorByID(authorId);
+            db.Add(new Cheep
+            {
+                Author = new Author { AuthorId = author.AuthorId, Name = author.Name, Email = author.Email, Cheeps = new List<Cheep>() },
+                Text = text,
+                TimeStamp = DateTime.Now
+            });
+        }
+        catch (System.Exception)
+        {
+            throw;
+        }
 
     }
 
