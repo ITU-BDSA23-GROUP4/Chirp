@@ -4,82 +4,102 @@ using FluentAssertions;
 
 public class RestrictedCheepTests
 {
-    private readonly SqliteConnection? _connection;
-    private readonly ChirpDBContext _context;
-    private readonly CheepRepository repository;
-    private readonly CheepDTO cheep;
+    private readonly SqliteConnection? _connection; //Connection to the database
+    private readonly ChirpDBContext _context; //Context for the database
+    private readonly CheepRepository repository; //Repository for the database
+
     public RestrictedCheepTests()
     {
-        //Arrange  -  Runs in memory and is the arrange part of tests
+        //Arrange
         //Creates a database in memory - Makkes connection string before opening the connection
         var builder = new DbContextOptionsBuilder<ChirpDBContext>();
         builder.UseSqlite("Filename=:memory:");
-         ChirpDBContext context = new(builder.Options);
+        ChirpDBContext context = new(builder.Options);
         _connection = context.Database.GetDbConnection() as SqliteConnection;
-        if(_connection != null){
+        if (_connection != null)  //Takes care of the null exception
+        {
             _connection.Open();
         }
         context.Database.EnsureCreated();
 
-        //Act  -  Makes a cheepDTO object, which we can modify the message with in the tests
-        cheep = new()
+        //Creates a cheep and author to add to the database
+        var testAuthor = new Author
         {
-            AuthorId = 3,
-            Author = "fjkd",
-            Timestamp = DateTime.Now,
-            Message = ""
+            AuthorId = 1,
+            Name = "TestName",
+            Email = "TestEmail",
+            Cheeps = new List<Cheep>()
         };
+        var testCheep = new Cheep
+        {
+            CheepId = 1,
+            Author = testAuthor,
+            TimeStamp = DateTime.Now,
+            Text = "This is a cheep for testing"
+        };
+        //Creates and adds a cheep and author to the database
+        context.Authors.Add(testAuthor);
+        context.Cheeps.Add(testCheep);
 
         context.SaveChanges();
         _context = context;
         repository = new CheepRepository(_context);
     }
 
+    //A Test which checks if the testAuthor is there
+    [Fact]
+    public void TestIfAuthorIsThere()
+    {
+        //Act
+        var author = _context.Authors.Where(author => author.AuthorId == 1).FirstOrDefault();
+
+        //Assert
+        author.Should().NotBeNull();
+    }
+
     [Fact] //Should not be possible to add a cheep over 160 characters
     public void TestRestrictedCreationOfCheepOver160Char()
     {
         //Act  -  Sets the message and adds an action to add the cheep to the in memory database
-        cheep.Message = "This string should be way over 160 characters, just so we can check that its not possible to make a message that is longer than nessesary.This will because of that, become a very long message.";
+        string Message = "This string should be way over 160 characters, just so we can check that its not possible to make a message that is longer than nessesary.This will because of that, become a very long message.";
 
-        Action act = () => repository.AddCheep(cheep.AuthorId, cheep.Message);
+        Action act = () => repository.AddCheep(1, Message); //Adds the cheep to the database
 
-        //Assert  -  This test should throw an exception to pass
-        act.Should().Throw<Exception>().WithMessage("Message is too long or short");
+        //Assert  -  Should throw an exception to pass
+        act.Should().Throw<ArgumentException>().WithMessage("Message is too long or short");
     }
 
     [Fact] //Should be possible to add a cheep at exactly 160 characters
     public void TestRestrictedCreationOfCheepAt160Char()
     {
         //Act  -  Sets the message and adds an action to add the cheep to the in memory database
-        cheep.Message = " This string should be at exactly 160 characters, so that we know its possible. There should not be a character more or less, so we'll have a very precise test.";
+        string Message = " This string should be at exactly 160 characters, so that we know its possible. There should not be a character more or less, so we'll have a very precise test.";
 
-        Action act = () => repository.AddCheep(cheep.AuthorId, cheep.Message);
+        Action act = () => repository.AddCheep(1, Message);
 
-        //Assert  -  This test should not throw an exception to pass
-        act.Should().NotThrow<Exception>();
+        //Assert  -  Should not throw an exception to pass
+        act.Should().NotThrow<ArgumentException>();
     }
 
     [Fact] //Should be possible to add a cheep that is under 160 characters
     public void TestRestrictedCreationOfCheepUnder160Char()
     {
         //Act  -  Sets the message and adds an action to add the cheep to the in memory database
-        cheep.Message = "This string is very much under 160 characters";
+        string Message = "This string is very much under 160 characters";
 
-        Action act = () => repository.AddCheep(cheep.AuthorId, cheep.Message);
+        Action act = () => repository.AddCheep(1, Message);
 
-        //Assert
-        act.Should().NotThrow<Exception>();
+        //Assert  -  Should not throw an exception to pass
+        act.Should().NotThrow<ArgumentException>();
     }
 
     [Fact] //Should not be possible to add a cheep that is empty
     public void TestRestrictedCreationOfCheepOf0Char()
     {
         //Act  -  Sets an action to add the cheep to the in memory database
-        //Message is already empty here
+        Action act = () => repository.AddCheep(1, "");
 
-        Action act = () => repository.AddCheep(cheep.AuthorId, cheep.Message);
-
-        //Assert
-        act.Should().Throw<Exception>().WithMessage("Message is too long or short");
+        //Assert - Should throw an exception to pass
+        act.Should().Throw<ArgumentException>().WithMessage("Message is too long or short");
     }
 }

@@ -6,22 +6,25 @@ namespace Chirp.Infrastructure;
 public class CheepRepository
 {
     private readonly ChirpDBContext db; //Needed to get our CheepDTO
-    private AuthorRepository AuthorRepository = new AuthorRepository(); //Needed to get our AuthorDTO
+    private AuthorRepository AuthorRepository; //Needed to get our AuthorDTO
 
 
     public CheepRepository() //Initializes our model
     {
         db = new ChirpDBContext();
+        AuthorRepository = new AuthorRepository(db);
     }
 
     public CheepRepository(string dbName) //If creating a new db is needed
     {
         db = new ChirpDBContext(dbName);
+        AuthorRepository = new AuthorRepository(db);
     }
 
     public CheepRepository(ChirpDBContext context) //If we want to use an existing db
     {
         db = context;
+        AuthorRepository = new AuthorRepository(db);
     }
 
     public void AddCheep(int authorId, string text)
@@ -33,7 +36,7 @@ public class CheepRepository
             if(TLength < 161 && TLength > 0){
                 db.Add(new Cheep
                 {
-                    Author = new Author { AuthorId = author.AuthorId, Name = author.Name, Email = author.Email, Cheeps = new List<Cheep>() },
+                    Author = GetAuthorById(authorId),
                     Text = text,
                     TimeStamp = DateTime.Now
                 });
@@ -121,5 +124,10 @@ public class CheepRepository
         }
     }
 
+    // A method to get an Author class representation with an id
+    private Author GetAuthorById(int id)
+    {
+        return db.Authors.Where(author => author.AuthorId == id).FirstOrDefault();
+    }
     
 }
