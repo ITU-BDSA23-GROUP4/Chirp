@@ -1,6 +1,6 @@
 MIT License
 
-Copyright (c) 2023 Lukas Andersson, Oliver Asger-Sharp Johansen, Marius Thomsen, Anna Høybye Johansen, Niels Christian Skov
+Copyright (c) 2023 Lukas Andersson, Oliver Asger-Sharp Johansen, Marius Thomsen, Anna Høybye Johansen, Niels Christian Skov Faber
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
