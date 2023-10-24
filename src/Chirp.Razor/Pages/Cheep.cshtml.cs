@@ -20,19 +20,15 @@ public class CheepModel : PageModel
  
     public IActionResult OnPost()
     {
-        Console.WriteLine($"Author: {Author}, Message: {CheepMessage}");
-        //Console.WriteLine($"Author ID: {authorRepo.GetAuthorByName(Author).AuthorId}");
-
-        if(authorRepo.GetAuthorByName(Author)!=null){
-            cheepRepo.AddCheep(authorRepo.GetAuthorByName(Author).AuthorId, CheepMessage);
-            return Redirect($"/{Author}");
-        }
-        else
+        try
         {
-            Console.WriteLine("Author Doesn't Exist"); 
+            cheepRepo.AddCheep(authorRepo.GetAuthorByName(Author).AuthorId, CheepMessage);
+            return Redirect($"/{Author}");   
+        }
+        catch (Exception)
+        { 
             return Redirect("/");
         }
-
     }
 }
     

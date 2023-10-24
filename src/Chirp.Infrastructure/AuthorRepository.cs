@@ -27,7 +27,7 @@ namespace Chirp.Infrastructure
             return author;
         }
 
-        public AuthorDTO? GetAuthorByName(string name)
+        public AuthorDTO GetAuthorByName(string name)
         {   
             try
             {
@@ -36,13 +36,12 @@ namespace Chirp.Infrastructure
                 Name = authorDTO.Name,
                 Email = authorDTO.Email,
                 Cheeps = GetAllCheepsFromAuthor(authorDTO.Name, db)
-            }).First();
-            return author;
+                }).First();
+                return author;
             }
-            catch (System.Exception)
-            {
-                
-                return null;
+            catch (Exception)
+            {    
+                throw;
             }
             
         }
