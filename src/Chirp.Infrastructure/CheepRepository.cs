@@ -24,30 +24,21 @@ public class CheepRepository
         db = context;
     }
 
-    public void AddCheep(int authorId, string text) 
+    public void AddCheep(int authorId, string text)
     {
         int TLength = text.Length; //Sets a scalable length that we can use for if statement
-        if(TLength < 161 && TLength > 0)
-        {
-            db.Add(new Cheep { Author = db.Authors.
-                Where(author => author.AuthorId == authorId).First(),
-                    Text = text,
-                    TimeStamp = DateTime.Now });
-        }
-        else
+        var author = AuthorRepository.GetAuthorByID(authorId);
+        if(TLength < 161 && TLength > 0){
+            db.Add(new Cheep
+            {
+                Author = new Author { AuthorId = author.AuthorId, Name = author.Name, Email = author.Email, Cheeps = new List<Cheep>() },
+                Text = text,
+                TimeStamp = DateTime.Now
+            });
+        }else
         {
             throw new ArgumentException("Message is too long or short");
         }
-    public void AddCheep(int authorId, string text)
-    {
-        var author = AuthorRepository.GetAuthorByID(authorId);
-        db.Add(new Cheep
-        {
-            Author = new Author { AuthorId = author.AuthorId, Name = author.Name, Email = author.Email, Cheeps = new List<Cheep>() },
-            Text = text,
-            TimeStamp = DateTime.Now
-        });
-
     }
 
     public List<CheepDTO> GetCheeps(int? pageNum)

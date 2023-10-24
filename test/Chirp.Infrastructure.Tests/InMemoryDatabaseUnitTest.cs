@@ -6,6 +6,7 @@ public class InMemoryDatabaseTest
     private readonly SqliteConnection? _connection;
     private readonly ChirpDBContext _context;
     private readonly CheepRepository repository;
+    private readonly CheepDTO cheep;
     public InMemoryDatabaseTest(){
         //Arrrange 
 
@@ -18,12 +19,21 @@ public class InMemoryDatabaseTest
             _connection.Open();
         }
         context.Database.EnsureCreated();
+        DbInitializer.SeedDatabase(context);
 
         // Seed test data
         // var authors ...
         // var cheeps ...
         // Context.authors.addRange(authors)
         // context.cheeps.addRange(cheeps)
+
+        cheep = new()
+        {
+            AuthorId = 3,
+            Author = "fjkd",
+            Timestamp = DateTime.Now,
+            Message = ""
+        };
 
         context.SaveChanges();
         _context = context;
@@ -51,32 +61,16 @@ public class InMemoryDatabaseTest
         //initializes the current database
         CheepRepository repository_ = new();
 
-        //Copy the content of the repository_ object into the repository object
-        var cheeps_ = repository_.GetCheeps(1); //NOT WORKING?
-        foreach (var cheep_ in cheeps_)
-        {
-            repository.AddCheep(cheep_.AuthorId, cheep_.Message);
-        }
-
-        //Create a cheep object
-        CheepDTO cheep = new()
-        {
-            AuthorId = 3,
-            Author = "fjkd",
-            Timestamp = DateTime.Now.ToString(),
-            Message = "This is a cheep for testing"
-        };
+        cheep.Message = "This is a cheep for testing";
 
         //Act
         Action act1 = () => repository.AddCheep(cheep.AuthorId, cheep.Message); //Add the cheep to the in memory database
-        act1.Should().NotThrow<Exception>(); //Making sure it is possible
 
         //Get the cheeps from the current database
         Action act2 = () => repository_.GetCheeps(1); //Get the first page of cheeps
-        act2.Should().NotThrow<Exception>(); //Making sure it is possible
+        act2.Should().NotThrow<Exception>(); //Making sure it's possible
 
-        //Assert
-        //If not in the normal database PASS
+        //Assert - If not in the normal database PASS
         var cheeps = repository_.GetCheeps(1); //Get the first page of cheeps 
         cheeps.Should().NotBeNull(); //Making sure it is possible
         //See if the cheep is in the normal database
