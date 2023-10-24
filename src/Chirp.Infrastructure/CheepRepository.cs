@@ -26,19 +26,27 @@ public class CheepRepository
 
     public void AddCheep(int authorId, string text)
     {
-        int TLength = text.Length; //Sets a scalable length that we can use for if statement
-        var author = AuthorRepository.GetAuthorByID(authorId);
-        if(TLength < 161 && TLength > 0){
-            db.Add(new Cheep
-            {
-                Author = new Author { AuthorId = author.AuthorId, Name = author.Name, Email = author.Email, Cheeps = new List<Cheep>() },
-                Text = text,
-                TimeStamp = DateTime.Now
-            });
-        }else
+        try
         {
-            throw new ArgumentException("Message is too long or short");
+            int TLength = text.Length; //Sets a scalable length that we can use for if statement
+            var author = AuthorRepository.GetAuthorByID(authorId);
+            if(TLength < 161 && TLength > 0){
+                db.Add(new Cheep
+                {
+                    Author = new Author { AuthorId = author.AuthorId, Name = author.Name, Email = author.Email, Cheeps = new List<Cheep>() },
+                    Text = text,
+                    TimeStamp = DateTime.Now
+                });
+            }else
+            {
+                throw new ArgumentException("Message is too long or short");
+            }
         }
+        catch (System.Exception)
+        {
+            throw;
+        }
+
     }
 
     public List<CheepDTO> GetCheeps(int? pageNum)
@@ -66,6 +74,7 @@ public class CheepRepository
             return cheepsToReturn.GetRange(0, 32);
         }
         else
+
         {
             int endIndex = Math.Min((int)page + 32, (int)cheepsToReturn.Count);
             return cheepsToReturn.GetRange((int)page, endIndex - (int)(page));
@@ -96,6 +105,7 @@ public class CheepRepository
         int? page = (pageNum - 1) * 32;
 
 
+
         if (cheepsToReturn.Count < 32)
         {
             return cheepsToReturn.GetRange(0, cheepsToReturn.Count);
@@ -105,8 +115,9 @@ public class CheepRepository
             return cheepsToReturn.GetRange(0, 32);
         }
         else
-        {
-            return cheepsToReturn.GetRange((int)page, (int)(page + 32));
+        {   
+            int endIndex = Math.Min((int)page + 32, (int)cheepsToReturn.Count);
+            return cheepsToReturn.GetRange((int)page, endIndex-(int)(page));
         }
     }
 

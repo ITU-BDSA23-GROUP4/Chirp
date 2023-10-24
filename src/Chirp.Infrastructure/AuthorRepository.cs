@@ -29,8 +29,15 @@ namespace Chirp.Infrastructure
                 Name = authorDTO.Name,
                 Email = authorDTO.Email,
                 Cheeps = GetAllCheepsFromAuthor(authorDTO.Name, db)
-            }).First();
-            return author;
+            }).FirstOrDefault();
+            if (author != null)
+            {
+                return author;
+            }
+            else
+            {
+                throw new ArgumentException("Author with ID " + ID + " does not exist");
+            }
         }
 
         public AuthorDTO GetAuthorByName(string name)
@@ -41,8 +48,17 @@ namespace Chirp.Infrastructure
                 Name = authorDTO.Name,
                 Email = authorDTO.Email,
                 Cheeps = GetAllCheepsFromAuthor(authorDTO.Name, db)
-            }).First();
-            return author;
+            }).FirstOrDefault();
+            if (author != null)
+            {
+                return author;
+            }
+            else
+            {
+                throw new ArgumentException("Author with name " + name + " does not exist");
+            }
+
+
         }
 
         public AuthorDTO GetAuthorByEmail(string email)
@@ -53,16 +69,24 @@ namespace Chirp.Infrastructure
                 Name = authorDTO.Name,
                 Email = authorDTO.Email,
                 Cheeps = GetAllCheepsFromAuthor(authorDTO.Name, db)
-            }).First();
-            return author;
+            }).FirstOrDefault();
+
+            if (author != null)
+            {
+                return author;
+            }
+            else
+            {
+                throw new ArgumentException("Author with email " + email + " does not exist");
+            }
         }
 
-        private static List<CheepDTO> GetAllCheepsFromAuthor(string author, ChirpDBContext dbStatic)
+        private static List<CheepDTO> GetAllCheepsFromAuthor(string author, ChirpDBContext DBcontext)
         {
 
             List<CheepDTO> cheepsToReturn = new List<CheepDTO>();
 
-            var cheepsDTO = dbStatic.Cheeps.OrderByDescending(c => c.TimeStamp.Ticks).Select(CheepDTO => new CheepDTO
+            var cheepsDTO = DBcontext.Cheeps.OrderByDescending(c => c.TimeStamp.Ticks).Select(CheepDTO => new CheepDTO
             {
                 //Sets the properties of the Cheep
                 AuthorId = CheepDTO.Author.AuthorId,
