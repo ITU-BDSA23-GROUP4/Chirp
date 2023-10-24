@@ -22,29 +22,28 @@ SOFTWARE.
 
 
 ## Dependencies
-Link: https://www.nuget.org/packages/Microsoft.EntityFrameworkCore.Tools/8.0.0-rc.2.23480.1
+[Microsoft.EntityFrameworkCore.](https://www.nuget.org/packages/Microsoft.EntityFrameworkCore.Tools/8.0.0-rc.2.23480.1)  - 
 License: MIT
 
-Link: [https://www.nuget.org/packages/Microsoft.EntityFrameworkCore.Tools/8.0.0-rc.2.23480.1](Microsoft.AspNetCore.Identity)
+[Microsoft.AspNetCore.Identity](https://www.nuget.org/packages/Microsoft.EntityFrameworkCore.Tools/8.0.0-rc.2.23480.1) - 
 License: MIT
 
-Link: https://www.nuget.org/packages/Microsoft.AspNetCore.Identity.EntityFrameworkCore/8.0.0-rc.2.23480.2
+[Microsoft.AspNetCore.Identity.EntityFrameworkCore](https://www.nuget.org/packages/Microsoft.AspNetCore.Identity.EntityFrameworkCore/8.0.0-rc.2.23480.2) - License: MIT
+
+[Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore](https://www.nuget.org/packages/Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore/8.0.0-rc.2.23480.2) - 
 License: MIT
 
-Link https://www.nuget.org/packages/Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore/8.0.0-rc.2.23480.2
+[Microsoft.Extensions.Hosting](https://www.nuget.org/packages/Microsoft.Extensions.Hosting/8.0.0-rc.2.23479.6) - 
 License: MIT
 
-Link: https://www.nuget.org/packages/Microsoft.Extensions.Hosting/8.0.0-rc.2.23479.6
+[Microsoft.EntityFrameworkCore.SqlServer](https://www.nuget.org/packages/Microsoft.EntityFrameworkCore.SqlServer/8.0.0-rc.2.23480.1) - 
 License: MIT
 
-Link: https://www.nuget.org/packages/Microsoft.EntityFrameworkCore.SqlServer/8.0.0-rc.2.23480.1
+[Microsoft.EntityFrameworkCore.Sqlite](https://www.nuget.org/packages/Microsoft.EntityFrameworkCore.Sqlite/8.0.0-rc.2.23480.1) -
 License: MIT
 
-Link: https://www.nuget.org/packages/Microsoft.EntityFrameworkCore.Sqlite/8.0.0-rc.2.23480.1
+[Microsoft.EntityFrameworkCore.Design](https://www.nuget.org/packages/Microsoft.EntityFrameworkCore.Design/8.0.0-rc.2.23480.1) -
 License: MIT
 
-Link: https://www.nuget.org/packages/Microsoft.EntityFrameworkCore.Design/8.0.0-rc.2.23480.1
-License: MIT
-
-Link: https://www.nuget.org/packages/Microsoft.Data.Sqlite/8.0.0-rc.2.23480.1
+[Microsoft.Data.Sqlite](https://www.nuget.org/packages/Microsoft.Data.Sqlite/8.0.0-rc.2.23480.1) - 
 License: MIT
