@@ -19,3 +19,32 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+
+## Dependencies
+Link: https://www.nuget.org/packages/Microsoft.EntityFrameworkCore.Tools/8.0.0-rc.2.23480.1
+License: MIT
+
+Link: [https://www.nuget.org/packages/Microsoft.EntityFrameworkCore.Tools/8.0.0-rc.2.23480.1](Microsoft.AspNetCore.Identity)
+License: MIT
+
+Link: https://www.nuget.org/packages/Microsoft.AspNetCore.Identity.EntityFrameworkCore/8.0.0-rc.2.23480.2
+License: MIT
+
+Link https://www.nuget.org/packages/Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore/8.0.0-rc.2.23480.2
+License: MIT
+
+Link: https://www.nuget.org/packages/Microsoft.Extensions.Hosting/8.0.0-rc.2.23479.6
+License: MIT
+
+Link: https://www.nuget.org/packages/Microsoft.EntityFrameworkCore.SqlServer/8.0.0-rc.2.23480.1
+License: MIT
+
+Link: https://www.nuget.org/packages/Microsoft.EntityFrameworkCore.Sqlite/8.0.0-rc.2.23480.1
+License: MIT
+
+Link: https://www.nuget.org/packages/Microsoft.EntityFrameworkCore.Design/8.0.0-rc.2.23480.1
+License: MIT
+
+Link: https://www.nuget.org/packages/Microsoft.Data.Sqlite/8.0.0-rc.2.23480.1
+License: MIT
