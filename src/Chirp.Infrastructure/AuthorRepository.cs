@@ -6,6 +6,7 @@ namespace Chirp.Infrastructure
     {
         private readonly ChirpDBContext db;
 
+
         public AuthorRepository()
         {
             db = new ChirpDBContext();
@@ -25,9 +26,12 @@ namespace Chirp.Infrastructure
                 Email = authorDTO.Email,
                 Cheeps = GetAllCheepsFromAuthor(authorDTO.Name, db)
             }).FirstOrDefault();
-            if(author != null){
+            if (author != null)
+            {
                 return author;
-            } else {
+            }
+            else
+            {
                 throw new ArgumentException("Author with ID " + ID + " does not exist");
             }
         }
@@ -42,9 +46,12 @@ namespace Chirp.Infrastructure
                 Email = authorDTO.Email,
                 Cheeps = GetAllCheepsFromAuthor(authorDTO.Name, db)
             }).FirstOrDefault();
-            if(author != null){
+            if (author != null)
+            {
                 return author;
-            } else {
+            }
+            else
+            {
                 throw new ArgumentException("Author with name " + name + " does not exist");
             }
 
@@ -61,9 +68,12 @@ namespace Chirp.Infrastructure
                 Cheeps = GetAllCheepsFromAuthor(authorDTO.Name, db)
             }).FirstOrDefault();
 
-            if(author != null){
+            if (author != null)
+            {
                 return author;
-            } else {
+            }
+            else
+            {
                 throw new ArgumentException("Author with email " + email + " does not exist");
             }
         }
