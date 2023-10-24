@@ -41,7 +41,13 @@ Running the programs tests <br />
 
 # Running migrations
 
-dotnet tool install --global dotnet-ef
-dotnet add package Microsoft.EntityFrameworkCore.Design
-dotnet ef migrations add InitialCreate
-dotnet ef database update
+Install tool (only once per user)
+  dotnet tool install --global dotnet-ef
+
+Add package (only once per project)
+  dotnet add package Microsoft.EntityFrameworkCore.Design
+
+Make sure to delete all migations files.
+Change directory to Chirp/src/Chirp.Infrastructure.
+  dotnet ef migrations add InitialCreate
+  dotnet ef database update
