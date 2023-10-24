@@ -56,6 +56,7 @@ public class CheepRepository
             return cheepsToReturn.GetRange(0, 32);
         }
         else
+
         {
             int endIndex = Math.Min((int)page + 32, (int)cheepsToReturn.Count);
             return cheepsToReturn.GetRange((int)page, endIndex - (int)(page));
@@ -86,6 +87,7 @@ public class CheepRepository
         int? page = (pageNum - 1) * 32;
 
 
+
         if (cheepsToReturn.Count < 32)
         {
             return cheepsToReturn.GetRange(0, cheepsToReturn.Count);
@@ -95,8 +97,9 @@ public class CheepRepository
             return cheepsToReturn.GetRange(0, 32);
         }
         else
-        {
-            return cheepsToReturn.GetRange((int)page, (int)(page + 32));
+        {   
+            int endIndex = Math.Min((int)page + 32, (int)cheepsToReturn.Count);
+            return cheepsToReturn.GetRange((int)page, endIndex-(int)(page));
         }
     }
 
