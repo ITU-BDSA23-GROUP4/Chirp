@@ -6,6 +6,7 @@ namespace Chirp.Infrastructure
     {
         private readonly ChirpDBContext db;
 
+
         public AuthorRepository()
         {
             db = new ChirpDBContext();
@@ -22,7 +23,7 @@ namespace Chirp.Infrastructure
                 AuthorId = ID,
                 Name = authorDTO.Name,
                 Email = authorDTO.Email,
-                Cheeps = GetAllCheepsFromAuthor(authorDTO.Name)
+                Cheeps = GetAllCheepsFromAuthor(authorDTO.Name, db)
             }).First();
             return author;
         }
@@ -33,7 +34,7 @@ namespace Chirp.Infrastructure
                 AuthorId = authorDTO.AuthorId,
                 Name = authorDTO.Name,
                 Email = authorDTO.Email,
-                Cheeps = GetAllCheepsFromAuthor(authorDTO.Name)
+                Cheeps = GetAllCheepsFromAuthor(authorDTO.Name, db)
             }).First();
             return author;
         }
@@ -44,17 +45,17 @@ namespace Chirp.Infrastructure
                 AuthorId = authorDTO.AuthorId,
                 Name = authorDTO.Name,
                 Email = authorDTO.Email,
-                Cheeps = GetAllCheepsFromAuthor(authorDTO.Name)
+                Cheeps = GetAllCheepsFromAuthor(authorDTO.Name, db)
             }).First();
             return author;
         }
 
-        public List<CheepDTO> GetAllCheepsFromAuthor(string author)
+        private static List<CheepDTO> GetAllCheepsFromAuthor(string author, ChirpDBContext dbStatic)
     {
 
         List<CheepDTO> cheepsToReturn = new List<CheepDTO>();
 
-        var cheepsDTO = db.Cheeps.OrderByDescending(c => c.TimeStamp.Ticks).Select(CheepDTO => new CheepDTO
+        var cheepsDTO = dbStatic.Cheeps.OrderByDescending(c => c.TimeStamp.Ticks).Select(CheepDTO => new CheepDTO
         {
             //Sets the properties of the Cheep
             AuthorId = CheepDTO.Author.AuthorId,
