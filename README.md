@@ -38,3 +38,10 @@ To get help, type: dotnet run help <br />
 Running the programs tests <br />
 - Enter the correct folder for the type of test
 - dotnet test<br />
+
+# Running migrations
+
+dotnet tool install --global dotnet-ef
+dotnet add package Microsoft.EntityFrameworkCore.Design
+dotnet ef migrations add InitialCreate
+dotnet ef database update
