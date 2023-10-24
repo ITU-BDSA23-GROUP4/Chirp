@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc.Testing;
 using Xunit;
 using System.Text.RegularExpressions;
+using Microsoft.EntityFrameworkCore.Infrastructure.Internal;
 public class TestAPI : IClassFixture<WebApplicationFactory<Program>>
 {
     private readonly WebApplicationFactory<Program> _fixture;
@@ -107,6 +108,29 @@ public class TestAPI : IClassFixture<WebApplicationFactory<Program>>
         //Assert
         Assert.NotEqual(contentFromPageTwo, content);
     }
+    [Theory]
+    [InlineData("/")]
+    [InlineData("/Jacqualine Gilcoine/")]
+    public async void CheepsAreInOrder(string path)
+    {
+        //Arrange
+        var response = await _client.GetAsync(path);
+        response.EnsureSuccessStatusCode();
+
+        //Act
+        var content = await response.Content.ReadAsStringAsync();
+        MatchCollection matches = Regex.Matches(content, "2023-[0-1][0-9]-[03][0-9] [0-2][0-9]:[0-6][0-9]:[0-6][0-9]");
+        Boolean InOrder=true;
+        for(int i =1;i<matches.Count;i++){
+            if(DateTime.Parse(""+matches[i-1]).CompareTo(DateTime.Parse(""+matches[i]))==-1){
+                InOrder=false;
+            }
+        }
+        //Assert 
+        Assert.True(InOrder);
+    }
+
+    
 }
 
 
