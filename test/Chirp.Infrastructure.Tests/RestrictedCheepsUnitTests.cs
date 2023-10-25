@@ -60,46 +60,51 @@ public class RestrictedCheepTests
     [Fact] //Should not be possible to add a cheep over 160 characters
     public void TestRestrictedCreationOfCheepOver160Char()
     {
-        //Act  -  Sets the message and adds an action to add the cheep to the in memory database
+        //Act
+        //Sets the message and adds an action to add the cheep to the in memory database
         string Message = "This string should be way over 160 characters, just so we can check that its not possible to make a message that is longer than nessesary.This will because of that, become a very long message.";
 
         Action act = () => repository.AddCheep(1, Message); //Adds the cheep to the database
 
-        //Assert  -  Should throw an exception to pass
-        act.Should().Throw<ArgumentException>().WithMessage("Message is above 160 characters or empty");
+        //Assert
+        act.Should().Throw<ArgumentException>().WithMessage("Message is above 160 characters or empty"); //Should throw an exception to pass
     }
 
     [Fact] //Should be possible to add a cheep at exactly 160 characters
     public void TestRestrictedCreationOfCheepAt160Char()
     {
-        //Act  -  Sets the message and adds an action to add the cheep to the in memory database
+        //Act
+        //Sets the message and adds an action to add the cheep to the in memory database
         string Message = " This string should be at exactly 160 characters, so that we know its possible. There should not be a character more or less, so we'll have a very precise test.";
 
         Action act = () => repository.AddCheep(1, Message);
 
-        //Assert  -  Should not throw an exception to pass
-        act.Should().NotThrow<ArgumentException>();
+        //Assert
+        act.Should().NotThrow<ArgumentException>(); //Should not throw an exception to pass
     }
 
     [Fact] //Should be possible to add a cheep that is under 160 characters
     public void TestRestrictedCreationOfCheepUnder160Char()
     {
-        //Act  -  Sets the message and adds an action to add the cheep to the in memory database
+        //Act
+        //Sets the message and adds an action to add the cheep to the in memory database
         string Message = "This string is very much under 160 characters";
 
         Action act = () => repository.AddCheep(1, Message);
 
-        //Assert  -  Should not throw an exception to pass
-        act.Should().NotThrow<ArgumentException>();
+        //Assert
+        act.Should().NotThrow<ArgumentException>(); //Should not throw an exception to pass
     }
 
     [Fact] //Should not be possible to add a cheep that is empty
     public void TestRestrictedCreationOfCheepOf0Char()
     {
-        //Act  -  Sets an action to add the cheep to the in memory database
+        //Act
+        //Sets an action to add the cheep to the in memory database
         Action act = () => repository.AddCheep(1, "");
 
-        //Assert - Should throw an exception to pass
+        //Assert
+        //Should throw an exception to pass
         act.Should().Throw<ArgumentException>().WithMessage("Message is above 160 characters or empty");
     }
 }

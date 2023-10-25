@@ -8,7 +8,6 @@ public class InMemoryDatabaseTest
     private readonly CheepRepository repository; //The repository of the memory database
     private readonly CheepRepository ExistingRepository; //The repository of the existing database
 
-    // private readonly CheepDTO cheep;
     public InMemoryDatabaseTest()
     {
         //Arrrange 
@@ -63,10 +62,12 @@ public class InMemoryDatabaseTest
     [Fact] //Check if the memory database is not empty
     public void MemoryDatabaseShouldNotBeEmpty()
     {
-        //Act  -  Get the first page of cheeps
+        //Act
+        //Get the first page of cheeps
         Action act = () => repository.GetCheeps(1);
 
-        //Assert  -  If not empty it should PASS
+        //Assert
+        //If not empty it should PASS
         act.Should().NotThrow<Exception>();
     }
 
@@ -82,8 +83,8 @@ public class InMemoryDatabaseTest
         var cheeps = ExistingRepository.GetCheeps(1);
         cheeps.Should().NotBeNull(); //Makes sure the page is not empty
 
-        //Assert - If not in the normal database PASS 
-        //See if the cheep is in the normal database
+        //Assert
+        //See if the cheep is in the normal database, if it isn't it should PASS
         cheeps.Should().NotContain(c => c.AuthorId == 1 && c.Message == "This is a cheep for testing");
     }
 }
