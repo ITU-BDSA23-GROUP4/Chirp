@@ -33,7 +33,7 @@ public class CheepRepository
         {
             int TLength = text.Length; //Sets a scalable length that we can use for if statement
             var author = AuthorRepository.GetAuthorByID(authorId);
-            if(TLength <=160 && TLength > 0){
+            if(TLength <=160){
                 db.Add(new Cheep
                 {
                     Author = GetAuthorById(authorId),
@@ -42,7 +42,7 @@ public class CheepRepository
                 });
             }else
             {
-                throw new ArgumentException("Message is too long or short");
+                throw new ArgumentException("Message is above 160 characters or empty");
             }
         }
         catch (System.Exception)

@@ -66,7 +66,7 @@ public class RestrictedCheepTests
         Action act = () => repository.AddCheep(1, Message); //Adds the cheep to the database
 
         //Assert  -  Should throw an exception to pass
-        act.Should().Throw<ArgumentException>().WithMessage("Message is too long or short");
+        act.Should().Throw<ArgumentException>().WithMessage("Message is above 160 characters or empty");
     }
 
     [Fact] //Should be possible to add a cheep at exactly 160 characters
@@ -100,6 +100,6 @@ public class RestrictedCheepTests
         Action act = () => repository.AddCheep(1, "");
 
         //Assert - Should throw an exception to pass
-        act.Should().Throw<ArgumentException>().WithMessage("Message is too long or short");
+        act.Should().Throw<ArgumentException>().WithMessage("Message is above 160 characters or empty");
     }
 }
