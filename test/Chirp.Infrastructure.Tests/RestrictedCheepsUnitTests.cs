@@ -107,4 +107,19 @@ public class RestrictedCheepTests
         //Should throw an exception to pass
         act.Should().Throw<ArgumentException>().WithMessage("Message is above 160 characters or empty");
     }
+
+    [Fact]
+    public void TestRestrictedCheepIsAddedToMemoryDatabase()
+    {
+        //Act
+        //Get the cheeps from the current database
+        Action act2 = () => repository.GetCheeps(1);
+        act2.Should().NotThrow<Exception>(); //Making sure it's possible
+
+        var cheeps = repository.GetCheeps(1);
+        cheeps.Should().NotBeNull(); //Makes sure the page is not empty
+
+        //Assert
+        cheeps.Should().Contain(c => c.AuthorId == 1 && c.Message == "This is a cheep for testing");
+    }
 }
