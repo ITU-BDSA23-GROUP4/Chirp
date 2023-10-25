@@ -33,7 +33,7 @@ public class CheepRepository
         {
             int TLength = text.Length; //Sets a scalable length that we can use for if statement
             var author = AuthorRepository.GetAuthorByID(authorId);
-            if(TLength <=160){
+            if(TLength <= 160 && TLength > 0 && author != null){
                 db.Add(new Cheep
                 {
                     Author = GetAuthorById(authorId),
