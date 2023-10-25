@@ -50,5 +50,7 @@ public class ChirpDBContext : DbContext
         modelBuilder.Entity<Cheep>().Property(C => C.Text).IsRequired(true);
         modelBuilder.Entity<Author>().Property(a => a.Name).HasMaxLength(50);
         modelBuilder.Entity<Author>().Property(a => a.Email).HasMaxLength(50);
+        modelBuilder.Entity<Author>().HasIndex(a => a.Name).IsUnique(true);
+        modelBuilder.Entity<Author>().HasIndex(a => a.Email).IsUnique(true);
     }
 }
