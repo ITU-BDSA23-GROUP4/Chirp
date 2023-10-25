@@ -14,7 +14,7 @@ public class PublicModel : PageModel
     // private readonly ICheepService _service;
     public List<CheepDTO>? Cheeps { get; set; }
 
-    CheepRepository cheepRepo = new CheepRepository();
+    public CheepRepository cheepRepo = new CheepRepository();
 
     // public PublicModel(ICheepService service)
     // {
