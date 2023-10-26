@@ -11,6 +11,10 @@ namespace Chirp.Infrastructure
         {
             db = new ChirpDBContext();
         }
+        public AuthorRepository(ChirpDBContext context) //If we want to use an existing db
+        {
+            db = context;
+        }
 
         public void AddAuthor(string name, string email)
         {
@@ -38,7 +42,6 @@ namespace Chirp.Infrastructure
 
         public AuthorDTO GetAuthorByName(string name)
         {
-
             var author = db.Authors.Where(author => author.Name == name).Select(authorDTO => new AuthorDTO
             {
                 AuthorId = authorDTO.AuthorId,
@@ -97,7 +100,5 @@ namespace Chirp.Infrastructure
 
             return cheepsToReturn;
         }
-
-
     }
 }
