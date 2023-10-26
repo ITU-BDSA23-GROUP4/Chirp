@@ -110,13 +110,12 @@ public class CheepRepository
         }
     }
 
+    //This method is needed for the dynamic buttons as we only have methods for returning 32 cheeps at a time
     public int GetCountOfAllCheeps()
     {
-        //Creates a list of max 32 CheepDTO sorted by recent cheep
-
         List<CheepDTO> cheepsToReturn = new List<CheepDTO>();
 
-        var cheepsDTO = db.Cheeps.OrderByDescending(c => c.TimeStamp.Ticks).Select(CheepDTO => new CheepDTO
+        var cheepsDTO = db.Cheeps.Select(CheepDTO => new CheepDTO
         {
             //Sets the properties of the Cheep
             AuthorId = CheepDTO.Author.AuthorId,
@@ -124,19 +123,16 @@ public class CheepRepository
             Message = CheepDTO.Text,
             Timestamp = CheepDTO.TimeStamp
         }
-        );
-
-        cheepsToReturn.AddRange(cheepsDTO);
-        return cheepsToReturn.Count();
+        ).Count();
+        return cheepsDTO;
     }
 
+    //This method is needed for the dynamic buttons as we only have methods for returning 32 cheeps at a time
     public int GetCountOfAllCheepFromAuthor(string author)
     {
-        //Creates a list of max 32 CheepDTO sorted by recent cheep and only for the given author
-
         List<CheepDTO> cheepsToReturn = new List<CheepDTO>();
 
-        var cheepsDTO = db.Cheeps.OrderByDescending(c => c.TimeStamp.Ticks)
+        var cheepsDTO = db.Cheeps
             .Where(cheep => cheep.Author != null && cheep.Author.Name != null && cheep.Author.Name.Equals(author))
             .Select(CheepDTO => new CheepDTO
             {
@@ -146,9 +142,8 @@ public class CheepRepository
                 Message = CheepDTO.Text,
                 Timestamp = CheepDTO.TimeStamp
             }
-        );
-        cheepsToReturn.AddRange(cheepsDTO);
-        return cheepsToReturn.Count();
+        ).Count();
+        return cheepsDTO;
     }
     
 }
