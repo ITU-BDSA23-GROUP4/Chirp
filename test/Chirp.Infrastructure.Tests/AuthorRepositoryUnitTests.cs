@@ -52,25 +52,34 @@ public class AuthorRepositoryUnitTests
         author.Should().BeEquivalentTo(new Author { AuthorId = 1, Name = "TestName", Email = "TestEmail", Cheeps = new List<Cheep>() });
     }
 
-    [Fact]
+    [Fact] //Test the method to get Author by a wrong email
     public void UnitTestFindAuthorByWrongEmail(){
-        
+        //Act
+        Action act = () => repository.GetAuthorByEmail("TestEmailWrong");
+
+        //Assert
+        //Should throw an exception since the email doesn't exist in our database
+        act.Should().Throw<ArgumentException>().WithMessage("Author with email TestEmailWrong does not exist");
     }
 
-    [Fact]
+    [Fact] //Test method to get Author by name
     public void UnitTestFindAuthorByName()
     {
+        //Act
+        var author = repository.GetAuthorByName("TestName");
 
+        //Assert
+        author.Should().BeEquivalentTo(new Author { AuthorId = 1, Name = "TestName", Email = "TestEmail", Cheeps = new List<Cheep>() });
     }
 
     [Fact]
     public void UnitTestFindAuthorByWrongName()
     {
+        //Act
+        Action act = () => repository.GetAuthorByName("TestNameWrong");
 
-    }
-
-    [Fact]
-    public void UnitTestCreateAuthorWithSucess(){
-
+        //Assert
+        //Should throw an exception since the name doesn't exist in our database
+        act.Should().Throw<ArgumentException>().WithMessage("Author with name TestNameWrong does not exist");
     }
 }
