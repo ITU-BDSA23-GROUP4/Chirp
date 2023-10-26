@@ -10,7 +10,7 @@ public class UserTimelineModel : PageModel
 
     public List<CheepDTO>? Cheeps { get; set; }
 
-    CheepRepository cheepRepo = new CheepRepository();
+    public CheepRepository cheepRepo = new CheepRepository();
 
     // public UserTimelineModel(ICheepService service)
     // {
