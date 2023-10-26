@@ -1,6 +1,7 @@
 using Initializer;
 using Chirp.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,7 +10,15 @@ builder.Services.AddRazorPages();
 builder.Services.AddMvc().AddRazorPagesOptions(options =>
 {
     options.Conventions.ConfigureFilter(new IgnoreAntiforgeryTokenAttribute());
+    
 });
+
+
+var connectionString = $"Data source={Path.Combine(Path.GetTempPath() + "chirp.db")}";
+builder.Services.AddDbContext<ChirpDBContext>(options => options.UseSqlite(connectionString));
+
+builder.Services.AddScoped<AuthorRepository>();
+builder.Services.AddScoped<CheepRepository>();
 
 /* Lecture notes for reference for later work. 
 builder.service.addScoped<ICheeprepository, CheepRepository()
@@ -30,6 +39,15 @@ builder.Services.AddScoped<ICheepRepository, CheepRepository>();
 Lecture notes stops here */
 
 //Seed data into database. 
+// string DbPath;
+// if (String.IsNullOrEmpty(Environment.GetEnvironmentVariable("CHIRPDBPATH")))
+//         {
+//             DbPath = Path.GetTempPath() + "chirp.db";
+//         }
+//         else
+//         {
+//             DbPath = Environment.GetEnvironmentVariable("CHIRPDBPATH");
+//         }
 using (var context = new ChirpDBContext())
 {
     context.Database.EnsureCreated();
@@ -58,4 +76,3 @@ app.MapRazorPages();
 app.Run();
 
 public partial class Program { }
-
