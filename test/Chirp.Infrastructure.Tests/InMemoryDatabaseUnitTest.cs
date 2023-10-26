@@ -62,6 +62,9 @@ public class InMemoryDatabaseTest
     [Fact] //Check if the memory database is not empty
     public void MemoryDatabaseShouldNotBeEmpty()
     {
+        /* In the constructor we add a cheep to the database, this is used so we make sure something is added to the database,
+        and then we check in this test, that this really do happen */
+
         //Act
         //Get the first page of cheeps
         Action act = () => repository.GetCheeps(1);
@@ -75,6 +78,8 @@ public class InMemoryDatabaseTest
     [Fact] //Check that adding a cheep to the in memory database doesn't affect our current database
     public void MemoryDatabaseShouldntAffectDatabaseTest()
     {
+        /* We use the object from the constructor, to compare in the Assert */
+        
         //Act
         //Get the cheeps from the current database
         Action act = () => ExistingRepository.GetCheeps(1);

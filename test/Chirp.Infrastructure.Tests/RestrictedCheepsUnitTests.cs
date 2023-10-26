@@ -22,7 +22,7 @@ public class RestrictedCheepTests
         }
         context.Database.EnsureCreated();
 
-        //Creates a cheep and author to add to the database
+        /* Creates a cheep and author to add to the database. These objects are used in each test */
         var testAuthor = new Author
         {
             AuthorId = 1,
