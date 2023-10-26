@@ -1,6 +1,8 @@
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using FluentAssertions;
+using System.ComponentModel.DataAnnotations;
+using System.Security.Cryptography.X509Certificates;
 
 public class AuthorRepositoryUnitTests
 {
@@ -22,7 +24,8 @@ public class AuthorRepositoryUnitTests
         }
         context.Database.EnsureCreated();
 
-        /* Creates a author to add to the database. The objects are used in each test */
+        /* Creates a author to add to the database. The objects are used in each test 
+        Is the same author as in the restrictedCheepsUnitTests, so we know he is there*/
         var testAuthor = new Author
         {
             AuthorId = 1,
@@ -39,10 +42,14 @@ public class AuthorRepositoryUnitTests
         repository = new AuthorRepository(_context);
     }
 
-    [Fact]
+    [Fact] //Test the method to get author by email
     public void UnitTestFindAuthorByEmail()
     {
+        //Act
+        var author = repository.GetAuthorByEmail("TestEmail");
 
+        //Assert
+        author.Should().BeEquivalentTo(new Author { AuthorId = 1, Name = "TestName", Email = "TestEmail", Cheeps = new List<Cheep>() });
     }
 
     [Fact]
