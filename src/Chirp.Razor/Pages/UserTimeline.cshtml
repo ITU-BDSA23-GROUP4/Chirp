@@ -27,14 +27,17 @@
                         </li>
                     }
                 </ul>
-                //For later add this https://github.com/itu-bdsa/lecture_notes/blob/main/sessions/session_05/Slides.md#mapping-of-razor-pages-to-endpoints
+                 <div class="pageNumber">
+                    <span>Page:</span>
+                    @for (int i = 1; i < ((Model.cheepRepo.GetCountOfAllCheepFromAuthor(Model.Cheeps[0].Author)/32)+2); i++)
+                    {   
+                        <button onclick="location.href='?page=@i'">@i</button>
+                    }
+                </div>
                 <div class="pageNumber">
                     <button onclick="location.href='?page=1'">Go to page 1</button>
-                    @* <button onclick="location.href='?change=-1'" >previous</button>
-                    <p>@Model.getPage()</p>
-                    <button onclick="location.href='?change=+1'" >next</button> *@
                 </div>
-                 <div class="CreateCheep">
+                <div class="CreateCheep">
                     <button onclick="location.href='/Cheep'">Write a Cheep!</button>
                 </div>
             }

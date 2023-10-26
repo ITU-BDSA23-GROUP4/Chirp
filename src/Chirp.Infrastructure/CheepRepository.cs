@@ -124,6 +124,41 @@ public class CheepRepository
         }
     }
 
+    //This method is needed for the dynamic buttons as we only have methods for returning 32 cheeps at a time
+    public int GetCountOfAllCheeps()
+    {
+        List<CheepDTO> cheepsToReturn = new List<CheepDTO>();
+
+        var cheepsDTO = db.Cheeps.Select(CheepDTO => new CheepDTO
+        {
+            //Sets the properties of the Cheep
+            AuthorId = CheepDTO.Author.AuthorId,
+            Author = CheepDTO.Author.Name,
+            Message = CheepDTO.Text,
+            Timestamp = CheepDTO.TimeStamp
+        }
+        ).Count();
+        return cheepsDTO;
+    }
+
+    //This method is needed for the dynamic buttons as we only have methods for returning 32 cheeps at a time
+    public int GetCountOfAllCheepFromAuthor(string author)
+    {
+        List<CheepDTO> cheepsToReturn = new List<CheepDTO>();
+
+        var cheepsDTO = db.Cheeps
+            .Where(cheep => cheep.Author != null && cheep.Author.Name != null && cheep.Author.Name.Equals(author))
+            .Select(CheepDTO => new CheepDTO
+            {
+                //Sets the properties of the Cheep
+                AuthorId = CheepDTO.Author.AuthorId,
+                Author = CheepDTO.Author.Name,
+                Message = CheepDTO.Text,
+                Timestamp = CheepDTO.TimeStamp
+            }
+        ).Count();
+        return cheepsDTO;
+    }
     // A method to get an Author class representation with an id
     private Author? GetAuthorById(int id)
     {
