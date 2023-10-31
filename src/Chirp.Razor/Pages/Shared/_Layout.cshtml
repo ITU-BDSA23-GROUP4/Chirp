@@ -14,15 +14,15 @@
             <div>
                 <a href="/@(User.Identity.Name)">my timeline</a> |
                 <a href="/">public timeline</a> |
-                <a ... >logout [@(User.Identity.Name)]</a>
+                <a href="https://github.com/logout" >logout [@(User.Identity.Name)]</a>
             </div>
         }
         else
         {
             <div>
                 <a href="/">public timeline</a> |
-                <a ... >register</a>
-                <a ... >login</a>
+                <a href="/.auth/login/github" >register</a>
+                <a href="/.auth/login/github" >login</a>
             </div>
         }
     </div>
