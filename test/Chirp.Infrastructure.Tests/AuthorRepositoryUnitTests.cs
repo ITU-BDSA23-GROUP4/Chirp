@@ -1,8 +1,6 @@
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using FluentAssertions;
-using System.ComponentModel.DataAnnotations;
-using System.Security.Cryptography.X509Certificates;
 
 public class AuthorRepositoryUnitTests
 {
@@ -42,17 +40,18 @@ public class AuthorRepositoryUnitTests
         repository = new AuthorRepository(_context);
     }
 
-    [Fact] //Test the method to get author by email
+    [Fact] //Test the method to get author by email - should be possible
     public void UnitTestFindAuthorByEmail()
     {
         //Act
         var author = repository.GetAuthorByEmail("TestEmail");
 
         //Assert
+        //Should pass since they're the same
         author.Should().BeEquivalentTo(new Author { AuthorId = 1, Name = "TestName", Email = "TestEmail", Cheeps = new List<Cheep>() });
     }
 
-    [Fact] //Test the method to get Author by a wrong email
+    [Fact] //Test the method to get Author by a wrong email - shouldn't be possible
     public void UnitTestFindAuthorByWrongEmail(){
         //Act
         Action act = () => repository.GetAuthorByEmail("TestEmailWrong");
@@ -62,17 +61,18 @@ public class AuthorRepositoryUnitTests
         act.Should().Throw<ArgumentException>().WithMessage("Author with email TestEmailWrong does not exist");
     }
 
-    [Fact] //Test method to get Author by name
+    [Fact] //Test method to get Author by name - should be possible
     public void UnitTestFindAuthorByName()
     {
         //Act
         var author = repository.GetAuthorByName("TestName");
 
         //Assert
+        //Should pass since they're the same
         author.Should().BeEquivalentTo(new Author { AuthorId = 1, Name = "TestName", Email = "TestEmail", Cheeps = new List<Cheep>() });
     }
 
-    [Fact]
+    [Fact] //Test method to get an author by the wrong name - shouldn't be possible
     public void UnitTestFindAuthorByWrongName()
     {
         //Act
@@ -81,5 +81,27 @@ public class AuthorRepositoryUnitTests
         //Assert
         //Should throw an exception since the name doesn't exist in our database
         act.Should().Throw<ArgumentException>().WithMessage("Author with name TestNameWrong does not exist");
+    }
+
+    [Fact] //Test method to get an author by id - should be possible
+    public void UnitTestFindAuthorById()
+    {
+        //Act
+        var author = repository.GetAuthorByID(1);
+
+        //Assert
+        //Should pass since they're the same
+        author.Should().BeEquivalentTo(new Author { AuthorId = 1, Name = "TestName", Email = "TestEmail", Cheeps = new List<Cheep>() });
+    }
+
+    [Fact] //Test method to get an author by wrong ide - shouldn't be possible
+    public void UnitTestFindAuthorByWrongId()
+    {
+        //Act
+        Action act = () => repository.GetAuthorByID(2);
+
+        //Assert
+        //Should throw an exception since the id doesn't exist in our database
+        act.Should().Throw<ArgumentException>().WithMessage("Author with id 2 does not exist");
     }
 }

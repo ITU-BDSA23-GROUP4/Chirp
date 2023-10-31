@@ -32,11 +32,11 @@ public class CheepRepository
         try
         {
             int TLength = text.Length; //Sets a scalable length that we can use for if statement
-            var author = AuthorRepository.GetAuthorByID(authorId);
+            var author = GetAuthorById(authorId);
             if(TLength <= 160 && TLength > 0 && author != null){
                 db.Add(new Cheep
                 {
-                    Author = GetAuthorById(authorId),
+                    Author = author,
                     Text = text,
                     TimeStamp = DateTime.Now
                 });
