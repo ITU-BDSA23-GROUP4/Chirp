@@ -1,4 +1,8 @@
+using System.ComponentModel.DataAnnotations;
 using Chirp.Core;
+using FluentValidation;
+using Microsoft.EntityFrameworkCore;
+using ValidationException = System.ComponentModel.DataAnnotations.ValidationException;
 
 
 namespace Chirp.Infrastructure;
@@ -6,6 +10,7 @@ namespace Chirp.Infrastructure;
 public class CheepRepository
 {
     private readonly ChirpDBContext db; //Needed to get our CheepDTO
+    private readonly CheepCreateValidator? _validator; //Needed to validate our CheepDTO
     private AuthorRepository AuthorRepository; //Needed to get our AuthorDTO
 
 
@@ -21,9 +26,10 @@ public class CheepRepository
         AuthorRepository = new AuthorRepository(db);
     }
 
-    public CheepRepository(ChirpDBContext context) //If we want to use an existing db
+    public CheepRepository(ChirpDBContext context, CheepCreateValidator validator) //If we want to use an existing db
     {
         db = context;
+        _validator = validator;
         AuthorRepository = new AuthorRepository(db);
     }
 
@@ -165,4 +171,22 @@ public class CheepRepository
         return db.Authors.Where(author => author.AuthorId == id).FirstOrDefault();
     }
     
+    // Code directly from lecture
+    public async Task Create(CheepCreateDTO cheep)
+    {
+        var validationResult = await _validator.ValidateAsync(cheep);
+
+        if (!validationResult.IsValid)
+        {
+            throw new ValidationException();
+        }
+
+        var user = await db.Authors.SingleAsync(u => u.Name == cheep.Author);
+
+        var entity = new Cheep{
+            Text = cheep.Text,
+            Author = user,
+            TimeStamp = DateTime.Now
+        };
+    }
 }
