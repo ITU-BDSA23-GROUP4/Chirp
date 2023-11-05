@@ -1,4 +1,3 @@
-using System.ComponentModel.DataAnnotations;
 using Chirp.Core;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
