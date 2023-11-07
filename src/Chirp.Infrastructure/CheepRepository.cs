@@ -1,6 +1,7 @@
 using Chirp.Core;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
+using NuGet.Protocol.Core.Types;
 using ValidationException = System.ComponentModel.DataAnnotations.ValidationException;
 
 
@@ -182,7 +183,7 @@ public class CheepRepository
     }
     
     // Code directly from lecture
-    public async Task Create(CheepCreateDTO cheep)
+    public async Task<Cheep> Create(CheepCreateDTO cheep)
     {
         //NullReferenceException is handled in the constructor - CheepRepository()
         var validationResult = await _validator.ValidateAsync(cheep);
@@ -199,5 +200,15 @@ public class CheepRepository
             Author = user,
             TimeStamp = DateTime.Now
         };
+
+        db.Add(new Cheep
+                {
+                    Author = entity.Author,
+                    Text = entity.Text,
+                    TimeStamp = entity.TimeStamp
+                });
+        await db.SaveChangesAsync();
+
+        return entity;
     }
 }
