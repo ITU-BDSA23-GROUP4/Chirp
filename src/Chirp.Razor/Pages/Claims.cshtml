@@ -14,7 +14,6 @@
 <div>
     @if (Model.principal != null) {
         @foreach (System.Security.Claims.Claim claim in Model.principal.claims) {
-            <p>
                 @claim.Type
                 @claim.Value;
             </p>
