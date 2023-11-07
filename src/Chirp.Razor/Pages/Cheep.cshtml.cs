@@ -11,8 +11,8 @@ public class CheepModel : PageModel
 {
     CheepRepository cheepRepo = new CheepRepository();
     AuthorRepository authorRepo = new AuthorRepository();
-
-
+    private readonly CheepCreateValidator? validator; //Validator for the database
+   
     [BindProperty]
     public string Author { get; set; } = "";
 
@@ -21,17 +21,14 @@ public class CheepModel : PageModel
 
     [BindProperty, Required, StringLength(160)]
     public string CheepMessage { get; set; } = string.Empty; //= string.Empty; fixes null error
-    
  
     public async Task<IActionResult> OnPostAsync()
     {
         try
         {
-
-            //cheepRepo.AddCheep(authorRepo.GetAuthorByName(Author).AuthorId, CheepMessage);
-
-            var cheep = new CheepCreateDTO(CheepMessage, authorRepo.GetAuthorByName(Author).Name);
-            await cheepRepo.Create(cheep);
+            var cheep = new CheepCreateDTO(authorRepo.GetAuthorByName(Author).Name, CheepMessage);
+            
+            cheepRepo.Create(cheep);
 
             return Redirect($"/{Author}");   
         }

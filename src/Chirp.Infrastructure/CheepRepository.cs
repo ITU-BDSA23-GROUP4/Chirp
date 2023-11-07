@@ -1,5 +1,6 @@
 using Chirp.Core;
 using FluentValidation;
+using FluentValidation.Results;
 using Microsoft.EntityFrameworkCore;
 using ValidationException = System.ComponentModel.DataAnnotations.ValidationException;
 
@@ -17,6 +18,7 @@ public class CheepRepository
     {
         db = new ChirpDBContext(); 
         AuthorRepository = new AuthorRepository(db);
+        _validator = new CheepCreateValidator();
     }
 
     public CheepRepository(string dbName) //If creating a new db is needed
@@ -185,29 +187,29 @@ public class CheepRepository
     public async Task<Cheep> Create(CheepCreateDTO cheep)
     {
         //NullReferenceException is handled in the constructor - CheepRepository()
-        var validationResult = await _validator.ValidateAsync(cheep);
+        ValidationResult result = _validator.Validate(cheep);
 
-        if (!validationResult.IsValid)
+        if (!result.IsValid)
         {
             throw new ValidationException();
         }
+        
+        var user = db.Authors.SingleAsync(u => u.Name == cheep.Author);
 
-        var user = await db.Authors.SingleAsync(u => u.Name == cheep.Author);
-
-        var entity = new Cheep{
-            Text = cheep.Text,
-            Author = user,
-            TimeStamp = DateTime.Now
-        };
-
-        db.Add(new Cheep
+        try
+        {
+             db.Add(new Cheep
                 {
-                    Author = entity.Author,
-                    Text = entity.Text,
-                    TimeStamp = entity.TimeStamp
+                    Author = user.Result,
+                    Text = cheep.Text,
+                    TimeStamp = DateTime.Now
                 });
-        await db.SaveChangesAsync();
-
-        return entity;
+        }
+        catch (System.Exception)
+        {
+            throw;
+        }
+        db.SaveChanges();
+        return null;
     }
 }
