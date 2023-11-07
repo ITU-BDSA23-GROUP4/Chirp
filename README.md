@@ -1,3 +1,4 @@
+
 # Chirp
 Project repository for BDSA course by:
 - Lukas Andersson (Lukan)
@@ -22,6 +23,14 @@ v1.2.3
 An examle is an breaking API change.
 - The second position is a feature update, indicating that it is safe to update to.
 - The third position is a bug fix, indicating that it is safe to update to.
+
+## SlN
+dotnet new sln
+dotnet sln add src/Chirp.Razor/Chirp.Razor.csproj
+dotnet sln add src/Chirp.Core/Chirp.Core.csproj
+dotnet sln add src/Chirp.Infrastructure/Chirp.Infrastructure.csproj
+dotnet sln add test/Chirp.Infrastructure.Test/Chirp.Infrastructure.Test.csproj
+dotnet sln add test/Chirp.Razor.Test/Chirp.Razor.Test.csproj
 
 # Running the program
 

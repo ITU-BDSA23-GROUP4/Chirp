@@ -18,7 +18,7 @@ public class CheepModel : PageModel
     [BindProperty]
     public string CheepMessage { get; set; } = "";
  
-    public IActionResult OnPost()
+    public async Task<IActionResult> OnPost()
     {
         try
         {
@@ -32,6 +32,9 @@ public class CheepModel : PageModel
     }
 }
     
+
+
+   
     
 
 
