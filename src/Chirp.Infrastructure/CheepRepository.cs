@@ -1,7 +1,6 @@
 using Chirp.Core;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
-using NuGet.Protocol.Core.Types;
 using ValidationException = System.ComponentModel.DataAnnotations.ValidationException;
 
 
