@@ -6,16 +6,14 @@ namespace Chirp.Razor.Pages;
 
 public class UserTimelineModel : PageModel
 {
-    // private readonly ICheepService _service;
+    public readonly ICheepService _service;
 
     public List<CheepDTO>? Cheeps { get; set; }
 
-    public CheepRepository cheepRepo = new CheepRepository();
-
-    // public UserTimelineModel(ICheepService service)
-    // {
-    //     _service = service;
-    // }
+    public UserTimelineModel(ICheepService service)
+    {
+        _service = service;
+    }
 
 
     [FromQuery(Name = "page")]
@@ -25,11 +23,11 @@ public class UserTimelineModel : PageModel
     {
         if (pageNum.HasValue)
         {
-            Cheeps = cheepRepo.GetCheepsFromAuthor(author, pageNum);
+            Cheeps = _service.GetCheepsFromAuthor(author, pageNum);
         }
         else
         {
-            Cheeps = cheepRepo.GetCheepsFromAuthor(author, pageNum);
+            Cheeps = _service.GetCheepsFromAuthor(author, pageNum);
         }
         return Page();
     }

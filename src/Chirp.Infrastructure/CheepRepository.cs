@@ -3,27 +3,15 @@ using Chirp.Core;
 
 namespace Chirp.Infrastructure;
 
-public class CheepRepository
+public class CheepRepository : ICheepRepository
 {
-    private readonly ChirpDBContext db; //Needed to get our CheepDTO
+    private readonly ChirpDBContext _db; //Needed to get our CheepDTO
     private AuthorRepository AuthorRepository; //Needed to get our AuthorDTO
 
 
-    public CheepRepository() //Initializes our model
+    public CheepRepository(ChirpDBContext db) //Initializes our model
     {
-        db = new ChirpDBContext();
-        AuthorRepository = new AuthorRepository(db);
-    }
-
-    public CheepRepository(string dbName) //If creating a new db is needed
-    {
-        db = new ChirpDBContext(dbName);
-        AuthorRepository = new AuthorRepository(db);
-    }
-
-    public CheepRepository(ChirpDBContext context) //If we want to use an existing db
-    {
-        db = context;
+        _db = db;
         AuthorRepository = new AuthorRepository(db);
     }
 
@@ -34,7 +22,7 @@ public class CheepRepository
             int TLength = text.Length; //Sets a scalable length that we can use for if statement
             var author = GetAuthorById(authorId);
             if(TLength <= 160 && TLength > 0 && author != null){
-                db.Add(new Cheep
+                _db.Add(new Cheep
                 {
                     Author = author,
                     Text = text,
@@ -44,7 +32,7 @@ public class CheepRepository
             {
                 throw new ArgumentException("Message is above 160 characters or empty");
             }
-            db.SaveChanges();
+            _db.SaveChanges();
         }
         catch (System.Exception)
         {
@@ -59,7 +47,7 @@ public class CheepRepository
 
         List<CheepDTO> cheepsToReturn = new();
 
-        var cheepsDTO = db.Cheeps.OrderByDescending(c => c.TimeStamp.Ticks).Select(CheepDTO => new CheepDTO
+        var cheepsDTO = _db.Cheeps.OrderByDescending(c => c.TimeStamp.Ticks).Select(CheepDTO => new CheepDTO
         {
             //Sets the properties of the Cheep
             AuthorId = CheepDTO.Author.AuthorId,
@@ -93,7 +81,7 @@ public class CheepRepository
 
         List<CheepDTO> cheepsToReturn = new List<CheepDTO>();
 
-        var cheepsDTO = db.Cheeps.OrderByDescending(c => c.TimeStamp.Ticks)
+        var cheepsDTO = _db.Cheeps.OrderByDescending(c => c.TimeStamp.Ticks)
             .Where(cheep => cheep.Author != null && cheep.Author.Name != null && cheep.Author.Name.Equals(author))
             .Select(CheepDTO => new CheepDTO
             {
@@ -130,7 +118,7 @@ public class CheepRepository
     {
         List<CheepDTO> cheepsToReturn = new List<CheepDTO>();
 
-        var cheepsDTO = db.Cheeps.Select(CheepDTO => new CheepDTO
+        var cheepsDTO = _db.Cheeps.Select(CheepDTO => new CheepDTO
         {
             //Sets the properties of the Cheep
             AuthorId = CheepDTO.Author.AuthorId,
@@ -147,7 +135,7 @@ public class CheepRepository
     {
         List<CheepDTO> cheepsToReturn = new List<CheepDTO>();
 
-        var cheepsDTO = db.Cheeps
+        var cheepsDTO = _db.Cheeps
             .Where(cheep => cheep.Author != null && cheep.Author.Name != null && cheep.Author.Name.Equals(author))
             .Select(CheepDTO => new CheepDTO
             {
@@ -163,7 +151,7 @@ public class CheepRepository
     // A method to get an Author class representation with an id
     private Author? GetAuthorById(int id)
     {
-        return db.Authors.Where(author => author.AuthorId == id).FirstOrDefault();
+        return _db.Authors.Where(author => author.AuthorId == id).FirstOrDefault();
     }
     
 }

@@ -7,10 +7,11 @@ namespace Chirp.Razor.Pages;
 
 public class CheepModel : PageModel
 {
+    private readonly ICheepService _service;
 
-    CheepRepository cheepRepo = new CheepRepository();
-    AuthorRepository authorRepo = new AuthorRepository();
-
+    public CheepModel(ICheepService service){
+        _service = service;
+    }
 
     [BindProperty]
     public string Author { get; set; } = "";
@@ -22,7 +23,7 @@ public class CheepModel : PageModel
     {
         try
         {
-            cheepRepo.AddCheep(authorRepo.GetAuthorByName(Author).AuthorId, CheepMessage);
+            _service.AddCheep(_service.GetAuthorByName(Author).AuthorId, CheepMessage);
             return Redirect($"/{Author}");   
         }
         catch (Exception)
