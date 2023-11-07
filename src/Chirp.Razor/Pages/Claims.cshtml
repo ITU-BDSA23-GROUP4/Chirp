@@ -1,0 +1,23 @@
+@page "/Claims"
+
+@model Chirp.Razor.Pages.ClaimsModel;
+@{
+    ViewData["Title"] = "UserID";
+    Layout = "Shared/_Layout";
+}
+
+<div>
+    @await Model.GetIdentityAsync();
+</div>
+
+@* 
+<div>
+    @if (Model.principal != null) {
+        @foreach (System.Security.Claims.Claim claim in Model.principal.claims) {
+            <p>
+                @claim.Type
+                @claim.Value;
+            </p>
+        }    
+    }
+</div> *@
