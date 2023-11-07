@@ -9,13 +9,13 @@ namespace Chirp.Infrastructure;
 public class CheepRepository
 {
     private readonly ChirpDBContext db; //Needed to get our CheepDTO
-    private readonly CheepCreateValidator? _validator; //Needed to validate our CheepDTO
+    private readonly CheepCreateValidator?  _validator; //Needed to validate our CheepDTO
     private AuthorRepository AuthorRepository; //Needed to get our AuthorDTO
 
 
     public CheepRepository() //Initializes our model
     {
-        db = new ChirpDBContext();
+        db = new ChirpDBContext(); 
         AuthorRepository = new AuthorRepository(db);
     }
 
@@ -28,7 +28,18 @@ public class CheepRepository
     public CheepRepository(ChirpDBContext context, CheepCreateValidator validator) //If we want to use an existing db
     {
         db = context;
-        _validator = validator;
+        try
+        {   if( validator==null){
+            throw new NullReferenceException();
+        } else {
+            _validator = validator;
+        }
+        }
+        catch (System.Exception)
+        {
+            
+            throw;
+        }
         AuthorRepository = new AuthorRepository(db);
     }
 
@@ -173,6 +184,7 @@ public class CheepRepository
     // Code directly from lecture
     public async Task Create(CheepCreateDTO cheep)
     {
+        //NullReferenceException is handled in the constructor - CheepRepository()
         var validationResult = await _validator.ValidateAsync(cheep);
 
         if (!validationResult.IsValid)
