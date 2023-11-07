@@ -1,13 +1,10 @@
 using Chirp.Core;
 
-
 namespace Chirp.Infrastructure;
-
 public class CheepRepository
 {
     private readonly ChirpDBContext db; //Needed to get our CheepDTO
     private AuthorRepository AuthorRepository; //Needed to get our AuthorDTO
-
 
     public CheepRepository() //Initializes our model
     {

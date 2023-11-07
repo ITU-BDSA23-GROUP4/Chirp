@@ -1,6 +1,3 @@
-using Microsoft.Data.Sqlite;
-using Microsoft.EntityFrameworkCore;
-using FluentAssertions;
 public class InMemoryDatabaseTest
 {
     private readonly SqliteConnection? _connection; //The connection to the database
