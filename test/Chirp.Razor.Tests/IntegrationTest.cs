@@ -18,7 +18,7 @@ public class TestAPI : IClassFixture<WebApplicationFactory<Program>>
     {
         //Arrange 
         var response = await _client.GetAsync("/");
-        // response.EnsureSuccessStatusCode();
+        response.EnsureSuccessStatusCode();
 
         //Act 
         var content = await response.Content.ReadAsStringAsync();
@@ -35,7 +35,7 @@ public class TestAPI : IClassFixture<WebApplicationFactory<Program>>
     {
         //Arrange
         var response = await _client.GetAsync($"/{author}");
-        //response.EnsureSuccessStatusCode();
+        response.EnsureSuccessStatusCode();
 
         //Act 
         var content = await response.Content.ReadAsStringAsync();
@@ -54,7 +54,7 @@ public class TestAPI : IClassFixture<WebApplicationFactory<Program>>
     {
         //Arrange
         var response = await _client.GetAsync(path);
-        // response.EnsureSuccessStatusCode();
+        response.EnsureSuccessStatusCode();
 
         //Act
         var content = await response.Content.ReadAsStringAsync();
@@ -73,7 +73,7 @@ public class TestAPI : IClassFixture<WebApplicationFactory<Program>>
         //Assert
         //Content from standard page: Localhost/
         var response = await _client.GetAsync(path);
-        // response.EnsureSuccessStatusCode();
+        response.EnsureSuccessStatusCode();
         //Content from page 1
         var responseFromPageOne = await _client.GetAsync(path + "?page=1");
         responseFromPageOne.EnsureSuccessStatusCode();
@@ -93,11 +93,11 @@ public class TestAPI : IClassFixture<WebApplicationFactory<Program>>
         //Arange
         //Content from standard page 1
         var response = await _client.GetAsync(path+"?page=1");
-        // response.EnsureSuccessStatusCode();
+        response.EnsureSuccessStatusCode();
 
         //Content from page 2
         var responseFromPageTwo = await _client.GetAsync(path+"?page=2");
-        // responseFromPageTwo.EnsureSuccessStatusCode();
+        responseFromPageTwo.EnsureSuccessStatusCode();
 
         //Act 
         // page 1 
@@ -115,7 +115,7 @@ public class TestAPI : IClassFixture<WebApplicationFactory<Program>>
     {
         //Arrange
         var response = await _client.GetAsync(path);
-        // response.EnsureSuccessStatusCode();
+        response.EnsureSuccessStatusCode();
 
         //Act
         var content = await response.Content.ReadAsStringAsync();
