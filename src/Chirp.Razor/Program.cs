@@ -34,7 +34,6 @@ builder.Services.AddAuthentication(options =>
         o.CallbackPath = "/signin-github";
 });
 
-
 using (var context = new ChirpDBContext())
 {
     context.Database.EnsureCreated();
