@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Net;
+using ClaimsHandler;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -59,6 +60,8 @@ app.UseRouting();
 app.MapRazorPages();
 
 app.UseAuthorization();
+
+
 
 app.Run();
 

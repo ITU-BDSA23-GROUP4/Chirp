@@ -1,8 +1,6 @@
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using FluentAssertions;
-using System.ComponentModel.DataAnnotations;
-using System.Security.Cryptography.X509Certificates;
 
 public class AuthorRepositoryUnitTests
 {
@@ -78,7 +76,7 @@ public class AuthorRepositoryUnitTests
         //Act
         Action act = () => repository.GetAuthorByName("TestNameWrong");
 
-        //Assert
+        //Assert1
         //Should throw an exception since the name doesn't exist in our database
         act.Should().Throw<ArgumentException>().WithMessage("Author with name TestNameWrong does not exist");
     }
