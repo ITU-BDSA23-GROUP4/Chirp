@@ -20,6 +20,21 @@ builder.Services.AddDbContext<ChirpDBContext>(options => options.UseSqlite(conne
 builder.Services.AddScoped<AuthorRepository>();
 builder.Services.AddScoped<CheepRepository>();
 
+builder.Services.AddAuthentication(options =>
+    {
+        options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+        options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+        options.DefaultChallengeScheme = "GitHub";
+    })
+    .AddCookie()
+    .AddGitHub(o =>
+    {
+        o.ClientId = builder.Configuration["authentication:github:clientId"];
+        o.ClientSecret = builder.Configuration["authentication:github:clientSecret"];
+        o.CallbackPath = "/signin-github";
+});
+
+
 using (var context = new ChirpDBContext())
 {
     context.Database.EnsureCreated();

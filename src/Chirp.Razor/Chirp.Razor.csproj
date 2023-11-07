@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AspNet.Security.OAuth.GitHub" Version="7.0.4" />
     <PackageReference Include="Microsoft.Data.Sqlite" Version="7.0.11" />
     <EmbeddedResource Include="../../data/**/*" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.12">
