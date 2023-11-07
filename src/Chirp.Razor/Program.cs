@@ -39,9 +39,9 @@ if (!app.Environment.IsDevelopment())
     })
     .AddCookie()
     .AddGitHub(o =>
-    {
-        o.ClientId = builder.Configuration["authentication:github:clientId"];
-        o.ClientSecret = builder.Configuration["authentication:github:clientSecret"];
+    {   
+        o.ClientId = NullCheck(builder.Configuration["authentication:github:clienId"]);
+        o.ClientSecret = NullCheck(builder.Configuration["authentication:github:clientSecret"]);
         o.CallbackPath = "/signin-github";
     });
 
@@ -60,5 +60,12 @@ app.MapRazorPages();
 app.UseAuthorization();
 
 app.Run();
+
+static string NullCheck(string? stringToCheck) {
+    if (stringToCheck == null) {
+        throw new ArgumentNullException();
+    }
+    return stringToCheck;
+}
 
 public partial class Program { }
