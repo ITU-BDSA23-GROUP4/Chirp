@@ -62,6 +62,7 @@ public class CheepRepository
             {
                 throw new ArgumentException("Message is above 160 characters or empty");
             }
+            db.SaveChanges();
         }
         catch (System.Exception)
         {

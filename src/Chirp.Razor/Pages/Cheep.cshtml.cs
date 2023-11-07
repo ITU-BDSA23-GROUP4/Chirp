@@ -28,7 +28,7 @@ public class CheepModel : PageModel
         {
             var cheep = new CheepCreateDTO(authorRepo.GetAuthorByName(Author).Name, CheepMessage);
             
-            cheepRepo.Create(cheep);
+            await cheepRepo.Create(cheep);
 
             return Redirect($"/{Author}");   
         }
