@@ -63,7 +63,7 @@ app.Run();
 
 static string NullCheck(string? stringToCheck) {
     if (stringToCheck == null) {
-        throw new ArgumentNullException();
+        throw new NullReferenceException();
     }
     return stringToCheck;
 }
