@@ -9,20 +9,20 @@
 <div class=page>
     <h1><a class="logoStyling" href="~/"><img src="/images/icon1.png" alt="Icon1"/>Chirp!</a></h1>
         <div class=navigation>
-        @if (User?.Identity?.IsAuthenticated == true)
+        @if (User.Identity.IsAuthenticated)
         {
             <div>
                 <a href="/@(User.Identity.Name)">my timeline</a> |
                 <a href="/">public timeline</a> |
-                <a ... >logout [@(User.Identity.Name)]</a>
+                <a href="https://github.com/logout" >logout [@(User.Identity.Name)]</a>
             </div>
         }
         else
         {
             <div>
                 <a href="/">public timeline</a> |
-                <a ... >register</a>
-                <a ... >login</a>
+                <a href="/.auth/login/github" >register</a>
+                <a href="/.auth/login/github" >login</a>
             </div>
         }
     </div>

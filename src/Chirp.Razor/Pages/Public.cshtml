@@ -30,7 +30,6 @@
                     <span>Page:</span>
                     @for (int i = 1; i < ((Model.cheepRepo.GetCountOfAllCheeps()/32)+2); i++)
                     {   
-                        Console.WriteLine(Model.cheepRepo.GetCountOfAllCheeps());
                         <button onclick="location.href='?page=@i'">@i</button>
                     }
                 </div>

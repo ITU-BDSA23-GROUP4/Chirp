@@ -2,6 +2,7 @@ using Initializer;
 using Chirp.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,41 +14,12 @@ builder.Services.AddMvc().AddRazorPagesOptions(options =>
     
 });
 
-
 var connectionString = $"Data source={Path.Combine(Path.GetTempPath() + "chirp.db")}";
 builder.Services.AddDbContext<ChirpDBContext>(options => options.UseSqlite(connectionString));
 
 builder.Services.AddScoped<AuthorRepository>();
 builder.Services.AddScoped<CheepRepository>();
 
-/* Lecture notes for reference for later work. 
-builder.service.addScoped<ICheeprepository, CheepRepository()
-Connections
-
-In database add 
-[StringLenghth(160. MinimumLength = 5)] -- NOT SUPPORTED IN SQLITE
-
-dotnet ef migrations add limitCheepSize
-
-
-builder.Services.AddDbContext<ChirpDBContext>(
-    options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("Chirp")));
-builder.Services.AddScoped<ICheepRepository, CheepRepository>();
-
-
-Lecture notes stops here */
-
-//Seed data into database. 
-// string DbPath;
-// if (String.IsNullOrEmpty(Environment.GetEnvironmentVariable("CHIRPDBPATH")))
-//         {
-//             DbPath = Path.GetTempPath() + "chirp.db";
-//         }
-//         else
-//         {
-//             DbPath = Environment.GetEnvironmentVariable("CHIRPDBPATH");
-//         }
 using (var context = new ChirpDBContext())
 {
     context.Database.EnsureCreated();
@@ -64,14 +36,14 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-
-
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
 
 app.MapRazorPages();
+
+app.UseAuthorization();
 
 app.Run();
 
