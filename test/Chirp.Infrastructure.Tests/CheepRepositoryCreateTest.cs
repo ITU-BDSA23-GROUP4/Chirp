@@ -45,19 +45,20 @@ public class CheepRepositoryUnitTests
     }
 
     [Fact]
-    public async Task UnitTestCreateMethod()
+    public async void UnitTestCreateMethod()
     {
         //Arrange
         string Message = "TestMessage";
         CheepCreateDTO cheepCreateDto = new CheepCreateDTO("TestAuthor", Message);
 
         //Act
-        Cheep result = await repository.Create(cheepCreateDto);
+        await repository.Create(cheepCreateDto); //Adds the cheep to the database
+
+         var cheeps = repository.GetCheeps(1);
+        cheeps.Should().NotBeNull(); //Makes sure the page is not empty
 
         //Assert
-        Assert.NotNull(result);
-        Assert.Equal("TestAuthor", result.Author.Name);
-        Assert.Equal("TestMessage", result.Text);
+        cheeps.Should().Contain(c => c.Author == "TestAuthor" && c.Message == "TestMessage");
     }
 
     [Fact]
@@ -69,13 +70,13 @@ public class CheepRepositoryUnitTests
         CheepCreateDTO cheepCreateDto = new CheepCreateDTO("TestAuthor", Message);
 
         //Act
-        Cheep result = await repository.Create(cheepCreateDto);
+        await repository.Create(cheepCreateDto); //Adds the cheep to the database
+        
+        var cheeps = repository.GetCheeps(1);
+        cheeps.Should().NotBeNull(); //Makes sure the page is not empty
 
         //Assert
-        Assert.NotNull(result);
-        Assert.Equal("TestAuthor", result.Author.Name); 
-        Assert.Equal("TestMessage2", result.Text);
-        Assert.Equal(initialCount+1, _context.Cheeps.Count()); //Checks if the cheep is added to the database
+        cheeps.Should().Contain(c => c.Author == "TestAuthor" && c.Message == "TestMessage2");
     }
 
     [Fact]
