@@ -22,13 +22,13 @@ public class CheepModel : PageModel
     [BindProperty, Required, StringLength(160)]
     public string CheepMessage { get; set; } = string.Empty; //= string.Empty; fixes null error
  
-    public async Task<IActionResult> OnPostAsync()
+    public IActionResult OnPost()
     {
         try
         {
             var cheep = new CheepCreateDTO(authorRepo.GetAuthorByName(Author).Name, CheepMessage);
             
-            await cheepRepo.Create(cheep);
+            cheepRepo.Create(cheep);
 
             return Redirect($"/{Author}");   
         }

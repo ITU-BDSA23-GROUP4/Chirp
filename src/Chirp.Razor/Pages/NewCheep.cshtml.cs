@@ -13,7 +13,7 @@ public class NewCheepModel : PageModel
     [BindProperty]
     public ChirpBindingModel? chirpBinding {get; set;}
 
-    public async Task<IActionResult> OnPostAsync()
+    public IActionResult OnPost()
     {
         if (ModelState.IsValid)
         {
@@ -21,7 +21,7 @@ public class NewCheepModel : PageModel
             if (newCheep != null && newCheep.Message != null && User.Identity != null && User.Identity.Name != null)
             {
                 var cheep = new CheepCreateDTO(newCheep.Message, User.Identity.Name);
-                await _repository.Create(cheep);
+                _repository.Create(cheep);
                 return RedirectToPage("/UserPage");
             }
         }

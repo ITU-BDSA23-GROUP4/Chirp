@@ -178,7 +178,7 @@ public class CheepRepository
     }
     
     // Code directly from lecture
-    public async Task<Cheep> Create(CheepCreateDTO cheep)
+    public void Create(CheepCreateDTO cheep)
     {
         //NullReferenceException is handled in the constructor - CheepRepository()
         ValidationResult result = _validator.Validate(cheep);
@@ -199,6 +199,5 @@ public class CheepRepository
         });
       
         db.SaveChanges();
-        return null;
     }
 }
