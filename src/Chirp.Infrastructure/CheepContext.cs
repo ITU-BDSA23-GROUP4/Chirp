@@ -1,15 +1,12 @@
 using Microsoft.EntityFrameworkCore;
 
 namespace Chirp.Infrastructure;
-
 public class ChirpDBContext : DbContext
 {
     public DbSet<Cheep> Cheeps { get; set; }
     public DbSet<Author> Authors { get; set; }
 
     public string? DbPath { get; }
-
-
 
     public ChirpDBContext() //Finds the current db in temp folder
     {

@@ -1,4 +1,3 @@
-using System;
 using Chirp.Infrastructure;
 
 namespace Initializer;
