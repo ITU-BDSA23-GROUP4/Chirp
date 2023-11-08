@@ -33,18 +33,6 @@ public class CheepRepository
 
         _validator = validator;
 
-        // try
-        // {   if( validator==null){
-        //     throw new NullReferenceException();
-        // } else {
-        //     _validator = validator;
-        // }
-        // }
-        // catch (System.Exception)
-        // {
-            
-        //     throw;
-        // }
         AuthorRepository = new AuthorRepository(db);
     }
 
@@ -203,19 +191,14 @@ public class CheepRepository
         
         var user = db.Authors.SingleAsync(u => u.Name == cheep.Author);
 
-        try
+       
+        db.Add(new Cheep
         {
-             db.Add(new Cheep
-                {
-                    Author = user.Result,
-                    Text = cheep.Text,
-                    TimeStamp = DateTime.Now
-                });
-        }
-        catch (System.Exception)
-        {
-            throw;
-        }
+            Author = user.Result,
+            Text = cheep.Text,
+            TimeStamp = DateTime.Now
+        });
+      
         db.SaveChanges();
         return null;
     }
