@@ -29,6 +29,11 @@ using (var context = new ChirpDBContext())
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
+/* The following code is only executed in a non-development enviroment. 
+*  The 'dotnet publish' automatically changes the enviroment to 'Production'.
+*  This is to prevent the test failing due to missing authentication when testing in GitHub,
+*  and can be done, since the enviroment there, is still 'Developemnt'
+*/
 if (!app.Environment.IsDevelopment())
 {
     builder.Services.AddAuthentication(options =>
@@ -40,7 +45,7 @@ if (!app.Environment.IsDevelopment())
     .AddCookie()
     .AddGitHub(o =>
     {   
-        o.ClientId = NullCheck(builder.Configuration["authentication:github:clienId"]);
+        o.ClientId = NullCheck(builder.Configuration["authentication:github:clienId"]); // NullCheck raises an exception if the given string is null. Returns it if it's not.
         o.ClientSecret = NullCheck(builder.Configuration["authentication:github:clientSecret"]);
         o.CallbackPath = "/signin-github";
     });
