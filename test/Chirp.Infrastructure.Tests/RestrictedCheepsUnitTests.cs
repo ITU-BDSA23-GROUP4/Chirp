@@ -1,7 +1,3 @@
-using Microsoft.Data.Sqlite;
-using Microsoft.EntityFrameworkCore;
-using FluentAssertions;
-
 public class RestrictedCheepTests
 {
     private readonly SqliteConnection? _connection; //Connection to the database

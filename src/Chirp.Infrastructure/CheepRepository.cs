@@ -4,15 +4,12 @@ using FluentValidation.Results;
 using Microsoft.EntityFrameworkCore;
 using ValidationException = System.ComponentModel.DataAnnotations.ValidationException;
 
-
 namespace Chirp.Infrastructure;
-
 public class CheepRepository
 {
     private readonly ChirpDBContext db; //Needed to get our CheepDTO
     private readonly CheepCreateValidator _validator; //Needed to validate our CheepDTO
     private AuthorRepository AuthorRepository; //Needed to get our AuthorDTO
-
 
     public CheepRepository() //Initializes our model
     {
