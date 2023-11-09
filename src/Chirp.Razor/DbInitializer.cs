@@ -1,5 +1,6 @@
 using System;
 using Chirp.Infrastructure;
+using Microsoft.EntityFrameworkCore;
 
 namespace Initializer;
 
@@ -697,9 +698,26 @@ public static class DbInitializer
             a11.Cheeps = new List<Cheep>() { c656 };
             a12.Cheeps = new List<Cheep>() { c657 };
 
+            // Set id for authors to allow insert
+            chirpContext.Database.OpenConnection();
+
+            chirpContext.Database.ExecuteSqlRaw("SET IDENTITY_INSERT Authors ON");
             chirpContext.Authors.AddRange(authors);
+            chirpContext.SaveChanges();
+            chirpContext.Database.ExecuteSqlRaw("SET IDENTITY_INSERT Authors OFF");
+
+
+            chirpContext.Database.ExecuteSqlRaw("SET IDENTITY_INSERT Cheeps ON");
             chirpContext.Cheeps.AddRange(cheeps);
             chirpContext.SaveChanges();
+            chirpContext.Database.ExecuteSqlRaw("SET IDENTITY_INSERT Cheeps OFF");
+
+            chirpContext.Database.CloseConnection();
+            
+
+            // chirpContext.Authors.AddRange(authors);
+            // chirpContext.Cheeps.AddRange(cheeps);
+            // chirpContext.SaveChanges();
         }
     }
 }
