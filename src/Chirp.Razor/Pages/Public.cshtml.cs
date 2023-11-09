@@ -43,6 +43,7 @@ public class PublicModel : PageModel
     {
         try
         {
+            //AUTHOR IS CURRENTLY HARDCODED IN, CHANGE WHEN USERAUTHENTICATION IS IMPLEMENTED
             Console.WriteLine("I am the message" + CheepMessageTimeLine);
             cheepRepo.AddCheep(authorRepo.GetAuthorByName("Rasmus").AuthorId, CheepMessageTimeLine);
             return Redirect($"/{"Rasmus"}");
