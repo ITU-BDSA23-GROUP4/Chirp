@@ -35,6 +35,12 @@ namespace Chirp.Infrastructure.Migrations
 
                     b.HasKey("AuthorId");
 
+                    b.HasIndex("Email")
+                        .IsUnique();
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
                     b.ToTable("Authors");
                 });
 
