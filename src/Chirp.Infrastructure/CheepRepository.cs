@@ -47,7 +47,7 @@ public class CheepRepository : ICheepRepository
 
         List<CheepDTO> cheepsToReturn = new();
 
-        var cheepsDTO = _db.Cheeps.OrderByDescending(c => c.TimeStamp.Ticks).Select(CheepDTO => new CheepDTO
+        var cheepsDTO = _db.Cheeps.ToList().OrderByDescending(c => c.TimeStamp.Ticks).Select(CheepDTO => new CheepDTO
         {
             //Sets the properties of the Cheep
             AuthorId = CheepDTO.Author.AuthorId,
@@ -56,6 +56,10 @@ public class CheepRepository : ICheepRepository
             Timestamp = CheepDTO.TimeStamp
         }
         );
+
+        // Print out the number of cheeps in the database
+        Console.WriteLine("Checking number of cheeps in the database");
+        Console.WriteLine("Number of cheeps in the database: " + cheepsDTO.Count());
 
         cheepsToReturn.AddRange(cheepsDTO);
 
@@ -81,7 +85,7 @@ public class CheepRepository : ICheepRepository
 
         List<CheepDTO> cheepsToReturn = new List<CheepDTO>();
 
-        var cheepsDTO = _db.Cheeps.OrderByDescending(c => c.TimeStamp.Ticks)
+        var cheepsDTO = _db.Cheeps.ToList().OrderByDescending(c => c.TimeStamp.Ticks)
             .Where(cheep => cheep.Author != null && cheep.Author.Name != null && cheep.Author.Name.Equals(author))
             .Select(CheepDTO => new CheepDTO
             {
