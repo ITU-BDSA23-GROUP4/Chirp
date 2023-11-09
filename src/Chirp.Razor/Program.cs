@@ -36,13 +36,9 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
 app.UseRouting();
-
 app.MapRazorPages();
-
 app.UseAuthorization();
-
 app.Run();
 
 public partial class Program { }
