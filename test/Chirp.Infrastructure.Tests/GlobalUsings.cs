@@ -3,3 +3,4 @@ global using Chirp.Infrastructure;
 global using Microsoft.Data.Sqlite;
 global using Microsoft.EntityFrameworkCore;
 global using FluentAssertions;
+global using Chirp.Core;
