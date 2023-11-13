@@ -22,10 +22,6 @@ builder.Services.AddDbContext<ChirpDBContext>(options => options.UseSqlite(conne
 builder.Services.AddScoped<AuthorRepository>();
 builder.Services.AddScoped<CheepRepository>();
 
- builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
-.AddMicrosoftIdentityWebApp(builder.Configuration.GetSection("AzureAdB2C"));
-builder.Services.AddRazorPages()
-.AddMicrosoftIdentityUI();
 
 using (var context = new ChirpDBContext())
 {
@@ -40,14 +36,18 @@ if (!app.Environment.IsDevelopment())
     app.UseExceptionHandler("/Error");
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
+    builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
+    .AddMicrosoftIdentityWebApp(builder.Configuration.GetSection("AzureAdB2C"));
+    builder.Services.AddRazorPages()
+    .AddMicrosoftIdentityUI();
+    app.UseAuthentication();
+    app.UseAuthorization();
 }
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
 
-app.UseAuthentication();
-app.UseAuthorization();
 
 app.MapRazorPages();
 app.MapControllers();
