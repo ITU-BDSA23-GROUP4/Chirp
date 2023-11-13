@@ -22,9 +22,10 @@ builder.Services.AddDbContext<ChirpDBContext>(options => options.UseSqlite(conne
 builder.Services.AddScoped<AuthorRepository>();
 builder.Services.AddScoped<CheepRepository>();
 
-builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
-        .AddMicrosoftIdentityWebApp(builder.Configuration.GetSection("AzureADB2C"));
-builder.Services.AddRazorPages().AddMicrosoftIdentityUI();
+ builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
+.AddMicrosoftIdentityWebApp(builder.Configuration.GetSection("AzureAdB2C"));
+builder.Services.AddRazorPages()
+.AddMicrosoftIdentityUI();
 
 using (var context = new ChirpDBContext())
 {
