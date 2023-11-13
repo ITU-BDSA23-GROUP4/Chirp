@@ -24,16 +24,8 @@ builder.Services.AddScoped<CheepRepository>();
 
 builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
         .AddMicrosoftIdentityWebApp(builder.Configuration.GetSection("AzureADB2C"));
-
-builder.Services.AddAuthorization(options =>
-{
-    options.FallbackPolicy = options.DefaultPolicy;
-});
-builder.Services.AddRazorPages(options => {
-    options.Conventions.AllowAnonymousToPage("/");
-})
-.AddMvcOptions(options => { })
-.AddMicrosoftIdentityUI();
+        builder.Services.AddRazorPages()
+        .AddMicrosoftIdentityUI();
 
 using (var context = new ChirpDBContext())
 {
