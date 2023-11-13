@@ -27,8 +27,6 @@ builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
 
 builder.Services.AddAuthorization(options =>
 {
-    // By default, all incoming requests will be authorized according to 
-    // the default policy
     options.FallbackPolicy = options.DefaultPolicy;
 });
 builder.Services.AddRazorPages(options => {
@@ -54,12 +52,13 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
 app.UseRouting();
 
-app.MapRazorPages();
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.MapRazorPages();
+app.MapControllers();
 
 
 app.Run();
