@@ -2,6 +2,10 @@ using Initializer;
 using Chirp.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.Identity.Web;
+using Microsoft.Identity.Web.UI;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,23 +29,48 @@ using (var context = new ChirpDBContext())
     DbInitializer.SeedDatabase(context);
 }
 
+builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
+    .AddMicrosoftIdentityWebApp(builder.Configuration.GetSection("AzureADB2C"));
+builder.Services.AddRazorPages()
+    .AddMicrosoftIdentityUI();
+builder.Configuration.AddJsonFile("appSettings.json", optional: false, reloadOnChange: true).AddJsonFile($"appSettings.{builder.Environment.EnvironmentName}.json", optional: true);
+
+
 var app = builder.Build();
 
 if (!app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Error");
+    
+    app.UseExceptionHandler("/Home/Error");
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
+}
+else 
+{
+    app.UseCookiePolicy(new CookiePolicyOptions() {
+        MinimumSameSitePolicy = SameSiteMode.None,
+        Secure = CookieSecurePolicy.Always
+    });
+
 }
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
+// Add the Microsoft Identity Web cookie policy
+app.UseCookiePolicy();
+app.UseRouting();
+// Add the ASP.NET Core authentication service
+app.UseAuthentication();
+app.UseAuthorization();
+
 app.UseRouting();
 
-app.MapRazorPages();
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
-app.UseAuthorization();
+app.MapRazorPages();
 
 app.Run();
 
