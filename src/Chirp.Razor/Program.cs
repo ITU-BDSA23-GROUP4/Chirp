@@ -29,10 +29,9 @@ using (var context = new ChirpDBContext())
     DbInitializer.SeedDatabase(context);
 }
 
-
 builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
-    .AddMicrosoftIdentityWebApp(builder.Configuration.GetSection("AzureAdB2C"));
-    builder.Services.AddRazorPages()
+    .AddMicrosoftIdentityWebApp(builder.Configuration.GetSection("AzureADB2C"));
+builder.Services.AddRazorPages()
     .AddMicrosoftIdentityUI();
 
 var app = builder.Build();
