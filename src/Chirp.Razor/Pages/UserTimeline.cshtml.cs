@@ -14,12 +14,6 @@ public class UserTimelineModel : PageModel
 
     public CheepRepository cheepRepo = new CheepRepository();
 
-    // public UserTimelineModel(ICheepService service)
-    // {
-    //     _service = service;
-    // }
-
-
     [FromQuery(Name = "page")]
     public int? pageNum { get; set; }
 
