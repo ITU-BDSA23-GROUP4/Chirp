@@ -21,11 +21,6 @@ public class PublicModel : PageModel
     public CheepRepository cheepRepo = new CheepRepository();
     public AuthorRepository authorRepo = new AuthorRepository();
 
-    // public PublicModel(ICheepService service)
-    // {
-    //     _service = service;
-    // }
-
     [FromQuery(Name = "page")]
     public int? pageNum { get; set; }
     public ActionResult OnGet()
@@ -45,8 +40,9 @@ public class PublicModel : PageModel
         {
             //AUTHOR IS CURRENTLY HARDCODED IN, CHANGE WHEN USERAUTHENTICATION IS IMPLEMENTED
             Console.WriteLine("I am the message" + CheepMessageTimeLine);
-            cheepRepo.AddCheep(authorRepo.GetAuthorByName("Rasmus").AuthorId, CheepMessageTimeLine);
-            return Redirect($"/{"Rasmus"}");
+            var cheep = new CheepCreateDTO(authorRepo.GetAuthorByName("Rasmus").Name, CheepMessageTimeLine);
+            cheepRepo.Create(cheep);
+            return Redirect("/Rasmus");
         }
         catch (Exception)
         {
