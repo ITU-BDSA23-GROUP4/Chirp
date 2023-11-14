@@ -25,8 +25,8 @@ SOFTWARE.
 [Microsoft.EntityFrameworkCore.](https://www.nuget.org/packages/Microsoft.EntityFrameworkCore.Tools/8.0.0-rc.2.23480.1)  - 
 License: MIT
 
-[Microsoft.AspNetCore.Identity](https://www.nuget.org/packages/Microsoft.EntityFrameworkCore.Tools/8.0.0-rc.2.23480.1) - 
-License: MIT
+[Microsoft.AspNetCore.Identity](https://www.nuget.org/packages/Microsoft.AspNetCore.Identity) - 
+License: apache 2.0
 
 [Microsoft.AspNetCore.Identity.EntityFrameworkCore](https://www.nuget.org/packages/Microsoft.AspNetCore.Identity.EntityFrameworkCore/8.0.0-rc.2.23480.2) - License: MIT
 
@@ -47,3 +47,23 @@ License: MIT
 
 [Microsoft.Data.Sqlite](https://www.nuget.org/packages/Microsoft.Data.Sqlite/8.0.0-rc.2.23480.1) - 
 License: MIT
+
+## Apache license
+The Microsoft.AspNetCore.Identity used for out authorisation and the cshtml.cm files creating and serving our veiws as our controlers have a using statement AspNetCore.Mvc Although we have no package reference to it, it is prudent to include the license for it. As we have used it in Derivative Work 
+
+We do not hold nor intend to patent it it which is the major difference between this and MIT licesnce though we have to include the licence. as it pertains to that part of the code.
+
+Copyright (c) .NET Foundation and Contributors
+
+All rights reserved.
+
+Licensed under the Apache License, Version 2.0 (the "License"); you may not use
+this file except in compliance with the License. You may obtain a copy of the
+License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software distributed
+under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
+CONDITIONS OF ANY KIND, either express or implied. See the License for the
+specific language governing permissions and limitations under the License.
