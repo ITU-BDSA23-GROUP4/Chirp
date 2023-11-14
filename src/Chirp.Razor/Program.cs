@@ -35,8 +35,6 @@ builder.Services.AddRazorPages()
     .AddMicrosoftIdentityUI();
 
 var app = builder.Build();
-app.UseAuthentication();
-app.UseAuthorization();
 
 if (!app.Environment.IsDevelopment())
 {
@@ -67,8 +65,6 @@ app.UseAuthorization();
 app.UseRouting();
 
 app.MapRazorPages();
-
-app.UseAuthorization();
 
 app.Run();
 
