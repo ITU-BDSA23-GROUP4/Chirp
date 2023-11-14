@@ -1,4 +1,5 @@
 using Chirp.Core;
+using Microsoft.EntityFrameworkCore;
 
 namespace Chirp.Infrastructure
 {
@@ -82,7 +83,7 @@ namespace Chirp.Infrastructure
 
             List<CheepDTO> cheepsToReturn = new List<CheepDTO>();
 
-            var cheepsDTO = _dbcontext.Cheeps.ToList().OrderByDescending(c => c.TimeStamp.Ticks).Select(CheepDTO => new CheepDTO
+            var cheepsDTO = _dbcontext.Cheeps.Include(author).ToList().OrderByDescending(c => c.TimeStamp.Ticks).Select(CheepDTO => new CheepDTO
             {
                 //Sets the properties of the Cheep
                 AuthorId = CheepDTO.Author.AuthorId,
