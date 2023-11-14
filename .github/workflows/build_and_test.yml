@@ -42,5 +42,5 @@ jobs:
         run: dotnet build --no-restore
       - name: Test
         run: |
-          cd test/Chirp.Razor.Tests/bin/Debug/net7.0
-          dotnet test Chirp.Razor.Tests.dll --no-build --verbosity normal
+          cd test/Chirp.Infrastructure.Tests/bin/Debug/net7.0
+          dotnet test Chirp.Infrastructure.Tests.dll --no-build --verbosity normal
