@@ -29,14 +29,15 @@ using (var context = new ChirpDBContext())
     DbInitializer.SeedDatabase(context);
 }
 
-var app = builder.Build();
 
 builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
     .AddMicrosoftIdentityWebApp(builder.Configuration.GetSection("AzureAdB2C"));
     builder.Services.AddRazorPages()
     .AddMicrosoftIdentityUI();
-    app.UseAuthentication();
-    app.UseAuthorization();
+
+var app = builder.Build();
+app.UseAuthentication();
+app.UseAuthorization();
 
 if (!app.Environment.IsDevelopment())
 {
@@ -64,7 +65,6 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
-
 app.UseRouting();
 
 app.MapRazorPages();
@@ -72,6 +72,5 @@ app.MapRazorPages();
 app.UseAuthorization();
 
 app.Run();
-
 
 public partial class Program { }
