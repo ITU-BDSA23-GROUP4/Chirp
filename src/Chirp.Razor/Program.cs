@@ -57,6 +57,7 @@ else
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
+
 // Add the Microsoft Identity Web cookie policy
 app.UseCookiePolicy();
 app.UseRouting();
