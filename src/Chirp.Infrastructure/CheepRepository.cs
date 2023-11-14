@@ -1,4 +1,5 @@
 using Chirp.Core;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace Chirp.Infrastructure;
@@ -7,7 +8,6 @@ public class CheepRepository : ICheepRepository
 {
     private readonly ChirpDBContext _db; //Needed to get our CheepDTO
     private AuthorRepository AuthorRepository; //Needed to get our AuthorDTO
-
 
     public CheepRepository(ChirpDBContext db) //Initializes our model
     {
@@ -21,14 +21,16 @@ public class CheepRepository : ICheepRepository
         {
             int TLength = text.Length; //Sets a scalable length that we can use for if statement
             var author = GetAuthorById(authorId);
-            if(TLength <= 160 && TLength > 0 && author != null){
+            if (TLength <= 160 && TLength > 0 && author != null)
+            {
                 _db.Add(new Cheep
                 {
                     Author = author,
                     Text = text,
                     TimeStamp = DateTime.Now
                 });
-            }else
+            }
+            else
             {
                 throw new ArgumentException("Message is above 160 characters or empty");
             }
@@ -47,15 +49,16 @@ public class CheepRepository : ICheepRepository
 
         List<CheepDTO> cheepsToReturn = new();
 
-        var cheepsDTO = _db.Cheeps.ToList().OrderByDescending(c => c.TimeStamp.Ticks).Select(CheepDTO => new CheepDTO
+        var cheepsDTO = _db.Cheeps.Include(c => c.Author)
+        .ToList()
+        .OrderByDescending(c => c.TimeStamp.Ticks)
+        .Select(cheep => new CheepDTO
         {
-            //Sets the properties of the Cheep
-            AuthorId = CheepDTO.Author.AuthorId,
-            Author = CheepDTO.Author.Name,
-            Message = CheepDTO.Text,
-            Timestamp = CheepDTO.TimeStamp
-        }
-        );
+            AuthorId = cheep.Author.AuthorId,
+            Author = cheep.Author.Name,
+            Message = cheep.Text,
+            Timestamp = cheep.TimeStamp
+        });
 
         // Print out the number of cheeps in the database
         Console.WriteLine("Checking number of cheeps in the database");
@@ -85,21 +88,28 @@ public class CheepRepository : ICheepRepository
 
         List<CheepDTO> cheepsToReturn = new List<CheepDTO>();
 
-        var cheepsDTO = _db.Cheeps.ToList().OrderByDescending(c => c.TimeStamp.Ticks)
-            .Where(cheep => cheep.Author != null && cheep.Author.Name != null && cheep.Author.Name.Equals(author))
-            .Select(CheepDTO => new CheepDTO
-            {
-                //Sets the properties of the Cheep
-                AuthorId = CheepDTO.Author.AuthorId,
-                Author = CheepDTO.Author.Name,
-                Message = CheepDTO.Text,
-                Timestamp = CheepDTO.TimeStamp
-            }
-        );
+        var cheepsDTO = _db.Cheeps.ToList()
+    .Join(
+        _db.Authors,
+        cheep => cheep.Author.AuthorId,
+        author => author.AuthorId,
+        (cheep, author) => new { Cheep = cheep, Author = author }
+    )
+    .Where(joinResult => joinResult.Author.Name == author)
+    .OrderByDescending(joinResult => joinResult.Cheep.TimeStamp)
+    .Select(joinResult => new CheepDTO
+    {
+        //Sets the properties of the Cheep
+        AuthorId = joinResult.Author.AuthorId,
+        Author = joinResult.Author.Name,
+        Message = joinResult.Cheep.Text,
+        Timestamp = joinResult.Cheep.TimeStamp
+    });
         cheepsToReturn.AddRange(cheepsDTO);
 
         int? page = (pageNum - 1) * 32;
 
+        Console.WriteLine("The nummber of cheeps from " + author + " is: " + cheepsDTO.Count());
 
 
         if (cheepsToReturn.Count < 32)
@@ -111,9 +121,9 @@ public class CheepRepository : ICheepRepository
             return cheepsToReturn.GetRange(0, 32);
         }
         else
-        {   
+        {
             int endIndex = Math.Min((int)page + 32, (int)cheepsToReturn.Count);
-            return cheepsToReturn.GetRange((int)page, endIndex-(int)(page));
+            return cheepsToReturn.GetRange((int)page, endIndex - (int)(page));
         }
     }
 
@@ -150,6 +160,7 @@ public class CheepRepository : ICheepRepository
                 Timestamp = CheepDTO.TimeStamp
             }
         ).Count();
+        Console.WriteLine("The nummber of cheeps from " + author + " is: " + cheepsDTO);
         return cheepsDTO;
     }
     // A method to get an Author class representation with an id
@@ -157,5 +168,5 @@ public class CheepRepository : ICheepRepository
     {
         return _db.Authors.Where(author => author.AuthorId == id).FirstOrDefault();
     }
-    
+
 }
