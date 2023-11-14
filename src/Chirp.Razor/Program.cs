@@ -33,6 +33,7 @@ builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
     .AddMicrosoftIdentityWebApp(builder.Configuration.GetSection("AzureADB2C"));
 builder.Services.AddRazorPages()
     .AddMicrosoftIdentityUI();
+builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true).AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true);
 
 
 var app = builder.Build();
@@ -40,7 +41,7 @@ var app = builder.Build();
 if (!app.Environment.IsDevelopment())
 {
     
-        app.UseExceptionHandler("/Home/Error");
+    app.UseExceptionHandler("/Home/Error");
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
