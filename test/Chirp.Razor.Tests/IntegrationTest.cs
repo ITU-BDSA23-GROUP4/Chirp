@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Mvc.Testing;
 using Xunit;
 using System.Text.RegularExpressions;
+using HtmlAgilityPack;
+
 
 public class TestAPI : IClassFixture<WebApplicationFactory<Program>>
 {
@@ -65,26 +67,52 @@ public class TestAPI : IClassFixture<WebApplicationFactory<Program>>
         //Assert 
         Assert.Equal(32, count);
     }
-    [Theory]
-    [InlineData("/")]
-    [InlineData("/Jacqualine Gilcoine/")]
-    public async void CheepsOnPage0IsTheSameAsPage1(string path)
+[Theory]
+[InlineData("/")]
+[InlineData("/Jacqualine Gilcoine/")]
+public async void CheepsOnPage0IsTheSameAsPage1(string path)
+{
+    //Assert
+    //Content from standard page: Localhost/
+    var response = await _client.GetAsync(path);
+    response.EnsureSuccessStatusCode();
+    //Content from page 1
+    var responseFromPageOne = await _client.GetAsync(path + "?page=1");
+    responseFromPageOne.EnsureSuccessStatusCode();
+    //Act
+    var content = await response.Content.ReadAsStringAsync();
+    var contentFromPageOne = await responseFromPageOne.Content.ReadAsStringAsync();
+    // In the course removing the Token element from the pages as it is unique to all pages we used chatgpt to help out
+    // It refined the method
+    // Load the HTML into HtmlDocuments
+    var htmlDoc = new HtmlAgilityPack.HtmlDocument();
+    htmlDoc.LoadHtml(content);
+    var htmlDocFromPageOne = new HtmlAgilityPack.HtmlDocument();
+    htmlDocFromPageOne.LoadHtml(contentFromPageOne);
+
+    // Select the nodes using XPath
+    var node = htmlDoc.DocumentNode.SelectSingleNode("//input[@name='__RequestVerificationToken']");
+    var nodeFromPageOne = htmlDocFromPageOne.DocumentNode.SelectSingleNode("//input[@name='__RequestVerificationToken']");
+
+    // Remove the nodes
+    if (node != null)
     {
-        //Assert
-        //Content from standard page: Localhost/
-        var response = await _client.GetAsync(path);
-        response.EnsureSuccessStatusCode();
-        //Content from page 1
-        var responseFromPageOne = await _client.GetAsync(path + "?page=1");
-        responseFromPageOne.EnsureSuccessStatusCode();
-
-        //Act
-        var content = await response.Content.ReadAsStringAsync();
-        var contentFromPageOne = await responseFromPageOne.Content.ReadAsStringAsync();
-
-        //Assert
-        Assert.Contains(contentFromPageOne, content);
+        node.Remove();
     }
+    if (nodeFromPageOne != null)
+    {
+        nodeFromPageOne.Remove();
+    }
+
+    // Get the cleaned HTML
+    var cleanedHtml = htmlDoc.DocumentNode.OuterHtml;
+    var cleanedHtmlFromPageOne = htmlDocFromPageOne.DocumentNode.OuterHtml;
+
+    //Assert
+    Assert.Contains(cleanedHtmlFromPageOne, cleanedHtml);
+}
+
+
     [Theory]
     [InlineData("/")]
     [InlineData("/Jacqualine Gilcoine/")]
