@@ -44,3 +44,5 @@ jobs:
         run: |
           cd test/Chirp.Infrastructure.Tests/bin/Debug/net7.0
           dotnet test Chirp.Infrastructure.Tests.dll --no-build --verbosity normal
+          cd ../../../../Chirp.Razor.Tests/bin/Debug/net7.0
+          dotnet test Chirp.Razor.Tests.dll --no-build --verbosity normal
