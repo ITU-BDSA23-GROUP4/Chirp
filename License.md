@@ -49,9 +49,9 @@ License: MIT
 License: MIT
 
 ## Apache license
-The Microsoft.AspNetCore.Identity used for out authorisation and the cshtml.cm files creating and serving our veiws as our controlers have a using statement AspNetCore.Mvc Although we have no package reference to it, it is prudent to include the license for it. As we have used it in Derivative Work 
+The Microsoft.AspNetCore.Identity used for our authorization and the cshtml.cm files creating and serving our views as our controllers have a using statement AspNetCore.Mvc Although we have no package reference to it, it is prudent to include the license for it. As we have used it in Derivative Work 
 
-We do not hold nor intend to patent it it which is the major difference between this and MIT licesnce though we have to include the licence. as it pertains to that part of the code.
+We do not hold nor intend to patent it which is the major difference between this and MIT license though we have to include the license. as it pertains to that part of the code.
 
 Copyright (c) .NET Foundation and Contributors
 
