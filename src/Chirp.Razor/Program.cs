@@ -29,11 +29,6 @@ using (var context = new ChirpDBContext())
     DbInitializer.SeedDatabase(context);
 }
 
-builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
-    .AddMicrosoftIdentityWebApp(builder.Configuration.GetSection("AzureADB2C"));
-builder.Services.AddRazorPages()
-    .AddMicrosoftIdentityUI();
-
 var app = builder.Build();
 
 if (!app.Environment.IsDevelopment())
@@ -59,7 +54,6 @@ app.UseStaticFiles();
 app.UseCookiePolicy();
 app.UseRouting();
 // Add the ASP.NET Core authentication service
-app.UseAuthentication();
 app.UseAuthorization();
 
 app.UseRouting();
