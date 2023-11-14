@@ -67,6 +67,7 @@ public class TestAPI : IClassFixture<WebApplicationFactory<Program>>
         //Assert 
         Assert.Equal(32, count);
     }
+
 [Theory]
 [InlineData("/")]
 [InlineData("/Jacqualine Gilcoine/")]
@@ -96,6 +97,7 @@ public async void CheepsOnPage0IsTheSameAsPage1(string path)
 
     // Remove the nodes
     if (node != null)
+
     {
         node.Remove();
     }
