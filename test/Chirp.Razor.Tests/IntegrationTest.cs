@@ -68,6 +68,7 @@ public class TestAPI : IClassFixture<WebApplicationFactory<Program>>
     [Theory]
     [InlineData("/")]
     [InlineData("/Jacqualine Gilcoine/")]
+
     public async void CheepsOnPage0IsTheSameAsPage1(string path)
     {
         //Assert
