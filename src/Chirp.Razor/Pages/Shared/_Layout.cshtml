@@ -1,14 +1,4 @@
-﻿@using System.Security.Principal
-@using Microsoft.AspNetCore.Authentication.OpenIdConnect
-@using Microsoft.Extensions.Options
-@using Microsoft.Identity.Web
-
-@inject IOptionsMonitor<MicrosoftIdentityOptions> AzureADB2COptions
-
-@{
-    var options = AzureADB2COptions.Get(OpenIdConnectDefaults.AuthenticationScheme);
-}
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <title>@ViewData["Title"]</title>
