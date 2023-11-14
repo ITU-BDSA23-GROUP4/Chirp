@@ -23,7 +23,6 @@ builder.Services.AddDbContext<ChirpDBContext>(options => options.UseSqlite(conne
 builder.Services.AddScoped<AuthorRepository>();
 builder.Services.AddScoped<CheepRepository>();
 
-
 using (var context = new ChirpDBContext())
 {
     context.Database.EnsureCreated();
@@ -52,6 +51,7 @@ else
         MinimumSameSitePolicy = SameSiteMode.None,
         Secure = CookieSecurePolicy.Always
     });
+
 }
 
 app.UseHttpsRedirection();
@@ -65,9 +65,11 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 
-app.MapRazorPages();
-app.MapControllers();
+app.UseRouting();
 
+app.MapRazorPages();
+
+app.UseAuthorization();
 
 app.Run();
 
