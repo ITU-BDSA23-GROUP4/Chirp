@@ -28,8 +28,9 @@
                 <div>
                     <a href="/@(User.Identity.Name)">my timeline</a> |
                     <a href="/">public timeline</a> |
-                     <!-- these links should maybe be changed in the future -->
-                    <a href="https://Chirp4.b2clogin.com/Chirp4.onmicrosoft.com/oauth2/v2.0/logout?p=B2C_1_SigninSignupGithub&client_id=85f39c1b-c0db-41f5-b9f2-3bcc759afc4d&nonce=defaultNonce&redirect_uri=https%3A%2F%2Fbdsagroup4chirprazor.azurewebsites.net&scope=openid&response_type=id_token&prompt=logout">logout [@(User.Identity.Name)]</a> |
+                    <!-- the tags aren't working but auth is now rip -->
+                    <a class="nav-link text-dark" asp-area="MicrosoftIdentity" asp-controller="Account"
+                        asp-action="SignOut">logout [@(User.Identity.Name)]</a> |
 
                 </div>
             }
@@ -37,8 +38,9 @@
             {
                 <div>
                     <a href="/">public timeline</a> |
-                    <!-- these links should maybe be changed in the future -->
-                    <a href="https://Chirp4.b2clogin.com/Chirp4.onmicrosoft.com/oauth2/v2.0/authorize?p=B2C_1_SigninSignupGithub&client_id=85f39c1b-c0db-41f5-b9f2-3bcc759afc4d&nonce=defaultNonce&redirect_uri=https%3A%2F%2Fbdsagroup4chirprazor.azurewebsites.net&scope=openid&response_type=id_token&prompt=login">login</a> |
+                    <!-- the tags aren't working but auth is now rip -->
+                    <a class="nav-link text-dark" asp-area="MicrosoftIdentity" asp-controller="Account"
+                        asp-action="SignIn">login</a> |
 
                 </div>
             }
