@@ -1,41 +1,57 @@
-﻿@using Microsoft.AspNetCore.Authorization;
+﻿@using System.Security.Principal
+@using Microsoft.AspNetCore.Authentication.OpenIdConnect
+@using Microsoft.Extensions.Options
+@using Microsoft.Identity.Web
+
+@inject IOptionsMonitor<MicrosoftIdentityOptions> AzureADB2COptions
+
+@{
+    var options = AzureADB2COptions.Get(OpenIdConnectDefaults.AuthenticationScheme);
+}
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <title>@ViewData["Title"]</title>
     <link href="/css/style.css" rel="stylesheet" type="text/css" />
     <link rel="icon" type="image/png" href="/favicon/favicon.ico">
 </head>
+
 <body>
-<div class=page>
-    <h1><a class="logoStyling" href="~/"><img src="/images/icon1.png" alt="Icon1"/>Chirp!</a></h1>
+    <div class=page>
+        <h1><img src="/images/icon1.png" alt="Icon1" />Chirp!</h1>
+
         <div class=navigation>
-        @if (User.Identity.IsAuthenticated)
-        {
-            <div>
-                <a href="/@(User.Identity.Name)">my timeline</a> |
-                <a href="/">public timeline</a> |
-                <a href="https://github.com/logout" >logout [@(User.Identity.Name)]</a>
-                <a href="location.href='/NewCheep'">Cheep!</a>
-            </div>
-        }
-        else
-        {
-            <div>
-                <a href="/">public timeline</a> |
-                <a href="https://Chirp4.b2clogin.com/Chirp4.onmicrosoft.com/oauth2/v2.0/authorize?p=B2C_1_SigninSignupGithub&client_id=85f39c1b-c0db-41f5-b9f2-3bcc759afc4d&nonce=defaultNonce&redirect_uri=https%3A%2F%2Fbdsagroup4chirprazor.azurewebsites.net%2F&scope=openid&response_type=id_token&prompt=login" >register</a>
-                <a href="https://Chirp4.b2clogin.com/Chirp4.onmicrosoft.com/oauth2/v2.0/authorize?p=B2C_1_SigninSignupGithub&client_id=85f39c1b-c0db-41f5-b9f2-3bcc759afc4d&nonce=defaultNonce&redirect_uri=https%3A%2F%2Fbdsagroup4chirprazor.azurewebsites.net%2F&scope=openid&response_type=id_token&prompt=login" >login</a>
-            </div>
-        }
+            @if (User.Identity?.IsAuthenticated == true)
+            {
+                <div>
+                    <a href="/@(User.Identity.Name)">my timeline</a> |
+                    <a href="/">public timeline</a> |
+                     <!-- these links should maybe be changed in the future -->
+                    <a href="https://Chirp4.b2clogin.com/Chirp4.onmicrosoft.com/oauth2/v2.0/logout?p=B2C_1_SigninSignupGithub&client_id=85f39c1b-c0db-41f5-b9f2-3bcc759afc4d&nonce=defaultNonce&redirect_uri=https%3A%2F%2Fbdsagroup4chirprazor.azurewebsites.net&scope=openid&response_type=id_token&prompt=logout">logout [@(User.Identity.Name)]</a> |
+
+                </div>
+            }
+            else
+            {
+                <div>
+                    <a href="/">public timeline</a> |
+                    <!-- these links should maybe be changed in the future -->
+                    <a href="https://Chirp4.b2clogin.com/Chirp4.onmicrosoft.com/oauth2/v2.0/authorize?p=B2C_1_SigninSignupGithub&client_id=85f39c1b-c0db-41f5-b9f2-3bcc759afc4d&nonce=defaultNonce&redirect_uri=https%3A%2F%2Fbdsagroup4chirprazor.azurewebsites.net&scope=openid&response_type=id_token&prompt=login">login</a> |
+
+                </div>
+            }
+        </div>
+
+        <div class=body>
+            @RenderBody()
+        </div>
+        <div class=footer>
+            Chirp &mdash; An ASP.NET Application
+        </div>
     </div>
-        @RenderBody()
-    </div>
-    <div class=footer>
-        Chirp &mdash; An ASP.NET Application
-    </div>
-</div>
 
 </body>
-</html>
 
+</html>
