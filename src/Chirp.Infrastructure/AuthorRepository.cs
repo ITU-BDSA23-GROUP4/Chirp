@@ -55,6 +55,10 @@ namespace Chirp.Infrastructure
             }
             else
             {
+                //Should change this logic later for more formal error handling of auhtor not existing
+                //Implementing this so we can test the new User.Identity feature
+                AddAuthor(name, name + "@chirp.com");
+                db.SaveChanges();
                 throw new ArgumentException("Author with name " + name + " does not exist");
             }
 

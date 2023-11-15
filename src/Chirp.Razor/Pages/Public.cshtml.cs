@@ -38,11 +38,10 @@ public class PublicModel : PageModel
     {
         try
         {
-            //AUTHOR IS CURRENTLY HARDCODED IN, CHANGE WHEN USERAUTHENTICATION IS IMPLEMENTED
             Console.WriteLine("I am the message" + CheepMessageTimeLine);
-            var cheep = new CheepCreateDTO(authorRepo.GetAuthorByName("Rasmus").Name, CheepMessageTimeLine);
+            var cheep = new CheepCreateDTO(authorRepo.GetAuthorByName(User.Identity.Name).Name, CheepMessageTimeLine);
             cheepRepo.Create(cheep);
-            return Redirect("/Rasmus");
+            return Redirect(User.Identity.Name);
         }
         catch (Exception)
         {
