@@ -1,8 +1,26 @@
-@page "/profilepage"
-@* @page "/{author}/profilepage" *@
-@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@page "/Profilepage"
 @model Chirp.Razor.Pages.UserPage
 @{
-    ViewData["Title"] = "Chirp!";
-    Layout = "Shared/_Layout";
+    ViewData["Title"] = "Profile Page";
+    Layout = "_Layout";
 }
+
+<div>
+    <h2>Username:</h2>
+    <p>@User.Identity.Name</p>
+</div>
+
+<div>
+    <h2>Authentication Type:</h2>
+    <p>@User.Identity.AuthenticationType</p>
+</div>
+
+<div>
+    <h2>Claims:</h2>
+    <ul>
+        @foreach (var claim in User.Claims)
+        {
+            <li>@claim.Type: @claim.Value</li>
+        }
+    </ul>
+</div>
