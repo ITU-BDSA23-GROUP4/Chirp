@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Chirp.Razor.Pages;
 
-[AllowAnonymous]
+[Authorize]
 public class PublicModel : PageModel
 {
 
