@@ -5,8 +5,17 @@
     Layout = "Shared/_Layout";
     var routeName = HttpContext.GetRouteValue("author");
 }
-
-<div>
+            
+    <div class=body>
+         @if (User.Identity.IsAuthenticated) {
+          <div class="cheepbox">
+        <h3>What's on your mind @(User.Identity.Name)?</h3>
+        <form method="post">
+            <input type ="text" style="float: left" asp-for="CheepMessageTimeLine">
+            <input type="submit" asp-page-handler="Submit" value="Share"> <!--value="Share" should be inside submit-->
+        </form>
+        </div>
+        }
     <h2> @routeName's Timeline </h2>
 
     @{  if (Model.Cheeps != null) 
@@ -37,9 +46,6 @@
                 <div class="pageNumber">
                     <button onclick="location.href='?page=1'">Go to page 1</button>
                 </div>
-                <div class="CreateCheep">
-                    <button onclick="location.href='/Cheep'">Write a Cheep!</button>
-                </div>
             }
             else
             {
@@ -48,3 +54,4 @@
         }
     }
 </div>
+

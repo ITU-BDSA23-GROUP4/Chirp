@@ -13,6 +13,9 @@ public interface ICheepService
     AuthorDTO GetAuthorByName(string name);
     int GetCountOfAllCheepFromAuthor(string author);
     int GetCountOfAllCheeps();
+
+    void Create(CheepCreateDTO cheep);
+
 }
 public class CheepService : ICheepService
 {
@@ -53,5 +56,10 @@ public class CheepService : ICheepService
     public int GetCountOfAllCheeps()
     {
         return _cheepRepository.GetCountOfAllCheeps();
+    }
+
+    public void Create(CheepCreateDTO cheep)
+    {
+        _cheepRepository.Create(cheep);
     }
 }

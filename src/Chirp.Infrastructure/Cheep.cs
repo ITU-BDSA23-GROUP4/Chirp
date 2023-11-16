@@ -1,5 +1,4 @@
 namespace Chirp.Infrastructure;
-
 public class Cheep
 {
     //The cheep needs to have an author, a text and a timestamp and should not exitst without any of these.

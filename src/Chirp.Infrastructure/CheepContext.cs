@@ -2,7 +2,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
 namespace Chirp.Infrastructure;
-
 public class ChirpDBContext : DbContext
 {
     public DbSet<Cheep> Cheeps { get; set; }

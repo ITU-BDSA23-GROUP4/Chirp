@@ -1,5 +1,6 @@
 global using Xunit;
-global using Chirp.Core;
 global using Chirp.Infrastructure;
-global using Chirp.Razor;
-global using Initializer;
+global using Microsoft.Data.Sqlite;
+global using Microsoft.EntityFrameworkCore;
+global using FluentAssertions;
+global using Chirp.Core;

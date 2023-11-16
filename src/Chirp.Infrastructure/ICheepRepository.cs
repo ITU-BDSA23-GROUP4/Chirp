@@ -11,6 +11,7 @@ namespace Chirp.Core
         List<CheepDTO> GetCheepsFromAuthor(string author, int? pageNum);
         int GetCountOfAllCheeps();
         int GetCountOfAllCheepFromAuthor(string author);
+        void Create(CheepCreateDTO cheep);
         
     }
 }
