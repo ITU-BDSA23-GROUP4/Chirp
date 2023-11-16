@@ -13,7 +13,6 @@ namespace Chirp.Razor.Pages
             if (User.Identity.IsAuthenticated)
             {
                 // If authenticated, redirect to the front page
-        
                 return Redirect("/");
             }
 
