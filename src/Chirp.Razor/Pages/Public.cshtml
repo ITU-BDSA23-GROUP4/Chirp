@@ -1,15 +1,25 @@
 ﻿@page "/"
-
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @model Chirp.Razor.Pages.PublicModel
 @{
     ViewData["Title"] = "Chirp!";
     Layout = "Shared/_Layout";
 }
 
-<div>
+    <div class=body>
+        @if (User.Identity.IsAuthenticated) {
+          <div class="cheepbox">
+        <h3>What's on your mind @(User.Identity.Name)?</h3>
+        <form method="post">
+            <input type ="text" style="float: left" asp-for="CheepMessageTimeLine">
+            <input type="submit" asp-page-handler="Submit" value="Share"> <!--value="Share" should be inside submit-->
+        </form>
+        </div>
+        }
     <h2> Public Timeline </h2>
     @{  if (Model.Cheeps != null) 
         {
+            
             if (Model.Cheeps.Any()) 
             {
                 <ul id="messagelist" class="cheeps">
@@ -32,9 +42,6 @@
                     {   
                         <button onclick="location.href='?page=@i'">@i</button>
                     }
-                </div>
-                 <div class="CreateCheep">
-                <button onclick="location.href='/Cheep'">Write a Cheep!</button>
                 </div>
             }
             else

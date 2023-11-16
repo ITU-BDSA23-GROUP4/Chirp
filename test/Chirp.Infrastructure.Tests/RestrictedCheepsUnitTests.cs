@@ -1,12 +1,9 @@
-using Microsoft.Data.Sqlite;
-using Microsoft.EntityFrameworkCore;
-using FluentAssertions;
-
 public class RestrictedCheepTests
 {
     private readonly SqliteConnection? _connection; //Connection to the database
     private readonly ChirpDBContext _context; //Context for the database
     private readonly CheepRepository repository; //Repository for the database
+    private readonly CheepCreateValidator validator; //Validator for the database
 
     public RestrictedCheepTests()
     {
@@ -41,9 +38,15 @@ public class RestrictedCheepTests
         context.Authors.Add(testAuthor);
         context.Cheeps.Add(testCheep);
 
+        validator = new CheepCreateValidator();
+        if (validator == null)
+            {
+                throw new Exception("Validator is null");
+            }
+
         context.SaveChanges();
         _context = context;
-        repository = new CheepRepository(_context);
+        repository = new CheepRepository(_context, validator);
     }
 
     //A Test which checks if the testAuthor is there

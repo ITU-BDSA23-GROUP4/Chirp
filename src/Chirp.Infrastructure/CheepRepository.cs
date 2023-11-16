@@ -1,29 +1,37 @@
 using Chirp.Core;
-
+using FluentValidation;
+using FluentValidation.Results;
+using Microsoft.EntityFrameworkCore;
+using ValidationException = System.ComponentModel.DataAnnotations.ValidationException;
 
 namespace Chirp.Infrastructure;
-
 public class CheepRepository
 {
     private readonly ChirpDBContext db; //Needed to get our CheepDTO
+    private readonly CheepCreateValidator _validator; //Needed to validate our CheepDTO
     private AuthorRepository AuthorRepository; //Needed to get our AuthorDTO
-
 
     public CheepRepository() //Initializes our model
     {
-        db = new ChirpDBContext();
+        db = new ChirpDBContext(); 
         AuthorRepository = new AuthorRepository(db);
+        _validator = new CheepCreateValidator();
     }
 
     public CheepRepository(string dbName) //If creating a new db is needed
     {
         db = new ChirpDBContext(dbName);
         AuthorRepository = new AuthorRepository(db);
+        _validator = new CheepCreateValidator();
     }
 
-    public CheepRepository(ChirpDBContext context) //If we want to use an existing db
+    public CheepRepository(ChirpDBContext context, CheepCreateValidator? validator) //If we want to use an existing db
     {
         db = context;
+        if (validator == null) {
+            throw new NullReferenceException();
+        }
+        _validator = validator;
         AuthorRepository = new AuthorRepository(db);
     }
 
@@ -166,4 +174,27 @@ public class CheepRepository
         return db.Authors.Where(author => author.AuthorId == id).FirstOrDefault();
     }
     
+    // Code directly from lecture
+    public void Create(CheepCreateDTO cheep)
+    {
+        //NullReferenceException is handled in the constructor - CheepRepository()
+        ValidationResult result = _validator.Validate(cheep);
+
+        if (!result.IsValid)
+        {
+            throw new ValidationException();
+        }
+        
+        var user = db.Authors.SingleAsync(u => u.Name == cheep.Author);
+
+       
+        db.Add(new Cheep
+        {
+            Author = user.Result,
+            Text = cheep.Text,
+            TimeStamp = DateTime.Now
+        });
+      
+        db.SaveChanges();
+    }
 }
