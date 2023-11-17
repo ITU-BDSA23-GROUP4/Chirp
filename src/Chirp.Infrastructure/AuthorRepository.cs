@@ -34,8 +34,8 @@ namespace Chirp.Infrastructure
                 Name = authorDTO.Name,
                 Email = authorDTO.Email,
                 Cheeps = GetAllCheepsFromAuthor(authorDTO.Name, db),
-                Following = authorDTO.Following,
-                Followers = authorDTO.Followers
+                Following = GetAllFollowedAuthors(authorDTO.AuthorId),
+                Followers = GetAllFollowingAuthors(authorDTO.AuthorId)
             }).FirstOrDefault();
             if (author != null)
             {
@@ -54,7 +54,9 @@ namespace Chirp.Infrastructure
                 AuthorId = authorDTO.AuthorId,
                 Name = authorDTO.Name,
                 Email = authorDTO.Email,
-                Cheeps = GetAllCheepsFromAuthor(authorDTO.Name, db)
+                Cheeps = GetAllCheepsFromAuthor(authorDTO.Name, db),
+                Following = GetAllFollowedAuthors(authorDTO.AuthorId),
+                Followers = GetAllFollowingAuthors(authorDTO.AuthorId)
             }).FirstOrDefault();
             if (author != null)
             {
@@ -79,7 +81,9 @@ namespace Chirp.Infrastructure
                 AuthorId = authorDTO.AuthorId,
                 Name = authorDTO.Name,
                 Email = authorDTO.Email,
-                Cheeps = GetAllCheepsFromAuthor(authorDTO.Name, db)
+                Cheeps = GetAllCheepsFromAuthor(authorDTO.Name, db),
+                Following = GetAllFollowedAuthors(authorDTO.AuthorId),
+                Followers = GetAllFollowingAuthors(authorDTO.AuthorId)
             }).FirstOrDefault();
 
             if (author != null)
@@ -91,7 +95,7 @@ namespace Chirp.Infrastructure
                 throw new ArgumentException("Author with email " + email + " does not exist");
             }
         }
-        
+
         private static List<CheepDTO> GetAllCheepsFromAuthor(string author, ChirpDBContext DBcontext)
         {
 
@@ -110,6 +114,24 @@ namespace Chirp.Infrastructure
             cheepsToReturn.AddRange(cheepsDTO);
 
             return cheepsToReturn;
+        }
+
+        private List<AuthorDTO> GetAllFollowedAuthors(int AuthorId) 
+        {   
+            List<AuthorDTO> following = new List<AuthorDTO>();
+
+            // pull out following authors from a table not yet existing mapping between follower (foreign key to author) and author (foreign key to author)
+
+            return following;
+        }
+
+        private List<AuthorDTO> GetAllFollowingAuthors(int AuthorId) 
+        {   
+            List<AuthorDTO> followers = new List<AuthorDTO>();
+
+            // pull out following authors from a table not yet existing mapping between author (foreign key to author) and follower (foreign key to author)
+
+            return followers;
         }
     }
 }
