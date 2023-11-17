@@ -18,7 +18,12 @@ namespace Chirp.Infrastructure
 
         public void AddAuthor(string name, string email)
         {
-            db.Add(new Author { Name = name, Cheeps = new List<Cheep>(), Email = email });
+            db.Add(new Author { Name = name, 
+                Cheeps = new List<Cheep>(), 
+                Email = email, 
+                Following = new List<Author>(),
+                Followers = new List<Author>(),
+            });
         }
 
         public AuthorDTO GetAuthorByID(int ID)
@@ -28,7 +33,9 @@ namespace Chirp.Infrastructure
                 AuthorId = ID,
                 Name = authorDTO.Name,
                 Email = authorDTO.Email,
-                Cheeps = GetAllCheepsFromAuthor(authorDTO.Name, db)
+                Cheeps = GetAllCheepsFromAuthor(authorDTO.Name, db),
+                Following = authorDTO.Following,
+                Followers = authorDTO.Followers
             }).FirstOrDefault();
             if (author != null)
             {
@@ -84,7 +91,7 @@ namespace Chirp.Infrastructure
                 throw new ArgumentException("Author with email " + email + " does not exist");
             }
         }
-
+        
         private static List<CheepDTO> GetAllCheepsFromAuthor(string author, ChirpDBContext DBcontext)
         {
 
