@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Chirp.Infrastructure;
 using Chirp.Core;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Identity.Web;
 
 namespace Chirp.Razor.Pages;
 
@@ -47,5 +48,14 @@ public class PublicModel : PageModel
         {
             return Redirect("/");
         }
+    }
+
+    public bool DoesFollow(int AuthorId) 
+    {
+        foreach (Author author in Following) {
+            if (author.AuthorId == User.Claims.ToList().Get())
+        }
+        
+        return false;
     }
 }

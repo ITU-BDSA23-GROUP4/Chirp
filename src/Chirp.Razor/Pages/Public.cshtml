@@ -9,12 +9,12 @@
     <div class=body>
         @if (User.Identity.IsAuthenticated) {
           <div class="cheepbox">
-        <h3>What's on your mind @(User.Identity.Name)?</h3>
-        <form method="post">
-            <input type ="text" style="float: left" asp-for="CheepMessageTimeLine">
-            <input type="submit" asp-page-handler="Submit" value="Share"> <!--value="Share" should be inside submit-->
-        </form>
-        </div>
+            <h3>What's on your mind @(User.Identity.Name)?</h3>
+            <form method="post">
+                <input type ="text" style="float: left" asp-for="CheepMessageTimeLine">
+                <input type="submit" asp-page-handler="Submit" value="Share"> <!--value="Share" should be inside submit-->
+            </form>
+            </div>
         }
     <h2> Public Timeline </h2>
     @{  if (Model.Cheeps != null) 
@@ -29,6 +29,18 @@
                             <p>
                                 <strong>
                                     <a href="/@cheep.Author">@cheep.Author</a>
+                                    @if (User.Identity.IsAuthenticated) {
+                                        if (!Model.DoesFollow(cheep.AuthorId)) 
+                                        {
+                                            // Link to page that adds the author to the following list of the current user and redirects back to the current page
+                                            <a href="">follow</a>
+                                        } 
+                                        else 
+                                        {
+                                            // Link to page that removes the author from the following list of the current user and redirects back to the current page
+                                            <a href="">unfollow</a>
+                                        }
+                                    }
                                 </strong>
                                 @cheep.Message
                                 <small>&mdash; @cheep.Timestamp</small>
