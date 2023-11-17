@@ -25,7 +25,9 @@ public class AuthorRepositoryUnitTests
             AuthorId = 1,
             Name = "TestName",
             Email = "TestEmail",
-            Cheeps = new List<Cheep>()
+            Cheeps = new List<Cheep>(),
+            Following = new List<Author>(),
+            Followers = new List<Author>()
         };
 
         //Creates and adds aauthor to the database
@@ -44,7 +46,13 @@ public class AuthorRepositoryUnitTests
 
         //Assert
         //Should pass since they're the same
-        author.Should().BeEquivalentTo(new Author { AuthorId = 1, Name = "TestName", Email = "TestEmail", Cheeps = new List<Cheep>() });
+        author.Should().BeEquivalentTo(new Author { AuthorId = 1, 
+            Name = "TestName", 
+            Email = "TestEmail", 
+            Cheeps = new List<Cheep>(), 
+            Following = new List<Author>(), 
+            Followers = new List<Author>() 
+        });
     }
 
     [Fact] //Test the method to get Author by a wrong email - shouldn't be possible
@@ -65,7 +73,14 @@ public class AuthorRepositoryUnitTests
 
         //Assert
         //Should pass since they're the same
-        author.Should().BeEquivalentTo(new Author { AuthorId = 1, Name = "TestName", Email = "TestEmail", Cheeps = new List<Cheep>() });
+        author.Should().BeEquivalentTo(new Author { 
+            AuthorId = 1, 
+            Name = "TestName", 
+            Email = "TestEmail", 
+            Cheeps = new List<Cheep>(), 
+            Following = new List<Author>(), 
+            Followers = new List<Author>() 
+        });
     }
 
     [Fact] //Test method to get an author by the wrong name - shouldn't be possible
@@ -87,7 +102,14 @@ public class AuthorRepositoryUnitTests
 
         //Assert
         //Should pass since they're the same
-        author.Should().BeEquivalentTo(new Author { AuthorId = 1, Name = "TestName", Email = "TestEmail", Cheeps = new List<Cheep>() });
+        author.Should().BeEquivalentTo(new Author { 
+            AuthorId = 1, 
+            Name = "TestName", 
+            Email = "TestEmail", 
+            Cheeps = new List<Cheep>(),
+            Following = new List<Author>(),
+            Followers = new List<Author>() 
+        });
     }
 
     [Fact] //Test method to get an author by wrong ide - shouldn't be possible

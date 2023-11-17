@@ -28,7 +28,9 @@ public class CheepRepositoryUnitTests
             AuthorId = 1, 
             Name = "TestAuthor", 
             Email = "TestEmail", 
-            Cheeps = new List<Cheep>()
+            Cheeps = new List<Cheep>(),
+            Following = new List<Author>(),
+            Followers = new List<Author>()
             };
 
         context.Authors.Add(testAuthor); 

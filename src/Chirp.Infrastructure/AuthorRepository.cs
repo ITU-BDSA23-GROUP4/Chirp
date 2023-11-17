@@ -34,8 +34,8 @@ namespace Chirp.Infrastructure
                 Name = authorDTO.Name,
                 Email = authorDTO.Email,
                 Cheeps = GetAllCheepsFromAuthor(authorDTO.Name, db),
-                Following = GetAllFollowedAuthors(authorDTO.AuthorId),
-                Followers = GetAllFollowingAuthors(authorDTO.AuthorId)
+                Following = GetAllFollowedAuthors(authorDTO.AuthorId, db),
+                Followers = GetAllFollowingAuthors(authorDTO.AuthorId, db)
             }).FirstOrDefault();
             if (author != null)
             {
@@ -55,8 +55,8 @@ namespace Chirp.Infrastructure
                 Name = authorDTO.Name,
                 Email = authorDTO.Email,
                 Cheeps = GetAllCheepsFromAuthor(authorDTO.Name, db),
-                Following = GetAllFollowedAuthors(authorDTO.AuthorId),
-                Followers = GetAllFollowingAuthors(authorDTO.AuthorId)
+                Following = GetAllFollowedAuthors(authorDTO.AuthorId, db),
+                Followers = GetAllFollowingAuthors(authorDTO.AuthorId, db)
             }).FirstOrDefault();
             if (author != null)
             {
@@ -82,8 +82,8 @@ namespace Chirp.Infrastructure
                 Name = authorDTO.Name,
                 Email = authorDTO.Email,
                 Cheeps = GetAllCheepsFromAuthor(authorDTO.Name, db),
-                Following = GetAllFollowedAuthors(authorDTO.AuthorId),
-                Followers = GetAllFollowingAuthors(authorDTO.AuthorId)
+                Following = GetAllFollowedAuthors(authorDTO.AuthorId, db),
+                Followers = GetAllFollowingAuthors(authorDTO.AuthorId, db)
             }).FirstOrDefault();
 
             if (author != null)
@@ -116,7 +116,7 @@ namespace Chirp.Infrastructure
             return cheepsToReturn;
         }
 
-        private List<AuthorDTO> GetAllFollowedAuthors(int AuthorId) 
+        private static List<AuthorDTO> GetAllFollowedAuthors(int AuthorId, ChirpDBContext DBcontext) 
         {   
             List<AuthorDTO> following = new List<AuthorDTO>();
 
@@ -125,7 +125,7 @@ namespace Chirp.Infrastructure
             return following;
         }
 
-        private List<AuthorDTO> GetAllFollowingAuthors(int AuthorId) 
+        private static List<AuthorDTO> GetAllFollowingAuthors(int AuthorId, ChirpDBContext DBcontext) 
         {   
             List<AuthorDTO> followers = new List<AuthorDTO>();
 
