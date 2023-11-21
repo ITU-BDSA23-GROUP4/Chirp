@@ -1,0 +1,15 @@
+@page "/login"
+@* @page "/{author}/profilepage" *@
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model Chirp.Razor.Pages.UserPage
+@{
+    ViewData["Title"] = "Chirp!";
+    Layout = "Shared/_Layout";
+}
+<script>
+    // Check if the user is authenticated
+    if (@User.Identity.IsAuthenticated.ToString().ToLower()) {
+        // If authenticated, redirect to the root ("/")
+        window.location.href = "/";
+    }
+</script>
