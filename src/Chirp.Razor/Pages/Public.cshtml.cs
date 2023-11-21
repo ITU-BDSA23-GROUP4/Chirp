@@ -39,7 +39,7 @@ public class PublicModel : PageModel
         try
         {
             if(authorRepo.GetAuthorByName(User.Identity.Name)==null && User.Identity.Name!=""){
-                authorRepo.AddAuthor(User.Identity.Name, User.Identity.Name+"@chirp.com");
+                authorRepo.AddAuthor(User.Identity.Name, User.Claims.FirstOrDefault(c => c.Type == "emails").Value);
             }
             var cheep = new CheepCreateDTO(authorRepo.GetAuthorByName(User.Identity.Name).Name, CheepMessageTimeLine);
             cheepRepo.Create(cheep);
