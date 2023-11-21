@@ -14,6 +14,7 @@ public class PublicModel : PageModel
     [BindProperty(SupportsGet = true)]
     public int CurrentPage { get; set; } = 1;
     public int Count { get; set; }
+    public readonly ICheepService _service;
     
     public PublicModel(ICheepService service)
     {
@@ -24,7 +25,7 @@ public class PublicModel : PageModel
     public string CheepMessageTimeLine { get; set; } = "";
     public List<CheepDTO>? Cheeps { get; set; }
 
-    public readonly ICheepService _service;
+    
 
     [FromQuery(Name = "page")]
     public int? pageNum { get; set; }
