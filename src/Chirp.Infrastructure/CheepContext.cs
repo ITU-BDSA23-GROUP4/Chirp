@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 
 namespace Chirp.Infrastructure;
 public class ChirpDBContext : DbContext
@@ -7,14 +6,9 @@ public class ChirpDBContext : DbContext
     public DbSet<Cheep> Cheeps { get; set; }
     public DbSet<Author> Authors { get; set; }
 
-    public ChirpDBContext()
-    {
+    public ChirpDBContext(DbContextOptions options) : base(options)
+    { 
     }
-    public ChirpDBContext(DbContextOptions<ChirpDBContext> options) : base(options)
-    {
-    }
-     protected override void OnConfiguring(DbContextOptionsBuilder options)
-        => options.UseSqlServer();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
