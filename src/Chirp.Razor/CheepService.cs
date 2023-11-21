@@ -13,7 +13,6 @@ public interface ICheepService
     AuthorDTO GetAuthorByName(string name);
     int GetCountOfAllCheepFromAuthor(string author);
     int GetCountOfAllCheeps();
-
     void Create(CheepCreateDTO cheep);
 
 }
