@@ -99,7 +99,9 @@ namespace Chirp.Infrastructure
 
             List<CheepDTO> cheepsToReturn = new List<CheepDTO>();
 
-            var cheepsDTO = DBcontext.Cheeps.OrderByDescending(c => c.TimeStamp.Ticks).Select(CheepDTO => new CheepDTO
+            var cheepsDTO = DBcontext.Cheeps.OrderByDescending(c => c.TimeStamp.Ticks)
+            .Where(cheep => cheep.Author != null && cheep.Author.Name != null && cheep.Author.Name.Equals(author))
+            .Select(CheepDTO => new CheepDTO
             {
                 //Sets the properties of the Cheep
                 AuthorId = CheepDTO.Author.AuthorId,
