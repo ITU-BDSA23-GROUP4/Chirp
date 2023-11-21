@@ -55,7 +55,6 @@ namespace Chirp.Infrastructure
             }
             else
             {
-                return null;
                 throw new ArgumentException("Author with name " + name + " does not exist");
             }
         }
