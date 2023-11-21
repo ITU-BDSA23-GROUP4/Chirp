@@ -48,17 +48,17 @@ public class CheepRepository
                     Text = text,
                     TimeStamp = DateTime.Now
                 });
-            }else
+            }
+            else
             {
                 throw new ArgumentException("Message is above 160 characters or empty");
             }
             db.SaveChanges();
         }
-        catch (System.Exception)
+        catch (Exception)
         {
             throw;
         }
-
     }
 
     public List<CheepDTO> GetCheeps(int? pageNum)
@@ -86,13 +86,10 @@ public class CheepRepository
             return cheepsToReturn.GetRange(0, 32);
         }
         else
-
         {
             int endIndex = Math.Min((int)page + 32, (int)cheepsToReturn.Count);
             return cheepsToReturn.GetRange((int)page, endIndex - (int)(page));
         }
-
-
     }
 
     public List<CheepDTO> GetCheepsFromAuthor(string author, int? pageNum)
@@ -115,8 +112,6 @@ public class CheepRepository
         cheepsToReturn.AddRange(cheepsDTO);
 
         int? page = (pageNum - 1) * 32;
-
-
 
         if (cheepsToReturn.Count < 32)
         {
@@ -187,7 +182,6 @@ public class CheepRepository
         
         var user = db.Authors.SingleAsync(u => u.Name == cheep.Author);
 
-       
         db.Add(new Cheep
         {
             Author = user.Result,
