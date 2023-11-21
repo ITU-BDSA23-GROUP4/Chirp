@@ -38,7 +38,9 @@ public class PublicModel : PageModel
     {
         try
         {
-            Console.WriteLine("I am the message" + CheepMessageTimeLine);
+            if(authorRepo.GetAuthorByName(User.Identity.Name)==null && User.Identity.Name!=""){
+                authorRepo.AddAuthor(User.Identity.Name, User.Identity.Name+"@chirp.com");
+            }
             var cheep = new CheepCreateDTO(authorRepo.GetAuthorByName(User.Identity.Name).Name, CheepMessageTimeLine);
             cheepRepo.Create(cheep);
             return Redirect(User.Identity.Name);
