@@ -17,21 +17,6 @@ namespace Chirp.Infrastructure.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.13");
 
-            modelBuilder.Entity("AuthorAuthor", b =>
-                {
-                    b.Property<int>("FollowersAuthorId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("FollowingAuthorId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("FollowersAuthorId", "FollowingAuthorId");
-
-                    b.HasIndex("FollowingAuthorId");
-
-                    b.ToTable("AuthorAuthor");
-                });
-
             modelBuilder.Entity("Chirp.Infrastructure.Author", b =>
                 {
                     b.Property<int>("AuthorId")
@@ -83,19 +68,25 @@ namespace Chirp.Infrastructure.Migrations
                     b.ToTable("Cheeps");
                 });
 
-            modelBuilder.Entity("AuthorAuthor", b =>
+            modelBuilder.Entity("Chirp.Infrastructure.Follow", b =>
                 {
-                    b.HasOne("Chirp.Infrastructure.Author", null)
-                        .WithMany()
-                        .HasForeignKey("FollowersAuthorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Property<int>("FollowId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
 
-                    b.HasOne("Chirp.Infrastructure.Author", null)
-                        .WithMany()
-                        .HasForeignKey("FollowingAuthorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Property<int>("FolloweeId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("FollowerId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("FollowId");
+
+                    b.HasIndex("FolloweeId");
+
+                    b.HasIndex("FollowerId");
+
+                    b.ToTable("Follow");
                 });
 
             modelBuilder.Entity("Chirp.Infrastructure.Cheep", b =>
@@ -107,6 +98,32 @@ namespace Chirp.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("Author");
+                });
+
+            modelBuilder.Entity("Chirp.Infrastructure.Follow", b =>
+                {
+                    b.HasOne("Chirp.Infrastructure.Author", "Followee")
+                        .WithMany("Followers")
+                        .HasForeignKey("FolloweeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Chirp.Infrastructure.Author", "Follower")
+                        .WithMany("Following")
+                        .HasForeignKey("FollowerId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Followee");
+
+                    b.Navigation("Follower");
+                });
+
+            modelBuilder.Entity("Chirp.Infrastructure.Author", b =>
+                {
+                    b.Navigation("Followers");
+
+                    b.Navigation("Following");
                 });
 #pragma warning restore 612, 618
         }

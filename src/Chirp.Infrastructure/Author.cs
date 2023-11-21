@@ -6,6 +6,15 @@ public class Author
     public required string Name { get; set; }
     public required string Email { get; set; }
     public required List<Cheep> Cheeps;
-    public List<Author> Following { get; } = new();
-    public List<Author> Followers { get; } = new();
+    public virtual List<Follow> Following { get; set;}
+    public virtual List<Follow> Followers { get; set;} 
+}
+
+public class Follow
+{
+    public int FollowId { get; set; }
+    public int FollowerId { get; set; }
+    public Author Follower { get; set; }
+    public int FolloweeId { get; set; }
+    public Author Followee { get; set; }
 }
