@@ -52,9 +52,9 @@ public class PublicModel : PageModel
 
     public bool DoesFollow(int AuthorId) 
     {
-        foreach (Author author in Following) {
-            if (author.AuthorId == User.Claims.ToList().Get())
-        }
+        // foreach (Author author in Following) {
+        //     if (author.AuthorId == User.Claims.ToList().Get())
+        // }
         
         return false;
     }

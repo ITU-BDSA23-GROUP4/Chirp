@@ -9,19 +9,15 @@ public class CheepRepository
 {
     private readonly ChirpDBContext db; //Needed to get our CheepDTO
     private readonly CheepCreateValidator _validator; //Needed to validate our CheepDTO
-    private AuthorRepository AuthorRepository; //Needed to get our AuthorDTO
-
     public CheepRepository() //Initializes our model
     {
         db = new ChirpDBContext(); 
-        AuthorRepository = new AuthorRepository(db);
         _validator = new CheepCreateValidator();
     }
 
     public CheepRepository(string dbName) //If creating a new db is needed
     {
         db = new ChirpDBContext(dbName);
-        AuthorRepository = new AuthorRepository(db);
         _validator = new CheepCreateValidator();
     }
 
@@ -32,7 +28,6 @@ public class CheepRepository
             throw new NullReferenceException();
         }
         _validator = validator;
-        AuthorRepository = new AuthorRepository(db);
     }
 
     public void AddCheep(int authorId, string text)

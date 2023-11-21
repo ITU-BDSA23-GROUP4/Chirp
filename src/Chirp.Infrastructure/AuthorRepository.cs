@@ -5,8 +5,6 @@ namespace Chirp.Infrastructure
     public class AuthorRepository
     {
         private readonly ChirpDBContext db;
-
-
         public AuthorRepository()
         {
             db = new ChirpDBContext();
