@@ -19,8 +19,8 @@ namespace Chirp.Infrastructure
             db.Add(new Author { Name = name, 
                 Cheeps = new List<Cheep>(), 
                 Email = email, 
-                Following = new List<Author>(),
-                Followers = new List<Author>(),
+                // Following = new List<Author>(),
+                // Followers = new List<Author>(),
             });
         }
 
