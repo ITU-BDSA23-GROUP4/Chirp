@@ -82,12 +82,12 @@ namespace Chirp.Infrastructure
             }
         }
 
-        private static List<CheepDTO> GetAllCheepsFromAuthor(string author, ChirpDBContext _dbcontext)
+        private static List<CheepDTO> GetAllCheepsFromAuthor(string Name, ChirpDBContext _dbcontext)
         {
 
             List<CheepDTO> cheepsToReturn = new List<CheepDTO>();
 
-            var cheepsDTO = _dbcontext.Cheeps.Include(author).ToList().OrderByDescending(c => c.TimeStamp.Ticks).Select(CheepDTO => new CheepDTO
+            var cheepsDTO = _dbcontext.Cheeps.ToList().OrderByDescending(c => c.TimeStamp.Ticks).Where(author => author.Author.Name == Name).Select(CheepDTO => new CheepDTO
             {
                 //Sets the properties of the Cheep
                 AuthorId = CheepDTO.Author.AuthorId,
