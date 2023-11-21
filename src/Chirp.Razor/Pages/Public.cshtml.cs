@@ -47,10 +47,10 @@ public class PublicModel : PageModel
     {
 
         try{
-            authorRepo.GetAuthorByName(User.Identity.Name);
+            _service.GetAuthorByName(User.Identity.Name);
         }
         catch (Exception){
-            authorRepo.AddAuthor(User.Identity.Name, User.Claims.FirstOrDefault(c => c.Type == "emails").Value);
+            _service.AddAuthor(User.Identity.Name, User.Claims.FirstOrDefault(c => c.Type == "emails").Value);
         }
         
         try
