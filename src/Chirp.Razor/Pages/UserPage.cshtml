@@ -6,13 +6,36 @@
 }
 
 <div>
-    <h2>Username:</h2>
-    <p>@User.Identity.Name</p>
+    <h2>@User.Identity.Name's profile</h2>
+    <p>Welcome to your profile page! Here, you can manage your information, explore your connections, and stay updated on your activities. Take a moment to review the details below and customize your experience.</p>
+</div>
+
+<div>
+    <h3>Following</h3>
+    <p>You are not following anyone.</p> @*if following someone: You are not following anyone*@
+    <br/>
+</div>
+
+<div>
+    <h2>Privacy policy</h2>
+    <p>This is a project that group 4 is making in the course BDSA at ITU.</p>
+
+    <h3>What information we collect from you</h3>
+    <li>When you register with github we get access to most of your Github information.</li>
+    <li>When registered we collect your username, password, ID, name and email.</lli>
+    <li>We will keep a few lists of who you are following, being followed by and which cheeps you are posting.</li>
+
+    <h3>How we use your information</h3>
+    <p>We use your information to create a great experience on our application, and to make sure everything is working correctly.</p>
+    <p>Your information will be kept with us/our professor/class and will move no further.</p>
+    <p>Your concrete information is saved in our database using sql.</p>
+    <br
 </div>
 
 <div>
     <h2>Authentication Type:</h2>
     <p>@User.Identity.AuthenticationType</p>
+    <br
 </div>
 
 <div>
