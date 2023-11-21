@@ -36,7 +36,8 @@ public class PublicModel : PageModel
 
     public IActionResult OnPost()
     {
-
+        if(User?.Identity?.IsAuthenticated == true && User?.Identity?.Name != null){
+            
         try{
             authorRepo.GetAuthorByName(User.Identity.Name);
         }
@@ -52,6 +53,10 @@ public class PublicModel : PageModel
         }
         catch (Exception)
         {
+            return Redirect("/");
+        }
+
+        } else {
             return Redirect("/");
         }
     }
