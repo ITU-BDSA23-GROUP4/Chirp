@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Chirp.Razor.Pages;
 
-[AllowAnonymous]
+
 public class PublicModel : PageModel
 {
 
@@ -45,9 +45,16 @@ public class PublicModel : PageModel
 
     public IActionResult OnPost()
     {
+
+        try{
+            authorRepo.GetAuthorByName(User.Identity.Name);
+        }
+        catch (Exception){
+            authorRepo.AddAuthor(User.Identity.Name, User.Claims.FirstOrDefault(c => c.Type == "emails").Value);
+        }
+        
         try
         {
-            Console.WriteLine("I am the message" + CheepMessageTimeLine);
             var cheep = new CheepCreateDTO(_service.GetAuthorByName(User.Identity.Name).Name, CheepMessageTimeLine);
             _service.Create(cheep);
             return Redirect(User.Identity.Name);
