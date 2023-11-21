@@ -36,11 +36,16 @@ public class PublicModel : PageModel
 
     public IActionResult OnPost()
     {
+
+        try{
+            authorRepo.GetAuthorByName(User.Identity.Name);
+        }
+        catch (Exception){
+            authorRepo.AddAuthor(User.Identity.Name, User.Claims.FirstOrDefault(c => c.Type == "emails").Value);
+        }
+        
         try
         {
-            if(authorRepo.GetAuthorByName(User.Identity.Name)==null && User.Identity.Name!=""){
-                authorRepo.AddAuthor(User.Identity.Name, User.Claims.FirstOrDefault(c => c.Type == "emails").Value);
-            }
             var cheep = new CheepCreateDTO(authorRepo.GetAuthorByName(User.Identity.Name).Name, CheepMessageTimeLine);
             cheepRepo.Create(cheep);
             return Redirect(User.Identity.Name);
