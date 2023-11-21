@@ -38,23 +38,23 @@ public class PublicModel : PageModel
     {
         if(User?.Identity?.IsAuthenticated == true && User?.Identity?.Name != null){
             
-        try{
-            authorRepo.GetAuthorByName(User.Identity.Name);
-        }
-        catch (Exception){
-            authorRepo.AddAuthor(User.Identity.Name, User.Claims.FirstOrDefault(c => c.Type == "emails").Value);
-        }
-        
-        try
-        {
-            var cheep = new CheepCreateDTO(authorRepo.GetAuthorByName(User.Identity.Name).Name, CheepMessageTimeLine);
-            cheepRepo.Create(cheep);
-            return Redirect(User.Identity.Name);
-        }
-        catch (Exception)
-        {
-            return Redirect("/");
-        }
+            try{
+                authorRepo.GetAuthorByName(User.Identity.Name);
+            }
+            catch (Exception){
+                authorRepo.AddAuthor(User.Identity.Name, User.Claims.FirstOrDefault(c => c.Type == "emails").Value);
+            }
+            
+            try
+            {
+                var cheep = new CheepCreateDTO(authorRepo.GetAuthorByName(User.Identity.Name).Name, CheepMessageTimeLine);
+                cheepRepo.Create(cheep);
+                return Redirect(User.Identity.Name);
+            }
+            catch (Exception)
+            {
+                return Redirect("/");
+            }
 
         } else {
             return Redirect("/");
