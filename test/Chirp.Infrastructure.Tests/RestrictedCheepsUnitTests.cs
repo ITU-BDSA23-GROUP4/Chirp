@@ -26,8 +26,8 @@ public class RestrictedCheepTests
             Name = "TestName",
             Email = "TestEmail",
             Cheeps = new List<Cheep>(),
-            Following = new List<Author>(),
-            Followers = new List<Author>()
+            Followed = new List<Follow>(),
+            Followers = new List<Follow>()
         };
         var testCheep = new Cheep
         {

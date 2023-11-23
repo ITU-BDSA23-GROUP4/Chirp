@@ -33,7 +33,8 @@ public class PublicModel : PageModel
 
     public IActionResult OnPost()
     {
-        if(User?.Identity?.IsAuthenticated == true && User?.Identity?.Name != null)
+        // This can be deleted, if refactored into get, and reduce repitative code
+        if(User.Identity?.IsAuthenticated == true && User.Identity?.Name != null)
         {
             var userName = User.Identity.Name;
             var userEmailClaim = User.Claims.FirstOrDefault(c => c.Type == "emails");
@@ -63,10 +64,22 @@ public class PublicModel : PageModel
 
     public bool DoesFollow(int AuthorId) 
     {
-        // foreach (Author author in Following) {
-        //     if (author.AuthorId == User.Claims.ToList().Get())
-        // }
-        
+        AuthorDTO? author = null;
+        // Needs to be refactored into the get method so we does not call it 32 times per page load
+        if (User?.Identity?.IsAuthenticated == true && User?.Identity?.Name != null) {
+            
+            if (User.Identity.Name != null) {
+                author = authorRepo.GetAuthorByName(User.Identity.Name);
+            }
+            
+            if (author != null && author.Followed != null) {
+                foreach (AuthorDTO followingAuthor in author.Followed) {
+                    if (followingAuthor.AuthorId == AuthorId) {
+                        return true;
+                    }
+                }
+            }
+        }
         return false;
     }
 }

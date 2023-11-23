@@ -8,18 +8,18 @@ public static class DbInitializer
     {
         if (!(chirpContext.Authors.Any() && chirpContext.Cheeps.Any()))
         {
-            var a1 = new Author() { AuthorId = 1, Name = "Roger Histand", Email = "Roger+Histand@hotmail.com", Cheeps = new List<Cheep>(), Following = new List<Author>(), Followers = new List<Author>() };
-            var a2 = new Author() { AuthorId = 2, Name = "Luanna Muro", Email = "Luanna-Muro@ku.dk", Cheeps = new List<Cheep>(), Following = new List<Author>(), Followers = new List<Author>() };
-            var a3 = new Author() { AuthorId = 3, Name = "Wendell Ballan", Email = "Wendell-Ballan@gmail.com", Cheeps = new List<Cheep>(), Following = new List<Author>(), Followers = new List<Author>() };
-            var a4 = new Author() { AuthorId = 4, Name = "Nathan Sirmon", Email = "Nathan+Sirmon@dtu.dk", Cheeps = new List<Cheep>(), Following = new List<Author>(), Followers = new List<Author>() };
-            var a5 = new Author() { AuthorId = 5, Name = "Quintin Sitts", Email = "Quintin+Sitts@itu.dk", Cheeps = new List<Cheep>(), Following = new List<Author>(), Followers = new List<Author>() };
-            var a6 = new Author() { AuthorId = 6, Name = "Mellie Yost", Email = "Mellie+Yost@ku.dk", Cheeps = new List<Cheep>(), Following = new List<Author>(), Followers = new List<Author>() };
-            var a7 = new Author() { AuthorId = 7, Name = "Malcolm Janski", Email = "Malcolm-Janski@gmail.com", Cheeps = new List<Cheep>(), Following = new List<Author>(), Followers = new List<Author>() };
-            var a8 = new Author() { AuthorId = 8, Name = "Octavio Wagganer", Email = "Octavio.Wagganer@dtu.dk", Cheeps = new List<Cheep>(), Following = new List<Author>(), Followers = new List<Author>() };
-            var a9 = new Author() { AuthorId = 9, Name = "Johnnie Calixto", Email = "Johnnie+Calixto@itu.dk", Cheeps = new List<Cheep>(), Following = new List<Author>(), Followers = new List<Author>() };
-            var a10 = new Author() { AuthorId = 10, Name = "Jacqualine Gilcoine", Email = "Jacqualine.Gilcoine@gmail.com", Cheeps = new List<Cheep>(), Following = new List<Author>(), Followers = new List<Author>() };
-            var a11 = new Author() { AuthorId = 11, Name = "Helge", Email = "ropf@itu.dk", Cheeps = new List<Cheep>(), Following = new List<Author>(), Followers = new List<Author>() };
-            var a12 = new Author() { AuthorId = 12, Name = "Rasmus", Email = "rnie@itu.dk", Cheeps = new List<Cheep>(), Following = new List<Author>(), Followers = new List<Author>() };
+            var a1 = new Author() { AuthorId = 1, Name = "Roger Histand", Email = "Roger+Histand@hotmail.com", Cheeps = new List<Cheep>(), Followed = new List<Follow>(), Followers = new List<Follow>() };
+            var a2 = new Author() { AuthorId = 2, Name = "Luanna Muro", Email = "Luanna-Muro@ku.dk", Cheeps = new List<Cheep>(), Followed = new List<Follow>(), Followers = new List<Follow>() };
+            var a3 = new Author() { AuthorId = 3, Name = "Wendell Ballan", Email = "Wendell-Ballan@gmail.com", Cheeps = new List<Cheep>(), Followed = new List<Follow>(), Followers = new List<Follow>() };
+            var a4 = new Author() { AuthorId = 4, Name = "Nathan Sirmon", Email = "Nathan+Sirmon@dtu.dk", Cheeps = new List<Cheep>(), Followed = new List<Follow>(), Followers = new List<Follow>() };
+            var a5 = new Author() { AuthorId = 5, Name = "Quintin Sitts", Email = "Quintin+Sitts@itu.dk", Cheeps = new List<Cheep>(), Followed = new List<Follow>(), Followers = new List<Follow>() };
+            var a6 = new Author() { AuthorId = 6, Name = "Mellie Yost", Email = "Mellie+Yost@ku.dk", Cheeps = new List<Cheep>(), Followed = new List<Follow>(), Followers = new List<Follow>() };
+            var a7 = new Author() { AuthorId = 7, Name = "Malcolm Janski", Email = "Malcolm-Janski@gmail.com", Cheeps = new List<Cheep>(), Followed = new List<Follow>(), Followers = new List<Follow>() };
+            var a8 = new Author() { AuthorId = 8, Name = "Octavio Wagganer", Email = "Octavio.Wagganer@dtu.dk", Cheeps = new List<Cheep>(), Followed = new List<Follow>(), Followers = new List<Follow>() };
+            var a9 = new Author() { AuthorId = 9, Name = "Johnnie Calixto", Email = "Johnnie+Calixto@itu.dk", Cheeps = new List<Cheep>(), Followed = new List<Follow>(), Followers = new List<Follow>() };
+            var a10 = new Author() { AuthorId = 10, Name = "Jacqualine Gilcoine", Email = "Jacqualine.Gilcoine@gmail.com", Cheeps = new List<Cheep>(), Followed = new List<Follow>(), Followers = new List<Follow>() };
+            var a11 = new Author() { AuthorId = 11, Name = "Helge", Email = "ropf@itu.dk", Cheeps = new List<Cheep>(), Followed = new List<Follow>(), Followers = new List<Follow>() };
+            var a12 = new Author() { AuthorId = 12, Name = "Rasmus", Email = "rnie@itu.dk", Cheeps = new List<Cheep>(), Followed = new List<Follow>(), Followers = new List<Follow>() };
 
             var authors = new List<Author>() { a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12 };
 
@@ -541,7 +541,7 @@ public static class DbInitializer
             var c516 = new Cheep() { CheepId = 516, Author = a10, Text = "At eleven there was movement in the teeth that he was in its niches.", TimeStamp = DateTime.Parse("2023-08-01 13:15:47") };
             var c517 = new Cheep() { CheepId = 517, Author = a10, Text = "Those buckskin legs and fair ramping.", TimeStamp = DateTime.Parse("2023-08-01 13:14:00") };
             var c518 = new Cheep() { CheepId = 518, Author = a10, Text = "You must put this horseshoe into my little woman, I would not have the warrant and can hold him back.", TimeStamp = DateTime.Parse("2023-08-01 13:13:39") };
-            var c519 = new Cheep() { CheepId = 519, Author = a2, Text = "Our cabs were dismissed, and, following the guidance of Toby down the wall.", TimeStamp = DateTime.Parse("2023-08-01 13:15:33") };
+            var c519 = new Cheep() { CheepId = 519, Author = a2, Text = "Our cabs were dismissed, and, Followed the guidance of Toby down the wall.", TimeStamp = DateTime.Parse("2023-08-01 13:15:33") };
             var c520 = new Cheep() { CheepId = 520, Author = a10, Text = "It had been played by Mr. Barker?", TimeStamp = DateTime.Parse("2023-08-01 13:15:23") };
             var c521 = new Cheep() { CheepId = 521, Author = a3, Text = "Have you been doing at Mawson''s?", TimeStamp = DateTime.Parse("2023-08-01 13:16:30") };
             var c522 = new Cheep() { CheepId = 522, Author = a10, Text = "Seems to me of Darmonodes'' elephant that so caused him to the kitchen door.", TimeStamp = DateTime.Parse("2023-08-01 13:17:29") };

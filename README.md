@@ -25,11 +25,17 @@ An examle is an breaking API change.
 
 ## SlN
 dotnet new sln
+
 dotnet sln add src/Chirp.Razor/Chirp.Razor.csproj
+
 dotnet sln add src/Chirp.Core/Chirp.Core.csproj
+
 dotnet sln add src/Chirp.Infrastructure/Chirp.Infrastructure.csproj
-dotnet sln add test/Chirp.Infrastructure.Test/Chirp.Infrastructure.Test.csproj
-dotnet sln add test/Chirp.Razor.Test/Chirp.Razor.Test.csproj
+
+dotnet sln add test/Chirp.Infrastructure.Tests/Chirp.Infrastructure.Tests.
+csproj
+
+dotnet sln add test/Chirp.Razor.Tests/Chirp.Razor.Tests.csproj
 
 # Running the program
 

@@ -26,8 +26,8 @@ public class AuthorRepositoryUnitTests
             Name = "TestName",
             Email = "TestEmail",
             Cheeps = new List<Cheep>(),
-            Following = new List<Author>(),
-            Followers = new List<Author>()
+            Followed = new List<Follow>(),
+            Followers = new List<Follow>()
         };
 
         //Creates and adds aauthor to the database
@@ -50,8 +50,8 @@ public class AuthorRepositoryUnitTests
             Name = "TestName", 
             Email = "TestEmail", 
             Cheeps = new List<Cheep>(), 
-            Following = new List<Author>(), 
-            Followers = new List<Author>() 
+            Followed = new List<Follow>(), 
+            Followers = new List<Follow>() 
         });
     }
 
@@ -78,8 +78,8 @@ public class AuthorRepositoryUnitTests
             Name = "TestName", 
             Email = "TestEmail", 
             Cheeps = new List<Cheep>(), 
-            Following = new List<Author>(), 
-            Followers = new List<Author>() 
+            Followed = new List<Follow>(), 
+            Followers = new List<Follow>() 
         });
     }
 
@@ -107,8 +107,8 @@ public class AuthorRepositoryUnitTests
             Name = "TestName", 
             Email = "TestEmail", 
             Cheeps = new List<Cheep>(),
-            Following = new List<Author>(),
-            Followers = new List<Author>() 
+            Followed = new List<Follow>(),
+            Followers = new List<Follow>() 
         });
     }
 
