@@ -7,7 +7,7 @@
 }
 
     <div class=body>
-        @if (User.Identity.IsAuthenticated) {
+        @if (User.Identity?.IsAuthenticated == true) {
           <div class="cheepbox">
         <h3>What's on your mind @(User.Identity.Name)?</h3>
         <form method="post">

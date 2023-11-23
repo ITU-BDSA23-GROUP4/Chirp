@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.ComponentModel.DataAnnotations;
 using Chirp.Infrastructure;
 using Chirp.Core;
-using Microsoft.AspNetCore.Authorization;
 
 namespace Chirp.Razor.Pages;
 
@@ -45,7 +44,12 @@ public class PublicModel : PageModel
 
     public IActionResult OnPost()
     {
+        if(User?.Identity?.IsAuthenticated == true && User?.Identity?.Name != null)
+        {
+            var userName = User.Identity.Name;
+            var userEmailClaim = User.Claims.FirstOrDefault(c => c.Type == "emails");
 
+<<<<<<< HEAD
         try{
             _service.GetAuthorByName(User.Identity.Name);
         }
@@ -62,6 +66,28 @@ public class PublicModel : PageModel
         catch (Exception)
         {
             return Redirect("/");
+=======
+            if (userName != null && userEmailClaim != null)
+            {
+                try
+                {
+                    var author = authorRepo.GetAuthorByName(userName);
+                    if (author != null)
+                    {
+                        var cheep = new CheepCreateDTO(author.Name, CheepMessageTimeLine);
+                        cheepRepo.Create(cheep);
+                        return Redirect(userName);
+                    }
+                }
+                catch (Exception)
+                {
+                    authorRepo.AddAuthor(userName, userEmailClaim.Value);
+                    cheepRepo.Create(new CheepCreateDTO(userName, CheepMessageTimeLine));
+                    return Redirect(userName);
+                }
+            }
+>>>>>>> main
         }
+        return Redirect("/");
     }
 }
