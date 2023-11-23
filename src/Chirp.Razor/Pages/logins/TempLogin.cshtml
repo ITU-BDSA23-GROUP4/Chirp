@@ -8,7 +8,7 @@
 }
 <script>
     // Check if the user is authenticated
-    if (@User.Identity.IsAuthenticated.ToString().ToLower()) {
+    if (@User?.Identity?.IsAuthenticated.ToString().ToLower()) {
         // If authenticated, redirect to the root ("/")
         window.location.href = "/";
     }
