@@ -10,7 +10,7 @@ namespace Chirp.Razor.Pages
         public IActionResult OnGet()
         {
             // Check if the user is authenticated
-            if (User.Identity.IsAuthenticated)
+            if (User.Identity?.IsAuthenticated == true && User.Identity?.Name != null)
             {
                 // If authenticated, redirect to the front page
                 return Redirect("/");

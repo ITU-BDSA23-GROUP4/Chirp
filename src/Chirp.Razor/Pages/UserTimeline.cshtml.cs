@@ -38,10 +38,17 @@ public class UserTimelineModel : PageModel
     {
         try
         {
-            Console.WriteLine("I am the message" + CheepMessageTimeLine);
-            var cheep = new CheepCreateDTO(authorRepo.GetAuthorByName(User.Identity.Name).Name, CheepMessageTimeLine);
-            cheepRepo.Create(cheep);
-            return Redirect(User.Identity.Name);
+            if (User?.Identity?.Name != null)
+            {
+                var author = authorRepo.GetAuthorByName(User.Identity.Name);
+                if (author != null)
+                {
+                    var cheep = new CheepCreateDTO(author.Name, CheepMessageTimeLine);
+                    cheepRepo.Create(cheep);
+                }
+            }
+
+            return Redirect(User?.Identity?.Name ?? "/");
         }
         catch (Exception)
         {

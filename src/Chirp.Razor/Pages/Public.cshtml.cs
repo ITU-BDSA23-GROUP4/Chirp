@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Chirp.Infrastructure;
 using Chirp.Core;
-using Microsoft.AspNetCore.Authorization;
 
 namespace Chirp.Razor.Pages;
 
@@ -36,23 +35,31 @@ public class PublicModel : PageModel
 
     public IActionResult OnPost()
     {
+        if(User?.Identity?.IsAuthenticated == true && User?.Identity?.Name != null)
+        {
+            var userName = User.Identity.Name;
+            var userEmailClaim = User.Claims.FirstOrDefault(c => c.Type == "emails");
 
-        try{
-            authorRepo.GetAuthorByName(User.Identity.Name);
+            if (userName != null && userEmailClaim != null)
+            {
+                try
+                {
+                    var author = authorRepo.GetAuthorByName(userName);
+                    if (author != null)
+                    {
+                        var cheep = new CheepCreateDTO(author.Name, CheepMessageTimeLine);
+                        cheepRepo.Create(cheep);
+                        return Redirect(userName);
+                    }
+                }
+                catch (Exception)
+                {
+                    authorRepo.AddAuthor(userName, userEmailClaim.Value);
+                    cheepRepo.Create(new CheepCreateDTO(userName, CheepMessageTimeLine));
+                    return Redirect(userName);
+                }
+            }
         }
-        catch (Exception){
-            authorRepo.AddAuthor(User.Identity.Name, User.Claims.FirstOrDefault(c => c.Type == "emails").Value);
-        }
-        
-        try
-        {
-            var cheep = new CheepCreateDTO(authorRepo.GetAuthorByName(User.Identity.Name).Name, CheepMessageTimeLine);
-            cheepRepo.Create(cheep);
-            return Redirect(User.Identity.Name);
-        }
-        catch (Exception)
-        {
-            return Redirect("/");
-        }
+        return Redirect("/");
     }
 }

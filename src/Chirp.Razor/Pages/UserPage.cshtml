@@ -6,7 +6,7 @@
 }
 
 <div>
-    <h2>@User.Identity.Name's profile</h2>
+    <h2>@User?.Identity?.Name's profile</h2>
     <p>Welcome to your profile page! Here, you can manage your information, explore your connections, and stay updated on your activities. Take a moment to review the details below and customize your experience.</p>
 </div>
 
@@ -34,16 +34,19 @@
 
 <div>
     <h2>Authentication Type:</h2>
-    <p>@User.Identity.AuthenticationType</p>
+    <p>@User?.Identity?.AuthenticationType</p>
     <br
 </div>
 
 <div>
     <h2>Claims:</h2>
     <ul>
-        @foreach (var claim in User.Claims)
+        @if (User?.Claims != null)
         {
-            <li>@claim.Type: @claim.Value</li>
+            foreach (var claim in User.Claims)
+            {
+                <li>@claim.Type: @claim.Value</li>
+            }
         }
     </ul>
 </div>
