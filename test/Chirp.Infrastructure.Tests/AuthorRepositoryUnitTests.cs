@@ -100,4 +100,16 @@ public class AuthorRepositoryUnitTests
         //Should throw an exception since the id doesn't exist in our database
         act.Should().Throw<ArgumentException>().WithMessage("Author with id 2 does not exist");
     }
+
+    //Test that the method to delete an author works
+    [Fact]
+    public void UnitTestDeleteAuthor()
+    {
+        //Act
+        repository.deleteAuthor(1);
+
+        //Assert
+        //Should pass since the author is deleted
+        _context.Authors.Should().BeEmpty();
+    }
 }
