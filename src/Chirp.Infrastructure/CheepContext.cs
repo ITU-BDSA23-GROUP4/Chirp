@@ -62,6 +62,8 @@ public class ChirpDBContext : DbContext
         modelBuilder.Entity<Author>()
             .HasIndex(a => a.Email)
             .IsUnique(true);
+        // The configuration was made with the help of:
+        //https://stackoverflow.com/questions/49214748/many-to-many-self-referencing-relationship
         modelBuilder.Entity<Follow>()
             .HasOne(f => f.Follower)
             .WithMany(a => a.Followed)
