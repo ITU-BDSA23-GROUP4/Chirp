@@ -2,15 +2,11 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Chirp.Infrastructure;
 using Chirp.Core;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.Identity.Web;
 
 namespace Chirp.Razor.Pages;
 
-
 public class PublicModel : PageModel
 {
-
     [BindProperty(SupportsGet = true)]
     public int CurrentPage { get; set; } = 1;
     public int Count { get; set; }
@@ -31,23 +27,38 @@ public class PublicModel : PageModel
         } else {
             Cheeps = cheepRepo.GetCheeps(pageNum);
         }
-
+        
         return Page();
     }
 
     public IActionResult OnPost()
     {
-        try
+        if(User?.Identity?.IsAuthenticated == true && User?.Identity?.Name != null)
         {
-            Console.WriteLine("I am the message" + CheepMessageTimeLine);
-            var cheep = new CheepCreateDTO(authorRepo.GetAuthorByName(User.Identity.Name).Name, CheepMessageTimeLine);
-            cheepRepo.Create(cheep);
-            return Redirect(User.Identity.Name);
+            var userName = User.Identity.Name;
+            var userEmailClaim = User.Claims.FirstOrDefault(c => c.Type == "emails");
+
+            if (userName != null && userEmailClaim != null)
+            {
+                try
+                {
+                    var author = authorRepo.GetAuthorByName(userName);
+                    if (author != null)
+                    {
+                        var cheep = new CheepCreateDTO(author.Name, CheepMessageTimeLine);
+                        cheepRepo.Create(cheep);
+                        return Redirect(userName);
+                    }
+                }
+                catch (Exception)
+                {
+                    authorRepo.AddAuthor(userName, userEmailClaim.Value);
+                    cheepRepo.Create(new CheepCreateDTO(userName, CheepMessageTimeLine));
+                    return Redirect(userName);
+                }
+            }
         }
-        catch (Exception)
-        {
-            return Redirect("/");
-        }
+        return Redirect("/");
     }
 
     public bool DoesFollow(int AuthorId) 

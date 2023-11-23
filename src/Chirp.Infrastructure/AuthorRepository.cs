@@ -20,6 +20,8 @@ namespace Chirp.Infrastructure
                 Cheeps = new List<Cheep>(), 
                 Email = email, 
             });
+
+            db.SaveChanges();
         }
 
         public AuthorDTO GetAuthorByID(int ID)
@@ -43,7 +45,7 @@ namespace Chirp.Infrastructure
             }
         }
 
-        public AuthorDTO GetAuthorByName(string name)
+        public AuthorDTO? GetAuthorByName(string name)
         {
             var author = db.Authors.Where(author => author.Name == name).Select(authorDTO => new AuthorDTO
             {
@@ -54,20 +56,13 @@ namespace Chirp.Infrastructure
                 Followed = GetAllFollowedAuthors(authorDTO.AuthorId, db),
                 Followers = GetAllFollowers(authorDTO.AuthorId, db)
             }).FirstOrDefault();
-            if (author != null)
-            {
-                return author;
+            if (author != null){
+                return author;  
             }
             else
             {
-                //Should change this logic later for more formal error handling of auhtor not existing
-                //Implementing this so we can test the new User.Identity feature
-                AddAuthor(name, name + "@chirp.com");
-                db.SaveChanges();
                 throw new ArgumentException("Author with name " + name + " does not exist");
             }
-
-
         }
 
         public AuthorDTO GetAuthorByEmail(string email)
