@@ -49,44 +49,25 @@ public class PublicModel : PageModel
             var userName = User.Identity.Name;
             var userEmailClaim = User.Claims.FirstOrDefault(c => c.Type == "emails");
 
-<<<<<<< HEAD
-        try{
-            _service.GetAuthorByName(User.Identity.Name);
-        }
-        catch (Exception){
-            _service.AddAuthor(User.Identity.Name, User.Claims.FirstOrDefault(c => c.Type == "emails").Value);
-        }
-        
-        try
-        {
-            var cheep = new CheepCreateDTO(_service.GetAuthorByName(User.Identity.Name).Name, CheepMessageTimeLine);
-            _service.Create(cheep);
-            return Redirect(User.Identity.Name);
-        }
-        catch (Exception)
-        {
-            return Redirect("/");
-=======
             if (userName != null && userEmailClaim != null)
             {
                 try
                 {
-                    var author = authorRepo.GetAuthorByName(userName);
+                    var author = _service.GetAuthorByName(userName);
                     if (author != null)
                     {
                         var cheep = new CheepCreateDTO(author.Name, CheepMessageTimeLine);
-                        cheepRepo.Create(cheep);
+                        _service.Create(cheep);
                         return Redirect(userName);
                     }
                 }
                 catch (Exception)
                 {
-                    authorRepo.AddAuthor(userName, userEmailClaim.Value);
-                    cheepRepo.Create(new CheepCreateDTO(userName, CheepMessageTimeLine));
+                    _service.AddAuthor(userName, userEmailClaim.Value);
+                    _service.Create(new CheepCreateDTO(userName, CheepMessageTimeLine));
                     return Redirect(userName);
                 }
             }
->>>>>>> main
         }
         return Redirect("/");
     }
