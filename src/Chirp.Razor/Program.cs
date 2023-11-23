@@ -26,7 +26,7 @@ stringBuilder.Password = "Ab12345_";
 stringBuilder.InitialCatalog = "bdsagroup4-chirpdb";
 
 
-if(builder.Environment.IsDevelopment())
+if (builder.Environment.IsDevelopment())
 {
     builder.Services.AddDbContext<ChirpDBContext>(options =>
     {
@@ -53,12 +53,17 @@ builder.Services.AddRazorPages()
 
 var app = builder.Build();
 
+
+
 using var scope = app.Services.CreateScope();
 var services = scope.ServiceProvider;
 var dbContext = services.GetRequiredService<ChirpDBContext>();
-dbContext.Database.Migrate();
-DbInitializer.SeedDatabase(dbContext);
 
+if (dbContext.Database.EnsureDeleted())
+{
+    dbContext.Database.Migrate();
+    DbInitializer.SeedDatabase(dbContext);
+}
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -67,9 +72,10 @@ if (!app.Environment.IsDevelopment())
     app.UseExceptionHandler("/Error");
     app.UseHsts();
 }
-else 
+else
 {
-    app.UseCookiePolicy(new CookiePolicyOptions() {
+    app.UseCookiePolicy(new CookiePolicyOptions()
+    {
         MinimumSameSitePolicy = SameSiteMode.None,
         Secure = CookieSecurePolicy.Always
     });
