@@ -16,6 +16,9 @@ namespace Chirp.Razor.Pages
             {
                 Console.WriteLine("AuthorId claim not found");
             }
+
+            //Open an alert box to confirm the deletion
+            //If pressed okay continue
             
             try
             {
