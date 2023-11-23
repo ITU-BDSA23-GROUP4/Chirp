@@ -1,4 +1,5 @@
 @page "/Profilepage"
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @model Chirp.Razor.Pages.UserPage
 @{
     ViewData["Title"] = "Profile Page";
@@ -55,10 +56,11 @@
 <div>
     <h2>Deletion of account</h2>
     <p>When pressing the Forget Me button, we will delete all your information</p>
-    <button 
-        type="button" 
-        class="btn btn-danger" 
-        style="background-color: rgb(255, 68, 68); color: white; float: right;"
-    >Forget Me</button>
+    <form method="post">
+        <input type="submit" value="Forget Me" class="btn btn-danger"
+            style="background-color: rgb(255, 68, 68); color: white; float: right;"
+            asp-page-handler="ForgetMe"
+        >Forget Me</input>
+    </form>
     <br />
 </div>

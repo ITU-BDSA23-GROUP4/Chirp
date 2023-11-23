@@ -1,3 +1,4 @@
+using System.Security.Cryptography.X509Certificates;
 using Chirp.Core;
 using FluentValidation;
 using FluentValidation.Results;
@@ -59,6 +60,22 @@ public class CheepRepository
             throw;
         }
 
+    }
+
+    public void deleteCheepsFromAuthor(int authorid){
+        //Deletes all cheeps from a given author
+        try
+        {
+            var author = GetAuthorById(authorid);
+            if(author != null){
+                db.RemoveRange(db.Cheeps.Where(cheep => cheep.Author == author));
+                db.SaveChanges();
+            }
+        }
+        catch (System.Exception)
+        {
+            throw;
+        }
     }
 
     public List<CheepDTO> GetCheeps(int? pageNum)

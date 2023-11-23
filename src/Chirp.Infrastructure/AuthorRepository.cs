@@ -22,6 +22,28 @@ namespace Chirp.Infrastructure
             db.SaveChanges();
         }
 
+        public void deleteAuthor(int authorId){
+            var author = db.Authors.Where(author => author.AuthorId == authorId).FirstOrDefault();
+            if (author != null)
+            {
+                db.Remove(author);
+                db.SaveChanges();
+            }
+            else
+            {
+                throw new ArgumentException("Author with ID " + authorId + " does not exist");
+            }
+        }
+
+        public void deleteAuthorsFollowing(int authorId)
+        {
+            Console.WriteLine("Deleting following");
+        }
+        public void deleteAuthorsFollowers(int authorId)
+        {
+            Console.WriteLine("Deleting followers");
+        }
+
         public AuthorDTO GetAuthorByID(int ID)
         {
             var author = db.Authors.Where(author => author.AuthorId == ID).Select(authorDTO => new AuthorDTO
