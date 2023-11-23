@@ -109,7 +109,7 @@ namespace Chirp.Infrastructure.Migrations
                         .IsRequired();
 
                     b.HasOne("Chirp.Infrastructure.Author", "Follower")
-                        .WithMany("Following")
+                        .WithMany("Followed")
                         .HasForeignKey("FollowerId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -121,9 +121,9 @@ namespace Chirp.Infrastructure.Migrations
 
             modelBuilder.Entity("Chirp.Infrastructure.Author", b =>
                 {
-                    b.Navigation("Followers");
+                    b.Navigation("Followed");
 
-                    b.Navigation("Following");
+                    b.Navigation("Followers");
                 });
 #pragma warning restore 612, 618
         }

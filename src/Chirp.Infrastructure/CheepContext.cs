@@ -19,7 +19,6 @@ public class ChirpDBContext : DbContext
         {
             DbPath = Environment.GetEnvironmentVariable("CHIRPDBPATH");
         }
-
     }
     public ChirpDBContext(string repoName) //If wanting to create a db
     {
@@ -31,6 +30,7 @@ public class ChirpDBContext : DbContext
         {
             DbPath = Environment.GetEnvironmentVariable("CHIRPDBPATH");
         }
+
 
     }
 
@@ -64,17 +64,12 @@ public class ChirpDBContext : DbContext
             .IsUnique(true);
         modelBuilder.Entity<Follow>()
             .HasOne(f => f.Follower)
-            .WithMany(a => a.Following)
+            .WithMany(a => a.Followed)
             .HasForeignKey(f => f.FollowerId)
             .OnDelete(DeleteBehavior.Restrict);
         modelBuilder.Entity<Follow>()
             .HasOne(f => f.Followee)
             .WithMany(a => a.Followers)
             .HasForeignKey(f => f.FolloweeId);
-
-
-
-
     }
-    
 }

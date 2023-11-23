@@ -19,7 +19,7 @@ namespace Chirp.Infrastructure
             db.Add(new Author { Name = name, 
                 Cheeps = new List<Cheep>(), 
                 Email = email, 
-                // Following = new List<Author>(),
+                // followed = new List<Author>(),
                 // Followers = new List<Author>(),
             });
         }
@@ -32,8 +32,8 @@ namespace Chirp.Infrastructure
                 Name = authorDTO.Name,
                 Email = authorDTO.Email,
                 Cheeps = GetAllCheepsFromAuthor(authorDTO.Name, db),
-                Following = GetAllFollowedAuthors(authorDTO.AuthorId, db),
-                Followers = GetAllFollowingAuthors(authorDTO.AuthorId, db)
+                Followed = GetAllFollowedAuthors(authorDTO.AuthorId, db),
+                Followers = GetAllfollowedAuthors(authorDTO.AuthorId, db)
             }).FirstOrDefault();
             if (author != null)
             {
@@ -53,8 +53,8 @@ namespace Chirp.Infrastructure
                 Name = authorDTO.Name,
                 Email = authorDTO.Email,
                 Cheeps = GetAllCheepsFromAuthor(authorDTO.Name, db),
-                Following = GetAllFollowedAuthors(authorDTO.AuthorId, db),
-                Followers = GetAllFollowingAuthors(authorDTO.AuthorId, db)
+                Followed = GetAllFollowedAuthors(authorDTO.AuthorId, db),
+                Followers = GetAllfollowedAuthors(authorDTO.AuthorId, db)
             }).FirstOrDefault();
             if (author != null)
             {
@@ -80,8 +80,8 @@ namespace Chirp.Infrastructure
                 Name = authorDTO.Name,
                 Email = authorDTO.Email,
                 Cheeps = GetAllCheepsFromAuthor(authorDTO.Name, db),
-                Following = GetAllFollowedAuthors(authorDTO.AuthorId, db),
-                Followers = GetAllFollowingAuthors(authorDTO.AuthorId, db)
+                Followed = GetAllFollowedAuthors(authorDTO.AuthorId, db),
+                Followers = GetAllfollowedAuthors(authorDTO.AuthorId, db)
             }).FirstOrDefault();
 
             if (author != null)
@@ -118,18 +118,20 @@ namespace Chirp.Infrastructure
 
         private static List<AuthorDTO> GetAllFollowedAuthors(int AuthorId, ChirpDBContext DBcontext) 
         {   
-            List<AuthorDTO> following = new List<AuthorDTO>();
+            List<AuthorDTO> followed = new List<AuthorDTO>();
 
-            // pull out following authors from a table not yet existing mapping between follower (foreign key to author) and author (foreign key to author)
+            // pull out followed authors from a table not yet existing mapping between follower (foreign key to author) and author (foreign key to author)
+            
 
-            return following;
+            return followed;
         }
 
-        private static List<AuthorDTO> GetAllFollowingAuthors(int AuthorId, ChirpDBContext DBcontext) 
+        private static List<AuthorDTO> GetAllfollowedAuthors(int AuthorId, ChirpDBContext DBcontext) 
         {   
             List<AuthorDTO> followers = new List<AuthorDTO>();
 
-            // pull out following authors from a table not yet existing mapping between author (foreign key to author) and follower (foreign key to author)
+            // pull out followed authors from a table not yet existing mapping between author (foreign key to author) and follower (foreign key to author)
+
 
             return followers;
         }
