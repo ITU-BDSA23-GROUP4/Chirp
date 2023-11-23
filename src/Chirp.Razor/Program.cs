@@ -7,6 +7,8 @@ using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
 using Microsoft.IdentityModel.Logging;
 using FluentValidation;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,10 +19,27 @@ builder.Services.AddRazorPages();
 builder.Configuration.AddJsonFile("appSettings.json", optional: false, reloadOnChange: true).AddJsonFile($"appSettings.{builder.Environment.EnvironmentName}.json", optional: true);
 builder.Environment.EnvironmentName = "Development";
 
-builder.Services.AddDbContext<ChirpDBContext>(options =>
+SqlConnectionStringBuilder stringBuilder = new SqlConnectionStringBuilder();
+stringBuilder.DataSource = "bdsagroup4-chirpdb.database.windows.net";
+stringBuilder.UserID = "azureuser";
+stringBuilder.Password = "Ab12345_";
+stringBuilder.InitialCatalog = "bdsagroup4-chirpdb";
+
+
+if(builder.Environment.IsDevelopment())
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("ChirpDB"));
-});
+    builder.Services.AddDbContext<ChirpDBContext>(options =>
+    {
+        options.UseSqlServer(builder.Configuration.GetConnectionString("ChirpDB"));
+    });
+}
+else
+{
+    builder.Services.AddDbContext<ChirpDBContext>(options =>
+    {
+        options.UseSqlServer(stringBuilder.ConnectionString);
+    });
+}
 
 builder.Services.AddScoped<AbstractValidator<CheepCreateDTO>, CheepCreateValidator>();
 builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
@@ -37,6 +56,7 @@ var app = builder.Build();
 using var scope = app.Services.CreateScope();
 var services = scope.ServiceProvider;
 var dbContext = services.GetRequiredService<ChirpDBContext>();
+dbContext.Database.Migrate();
 DbInitializer.SeedDatabase(dbContext);
 
 
