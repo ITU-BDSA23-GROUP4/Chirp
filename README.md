@@ -59,3 +59,20 @@ Make sure to delete all migations files.
 Change directory to Chirp/src/Chirp.Infrastructure.
   dotnet ef migrations add InitialCreate
   dotnet ef database update
+
+# Docker setup
+
+## Guide
+To setup the Docker container for development on own pc you need to run the following command:
+```docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=Admin123" -p 1433:1433 --name chirpdb --hostname chirpdb -d mcr.microsoft.com/mssql/server:2022-latest```
+<br />
+After this the Container should have been created and a new Image can be seen in your Docker Desktop app. With the new lines of code in Program.cs it should create the database on the container. We can all just use the same command since the connectionstring is already made for this password. hostname and port.
+
+## What is that command
+In this section i will give a brief rundown of what is going on in the command. <br />
+```docker run``` Is something i believe you know since this is what starts the command. <br />
+```-e "ACCEPT_EULA=Y"``` Is here to accept som agreements this is nice since we can just accept through command line. <br />
+```-e "MSSQL_SA_PASSWORD=Admin123"``` This is here to make a password. <br />
+```-p 1433:1433``` This is the port it will be hosted on. It will be localhost:1433. <br />
+```--name chirpdb --hostname chirpdb``` This is the name for the Container. <br />
+```-d mcr.microsoft.com/mssql/server:2022-latest``` This is the more important part. This is the Image that the Container is based upon which in our cas is going to be MsSQL (SQL Server).
