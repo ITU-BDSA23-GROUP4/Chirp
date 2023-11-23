@@ -19,8 +19,6 @@ namespace Chirp.Infrastructure
             db.Add(new Author { Name = name, 
                 Cheeps = new List<Cheep>(), 
                 Email = email, 
-                // followed = new List<Author>(),
-                // Followers = new List<Author>(),
             });
         }
 
@@ -33,7 +31,7 @@ namespace Chirp.Infrastructure
                 Email = authorDTO.Email,
                 Cheeps = GetAllCheepsFromAuthor(authorDTO.Name, db),
                 Followed = GetAllFollowedAuthors(authorDTO.AuthorId, db),
-                Followers = GetAllfollowedAuthors(authorDTO.AuthorId, db)
+                Followers = GetAllFollowers(authorDTO.AuthorId, db)
             }).FirstOrDefault();
             if (author != null)
             {
@@ -54,7 +52,7 @@ namespace Chirp.Infrastructure
                 Email = authorDTO.Email,
                 Cheeps = GetAllCheepsFromAuthor(authorDTO.Name, db),
                 Followed = GetAllFollowedAuthors(authorDTO.AuthorId, db),
-                Followers = GetAllfollowedAuthors(authorDTO.AuthorId, db)
+                Followers = GetAllFollowers(authorDTO.AuthorId, db)
             }).FirstOrDefault();
             if (author != null)
             {
@@ -81,7 +79,7 @@ namespace Chirp.Infrastructure
                 Email = authorDTO.Email,
                 Cheeps = GetAllCheepsFromAuthor(authorDTO.Name, db),
                 Followed = GetAllFollowedAuthors(authorDTO.AuthorId, db),
-                Followers = GetAllfollowedAuthors(authorDTO.AuthorId, db)
+                Followers = GetAllFollowers(authorDTO.AuthorId, db)
             }).FirstOrDefault();
 
             if (author != null)
@@ -100,16 +98,16 @@ namespace Chirp.Infrastructure
             List<CheepDTO> cheepsToReturn = new List<CheepDTO>();
 
             var cheepsDTO = DBcontext.Cheeps.OrderByDescending(c => c.TimeStamp.Ticks)
-            .Where(cheep => cheep.Author != null && cheep.Author.Name != null && cheep.Author.Name.Equals(author))
-            .Select(CheepDTO => new CheepDTO
-            {
-                //Sets the properties of the Cheep
-                AuthorId = CheepDTO.Author.AuthorId,
-                Author = CheepDTO.Author.Name,
-                Message = CheepDTO.Text,
-                Timestamp = CheepDTO.TimeStamp
-            }
-            );
+                .Where(cheep => cheep.Author != null && cheep.Author.Name != null && cheep.Author.Name.Equals(author))
+                .Select(CheepDTO => new CheepDTO
+                {
+                    //Sets the properties of the Cheep
+                    AuthorId = CheepDTO.Author.AuthorId,
+                    Author = CheepDTO.Author.Name,
+                    Message = CheepDTO.Text,
+                    Timestamp = CheepDTO.TimeStamp
+                }
+                );
 
             cheepsToReturn.AddRange(cheepsDTO);
 
@@ -121,17 +119,36 @@ namespace Chirp.Infrastructure
             List<AuthorDTO> followed = new List<AuthorDTO>();
 
             // pull out followed authors from a table not yet existing mapping between follower (foreign key to author) and author (foreign key to author)
-            
+            var authorDTOs = DBcontext.Follows.Where(f => f.Follower.AuthorId == AuthorId)
+                .Select(AuthorDTO => new AuthorDTO 
+                {
+                    AuthorId = AuthorDTO.Follower.AuthorId,
+                    Name = AuthorDTO.Follower.Name,
+                    Email = AuthorDTO.Follower.Email
+                }
+            );
+
+            followed.AddRange(authorDTOs);
 
             return followed;
         }
 
-        private static List<AuthorDTO> GetAllfollowedAuthors(int AuthorId, ChirpDBContext DBcontext) 
+        private static List<AuthorDTO> GetAllFollowers(int AuthorId, ChirpDBContext DBcontext) 
         {   
             List<AuthorDTO> followers = new List<AuthorDTO>();
 
             // pull out followed authors from a table not yet existing mapping between author (foreign key to author) and follower (foreign key to author)
+            // pull out followed authors from a table not yet existing mapping between follower (foreign key to author) and author (foreign key to author)
+            var authorDTOs = DBcontext.Follows.Where(f => f.Followee.AuthorId == AuthorId)
+                .Select(AuthorDTO => new AuthorDTO 
+                {
+                    AuthorId = AuthorDTO.Followee.AuthorId,
+                    Name = AuthorDTO.Followee.Name,
+                    Email = AuthorDTO.Followee.Email
+                }
+            );
 
+            followers.AddRange(authorDTOs);
 
             return followers;
         }
