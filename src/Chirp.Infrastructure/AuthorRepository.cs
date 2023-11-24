@@ -38,7 +38,7 @@ namespace Chirp.Infrastructure
             }
         }
 
-        public AuthorDTO? GetAuthorByName(string name)
+        public AuthorDTO GetAuthorByName(string name)
         {
             var author = _db.Authors.Where(author => author.Name == name).Select(authorDTO => new AuthorDTO
             {
