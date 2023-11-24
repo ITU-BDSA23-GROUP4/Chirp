@@ -7,39 +7,10 @@ public class ChirpDBContext : DbContext
     public DbSet<Cheep> Cheeps { get; set; }
     public DbSet<Author> Authors { get; set; }
     public DbSet<Follow> Follows { get; set; }
-    public string? DbPath { get; }
 
-    public ChirpDBContext() //Finds the current db in temp folder
-    {
-        if (String.IsNullOrEmpty(Environment.GetEnvironmentVariable("CHIRPDBPATH")))
-        {
-            DbPath = Path.GetTempPath() + "chirp.db";
-        }
-        else
-        {
-            DbPath = Environment.GetEnvironmentVariable("CHIRPDBPATH");
-        }
+    public ChirpDBContext(DbContextOptions options) : base(options)
+    { 
     }
-    public ChirpDBContext(string repoName) //If wanting to create a db
-    {
-        if (String.IsNullOrEmpty(Environment.GetEnvironmentVariable("CHIRPDBPATH")))
-        {
-            DbPath = Path.GetTempPath() + repoName +".db";
-        }
-        else
-        {
-            DbPath = Environment.GetEnvironmentVariable("CHIRPDBPATH");
-        }
-
-
-    }
-
-    public ChirpDBContext(DbContextOptions<ChirpDBContext> options) : base(options)
-    {
-    }
-
-    protected override void OnConfiguring(DbContextOptionsBuilder options)
-        => options.UseSqlite($"Data Source={DbPath}");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

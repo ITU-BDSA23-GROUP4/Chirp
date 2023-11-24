@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Chirp.Infrastructure;
 using Chirp.Core;
 
 namespace Chirp.Razor.Pages;
@@ -10,22 +9,28 @@ public class PublicModel : PageModel
     [BindProperty(SupportsGet = true)]
     public int CurrentPage { get; set; } = 1;
     public int Count { get; set; }
+    public readonly ICheepService _service;
+    
+    public PublicModel(ICheepService service)
+    {
+        _service = service;
+    }
     // private readonly ICheepService _service;
     [BindProperty]
     public string CheepMessageTimeLine { get; set; } = "";
     public List<CheepDTO>? Cheeps { get; set; }
 
-    public CheepRepository cheepRepo = new CheepRepository();
-    public AuthorRepository authorRepo = new AuthorRepository();
-
     [FromQuery(Name = "page")]
     public int? pageNum { get; set; }
     public ActionResult OnGet()
-    {  
-        if (pageNum.HasValue){
-            Cheeps = cheepRepo.GetCheeps(pageNum);
-        } else {
-            Cheeps = cheepRepo.GetCheeps(pageNum);
+    {
+        if (pageNum.HasValue)
+        {
+            Cheeps = _service.GetCheeps(pageNum);
+        }
+        else
+        {
+            Cheeps = _service.GetCheeps(pageNum);
         }
         
         return Page();
@@ -43,18 +48,18 @@ public class PublicModel : PageModel
             {
                 try
                 {
-                    var author = authorRepo.GetAuthorByName(userName);
+                    var author = _service.GetAuthorByName(userName);
                     if (author != null)
                     {
                         var cheep = new CheepCreateDTO(author.Name, CheepMessageTimeLine);
-                        cheepRepo.Create(cheep);
+                        _service.Create(cheep);
                         return Redirect(userName);
                     }
                 }
                 catch (Exception)
                 {
-                    authorRepo.AddAuthor(userName, userEmailClaim.Value);
-                    cheepRepo.Create(new CheepCreateDTO(userName, CheepMessageTimeLine));
+                    _service.AddAuthor(userName, userEmailClaim.Value);
+                    _service.Create(new CheepCreateDTO(userName, CheepMessageTimeLine));
                     return Redirect(userName);
                 }
             }
@@ -69,7 +74,7 @@ public class PublicModel : PageModel
         if (User?.Identity?.IsAuthenticated == true && User?.Identity?.Name != null) {
             
             if (User.Identity.Name != null) {
-                author = authorRepo.GetAuthorByName(User.Identity.Name);
+                author = _service.GetAuthorByName(User.Identity.Name);
             }
             
             if (author != null && author.Followed != null) {
