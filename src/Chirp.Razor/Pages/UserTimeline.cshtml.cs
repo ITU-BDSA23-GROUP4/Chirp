@@ -8,6 +8,8 @@ namespace Chirp.Razor.Pages;
 [AllowAnonymous]
 public class UserTimelineModel : PageModel
 {
+    public readonly ICheepService _service;
+
     [BindProperty(SupportsGet = true)]
     public int CurrentPage { get; set; } = 1;
     public int Count { get; set; }
@@ -16,21 +18,24 @@ public class UserTimelineModel : PageModel
     public string CheepMessageTimeLine { get; set; } = "";
     public List<CheepDTO>? Cheeps { get; set; }
 
-    public CheepRepository cheepRepo = new CheepRepository();
-    public AuthorRepository authorRepo = new AuthorRepository();
 
     [FromQuery(Name = "page")]
     public int? pageNum { get; set; }
+
+    public UserTimelineModel(ICheepService service)
+    {
+        _service = service;
+    }
 
     public ActionResult OnGet(string author)
     {
         if (pageNum.HasValue)
         {
-            Cheeps = cheepRepo.GetCheepsFromAuthor(author, pageNum);
+            Cheeps = _service.GetCheepsFromAuthor(author, pageNum);
         }
         else
         {
-            Cheeps = cheepRepo.GetCheepsFromAuthor(author, pageNum);
+            Cheeps = _service.GetCheepsFromAuthor(author, pageNum);
         }
         return Page();
     }
@@ -40,11 +45,11 @@ public class UserTimelineModel : PageModel
         {
             if (User?.Identity?.Name != null)
             {
-                var author = authorRepo.GetAuthorByName(User.Identity.Name);
+                var author = _service.GetAuthorByName(User.Identity.Name);
                 if (author != null)
                 {
                     var cheep = new CheepCreateDTO(author.Name, CheepMessageTimeLine);
-                    cheepRepo.Create(cheep);
+                    _service.Create(cheep);
                 }
             }
 
