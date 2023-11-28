@@ -38,7 +38,7 @@
                 </ul>
                  <div class="pageNumber">
                     <span>Page:</span>
-                    @for (int i = 1; i < ((Model.cheepRepo.GetCountOfAllCheepFromAuthor(Model.Cheeps[0].Author)/32)+2); i++)
+                    @for (int i = 1; i < ((Model._service.GetCountOfAllCheepFromAuthor(Model.Cheeps[0].Author)/32)+2); i++)
                     {   
                         <button onclick="location.href='?page=@i'">@i</button>
                     }

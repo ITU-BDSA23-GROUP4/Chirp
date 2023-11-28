@@ -1,32 +1,50 @@
 using Initializer;
 using Chirp.Infrastructure;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Authentication;
+using Chirp.Core;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
 using Microsoft.IdentityModel.Logging;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+using FluentValidation;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
+// Add services to the container.
+builder.Services.AddRazorPages();
+
+builder.Configuration.AddJsonFile("appSettings.json", optional: false, reloadOnChange: true).AddJsonFile($"appSettings.{builder.Environment.EnvironmentName}.json", optional: true);
 builder.Environment.EnvironmentName = "Development";
 
-var connectionString = $"Data source={Path.Combine(Path.GetTempPath() + "chirp.db")}";
-builder.Services.AddDbContext<ChirpDBContext>(options => options.UseSqlite(connectionString));
-
-builder.Services.AddScoped<AuthorRepository>();
-builder.Services.AddScoped<CheepRepository>();
-builder.Configuration.AddJsonFile("appSettings.json", optional: false, reloadOnChange: true)
-    .AddJsonFile($"appSettings.{builder.Environment.EnvironmentName}.json", optional: true);
+SqlConnectionStringBuilder stringBuilder = new SqlConnectionStringBuilder();
+stringBuilder.DataSource = "bdsagroup4-chirpdb.database.windows.net";
+stringBuilder.UserID = "azureuser";
+stringBuilder.Password = "Ab12345_";
+stringBuilder.InitialCatalog = "bdsagroup4-chirpdb";
 
 
-using (var context = new ChirpDBContext())
+if (builder.Environment.IsDevelopment())
 {
-    context.Database.EnsureCreated();
-    DbInitializer.SeedDatabase(context);
+    builder.Services.AddDbContext<ChirpDBContext>(options =>
+    {
+        options.UseSqlServer(builder.Configuration.GetConnectionString("ChirpDB"));
+    });
 }
+else
+{
+    builder.Services.AddDbContext<ChirpDBContext>(options =>
+    {
+        options.UseSqlServer(stringBuilder.ConnectionString);
+    });
+}
+
+builder.Services.AddScoped<AbstractValidator<CheepCreateDTO>, CheepCreateValidator>();
+builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
+builder.Services.AddScoped<ICheepRepository, CheepRepository>();
+builder.Services.AddScoped<ICheepService, CheepService>();
 
 builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
     .AddMicrosoftIdentityWebApp(builder.Configuration.GetSection("AzureAdB2C"));
@@ -35,15 +53,29 @@ builder.Services.AddRazorPages()
 
 var app = builder.Build();
 
+
+
+using var scope = app.Services.CreateScope();
+var services = scope.ServiceProvider;
+var dbContext = services.GetRequiredService<ChirpDBContext>();
+
+if (dbContext.Database.EnsureDeleted())
+{
+    dbContext.Database.Migrate();
+    DbInitializer.SeedDatabase(dbContext);
+}
+
+// Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     IdentityModelEventSource.ShowPII = true;
     app.UseExceptionHandler("/Error");
     app.UseHsts();
 }
-else 
+else
 {
-    app.UseCookiePolicy(new CookiePolicyOptions() {
+    app.UseCookiePolicy(new CookiePolicyOptions()
+    {
         MinimumSameSitePolicy = SameSiteMode.None,
         Secure = CookieSecurePolicy.Always
     });
