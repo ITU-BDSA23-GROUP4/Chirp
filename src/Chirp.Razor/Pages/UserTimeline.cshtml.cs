@@ -8,24 +8,23 @@ namespace Chirp.Razor.Pages;
 [AllowAnonymous]
 public class UserTimelineModel : PageModel
 {
-    public readonly ICheepService _service;
-
     [BindProperty(SupportsGet = true)]
     public int CurrentPage { get; set; } = 1;
     public int Count { get; set; }
-    // private readonly ICheepService _service;
-    [BindProperty]
-    public string CheepMessageTimeLine { get; set; } = "";
-    public List<CheepDTO>? Cheeps { get; set; }
-
-
-    [FromQuery(Name = "page")]
-    public int? pageNum { get; set; }
+    public readonly ICheepService _service;
 
     public UserTimelineModel(ICheepService service)
     {
         _service = service;
     }
+
+    // private readonly ICheepService _service;
+    [BindProperty]
+    public string CheepMessageTimeLine { get; set; } = "";
+    public List<CheepDTO>? Cheeps { get; set; }
+
+    [FromQuery(Name = "page")]
+    public int? pageNum { get; set; }
 
     public ActionResult OnGet(string author)
     {
@@ -41,23 +40,29 @@ public class UserTimelineModel : PageModel
     }
     public IActionResult OnPost()
     {
-        try
+        if (User?.Identity?.IsAuthenticated == true && User?.Identity?.Name != null)
         {
-            if (User?.Identity?.Name != null)
+            var userName = User.Identity.Name;
+            var userEmailClaim = User.Claims.FirstOrDefault(c => c.Type == "emails");
+
+            try
             {
-                var author = _service.GetAuthorByName(User.Identity.Name);
-                if (author != null)
-                {
-                    var cheep = new CheepCreateDTO(author.Name, CheepMessageTimeLine);
-                    _service.Create(cheep);
+                var author = _service.GetAuthorByName(userName);
+                var cheep = new CheepCreateDTO(author.Name, CheepMessageTimeLine);
+                _service.Create(cheep);
+                return Redirect(userName);
+            }
+            catch
+            {
+                if(userEmailClaim != null ) {
+                _service.AddAuthor(userName, userEmailClaim.Value);
+                _service.Create(new CheepCreateDTO(userName, CheepMessageTimeLine));
+                return Redirect(userName);
                 }
             }
-
-            return Redirect(User?.Identity?.Name ?? "/");
         }
-        catch (Exception)
-        {
-            return Redirect("/");
-        }
+        return Redirect("/");
     }
 }
+
+

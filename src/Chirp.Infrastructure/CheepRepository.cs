@@ -185,12 +185,14 @@ public class CheepRepository : ICheepRepository
             throw new ValidationException();
         }
         
-        var user = _db.Authors.SingleAsync(u => u.Name == cheep.Author);
+        Console.WriteLine("The user is being found");
+        var user = _db.Authors.Single(u => u.Name == cheep.Author);
+        Console.WriteLine("The user that added the cheep: " + user.Name);
+        Console.WriteLine(user);
 
-       
         _db.Add(new Cheep
         {
-            Author = user.Result,
+            Author = user,
             Text = cheep.Text,
             TimeStamp = DateTime.Now
         });
