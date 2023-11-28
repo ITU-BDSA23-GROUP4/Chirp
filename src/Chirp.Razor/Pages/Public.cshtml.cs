@@ -38,10 +38,18 @@ public class PublicModel : PageModel
         {
             Cheeps = _service.GetCheeps(pageNum);
         }
+        var userEmailClaim = User.Claims.FirstOrDefault(c => c.Type == "emails");
+        if(User?.Identity?.IsAuthenticated == true && User?.Identity?.Name != null && userEmailClaim != null)
+        {
+            try{
+                _service.AddAuthor(User.Identity.Name, userEmailClaim.Value);
+            } catch (Exception) {
+                //Do nothing as the author already exists
+            }
+        }
 
         return Page();
     }
-
     public IActionResult OnPost()
     {
         var userEmailClaim = User.Claims.FirstOrDefault(c => c.Type == "emails");
