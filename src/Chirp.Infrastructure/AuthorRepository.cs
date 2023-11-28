@@ -81,7 +81,7 @@ namespace Chirp.Infrastructure
         }
         
         
-        public void RemoveFollowed(int AuthorId) {
+        public void RemoveFollowee(int AuthorId) {
             ///I as a chirp author remover Chirp author by "name" from my Followed and remove myself from their followers list
             var FollowerRelationship = _db.Follows.Where(f => f.Author.AuthorId == AuthorId).FirstOrDefault();
             if (FollowerRelationship != null) {
@@ -90,7 +90,7 @@ namespace Chirp.Infrastructure
             }
         }
 
-        public void AddFollower(int AuthorId) {
+        public void AddFollowee(int AuthorId) {
             //I as a chirp author add Chirp author by "name" to my Folled and add myself  to their followers list 
             var FollowerRelationship = _db.Follows.Where(f => f.Author.AuthorId == AuthorId).FirstOrDefault();
               if (FollowerRelationship != null) {
@@ -124,7 +124,7 @@ namespace Chirp.Infrastructure
             List<AuthorDTO> followed = new List<AuthorDTO>();
 
             // pull out followed authors from a table not yet existing mapping between follower (foreign key to author) and author (foreign key to author)
-            var authorDTOs = DBcontext.Follows.Where(f => f.Follower.AuthorId == AuthorId)
+            var authorDTOs = DBcontext.Follows.ToList().Where(f => f.Follower.AuthorId == AuthorId)
                 .Select(AuthorDTO => new AuthorDTO 
                 {
                     AuthorId = AuthorDTO.Follower.AuthorId,
@@ -144,7 +144,7 @@ namespace Chirp.Infrastructure
 
             // pull out followed authors from a table not yet existing mapping between author (foreign key to author) and follower (foreign key to author)
             // pull out followed authors from a table not yet existing mapping between follower (foreign key to author) and author (foreign key to author)
-            var authorDTOs = DBcontext.Follows.Where(f => f.Author.AuthorId == AuthorId)
+            var authorDTOs = DBcontext.Follows.ToList().Where(f => f.Author.AuthorId == AuthorId)
                 .Select(AuthorDTO => new AuthorDTO 
                 {
                     AuthorId = AuthorDTO.Author.AuthorId,
