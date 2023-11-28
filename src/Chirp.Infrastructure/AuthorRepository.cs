@@ -38,6 +38,8 @@ namespace Chirp.Infrastructure
             }
         }
 
+
+    
         public AuthorDTO GetAuthorByName(string name)
         {
             var author = _db.Authors.Where(author => author.Name == name).Select(authorDTO => new AuthorDTO
@@ -79,23 +81,41 @@ namespace Chirp.Infrastructure
                 throw new ArgumentException("Author with email " + email + " does not exist");
             }
         }
-        
-        
-        public void RemoveFollowee(int AuthorId) {
-            ///I as a chirp author remover Chirp author by "name" from my Followed and remove myself from their followers list
-            var FollowerRelationship = _db.Follows.Where(f => f.Author.AuthorId == AuthorId).FirstOrDefault();
+
+        public void RemoveFollowee(int _AuthorId, int _FolloweeId) {
+            //I as a chirp author remover Chirp author by "name" from my Followed and remove myself from their followers list
+            
+            var FollowerRelationship = _db.Follows.Where(f => f.AuthorId == _AuthorId && f.AuthorId == _FolloweeId).FirstOrDefault();
             if (FollowerRelationship != null) {
                 _db.Follows.Remove(FollowerRelationship);
                 _db.SaveChanges();
             }
         }
 
-        public void AddFollowee(int AuthorId) {
-            //I as a chirp author add Chirp author by "name" to my Folled and add myself  to their followers list 
-            var FollowerRelationship = _db.Follows.Where(f => f.Author.AuthorId == AuthorId).FirstOrDefault();
-              if (FollowerRelationship != null) {
-                _db.Follows.Add(FollowerRelationship);
-                _db.SaveChanges();
+        private Author? GetRealAuthorByID(int ID){
+            var author = _db.Authors.FirstOrDefault(author => author.AuthorId == ID);
+            return author ;
+        }
+
+        public void AddFollowee(int _AuthorId, int _FolloweeId) {
+            //I as a chirp author add Chirp author by "name" to my Folled and add myself  to their followers list
+            Author? _Author = GetRealAuthorByID(_AuthorId);
+            Author? _Followee = GetRealAuthorByID(_FolloweeId);
+
+            if (_Author != null && _Followee != null)
+            { 
+                _db.Follows.Add(new Follow 
+                {
+                    AuthorId = _AuthorId, 
+                    FolloweeId = _FolloweeId, 
+                    Follower = _Author, 
+                    Author = _Followee
+                });
+                _db.SaveChanges();            
+            } 
+            else 
+            {
+                throw new NullReferenceException("The RealAuthor or followee could not b");
             }
         }
 

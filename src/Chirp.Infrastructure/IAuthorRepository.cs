@@ -6,7 +6,7 @@ namespace Chirp.Core
         AuthorDTO GetAuthorByID(int ID);
         AuthorDTO GetAuthorByName(string name);
         AuthorDTO GetAuthorByEmail(string email);
-        void AddFollowee(int AuthorId);
-        void RemoveFollowee(int AuthorId);
+        void AddFollowee(int AuthorId, int FolloweeId);
+        void RemoveFollowee(int AuthorId, int FolloweeId);
     }
 }
