@@ -69,11 +69,27 @@ Change directory to Chirp/src/Chirp.Infrastructure.
 # Docker setup
 
 ## Guide
+
+### Setup Docker
 To setup the Docker container for development on own pc you need to run the following command:
 ```docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=Admin123" -p 1433:1433 --name chirpdb --hostname chirpdb -d mcr.microsoft.com/mssql/server:2022-latest```
 <br />
 After this the Container should have been created and a new Image can be seen in your Docker Desktop app. With the new lines of code in Program.cs it should create the database on the container. We can all just use the same command since the connectionstring is already made for this password. hostname and port.
-
+### Setup Database on docker
+The last step is to create the database on the docker server to do this you are to navigate to the ```Exec``` on your new server. <br/>
+To get there go to "Containers" and click on your container.<br/>
+1. Go to the "Containers"
+2. Open your Container ours is "chirpdb"
+![image](https://github.com/ITU-BDSA23-GROUP4/Chirp/assets/143702901/83f988d8-291e-4af1-81df-2d21e834efab)<br/>
+3. Open ```Exec```.
+![image](https://github.com/ITU-BDSA23-GROUP4/Chirp/assets/143702901/797cb7e5-e011-4afc-8d0b-3aa77a429983)<br/>
+Her you can run bash commands on your container and look around the container.<br/>
+We are here to use the MsSQL tool to make a database on this container. To do this we run this ```/opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P Admin123``` (the ```-U``` is the user in our case we will just use SA which is System Admin and ```-P``` is the password for SA) this will gain access to the MsSQL tool. Here we can run SQL commands. Bare in mind that this is a diffrent tool the usual and have different commands.<br/>
+The commands we will run is to make the database that we will be using.<br/>
+1. ```/opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P Admin123```
+2. ```CREATE DATABASE chirpdb;```
+3. ```GO```
+This will create the database. This means you can also do queries here if you want to look into the database if you get out of the MsSQL tool you can get back with ```/opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P Admin123``` and if you want to leave use ```QUIT```.
 ## What is that command
 In this section i will give a brief rundown of what is going on in the command. <br />
 ```docker run``` Is something i believe you know since this is what starts the command. <br />
@@ -82,3 +98,5 @@ In this section i will give a brief rundown of what is going on in the command. 
 ```-p 1433:1433``` This is the port it will be hosted on. It will be localhost:1433. <br />
 ```--name chirpdb --hostname chirpdb``` This is the name for the Container. <br />
 ```-d mcr.microsoft.com/mssql/server:2022-latest``` This is the more important part. This is the Image that the Container is based upon which in our cas is going to be MsSQL (SQL Server).
+## If it does not work
+**YOU DID SOMETHING WRONG TRY AGAIN**

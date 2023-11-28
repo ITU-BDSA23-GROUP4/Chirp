@@ -172,12 +172,11 @@ public class CheepRepository : ICheepRepository
             throw new ValidationException();
         }
         
-        var user = _db.Authors.SingleAsync(u => u.Name == cheep.Author);
+        var user = _db.Authors.Single(u => u.Name == cheep.Author);
 
-       
         _db.Add(new Cheep
         {
-            Author = user.Result,
+            Author = user,
             Text = cheep.Text,
             TimeStamp = DateTime.Now
         });
