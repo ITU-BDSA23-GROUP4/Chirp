@@ -38,7 +38,7 @@ namespace Chirp.Infrastructure
             }
         }
 
-        public AuthorDTO? GetAuthorByName(string name)
+        public AuthorDTO GetAuthorByName(string name)
         {
             var author = _db.Authors.Where(author => author.Name == name).Select(authorDTO => new AuthorDTO
             {
@@ -47,8 +47,9 @@ namespace Chirp.Infrastructure
                 Email = authorDTO.Email,
                 Cheeps = GetAllCheepsFromAuthor(authorDTO.Name, _db)
             }).FirstOrDefault();
-            if (author != null){
-                return author;  
+            if (author != null)
+            {
+                return author;
             }
             else
             {
@@ -80,20 +81,29 @@ namespace Chirp.Infrastructure
         {
 
             List<CheepDTO> cheepsToReturn = new List<CheepDTO>();
-
-            var cheepsDTO = _dbcontext.Cheeps.ToList().OrderByDescending(c => c.TimeStamp.Ticks).Where(author => author.Author.Name == Name).Select(CheepDTO => new CheepDTO
+            try
             {
-                //Sets the properties of the Cheep
-                AuthorId = CheepDTO.Author.AuthorId,
-                Author = CheepDTO.Author.Name,
-                Message = CheepDTO.Text,
-                Timestamp = CheepDTO.TimeStamp
+                var cheepsDTO = _dbcontext.Cheeps.ToList().OrderByDescending(c => c.TimeStamp.Ticks).Where(author => author.Author.Name == Name).Select(CheepDTO => new CheepDTO
+                {
+                    //Sets the properties of the Cheep
+                    AuthorId = CheepDTO.Author.AuthorId,
+                    Author = CheepDTO.Author.Name,
+                    Message = CheepDTO.Text,
+                    Timestamp = CheepDTO.TimeStamp
+                }
+                            );
+                cheepsToReturn.AddRange(cheepsDTO);
+
+                return cheepsToReturn;
             }
-            );
+            catch
+            {
+                return new List<CheepDTO>();
+            }
 
-            cheepsToReturn.AddRange(cheepsDTO);
 
-            return cheepsToReturn;
+
+
         }
     }
 }
