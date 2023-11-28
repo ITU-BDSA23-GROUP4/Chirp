@@ -40,11 +40,10 @@ public class CheepRepository : ICheepRepository
             }
             _db.SaveChanges();
         }
-        catch (System.Exception)
+        catch (Exception)
         {
             throw;
         }
-
     }
 
     public List<CheepDTO> GetCheeps(int? pageNum)
@@ -73,13 +72,10 @@ public class CheepRepository : ICheepRepository
             return cheepsToReturn.GetRange(0, 32);
         }
         else
-
         {
             int endIndex = Math.Min((int)page + 32, (int)cheepsToReturn.Count);
             return cheepsToReturn.GetRange((int)page, endIndex - (int)(page));
         }
-
-
     }
 
     public List<CheepDTO> GetCheepsFromAuthor(string author, int? pageNum)

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Chirp.Infrastructure.Migrations
 {
     [DbContext(typeof(ChirpDBContext))]
-    [Migration("20231121094708_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20231128105716_IniitialCreate")]
+    partial class IniitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -80,6 +80,21 @@ namespace Chirp.Infrastructure.Migrations
                     b.ToTable("Cheeps");
                 });
 
+            modelBuilder.Entity("Chirp.Infrastructure.Follow", b =>
+                {
+                    b.Property<int>("AuthorId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("FolloweeId")
+                        .HasColumnType("int");
+
+                    b.HasKey("AuthorId", "FolloweeId");
+
+                    b.HasIndex("FolloweeId");
+
+                    b.ToTable("Follows");
+                });
+
             modelBuilder.Entity("Chirp.Infrastructure.Cheep", b =>
                 {
                     b.HasOne("Chirp.Infrastructure.Author", "Author")
@@ -89,6 +104,32 @@ namespace Chirp.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("Author");
+                });
+
+            modelBuilder.Entity("Chirp.Infrastructure.Follow", b =>
+                {
+                    b.HasOne("Chirp.Infrastructure.Author", "Follower")
+                        .WithMany("Followed")
+                        .HasForeignKey("AuthorId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Chirp.Infrastructure.Author", "Author")
+                        .WithMany("Followers")
+                        .HasForeignKey("FolloweeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Author");
+
+                    b.Navigation("Follower");
+                });
+
+            modelBuilder.Entity("Chirp.Infrastructure.Author", b =>
+                {
+                    b.Navigation("Followed");
+
+                    b.Navigation("Followers");
                 });
 #pragma warning restore 612, 618
         }

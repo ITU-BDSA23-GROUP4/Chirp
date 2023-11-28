@@ -1,15 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.ComponentModel.DataAnnotations;
-using Chirp.Infrastructure;
 using Chirp.Core;
+using Microsoft.AspNetCore.Authorization.Infrastructure;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Chirp.Razor.Pages;
 
-
 public class PublicModel : PageModel
 {
-
     [BindProperty(SupportsGet = true)]
     public int CurrentPage { get; set; } = 1;
     public int Count { get; set; }
@@ -19,15 +17,21 @@ public class PublicModel : PageModel
     {
         _service = service;
     }
+    
     // private readonly ICheepService _service;
     [BindProperty]
     public string CheepMessageTimeLine { get; set; } = "";
     public List<CheepDTO>? Cheeps { get; set; }
 
-    
-
-    [FromQuery(Name = "page")]
+    [FromQuery(Name = "{page}")]
     public int? pageNum { get; set; }
+    
+    [FromQuery(Name ="follow")]
+    public int? follow{ get; set; }
+
+    [FromQuery(Name ="unfollow")]
+    public int? unfollow{ get; set; }
+    
     public ActionResult OnGet()
     {
         if (pageNum.HasValue)
@@ -38,6 +42,19 @@ public class PublicModel : PageModel
         {
             Cheeps = _service.GetCheeps(pageNum);
         }
+        
+        if (User.Identity?.IsAuthenticated == true  && User.Identity.Name != null) {
+            AuthorDTO currentUser = _service.GetAuthorByName(User.Identity.Name);
+            if (follow.HasValue && follow != null) 
+            {
+                _service.AddFollowee(currentUser.AuthorId, (int)follow);
+            } 
+            else if (unfollow.HasValue && unfollow != null) 
+            {
+                _service.RemoveFollowee(currentUser.AuthorId, (int)unfollow);
+            }
+        }
+            
         var userEmailClaim = User.Claims.FirstOrDefault(c => c.Type == "emails");
         if(User?.Identity?.IsAuthenticated == true && User?.Identity?.Name != null && userEmailClaim != null)
         {
@@ -73,5 +90,26 @@ public class PublicModel : PageModel
             }
         }
         return Redirect("/");
+    }
+
+    public bool DoesFollow(int AuthorId) 
+    {
+        AuthorDTO? author = null;
+        // Needs to be refactored into the get method so we does not call it 32 times per page load
+        if (User?.Identity?.IsAuthenticated == true && User?.Identity?.Name != null) {
+            
+            if (User.Identity.Name != null) {
+                author = _service.GetAuthorByName(User.Identity.Name);
+            }
+            
+            if (author != null && author.Followed != null) {
+                foreach (AuthorDTO followingAuthor in author.Followed) {
+                    if (followingAuthor.AuthorId == AuthorId) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 }
