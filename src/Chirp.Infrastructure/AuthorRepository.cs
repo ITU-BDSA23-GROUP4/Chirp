@@ -19,7 +19,7 @@ namespace Chirp.Infrastructure
             _db.SaveChanges();
         }
 
-        public void deleteAuthor(int authorId){
+        public void DeleteAuthor(int authorId){
             var author = _db.Authors.Where(author => author.AuthorId == authorId).FirstOrDefault();
             if (author != null)
             {
@@ -32,11 +32,11 @@ namespace Chirp.Infrastructure
             }
         }
 
-        public void deleteAuthorsFollowing(int authorId)
+        public void DeleteAuthorsFollowing(int authorId)
         {
             Console.WriteLine("Deleting following");
         }
-        public void deleteAuthorsFollowers(int authorId)
+        public void DeleteAuthorsFollowers(int authorId)
         {
             Console.WriteLine("Deleting followers");
         }

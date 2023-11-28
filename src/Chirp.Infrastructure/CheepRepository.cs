@@ -49,7 +49,7 @@ public class CheepRepository : ICheepRepository
 
     }
 
-    public void deleteCheepsFromAuthor(int authorid){
+    public void DeleteCheepsFromAuthor(int authorid){
         //Deletes all cheeps from a given author
         try
         {

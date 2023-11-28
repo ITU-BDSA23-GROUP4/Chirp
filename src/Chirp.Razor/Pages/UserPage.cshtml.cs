@@ -19,25 +19,22 @@ namespace Chirp.Razor.Pages
             var authorIdClaim = User.Claims.FirstOrDefault(c => c.Type == "authorId");
             if (authorIdClaim == null)
             {
-                Console.WriteLine("AuthorId claim not found");
+                Console.WriteLine("authorID claim not found");
             }
-
-            //Open an alert box to confirm the deletion
-            //If pressed okay continue
             
             try
             {
                 //Calls to deleteCheepsFromAuthor for the specific author
-                var authorId = int.Parse(authorIdClaim.Value);
-                _service.DeleteCheepsFromAuthor(authorId);
+                var authorID = int.Parse(authorIdClaim.Value);
+                _service.DeleteCheepsFromAuthor(authorID);
                 Console.WriteLine("Cheeps deleted");
 
                 //Deletes all following relationships for the specific author and who they are following
-                _service.deleteAuthorsFollowing(authorId);
-                _service.deleteAuthorsFollowers(authorId);
+                _service.DeleteAuthorsFollowing(authorID);
+                _service.DeleteAuthorsFollowers(authorID);
 
                 //Deletes the author
-                _service.deleteAuthor(authorId);
+                _service.DeleteAuthor(authorID);
                 Console.WriteLine("Author deleted");
 
                 //Logs the user out
