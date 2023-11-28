@@ -79,23 +79,15 @@ namespace Chirp.Infrastructure.Migrations
 
             modelBuilder.Entity("Chirp.Infrastructure.Follow", b =>
                 {
-                    b.Property<int>("FollowId")
-                        .ValueGeneratedOnAdd()
+                    b.Property<int>("AuthorId")
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("FollowId"));
 
                     b.Property<int>("FolloweeId")
                         .HasColumnType("int");
 
-                    b.Property<int>("FollowerId")
-                        .HasColumnType("int");
-
-                    b.HasKey("FollowId");
+                    b.HasKey("AuthorId", "FolloweeId");
 
                     b.HasIndex("FolloweeId");
-
-                    b.HasIndex("FollowerId");
 
                     b.ToTable("Follows");
                 });
@@ -113,19 +105,19 @@ namespace Chirp.Infrastructure.Migrations
 
             modelBuilder.Entity("Chirp.Infrastructure.Follow", b =>
                 {
-                    b.HasOne("Chirp.Infrastructure.Author", "Followee")
+                    b.HasOne("Chirp.Infrastructure.Author", "Follower")
+                        .WithMany("Followed")
+                        .HasForeignKey("AuthorId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Chirp.Infrastructure.Author", "Author")
                         .WithMany("Followers")
                         .HasForeignKey("FolloweeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Chirp.Infrastructure.Author", "Follower")
-                        .WithMany("Followed")
-                        .HasForeignKey("FollowerId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Followee");
+                    b.Navigation("Author");
 
                     b.Navigation("Follower");
                 });

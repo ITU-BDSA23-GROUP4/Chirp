@@ -50,26 +50,24 @@ namespace Chirp.Infrastructure.Migrations
                 name: "Follows",
                 columns: table => new
                 {
-                    FollowId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    FollowerId = table.Column<int>(type: "int", nullable: false),
+                    AuthorId = table.Column<int>(type: "int", nullable: false),
                     FolloweeId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Follows", x => x.FollowId);
+                    table.PrimaryKey("PK_Follows", x => new { x.AuthorId, x.FolloweeId });
+                    table.ForeignKey(
+                        name: "FK_Follows_Authors_AuthorId",
+                        column: x => x.AuthorId,
+                        principalTable: "Authors",
+                        principalColumn: "AuthorId",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Follows_Authors_FolloweeId",
                         column: x => x.FolloweeId,
                         principalTable: "Authors",
                         principalColumn: "AuthorId",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Follows_Authors_FollowerId",
-                        column: x => x.FollowerId,
-                        principalTable: "Authors",
-                        principalColumn: "AuthorId",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
@@ -93,11 +91,6 @@ namespace Chirp.Infrastructure.Migrations
                 name: "IX_Follows_FolloweeId",
                 table: "Follows",
                 column: "FolloweeId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Follows_FollowerId",
-                table: "Follows",
-                column: "FollowerId");
         }
 
         /// <inheritdoc />

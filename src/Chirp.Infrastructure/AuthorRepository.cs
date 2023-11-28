@@ -79,6 +79,25 @@ namespace Chirp.Infrastructure
                 throw new ArgumentException("Author with email " + email + " does not exist");
             }
         }
+        
+        
+        public void RemoveFollowed(int AuthorId) {
+            ///I as a chirp author remover Chirp author by "name" from my Followed and remove myself from their followers list
+            var FollowerRelationship = _db.Follows.Where(f => f.Author.AuthorId == AuthorId).FirstOrDefault();
+            if (FollowerRelationship != null) {
+                _db.Follows.Remove(FollowerRelationship);
+                _db.SaveChanges();
+            }
+        }
+
+        public void AddFollower(int AuthorId) {
+            //I as a chirp author add Chirp author by "name" to my Folled and add myself  to their followers list 
+            var FollowerRelationship = _db.Follows.Where(f => f.Author.AuthorId == AuthorId).FirstOrDefault();
+              if (FollowerRelationship != null) {
+                _db.Follows.Add(FollowerRelationship);
+                _db.SaveChanges();
+            }
+        }
 
         private static List<CheepDTO> GetAllCheepsFromAuthor(string Name, ChirpDBContext _dbcontext)
         {
@@ -125,12 +144,12 @@ namespace Chirp.Infrastructure
 
             // pull out followed authors from a table not yet existing mapping between author (foreign key to author) and follower (foreign key to author)
             // pull out followed authors from a table not yet existing mapping between follower (foreign key to author) and author (foreign key to author)
-            var authorDTOs = DBcontext.Follows.Where(f => f.Followee.AuthorId == AuthorId)
+            var authorDTOs = DBcontext.Follows.Where(f => f.Author.AuthorId == AuthorId)
                 .Select(AuthorDTO => new AuthorDTO 
                 {
-                    AuthorId = AuthorDTO.Followee.AuthorId,
-                    Name = AuthorDTO.Followee.Name,
-                    Email = AuthorDTO.Followee.Email
+                    AuthorId = AuthorDTO.Author.AuthorId,
+                    Name = AuthorDTO.Author.Name,
+                    Email = AuthorDTO.Author.Email
                 }
             );
 

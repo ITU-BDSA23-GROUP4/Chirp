@@ -38,11 +38,13 @@ public class ChirpDBContext : DbContext
         modelBuilder.Entity<Follow>()
             .HasOne(f => f.Follower)
             .WithMany(a => a.Followed)
-            .HasForeignKey(f => f.FollowerId)
+            .HasForeignKey(f => f.AuthorId)
             .OnDelete(DeleteBehavior.Restrict);
         modelBuilder.Entity<Follow>()
-            .HasOne(f => f.Followee)
+            .HasOne(f => f.Author)
             .WithMany(a => a.Followers)
             .HasForeignKey(f => f.FolloweeId);
+        modelBuilder.Entity<Follow>()
+            .HasKey(f => new {f.AuthorId, f.FolloweeId});
     }
 }

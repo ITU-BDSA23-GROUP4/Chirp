@@ -1,4 +1,6 @@
-﻿namespace Chirp.Infrastructure;
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace Chirp.Infrastructure;
 public class Author
 {
     //As for now, all the variables need to be required since an Author needs to have a name, email and a list of cheeps, even if the list is empty.
@@ -11,10 +13,13 @@ public class Author
 }
 
 public class Follow
-{
-    public int FollowId { get; set; }
-    public int FollowerId { get; set; }
-    public required Author Follower { get; set; }
+{   
+    //ovner of the follow Relation
+    public int AuthorId { get; set; }
+    //The one who is followed
     public int FolloweeId { get; set; }
-    public required Author Followee { get; set; }
+    //The author who follow me
+    public required Author Follower { get; set; }
+    //The author who is followed
+    public required Author Author { get; set; }
 }
