@@ -16,7 +16,6 @@ public class CheepRepository : ICheepRepository
         if (validator == null) {
             throw new NullReferenceException();
         }
-        Console.WriteLine("CheepRepository constructor");
         _validator = validator;
     }
 
@@ -65,10 +64,6 @@ public class CheepRepository : ICheepRepository
             Timestamp = cheep.TimeStamp
         });
 
-        // Print out the number of cheeps in the database
-        Console.WriteLine("Checking number of cheeps in the database");
-        Console.WriteLine("Number of cheeps in the database: " + cheepsDTO.Count());
-
         cheepsToReturn.AddRange(cheepsDTO);
 
         int? page = (pageNum - 1) * 32;
@@ -113,9 +108,6 @@ public class CheepRepository : ICheepRepository
         cheepsToReturn.AddRange(cheepsDTO);
 
         int? page = (pageNum - 1) * 32;
-
-        Console.WriteLine("The nummber of cheeps from " + author + " is: " + cheepsDTO.Count());
-
 
         if (cheepsToReturn.Count < 32)
         {
@@ -165,7 +157,6 @@ public class CheepRepository : ICheepRepository
                 Timestamp = CheepDTO.TimeStamp
             }
         ).Count();
-        Console.WriteLine("The nummber of cheeps from " + author + " is: " + cheepsDTO);
         return cheepsDTO;
     }
     // A method to get an Author class representation with an id
@@ -185,10 +176,7 @@ public class CheepRepository : ICheepRepository
             throw new ValidationException();
         }
         
-        Console.WriteLine("The user is being found");
         var user = _db.Authors.Single(u => u.Name == cheep.Author);
-        Console.WriteLine("The user that added the cheep: " + user.Name);
-        Console.WriteLine(user);
 
         _db.Add(new Cheep
         {
