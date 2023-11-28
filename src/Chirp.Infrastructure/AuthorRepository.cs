@@ -59,7 +59,6 @@ namespace Chirp.Infrastructure
 
         public AuthorDTO GetAuthorByEmail(string email)
         {
-            Console.WriteLine("Looking for author");
             var author = _db.Authors.Where(author => author.Email == email).Select(authorDTO => new AuthorDTO
             {
                 AuthorId = authorDTO.AuthorId,
@@ -67,8 +66,6 @@ namespace Chirp.Infrastructure
                 Email = authorDTO.Email,
                 Cheeps = GetAllCheepsFromAuthor(authorDTO.Name, _db)
             }).FirstOrDefault();
-
-            Console.WriteLine("Found the author");
 
             if (author != null)
             {
@@ -84,7 +81,6 @@ namespace Chirp.Infrastructure
         {
 
             List<CheepDTO> cheepsToReturn = new List<CheepDTO>();
-            Console.WriteLine("Getting all cheeps from author: " + Name);
             try
             {
                 var cheepsDTO = _dbcontext.Cheeps.ToList().OrderByDescending(c => c.TimeStamp.Ticks).Where(author => author.Author.Name == Name).Select(CheepDTO => new CheepDTO
