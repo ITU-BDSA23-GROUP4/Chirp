@@ -17,7 +17,6 @@ public class AuthorRepositoryUnitTests
             _connection.Open();
         }
         context.Database.EnsureCreated();
-
         /* Creates a author to add to the database. The objects are used in each test 
         Is the same author as in the restrictedCheepsUnitTests, so we know he is there*/
         var testAuthor = new Author
@@ -29,9 +28,19 @@ public class AuthorRepositoryUnitTests
             Followed = new List<Follow>(),
             Followers = new List<Follow>()
         };
+         var testAuthor2 = new Author
+        {
+            AuthorId = 2,
+            Name = "TestName2",
+            Email = "TestEmail2",
+            Cheeps = new List<Cheep>(),
+            Followed = new List<Follow>(),
+            Followers = new List<Follow>()
+        };
 
         //Creates and adds aauthor to the database
         context.Authors.Add(testAuthor);
+        context.Authors.Add(testAuthor2);
 
         context.SaveChanges();
         _context = context;
@@ -116,10 +125,71 @@ public class AuthorRepositoryUnitTests
     public void UnitTestFindAuthorByWrongId()
     {
         //Act
-        Action act = () => repository.GetAuthorByID(2);
+        Action act = () => repository.GetAuthorByID(3);
 
         //Assert
         //Should throw an exception since the id doesn't exist in our database
-        act.Should().Throw<ArgumentException>().WithMessage("Author with id 2 does not exist");
+        act.Should().Throw<ArgumentException>().WithMessage("Author with id 3 does not exist");
+    }
+
+    [Fact]
+    public void UnitTestAddFollowee(){
+        //Arrange
+        //Act
+        repository.AddFollowee(1,2);
+        AuthorDTO author1 = repository.GetAuthorByID(1);
+        AuthorDTO author2 = repository.GetAuthorByID(2);
+
+        //Assert
+
+        author1.Followed?[0].AuthorId.Should().Be(2);
+        author2.Followers?[0].AuthorId.Should().Be(1);
+    }
+
+    [Fact]
+    public void UnitTestAddIncorrectFollowee(){
+        //Arrange
+        //Act
+        Action act = () => repository.AddFollowee(1,3);
+        
+        //Assert
+        act.Should().Throw<NullReferenceException>().WithMessage("Obejct _Author or _Followee of type Author is null");
+    }
+
+    [Fact]
+    public void UnitTestRemoveFollowee() {
+        // Arrange
+        repository.AddFollowee(1,2);
+
+        //Act
+        repository.RemoveFollowee(1,2);
+        AuthorDTO author1 = repository.GetAuthorByID(1);
+        AuthorDTO author2 = repository.GetAuthorByID(2);
+
+        //Assert
+        author1.Followed?.Count.Should().Be(0);
+        author2.Followers?.Count.Should().Be(0);
+    }
+
+    [Fact]
+    public void UnitTestRemoveIncorrectFollowee() {
+        //Arange
+        //Act
+        Action act = () => repository.RemoveFollowee(1,3);
+        //Assert
+        act.Should().Throw<NullReferenceException>().WithMessage("FollowerRelationship is null");
+    }
+
+    [Fact]
+    public void UnitTestAddTwoFollowers() {
+        //Arange
+        //Act
+        repository.AddFollowee(1,2);
+        Action act = () => repository.AddFollowee(1,2);
+        AuthorDTO author1 = repository.GetAuthorByID(1);
+        AuthorDTO author2 = repository.GetAuthorByID(2);
+
+        //Assert
+        act.Should().Throw<InvalidOperationException>();
     }
 }

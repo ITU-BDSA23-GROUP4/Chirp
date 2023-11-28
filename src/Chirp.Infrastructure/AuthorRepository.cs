@@ -82,13 +82,17 @@ namespace Chirp.Infrastructure
             }
         }
 
-        public void RemoveFollowee(int _AuthorId, int _FolloweeId) {
+        public void RemoveFollowee(int _AuthorId, int _FollowerId) {
             //I as a chirp author remover Chirp author by "name" from my Followed and remove myself from their followers list
             
-            var FollowerRelationship = _db.Follows.Where(f => f.AuthorId == _AuthorId && f.AuthorId == _FolloweeId).FirstOrDefault();
+            var FollowerRelationship = _db.Follows.Where(f => f.FolloweeId == _AuthorId && f.AuthorId == _FollowerId).FirstOrDefault();
             if (FollowerRelationship != null) {
                 _db.Follows.Remove(FollowerRelationship);
                 _db.SaveChanges();
+            }
+            else 
+            {
+                throw new NullReferenceException("FollowerRelationship is null");
             }
         }
 
@@ -108,14 +112,14 @@ namespace Chirp.Infrastructure
                 {
                     AuthorId = _AuthorId, 
                     FolloweeId = _FolloweeId, 
-                    Follower = _Author, 
-                    Author = _Followee
+                    Author = _Author, 
+                    Follower = _Followee
                 });
                 _db.SaveChanges();            
             } 
             else 
             {
-                throw new NullReferenceException("The RealAuthor or followee could not b");
+                throw new NullReferenceException("Obejct _Author or _Followee of type Author is null");
             }
         }
 
@@ -144,12 +148,12 @@ namespace Chirp.Infrastructure
             List<AuthorDTO> followed = new List<AuthorDTO>();
 
             // pull out followed authors from a table not yet existing mapping between follower (foreign key to author) and author (foreign key to author)
-            var authorDTOs = DBcontext.Follows.ToList().Where(f => f.Follower.AuthorId == AuthorId)
+            var authorDTOs = DBcontext.Follows.ToList().Where(f => f.FolloweeId == AuthorId)
                 .Select(AuthorDTO => new AuthorDTO 
                 {
-                    AuthorId = AuthorDTO.Follower.AuthorId,
-                    Name = AuthorDTO.Follower.Name,
-                    Email = AuthorDTO.Follower.Email
+                    AuthorId = AuthorDTO.AuthorId,
+                    Name = AuthorDTO.Author.Name,
+                    Email = AuthorDTO.Author.Email
                 }
             );
 
@@ -164,12 +168,12 @@ namespace Chirp.Infrastructure
 
             // pull out followed authors from a table not yet existing mapping between author (foreign key to author) and follower (foreign key to author)
             // pull out followed authors from a table not yet existing mapping between follower (foreign key to author) and author (foreign key to author)
-            var authorDTOs = DBcontext.Follows.ToList().Where(f => f.Author.AuthorId == AuthorId)
+            var authorDTOs = DBcontext.Follows.ToList().Where(f => f.AuthorId == AuthorId)
                 .Select(AuthorDTO => new AuthorDTO 
                 {
-                    AuthorId = AuthorDTO.Author.AuthorId,
-                    Name = AuthorDTO.Author.Name,
-                    Email = AuthorDTO.Author.Email
+                    AuthorId = AuthorDTO.FolloweeId,
+                    Name = AuthorDTO.Follower.Name,
+                    Email = AuthorDTO.Follower.Email
                 }
             );
 

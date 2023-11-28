@@ -42,16 +42,19 @@ public class PublicModel : PageModel
         {
             Cheeps = _service.GetCheeps(pageNum);
         }
-
-        if (follow.HasValue && follow != null) 
-        {
-            _service.AddFollowee((int)follow);
-        } 
-        else if (unfollow.HasValue && unfollow != null) 
-        {
-            _service.RemoveFollowee((int)unfollow);
-        }
         
+        if (User.Identity?.IsAuthenticated == true  && User.Identity.Name != null) {
+            AuthorDTO currentUser = _service.GetAuthorByName(User.Identity.Name);
+            if (follow.HasValue && follow != null) 
+            {
+                _service.AddFollowee(currentUser.AuthorId, (int)follow);
+            } 
+            else if (unfollow.HasValue && unfollow != null) 
+            {
+                _service.RemoveFollowee(currentUser.AuthorId, (int)unfollow);
+            }
+        }
+            
         return Page();
     }
 
