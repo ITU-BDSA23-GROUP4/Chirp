@@ -40,24 +40,22 @@ public class UserTimelineModel : PageModel
     }
     public IActionResult OnPost()
     {
-        if (User?.Identity?.IsAuthenticated == true && User?.Identity?.Name != null)
+        var userEmailClaim = User.Claims.FirstOrDefault(c => c.Type == "emails");
+        if (User?.Identity?.IsAuthenticated == true && User?.Identity?.Name != null && userEmailClaim != null)
         {
-            var userName = User.Identity.Name;
-            var userEmailClaim = User.Claims.FirstOrDefault(c => c.Type == "emails");
-
             try
             {
-                var author = _service.GetAuthorByName(userName);
+                var author = _service.GetAuthorByEmail(userEmailClaim.Value);
                 var cheep = new CheepCreateDTO(author.Name, CheepMessageTimeLine);
                 _service.Create(cheep);
-                return Redirect(userName);
+                return Redirect(User.Identity.Name);
             }
             catch
             {
                 if(userEmailClaim != null ) {
-                _service.AddAuthor(userName, userEmailClaim.Value);
-                _service.Create(new CheepCreateDTO(userName, CheepMessageTimeLine));
-                return Redirect(userName);
+                _service.AddAuthor(User.Identity.Name, userEmailClaim.Value);
+                _service.Create(new CheepCreateDTO(User.Identity.Name, CheepMessageTimeLine));
+                return Redirect(User.Identity.Name);
                 }
             }
         }
