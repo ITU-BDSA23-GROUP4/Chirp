@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Chirp.Core;
+using Microsoft.AspNetCore.Authorization.Infrastructure;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Chirp.Razor.Pages;
 
@@ -15,13 +17,21 @@ public class PublicModel : PageModel
     {
         _service = service;
     }
+    
     // private readonly ICheepService _service;
     [BindProperty]
     public string CheepMessageTimeLine { get; set; } = "";
     public List<CheepDTO>? Cheeps { get; set; }
 
-    [FromQuery(Name = "page")]
+    [FromQuery(Name = "{page}")]
     public int? pageNum { get; set; }
+    
+    [FromQuery(Name ="follow")]
+    public int? follow{ get; set; }
+
+    [FromQuery(Name ="unfollow")]
+    public int? unfollow{ get; set; }
+    
     public ActionResult OnGet()
     {
         if (pageNum.HasValue)
@@ -31,6 +41,15 @@ public class PublicModel : PageModel
         else
         {
             Cheeps = _service.GetCheeps(pageNum);
+        }
+
+        if (follow.HasValue && follow != null) 
+        {
+            _service.AddFollowee((int)follow);
+        } 
+        else if (unfollow.HasValue && unfollow != null) 
+        {
+            _service.RemoveFollowee((int)unfollow);
         }
         
         return Page();

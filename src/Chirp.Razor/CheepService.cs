@@ -15,7 +15,8 @@ public interface ICheepService
     int GetCountOfAllCheeps();
     void Create(CheepCreateDTO cheep);
     void AddAuthor(string name, string email);
-
+    void AddFollowee(int AuthorId);
+    void RemoveFollowee(int AuthorId);
 }
 public class CheepService : ICheepService
 {
@@ -65,5 +66,13 @@ public class CheepService : ICheepService
     public void AddAuthor(string name, string email)
     {
         _authorRepository.AddAuthor(name, email);
+    }
+
+    public void AddFollowee(int AuthorId) {
+        _authorRepository.AddFollowee(AuthorId);
+    }
+
+    public void RemoveFollowee(int AuthorId) {
+        _authorRepository.RemoveFollowee(AuthorId);
     }
 }
