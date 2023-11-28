@@ -1,4 +1,3 @@
-using Chirp.Infrastructure;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -9,9 +8,15 @@ namespace Chirp.Razor.Pages
     [Authorize]
     public class UserPage : PageModel
     {
+        public UserPage(ICheepService service)
+        {
+            _service = service;
+        }
+        public ICheepService _service;
+
         public IActionResult OnPostForgetMe()
         {
-            var authorIdClaim = User.FindFirst("authorId");
+            var authorIdClaim = User.Claims.FirstOrDefault(c => c.Type == "authorId");
             if (authorIdClaim == null)
             {
                 Console.WriteLine("AuthorId claim not found");
@@ -24,17 +29,15 @@ namespace Chirp.Razor.Pages
             {
                 //Calls to deleteCheepsFromAuthor for the specific author
                 var authorId = int.Parse(authorIdClaim.Value);
-                var cheepRepo = new CheepRepository();
-                cheepRepo.deleteCheepsFromAuthor(authorId);
+                _service.DeleteCheepsFromAuthor(authorId);
                 Console.WriteLine("Cheeps deleted");
 
                 //Deletes all following relationships for the specific author and who they are following
-                var authorRepo = new AuthorRepository();
-                authorRepo.deleteAuthorsFollowing(authorId);
-                authorRepo.deleteAuthorsFollowers(authorId);
+                _service.deleteAuthorsFollowing(authorId);
+                _service.deleteAuthorsFollowers(authorId);
 
                 //Deletes the author
-                authorRepo.deleteAuthor(authorId);
+                _service.deleteAuthor(authorId);
                 Console.WriteLine("Author deleted");
 
                 //Logs the user out

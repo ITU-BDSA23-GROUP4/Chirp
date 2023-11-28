@@ -12,6 +12,7 @@ namespace Chirp.Core
         int GetCountOfAllCheeps();
         int GetCountOfAllCheepFromAuthor(string author);
         void Create(CheepCreateDTO cheep);
+        public void deleteCheepsFromAuthor(int authorid);
         
     }
 }

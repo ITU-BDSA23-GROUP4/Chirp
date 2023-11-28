@@ -20,11 +20,11 @@ namespace Chirp.Infrastructure
         }
 
         public void deleteAuthor(int authorId){
-            var author = db.Authors.Where(author => author.AuthorId == authorId).FirstOrDefault();
+            var author = _db.Authors.Where(author => author.AuthorId == authorId).FirstOrDefault();
             if (author != null)
             {
-                db.Remove(author);
-                db.SaveChanges();
+                _db.Remove(author);
+                _db.SaveChanges();
             }
             else
             {

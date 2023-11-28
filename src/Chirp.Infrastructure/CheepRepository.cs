@@ -55,8 +55,8 @@ public class CheepRepository : ICheepRepository
         {
             var author = GetAuthorById(authorid);
             if(author != null){
-                db.RemoveRange(db.Cheeps.Where(cheep => cheep.Author == author));
-                db.SaveChanges();
+                _db.RemoveRange(_db.Cheeps.Where(cheep => cheep.Author == author));
+                _db.SaveChanges();
             }
         }
         catch (System.Exception)
