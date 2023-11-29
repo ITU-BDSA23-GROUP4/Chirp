@@ -11,9 +11,10 @@ namespace Chirp.Infrastructure
             _db = db;
         }
 
-        public void AddAuthor(string name, string email)
+        public async Task AddAuthor(string name, string email)
         {
-            _db.Add(new Author { Name = name, Cheeps = new List<Cheep>(), Email = email });
+            await _db.Authors.AddAsync(new Author { Name = name, Cheeps = new List<Cheep>(), Email = email });
+            //_db.Add(new Author { Name = name, Cheeps = new List<Cheep>(), Email = email });
             _db.SaveChanges();
         }
 
