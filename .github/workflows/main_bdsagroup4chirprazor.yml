@@ -22,7 +22,7 @@ jobs:
           dotnet-version: '7.x'
           include-prerelease: true
 
-      - name: Build with dotnet 
+      - name: Build with dotnet
         run: dotnet build src/Chirp.Razor/ --configuration Release
 
       - name: dotnet publish
