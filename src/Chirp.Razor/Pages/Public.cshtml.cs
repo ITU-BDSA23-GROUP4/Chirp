@@ -42,6 +42,16 @@ public class PublicModel : PageModel
         {
             Cheeps = _service.GetCheeps(pageNum);
         }
+
+        var userEmailClaim = User.Claims.FirstOrDefault(c => c.Type == "emails");
+        if(User?.Identity?.IsAuthenticated == true && User?.Identity?.Name != null && userEmailClaim != null)
+        {
+            try{
+                _service.AddAuthor(User.Identity.Name, userEmailClaim.Value);
+            } catch (Exception) {
+                //Do nothing as the author already exists
+            }
+        }
         
         if (User.Identity?.IsAuthenticated == true  && User.Identity.Name != null) {
             AuthorDTO currentUser = _service.GetAuthorByName(User.Identity.Name);
@@ -52,16 +62,6 @@ public class PublicModel : PageModel
             else if (unfollow.HasValue && unfollow != null) 
             {
                 _service.RemoveFollowee(currentUser.AuthorId, (int)unfollow);
-            }
-        }
-            
-        var userEmailClaim = User.Claims.FirstOrDefault(c => c.Type == "emails");
-        if(User?.Identity?.IsAuthenticated == true && User?.Identity?.Name != null && userEmailClaim != null)
-        {
-            try{
-                _service.AddAuthor(User.Identity.Name, userEmailClaim.Value);
-            } catch (Exception) {
-                //Do nothing as the author already exists
             }
         }
 
