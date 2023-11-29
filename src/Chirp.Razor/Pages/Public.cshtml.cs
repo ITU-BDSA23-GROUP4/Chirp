@@ -53,7 +53,7 @@ public class PublicModel : PageModel
             }
         }
         
-        if (User.Identity?.IsAuthenticated == true  && User.Identity.Name != null) {
+        if (User?.Identity?.IsAuthenticated == true  && User.Identity.Name != null) {
             AuthorDTO currentUser = _service.GetAuthorByName(User.Identity.Name);
             if (follow.HasValue && follow != null) 
             {
