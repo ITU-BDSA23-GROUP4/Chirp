@@ -17,14 +17,12 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 
 builder.Configuration.AddJsonFile("appSettings.json", optional: false, reloadOnChange: true).AddJsonFile($"appSettings.{builder.Environment.EnvironmentName}.json", optional: true);
-builder.Environment.EnvironmentName = "Development";
 
 SqlConnectionStringBuilder stringBuilder = new SqlConnectionStringBuilder();
 stringBuilder.DataSource = "bdsagroup4-chirpdb.database.windows.net";
 stringBuilder.UserID = "azureuser";
 stringBuilder.Password = "Ab12345_";
 stringBuilder.InitialCatalog = "bdsagroup4-chirpdb";
-
 
 if (builder.Environment.IsDevelopment())
 {
