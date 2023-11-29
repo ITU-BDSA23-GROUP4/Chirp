@@ -1,13 +1,4 @@
-﻿@using System.Security.Principal
-@using Microsoft.AspNetCore.Authentication.OpenIdConnect
-@using Microsoft.Extensions.Options
-@using Microsoft.Identity.Web
-
-@inject IOptionsMonitor<MicrosoftIdentityOptions> AzureADB2COptions
-
-@{
-    var options = AzureADB2COptions.Get(OpenIdConnectDefaults.AuthenticationScheme);
-}
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
 <!DOCTYPE html>
 <html lang="en">
@@ -28,7 +19,8 @@
                 <div>
                     <a href="/@(User.Identity.Name)">my timeline</a> |
                     <a href="/">public timeline</a> |
-                    <a href="/logout"> logout [@(User.Identity.Name)]</a> |
+                    <a asp-area="MicrosoftIdentity" asp-controller="Account" asp-action="SignOut">logout
+                        [@(User.Identity.Name)]</a>
                     <a href="/Profilepage">Profile page</a>
                 </div>
             }
@@ -36,8 +28,7 @@
             {
                 <div>
                     <a href="/">public timeline</a> |
-                    <a href="/login">login</a> |
-
+                     <a asp-area="MicrosoftIdentity" asp-controller="Account" asp-action="SignIn">login</a>
                 </div>
             }
         </div>
