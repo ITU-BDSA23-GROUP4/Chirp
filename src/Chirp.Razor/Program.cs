@@ -8,7 +8,6 @@ using Microsoft.Identity.Web.UI;
 using Microsoft.IdentityModel.Logging;
 using FluentValidation;
 using Microsoft.Data.SqlClient;
-using Microsoft.EntityFrameworkCore.Migrations;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -84,10 +83,8 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-// Add the ASP.NET Core authentication service
-app.UseAuthentication();
-app.UseAuthorization();
 
+app.MapControllers();
 app.MapRazorPages();
 
 app.Run();

@@ -15,7 +15,7 @@ public interface ICheepService
     AuthorDTO GetAuthorByEmail(string email);
     int GetCountOfAllCheeps();
     void Create(CheepCreateDTO cheep);
-    void AddAuthor(string name, string email);
+    Task AddAuthor(string name, string email);
     void AddFollowee(int AuthorId, int FolleweeId);
     void RemoveFollowee(int AuthorId, int FolleweeId);
 }
@@ -68,9 +68,9 @@ public class CheepService : ICheepService
     {
         _cheepRepository.Create(cheep);
     }
-    public void AddAuthor(string name, string email)
+    public async Task AddAuthor(string name, string email)
     {
-        _authorRepository.AddAuthor(name, email);
+        await _authorRepository.AddAuthor(name, email);
     }
 
     public void AddFollowee(int AuthorId, int FolloweeId) {

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Chirp.Core;
 using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication;
 
 namespace Chirp.Razor.Pages;
 
@@ -53,7 +54,7 @@ public class PublicModel : PageModel
             }
         }
         
-        if (User.Identity?.IsAuthenticated == true  && User.Identity.Name != null) {
+        if (User?.Identity?.IsAuthenticated == true  && User.Identity.Name != null) {
             AuthorDTO currentUser = _service.GetAuthorByName(User.Identity.Name);
             if (follow.HasValue && follow != null) 
             {
@@ -67,7 +68,7 @@ public class PublicModel : PageModel
 
         return Page();
     }
-    public IActionResult OnPost()
+    public async Task<IActionResult> OnPostAsync()
     {
         var userEmailClaim = User.Claims.FirstOrDefault(c => c.Type == "emails");
         if(User?.Identity?.IsAuthenticated == true && User?.Identity?.Name != null && userEmailClaim != null)
@@ -84,7 +85,7 @@ public class PublicModel : PageModel
             }
             catch (Exception)
             {
-                _service.AddAuthor(User.Identity.Name, userEmailClaim.Value);
+                await _service.AddAuthor(User.Identity.Name, userEmailClaim.Value);
                 _service.Create(new CheepCreateDTO(User.Identity.Name, CheepMessageTimeLine));
                 return Redirect(User.Identity.Name);
             }
