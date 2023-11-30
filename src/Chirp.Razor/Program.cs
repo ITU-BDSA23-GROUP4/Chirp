@@ -58,14 +58,11 @@ using (var scope = app.Services.CreateScope()) {
     var dbContext = services.GetRequiredService<ChirpDBContext>();
     dbContext.Database.Migrate();
 
-    if (builder.Environment.IsDevelopment())
-    {
         if (dbContext.Authors.Any())
         {
             DbInitializer.SeedDatabase(dbContext);
         }
     }
-}
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
