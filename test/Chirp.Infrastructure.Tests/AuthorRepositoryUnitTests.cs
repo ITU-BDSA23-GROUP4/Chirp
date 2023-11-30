@@ -1,3 +1,5 @@
+using Microsoft.EntityFrameworkCore.Metadata.Conventions;
+
 public class AuthorRepositoryUnitTests
 {
     private readonly SqliteConnection? _connection; //Connection to the database
@@ -133,17 +135,14 @@ public class AuthorRepositoryUnitTests
     }
 
     [Fact]
-    public void UnitTestAddFollowee(){
+    public void UnitTestAddFolloweeAddsToTheAuthorsFollowedList(){
         //Arrange
         //Act
         repository.AddFollowee(1,2);
         AuthorDTO author1 = repository.GetAuthorByID(1);
-        AuthorDTO author2 = repository.GetAuthorByID(2);
 
         //Assert
-
         author1.Followed?[0].AuthorId.Should().Be(2);
-        author2.Followers?[0].AuthorId.Should().Be(1);
     }
 
     [Fact]
@@ -157,23 +156,20 @@ public class AuthorRepositoryUnitTests
     }
 
     [Fact]
-    public void UnitTestRemoveFollowee() {
+    public void UnitTestRemoveFolloweeRemovesFromTheAuthorsFollowedList() {
         // Arrange
         repository.AddFollowee(1,2);
 
         //Act
         repository.RemoveFollowee(1,2);
         AuthorDTO author1 = repository.GetAuthorByID(1);
-        AuthorDTO author2 = repository.GetAuthorByID(2);
 
         //Assert
         author1.Followed?.Count.Should().Be(0);
-        author2.Followers?.Count.Should().Be(0);
     }
 
     [Fact]
     public void UnitTestRemoveIncorrectFollowee() {
-        //Arange
         //Act
         Action act = () => repository.RemoveFollowee(1,3);
         //Assert
@@ -181,8 +177,7 @@ public class AuthorRepositoryUnitTests
     }
 
     [Fact]
-    public void UnitTestAddTwoFollowers() {
-        //Arange
+    public void UnitTestFollowTheSameAuthorTwice() {
         //Act
         repository.AddFollowee(1,2);
         Action act = () => repository.AddFollowee(1,2);
@@ -191,5 +186,28 @@ public class AuthorRepositoryUnitTests
 
         //Assert
         act.Should().Throw<InvalidOperationException>();
+    }
+
+    [Fact]
+    public void UnitTestFollowAuthorUpdatesOtherAuthorsFollowersList() {
+        //Act
+        repository.AddFollowee(1,2);
+        AuthorDTO author = repository.GetAuthorByID(2);
+
+        //Assert
+        author.Followers?[0].AuthorId.Should().Be(1);
+    }
+
+    [Fact]
+    public void UnitTestUnFollowAuthorUpdatesOtherAuthorsFollowersList() {
+        // Arrange
+        repository.AddFollowee(1,2);
+
+        //Act
+        repository.RemoveFollowee(1,2);
+        AuthorDTO author = repository.GetAuthorByID(2);
+        
+        // Assert
+        author.Followers?.Count.Should().Be(0);
     }
 }
