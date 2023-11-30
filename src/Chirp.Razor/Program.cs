@@ -23,21 +23,12 @@ stringBuilder.UserID = "azureuser";
 stringBuilder.Password = "Ab12345_";
 stringBuilder.InitialCatalog = "bdsagroup4-chirpdb";
 
-if (builder.Environment.IsDevelopment())
+Console.WriteLine(stringBuilder.ConnectionString);
+builder.Services.AddDbContext<ChirpDBContext>(options =>
 {
-    Console.WriteLine("Development environment detected");
-    builder.Services.AddDbContext<ChirpDBContext>(options =>
-    {
-        options.UseSqlServer(builder.Configuration.GetConnectionString("ChirpDB"));
-    });
-}
-else
-{
-    builder.Services.AddDbContext<ChirpDBContext>(options =>
-    {
-        options.UseSqlServer(stringBuilder.ConnectionString);
-    });
-}
+    options.UseSqlServer(builder.Configuration.GetConnectionString("ChirpDB"));
+});
+
 
 builder.Services.AddScoped<AbstractValidator<CheepCreateDTO>, CheepCreateValidator>();
 builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
@@ -53,16 +44,17 @@ var app = builder.Build();
 
 
 
-using (var scope = app.Services.CreateScope()) {
+using (var scope = app.Services.CreateScope())
+{
     var services = scope.ServiceProvider;
     var dbContext = services.GetRequiredService<ChirpDBContext>();
     dbContext.Database.Migrate();
 
-        if (dbContext.Authors.Any())
-        {
-            DbInitializer.SeedDatabase(dbContext);
-        }
+    if (!dbContext.Authors.Any())
+    {
+        DbInitializer.SeedDatabase(dbContext);
     }
+}
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
