@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Chirp.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class IniitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -46,6 +46,30 @@ namespace Chirp.Infrastructure.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Follows",
+                columns: table => new
+                {
+                    AuthorId = table.Column<int>(type: "int", nullable: false),
+                    FolloweeId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Follows", x => new { x.AuthorId, x.FolloweeId });
+                    table.ForeignKey(
+                        name: "FK_Follows_Authors_AuthorId",
+                        column: x => x.AuthorId,
+                        principalTable: "Authors",
+                        principalColumn: "AuthorId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Follows_Authors_FolloweeId",
+                        column: x => x.FolloweeId,
+                        principalTable: "Authors",
+                        principalColumn: "AuthorId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Authors_Email",
                 table: "Authors",
@@ -62,6 +86,11 @@ namespace Chirp.Infrastructure.Migrations
                 name: "IX_Cheeps_AuthorId",
                 table: "Cheeps",
                 column: "AuthorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Follows_FolloweeId",
+                table: "Follows",
+                column: "FolloweeId");
         }
 
         /// <inheritdoc />
@@ -69,6 +98,9 @@ namespace Chirp.Infrastructure.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Cheeps");
+
+            migrationBuilder.DropTable(
+                name: "Follows");
 
             migrationBuilder.DropTable(
                 name: "Authors");

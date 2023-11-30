@@ -8,7 +8,6 @@ using Microsoft.Identity.Web.UI;
 using Microsoft.IdentityModel.Logging;
 using FluentValidation;
 using Microsoft.Data.SqlClient;
-using Microsoft.EntityFrameworkCore.Migrations;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,14 +16,12 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 
 builder.Configuration.AddJsonFile("appSettings.json", optional: false, reloadOnChange: true).AddJsonFile($"appSettings.{builder.Environment.EnvironmentName}.json", optional: true);
-builder.Environment.EnvironmentName = "Development";
 
 SqlConnectionStringBuilder stringBuilder = new SqlConnectionStringBuilder();
 stringBuilder.DataSource = "bdsagroup4-chirpdb.database.windows.net";
 stringBuilder.UserID = "azureuser";
 stringBuilder.Password = "Ab12345_";
 stringBuilder.InitialCatalog = "bdsagroup4-chirpdb";
-
 
 if (builder.Environment.IsDevelopment())
 {
@@ -86,10 +83,8 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-// Add the ASP.NET Core authentication service
-app.UseAuthentication();
-app.UseAuthorization();
 
+app.MapControllers();
 app.MapRazorPages();
 
 app.Run();

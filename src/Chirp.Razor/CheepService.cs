@@ -12,14 +12,14 @@ public interface ICheepService
     void AddCheep(int authorId, string text);
     AuthorDTO GetAuthorByName(string name);
     int GetCountOfAllCheepFromAuthor(string author);
+    AuthorDTO GetAuthorByEmail(string email);
     int GetCountOfAllCheeps();
     void Create(CheepCreateDTO cheep);
-    void AddAuthor(string name, string email);
     void DeleteCheepsFromAuthor(int authorid);
     void DeleteAuthor(int authorId);
-    void DeleteAuthorsFollowing(int authorId);
-    public void DeleteAuthorsFollowers(int authorId);
-
+    Task AddAuthor(string name, string email);
+    void AddFollowee(int AuthorId, int FolleweeId);
+    void RemoveFollowee(int AuthorId, int FolleweeId);
 }
 public class CheepService : ICheepService
 {
@@ -52,6 +52,10 @@ public class CheepService : ICheepService
         return _authorRepository.GetAuthorByName(name);
     }
 
+    public AuthorDTO GetAuthorByEmail(string email){
+        return _authorRepository.GetAuthorByEmail(email);
+    }
+
     public int GetCountOfAllCheepFromAuthor(string author)
     {
         return _cheepRepository.GetCountOfAllCheepFromAuthor(author);
@@ -66,7 +70,7 @@ public class CheepService : ICheepService
     {
         _cheepRepository.Create(cheep);
     }
-    public void AddAuthor(string name, string email)
+    public async Task AddAuthor(string name, string email)
     {
         _authorRepository.AddAuthor(name, email);
     }   
@@ -76,10 +80,11 @@ public class CheepService : ICheepService
     public void DeleteAuthor(int authorId){
        _authorRepository.DeleteAuthor(authorId);
     }
-    public void DeleteAuthorsFollowing(int authorId){
-        _authorRepository.DeleteAuthorsFollowing(authorId);
+    public void AddFollowee(int AuthorId, int FolloweeId) {
+        _authorRepository.AddFollowee(AuthorId, FolloweeId);
     }
-    public void DeleteAuthorsFollowers(int authorId){
-        _authorRepository.DeleteAuthorsFollowers(authorId);
+
+    public void RemoveFollowee(int AuthorId, int FolloweeId) {
+        _authorRepository.RemoveFollowee(AuthorId, FolloweeId);
     }
 }
