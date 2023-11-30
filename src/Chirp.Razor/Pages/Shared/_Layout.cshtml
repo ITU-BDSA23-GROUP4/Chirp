@@ -20,15 +20,15 @@
                     <a href="/@(User.Identity.Name)">my timeline</a> |
                     <a href="/">public timeline</a> |
                     <a asp-area="MicrosoftIdentity" asp-controller="Account" asp-action="SignOut">logout
-                        [@(User.Identity.Name)]</a>
-                    <a href="/Profilepage">Profile page</a>
+                        [@(User.Identity.Name)]</a> |
+                    <a href="/Profilepage">Profile page</a> |
                 </div>
             }
             else
             {
                 <div>
                     <a href="/">public timeline</a> |
-                     <a asp-area="MicrosoftIdentity" asp-controller="Account" asp-action="SignIn">login</a>
+                     <a asp-area="MicrosoftIdentity" asp-controller="Account" asp-action="SignIn">login</a> |
                 </div>
             }
         </div>

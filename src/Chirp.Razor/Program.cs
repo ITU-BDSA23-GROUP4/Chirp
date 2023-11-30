@@ -17,27 +17,12 @@ builder.Services.AddRazorPages();
 
 builder.Configuration.AddJsonFile("appSettings.json", optional: false, reloadOnChange: true).AddJsonFile($"appSettings.{builder.Environment.EnvironmentName}.json", optional: true);
 
-SqlConnectionStringBuilder stringBuilder = new SqlConnectionStringBuilder();
-stringBuilder.DataSource = "bdsagroup4-chirpdb.database.windows.net";
-stringBuilder.UserID = "azureuser";
-stringBuilder.Password = "Ab12345_";
-stringBuilder.InitialCatalog = "bdsagroup4-chirpdb";
 
-if (builder.Environment.IsDevelopment())
+builder.Services.AddDbContext<ChirpDBContext>(options =>
 {
-    Console.WriteLine("Development environment detected");
-    builder.Services.AddDbContext<ChirpDBContext>(options =>
-    {
-        options.UseSqlServer(builder.Configuration.GetConnectionString("ChirpDB"));
-    });
-}
-else
-{
-    builder.Services.AddDbContext<ChirpDBContext>(options =>
-    {
-        options.UseSqlServer(stringBuilder.ConnectionString);
-    });
-}
+    options.UseSqlServer(builder.Configuration.GetConnectionString("ChirpDB"));
+});
+
 
 builder.Services.AddScoped<AbstractValidator<CheepCreateDTO>, CheepCreateValidator>();
 builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
@@ -53,16 +38,13 @@ var app = builder.Build();
 
 
 
-using var scope = app.Services.CreateScope();
-var services = scope.ServiceProvider;
-var dbContext = services.GetRequiredService<ChirpDBContext>();
-
-
-
-// Check if database exists and create it if it doesn't exist if run in development mode
-if (builder.Environment.IsDevelopment())
+using (var scope = app.Services.CreateScope())
 {
-    if (dbContext.Database.EnsureCreated())
+    var services = scope.ServiceProvider;
+    var dbContext = services.GetRequiredService<ChirpDBContext>();
+    dbContext.Database.Migrate();
+
+    if (!dbContext.Authors.Any())
     {
         DbInitializer.SeedDatabase(dbContext);
     }
@@ -89,6 +71,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+app.UseAuthorization();
 
 app.MapControllers();
 app.MapRazorPages();
