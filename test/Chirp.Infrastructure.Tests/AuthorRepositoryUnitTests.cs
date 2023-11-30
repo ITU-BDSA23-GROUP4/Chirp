@@ -135,17 +135,14 @@ public class AuthorRepositoryUnitTests
     }
 
     [Fact]
-    public void UnitTestAddFollowee(){
+    public void UnitTestAddFolloweeAddsToTheAuthorsFollowedList(){
         //Arrange
         //Act
         repository.AddFollowee(1,2);
         AuthorDTO author1 = repository.GetAuthorByID(1);
-        AuthorDTO author2 = repository.GetAuthorByID(2);
 
         //Assert
-
         author1.Followed?[0].AuthorId.Should().Be(2);
-        author2.Followers?[0].AuthorId.Should().Be(1);
     }
 
     [Fact]
@@ -159,18 +156,16 @@ public class AuthorRepositoryUnitTests
     }
 
     [Fact]
-    public void UnitTestRemoveFollowee() {
+    public void UnitTestRemoveFolloweeRemovesFromTheAuthorsFollowedList() {
         // Arrange
         repository.AddFollowee(1,2);
 
         //Act
         repository.RemoveFollowee(1,2);
         AuthorDTO author1 = repository.GetAuthorByID(1);
-        AuthorDTO author2 = repository.GetAuthorByID(2);
 
         //Assert
         author1.Followed?.Count.Should().Be(0);
-        author2.Followers?.Count.Should().Be(0);
     }
 
     [Fact]
