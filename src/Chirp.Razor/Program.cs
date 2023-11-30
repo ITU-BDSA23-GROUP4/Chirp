@@ -17,13 +17,7 @@ builder.Services.AddRazorPages();
 
 builder.Configuration.AddJsonFile("appSettings.json", optional: false, reloadOnChange: true).AddJsonFile($"appSettings.{builder.Environment.EnvironmentName}.json", optional: true);
 
-SqlConnectionStringBuilder stringBuilder = new SqlConnectionStringBuilder();
-stringBuilder.DataSource = "bdsagroup4-chirpdb.database.windows.net";
-stringBuilder.UserID = "azureuser";
-stringBuilder.Password = "Ab12345_";
-stringBuilder.InitialCatalog = "bdsagroup4-chirpdb";
 
-Console.WriteLine(stringBuilder.ConnectionString);
 builder.Services.AddDbContext<ChirpDBContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("ChirpDB"));
