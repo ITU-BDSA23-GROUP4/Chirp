@@ -53,18 +53,17 @@ var app = builder.Build();
 
 
 
-using var scope = app.Services.CreateScope();
-var services = scope.ServiceProvider;
-var dbContext = services.GetRequiredService<ChirpDBContext>();
+using (var scope = app.Services.CreateScope()) {
+    var services = scope.ServiceProvider;
+    var dbContext = services.GetRequiredService<ChirpDBContext>();
+    dbContext.Database.Migrate();
 
-
-
-// Check if database exists and create it if it doesn't exist if run in development mode
-if (builder.Environment.IsDevelopment())
-{
-    if (dbContext.Database.EnsureCreated())
+    if (builder.Environment.IsDevelopment())
     {
-        DbInitializer.SeedDatabase(dbContext);
+        if (dbContext.Authors.Any())
+        {
+            DbInitializer.SeedDatabase(dbContext);
+        }
     }
 }
 
