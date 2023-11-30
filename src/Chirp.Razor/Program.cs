@@ -25,6 +25,7 @@ stringBuilder.InitialCatalog = "bdsagroup4-chirpdb";
 
 if (builder.Environment.IsDevelopment())
 {
+    Console.WriteLine("Development environment detected");
     builder.Services.AddDbContext<ChirpDBContext>(options =>
     {
         options.UseSqlServer(builder.Configuration.GetConnectionString("ChirpDB"));
@@ -56,10 +57,15 @@ using var scope = app.Services.CreateScope();
 var services = scope.ServiceProvider;
 var dbContext = services.GetRequiredService<ChirpDBContext>();
 
-if (dbContext.Database.EnsureDeleted())
+
+
+// Check if database exists and create it if it doesn't exist if run in development mode
+if (builder.Environment.IsDevelopment())
 {
-    dbContext.Database.Migrate();
-    DbInitializer.SeedDatabase(dbContext);
+    if (dbContext.Database.EnsureCreated())
+    {
+        DbInitializer.SeedDatabase(dbContext);
+    }
 }
 
 // Configure the HTTP request pipeline.
