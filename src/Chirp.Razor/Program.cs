@@ -17,26 +17,12 @@ builder.Services.AddRazorPages();
 
 builder.Configuration.AddJsonFile("appSettings.json", optional: false, reloadOnChange: true).AddJsonFile($"appSettings.{builder.Environment.EnvironmentName}.json", optional: true);
 
-SqlConnectionStringBuilder stringBuilder = new SqlConnectionStringBuilder();
-stringBuilder.DataSource = "bdsagroup4-chirpdb.database.windows.net";
-stringBuilder.UserID = "azureuser";
-stringBuilder.Password = "Ab12345_";
-stringBuilder.InitialCatalog = "bdsagroup4-chirpdb";
 
-if (builder.Environment.IsDevelopment())
+builder.Services.AddDbContext<ChirpDBContext>(options =>
 {
-    builder.Services.AddDbContext<ChirpDBContext>(options =>
-    {
-        options.UseSqlServer(builder.Configuration.GetConnectionString("ChirpDB"));
-    });
-}
-else
-{
-    builder.Services.AddDbContext<ChirpDBContext>(options =>
-    {
-        options.UseSqlServer(stringBuilder.ConnectionString);
-    });
-}
+    options.UseSqlServer(builder.Configuration.GetConnectionString("ChirpDB"));
+});
+
 
 builder.Services.AddScoped<AbstractValidator<CheepCreateDTO>, CheepCreateValidator>();
 builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
@@ -52,14 +38,16 @@ var app = builder.Build();
 
 
 
-using var scope = app.Services.CreateScope();
-var services = scope.ServiceProvider;
-var dbContext = services.GetRequiredService<ChirpDBContext>();
-
-if (dbContext.Database.EnsureDeleted())
+using (var scope = app.Services.CreateScope())
 {
+    var services = scope.ServiceProvider;
+    var dbContext = services.GetRequiredService<ChirpDBContext>();
     dbContext.Database.Migrate();
-    DbInitializer.SeedDatabase(dbContext);
+
+    if (!dbContext.Authors.Any())
+    {
+        DbInitializer.SeedDatabase(dbContext);
+    }
 }
 
 // Configure the HTTP request pipeline.
@@ -83,6 +71,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+app.UseAuthorization();
 
 app.MapControllers();
 app.MapRazorPages();
