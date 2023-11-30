@@ -31,15 +31,6 @@ namespace Chirp.Infrastructure
             }
         }
 
-        public void DeleteAuthorsFollowing(int authorId)
-        {
-            Console.WriteLine("Deleting following");
-        }
-        public void DeleteAuthorsFollowers(int authorId)
-        {
-            Console.WriteLine("Deleting followers");
-        }
-
         public AuthorDTO GetAuthorByID(int ID)
         {
             var author = _db.Authors.Where(author => author.AuthorId == ID).Select(authorDTO => new AuthorDTO
