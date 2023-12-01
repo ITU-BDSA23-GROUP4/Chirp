@@ -18,6 +18,12 @@ Provide an illustration of your domain model. Make sure that it is correct and c
 
 ## Architecture — In the small
 Illustrate the organization of your code base. That is, illustrate which layers exist in your (onion) architecture. Make sure to illustrate which part of your code is residing in which layer.
+<br>
+...............................................
+<br>
+In the Onion Architecture diagram, we can see how ours are presented. In the middle we have our core package, that is our DTO's and our interfaces. This is the lowest layer of the application. If you look at the UML of our whole application, you will se the Core folder doesn't use any types/method from the other packages, this is why its in the middle of the onion. This applies to the next level using Infrastructure. This folder only takes information from itself or from the Core, and the same does the Razor.
+
+The Onion Architecture (or better known as Clean Architecture), is great for having low coupling and high cohesion. When looking at the UML, there is no unnessesary communication between scripts, with so low coupling the readability of the program is better, even though some of the repositories contains a fair amount of methods.
 
 ## Architecture of deployed application
 Illustrate the architecture of your deployed application. Remember, you developed a client-server application. Illustrate the server component and to where it is deployed, illustrate a client component, and show how these communicate with each other.
@@ -41,6 +47,12 @@ Some HTTP calls and responses, some calls and responses in C# and likely some mo
 Illustrate with a UML activity diagram how your Chirp! applications are build, tested, released, and deployed. That is, illustrate the flow of activities in your respective GitHub Actions workflows.
 
 Describe briefly the illustration, i.e., how you application is built, tested, released, and deployed.
+<br>
+...............................................
+<br>
+Before putting anything into the workflow actions, we create test manually to run on the computer with the "dotnet test" command. There has been created an activity diagram showing this. For most test we try to implement it going how we expect the method or feature to behave, and after we've concluded that it works, we create a test to challenge this method. By example we can look at the Create(CreateCheepDTO)'s tests in the unit tests. <br>
+This can be found in the infrastructure tests in the tests for Cheep Repository. 
+We start by testing that what we want it to will work, and then we challenge it, by giving it some input that should throw validation exceptions. When we know both of these will pass, we can then move onto the workflows. 
 
 ## Team work
 Show a screenshot of your project board right before hand-in. Briefly describe which tasks are still unresolved, i.e., which features are missing from your applications or which functionality is incomplete.
