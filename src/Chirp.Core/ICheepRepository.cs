@@ -1,7 +1,3 @@
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Chirp.Infrastructure;
-
 namespace Chirp.Core
 {
     public interface ICheepRepository
