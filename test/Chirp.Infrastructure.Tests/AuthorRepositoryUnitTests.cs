@@ -30,7 +30,7 @@ public class AuthorRepositoryUnitTests
             Followed = new List<Follow>(),
             Followers = new List<Follow>()
         };
-         var testAuthor2 = new Author
+        var testAuthor2 = new Author
         {
             AuthorId = 2,
             Name = "TestName2",
@@ -39,10 +39,19 @@ public class AuthorRepositoryUnitTests
             Followed = new List<Follow>(),
             Followers = new List<Follow>()
         };
+        var testAuthor3 = new Author {
+            AuthorId = 3,
+            Name = "TestName3",
+            Email = "TestEmail3",
+            Cheeps = new List<Cheep>(),
+            Followed = new List<Follow>(),
+            Followers = new List<Follow>()
+        };
 
         //Creates and adds aauthor to the database
         context.Authors.Add(testAuthor);
         context.Authors.Add(testAuthor2);
+        context.Authors.Add(testAuthor3);
 
         context.SaveChanges();
         _context = context;
@@ -127,11 +136,11 @@ public class AuthorRepositoryUnitTests
     public void UnitTestFindAuthorByWrongId()
     {
         //Act
-        Action act = () => repository.GetAuthorByID(3);
+        Action act = () => repository.GetAuthorByID(4);
 
         //Assert
         //Should throw an exception since the id doesn't exist in our database
-        act.Should().Throw<ArgumentException>().WithMessage("Author with id 3 does not exist");
+        act.Should().Throw<ArgumentException>().WithMessage("Author with id 4 does not exist");
     }
 
     [Fact]
@@ -149,7 +158,7 @@ public class AuthorRepositoryUnitTests
     public void UnitTestAddIncorrectFollowee(){
         //Arrange
         //Act
-        Action act = () => repository.AddFollowee(1,3);
+        Action act = () => repository.AddFollowee(1,4);
         
         //Assert
         act.Should().Throw<NullReferenceException>().WithMessage("Obejct _Author or _Followee of type Author is null");
@@ -171,7 +180,7 @@ public class AuthorRepositoryUnitTests
     [Fact]
     public void UnitTestRemoveIncorrectFollowee() {
         //Act
-        Action act = () => repository.RemoveFollowee(1,3);
+        Action act = () => repository.RemoveFollowee(1,4);
         //Assert
         act.Should().Throw<NullReferenceException>().WithMessage("FollowerRelationship is null");
     }
@@ -181,8 +190,6 @@ public class AuthorRepositoryUnitTests
         //Act
         repository.AddFollowee(1,2);
         Action act = () => repository.AddFollowee(1,2);
-        AuthorDTO author1 = repository.GetAuthorByID(1);
-        AuthorDTO author2 = repository.GetAuthorByID(2);
 
         //Assert
         act.Should().Throw<InvalidOperationException>();
@@ -192,10 +199,10 @@ public class AuthorRepositoryUnitTests
     public void UnitTestFollowAuthorUpdatesOtherAuthorsFollowersList() {
         //Act
         repository.AddFollowee(1,2);
-        AuthorDTO author = repository.GetAuthorByID(2);
+        AuthorDTO author2 = repository.GetAuthorByID(2);
 
         //Assert
-        author.Followers?[0].AuthorId.Should().Be(1);
+        author2.Followers?[0].AuthorId.Should().Be(1);
     }
 
     [Fact]
@@ -209,5 +216,39 @@ public class AuthorRepositoryUnitTests
         
         // Assert
         author.Followers?.Count.Should().Be(0);
+    }
+
+    [Fact]
+    public void UnitTestAddFollowDoesNotAffactOtherAuthors() {
+        //Act
+        repository.AddFollowee(1,2);
+
+        //Assert
+        AuthorDTO author = repository.GetAuthorByID(3);
+
+        author.Followed?.Count.Should().Be(0);
+        author.Followers?.Count.Should().Be(0);
+    }
+
+    [Fact]
+    public void UnitTestEnsureFollowAndFollowedListAreEmptyBeDefault() {
+        //Assert
+        AuthorDTO author = repository.GetAuthorByID(1);
+
+        author.Followed?.Count.Should().Be(0);
+        author.Followers?.Count.Should().Be(0);
+    }
+
+    [Fact]
+    public void UnitTestAddFollowDoesNotAffectWrongList() {
+        //Act
+        repository.AddFollowee(1,2);
+
+        //Assert
+        AuthorDTO author1 = repository.GetAuthorByID(1);
+        AuthorDTO author2 = repository.GetAuthorByID(2);
+
+        author1.Followers?.Count.Should().Be(0);
+        author2.Followed?.Count.Should().Be(0);
     }
 }
