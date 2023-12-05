@@ -89,8 +89,9 @@ public class PublicModel : PageModel
                     return Redirect(User.Identity.Name);
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                logger.Log(e.Message);
                 logger.Log("Something went wrong we are now trying to add the author to the DB");
                 await _service.AddAuthor(User.Identity.Name, userEmailClaim.Value);
                 logger.Log("We added the author");
