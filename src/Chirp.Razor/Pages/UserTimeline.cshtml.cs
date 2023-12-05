@@ -26,10 +26,10 @@ public class UserTimelineModel : PageModel
     [FromQuery(Name = "page")]
     public int? pageNum { get; set; }
 
-    [FromQuery(Name ="follow")]
+  /*   [FromQuery(Name ="follow")]
     public int? follow{ get; set; }
 
-    [FromQuery(Name ="unfollow")]
+    [FromQuery(Name ="unfollow")] */
     public int? unfollow{ get; set; }
 
     public ActionResult OnGet(string author)
@@ -53,9 +53,9 @@ public class UserTimelineModel : PageModel
             {
                 _service.RemoveFollowee(currentUser.AuthorId, (int)unfollow);
             }
-        }
+        } */ 
 
-        return Page(); */
+        return Page();
     }
     public IActionResult OnPost()
     {
@@ -99,6 +99,6 @@ public class UserTimelineModel : PageModel
                 }
             }
         }
-        return false; */
-    }
+        return false;
+    } */
 }

@@ -24,11 +24,11 @@ public class PublicModel : PageModel
     [FromQuery(Name = "{page}")]
     public int? pageNum { get; set; }
     
-    [FromQuery(Name ="follow")]
+   /*  [FromQuery(Name ="follow")]
     public int? follow{ get; set; }
 
     [FromQuery(Name ="unfollow")]
-    public int? unfollow{ get; set; }
+    public int? unfollow{ get; set; } */
     
     public ActionResult OnGet()
     {
