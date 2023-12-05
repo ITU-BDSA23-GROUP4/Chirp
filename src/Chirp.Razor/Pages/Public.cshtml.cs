@@ -41,7 +41,7 @@ public class PublicModel : PageModel
             Cheeps = _service.GetCheeps(pageNum);
         }
 
-         var userEmailClaim = User.Claims.FirstOrDefault(c => c.Type == "emails");
+        /* var userEmailClaim = User.Claims.FirstOrDefault(c => c.Type == "emails");
         if(User?.Identity?.IsAuthenticated == true && User?.Identity?.Name != null && userEmailClaim != null)
         {
             try{
