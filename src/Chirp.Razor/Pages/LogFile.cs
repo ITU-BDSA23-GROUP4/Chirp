@@ -6,11 +6,9 @@ public class LogFile
 
     public LogFile(string fileName)
     {
-        // You can specify the directory path if needed
-        string directoryPath = "logs";
-        Directory.CreateDirectory(directoryPath); // Create the directory if it doesn't exist
 
-        filePath = Path.Combine(directoryPath, fileName);
+
+        filePath = Path.Combine(fileName);
     }
 
     public void Log(string message)
