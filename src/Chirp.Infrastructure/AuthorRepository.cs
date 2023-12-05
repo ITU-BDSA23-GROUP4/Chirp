@@ -134,7 +134,8 @@ namespace Chirp.Infrastructure
                     AuthorId = CheepDTO.Author.AuthorId,
                     Author = CheepDTO.Author.Name,
                     Message = CheepDTO.Text,
-                    Timestamp = CheepDTO.TimeStamp
+                    Timestamp = CheepDTO.TimeStamp,
+                    OriginalAuthor = CheepDTO.OriginalAuthor?.Name
                 }
                             );
                 cheepsToReturn.AddRange(cheepsDTO);

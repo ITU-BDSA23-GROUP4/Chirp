@@ -104,7 +104,6 @@ public class CheepRepositoryUnitTestsReCheep
         CheepDTO reCheep = testAuthor.Cheeps[0];
 
         //Assert
-        reCheep.Should().Be(1);
-       // reCheep.OriginalAuthor.Should().Be("TestAuthor");
+        reCheep.OriginalAuthor.Should().Be("TestAuthor");
     }
 }
