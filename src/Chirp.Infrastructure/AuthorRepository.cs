@@ -1,4 +1,5 @@
 using Chirp.Core;
+using Microsoft.EntityFrameworkCore;
 
 namespace Chirp.Infrastructure
 {
@@ -12,22 +13,29 @@ namespace Chirp.Infrastructure
 
         public async Task AddAuthor(string name, string email)
         {
-            await _db.Authors.AddAsync(new Author { Name = name, Cheeps = new List<Cheep>(), Email = email });
-            //_db.Add(new Author { Name = name, Cheeps = new List<Cheep>(), Email = email });
-            _db.SaveChanges();
+            try
+            {
+                await _db.Authors.AddAsync(new Author { Name = name, Cheeps = new List<Cheep>(), Email = email });
+                await _db.SaveChangesAsync();
+            } 
+            catch (Exception)
+            {
+                //Do nothing as the author already exists
+            }
         }
 
-        public AuthorDTO GetAuthorByID(int ID)
-        {
-            var author = _db.Authors.Where(author => author.AuthorId == ID).Select(authorDTO => new AuthorDTO
+        public async Task<AuthorDTO> GetAuthorByID(int ID)
+        { 
+            var author = await _db.Authors.Where(author => author.AuthorId == ID).Select(authorDTO => new AuthorDTO
             {
                 AuthorId = ID,
                 Name = authorDTO.Name,
                 Email = authorDTO.Email,
                 Cheeps = GetAllCheepsFromAuthor(authorDTO.Name, _db),
-                Followed = GetAllFollowedAuthors(authorDTO.AuthorId, _db),
+                Followed = GetAllFollowedAuthor(authorDTO.AuthorId, _db),
                 Followers = GetAllFollowers(authorDTO.AuthorId, _db)
-            }).FirstOrDefault();
+            }).FirstAsync();
+            
             if (author != null)
             {
                 return author;
@@ -38,17 +46,17 @@ namespace Chirp.Infrastructure
             }
         }
 
-        public AuthorDTO GetAuthorByName(string name)
+        public async Task<AuthorDTO> GetAuthorByName(string name)
         {
-            var author = _db.Authors.Where(author => author.Name == name).Select(authorDTO => new AuthorDTO
+            var author = await _db.Authors.Where(author => author.Name == name).Select(authorDTO => new AuthorDTO
             {
                 AuthorId = authorDTO.AuthorId,
                 Name = authorDTO.Name,
                 Email = authorDTO.Email,
                 Cheeps = GetAllCheepsFromAuthor(authorDTO.Name, _db),
-                Followed = GetAllFollowedAuthors(authorDTO.AuthorId, _db),
+                Followed = GetAllFollowedAuthor(authorDTO.AuthorId, _db),
                 Followers = GetAllFollowers(authorDTO.AuthorId, _db)
-            }).FirstOrDefault();
+            }).FirstAsync();
             if (author != null)
             {
                 return author;
@@ -59,17 +67,19 @@ namespace Chirp.Infrastructure
             }
         }
 
-        public AuthorDTO GetAuthorByEmail(string email)
+        public async Task<AuthorDTO> GetAuthorByEmail(string email)
         {
-            var author = _db.Authors.Where(author => author.Email == email).Select(authorDTO => new AuthorDTO
+            var author = await _db.Authors.Where(author => author.Email == email).Select(authorDTO => new AuthorDTO
             {
                 AuthorId = authorDTO.AuthorId,
                 Name = authorDTO.Name,
                 Email = authorDTO.Email,
                 Cheeps = GetAllCheepsFromAuthor(authorDTO.Name, _db),
-                Followed = GetAllFollowedAuthors(authorDTO.AuthorId, _db),
+                Followed = GetAllFollowedAuthor(authorDTO.AuthorId, _db),
                 Followers = GetAllFollowers(authorDTO.AuthorId, _db)
-            }).FirstOrDefault();
+            }).FirstAsync();
+
+            
 
             if (author != null)
             {
@@ -80,14 +90,15 @@ namespace Chirp.Infrastructure
                 throw new ArgumentException("Author with email " + email + " does not exist");
             }
         }
-
-        public void RemoveFollowee(int _AuthorId, int _FollowerId) {
+    
+        public async Task RemoveFollowee(int _AuthorId, int _FollowerId) {
             //I as a chirp author remover Chirp author by "name" from my Followed and remove myself from their followers list
             
-            var FollowerRelationship = _db.Follows.Where(f => f.FolloweeId == _AuthorId && f.AuthorId == _FollowerId).FirstOrDefault();
+            var FollowerRelationship = await _db.Follows.Where(f => f.FolloweeId == _AuthorId && f.AuthorId == _FollowerId).FirstAsync();
+            
             if (FollowerRelationship != null) {
                 _db.Follows.Remove(FollowerRelationship);
-                _db.SaveChanges();
+                await _db.SaveChangesAsync();
             }
             else 
             {
@@ -95,15 +106,16 @@ namespace Chirp.Infrastructure
             }
         }
 
-        private Author? GetRealAuthorByID(int ID){
-            var author = _db.Authors.FirstOrDefault(author => author.AuthorId == ID);
-            return author ;
+        private async Task<Author?> GetRealAuthorByID(int ID){
+            var author = await _db.Authors.FirstAsync(author => author.AuthorId == ID);
+            System.Threading.Thread.Sleep(5000);
+            return author;
         }
-
-        public void AddFollowee(int _AuthorId, int _FolloweeId) {
+        //Should be async?
+        public async Task AddFollowee(int _AuthorId, int _FolloweeId) {
             //I as a chirp author add Chirp author by "name" to my Folled and add myself  to their followers list
-            Author? _Author = GetRealAuthorByID(_AuthorId);
-            Author? _Followee = GetRealAuthorByID(_FolloweeId);
+            Author? _Author =  await GetRealAuthorByID(_AuthorId);
+            Author? _Followee = await GetRealAuthorByID(_FolloweeId);
 
             if (_Author != null && _Followee != null)
             { 
@@ -114,7 +126,7 @@ namespace Chirp.Infrastructure
                     Author = _Author, 
                     Follower = _Followee
                 });
-                _db.SaveChanges();            
+                await _db.SaveChangesAsync();            
             } 
             else 
             {
@@ -122,21 +134,23 @@ namespace Chirp.Infrastructure
             }
         }
 
-        private static List<CheepDTO> GetAllCheepsFromAuthor(string Name, ChirpDBContext _dbcontext)
-        {
+        private static Task<List<CheepDTO>> GetAllCheepsFromAuthorAsync(string Name, ChirpDBContext _dbcontext) {
+            return Task.Run(() => GetAllCheepsFromAuthor(Name, _dbcontext));
+        }
 
+        private  static List<CheepDTO> GetAllCheepsFromAuthor(string Name, ChirpDBContext _dbcontext)
+        {
             List<CheepDTO> cheepsToReturn = new List<CheepDTO>();
             try
             {
-                var cheepsDTO = _dbcontext.Cheeps.ToList().OrderByDescending(c => c.TimeStamp.Ticks).Where(author => author.Author.Name == Name).Select(CheepDTO => new CheepDTO
-                {
+                var cheepsDTO =  _dbcontext.Cheeps.ToList().OrderByDescending(c => c.TimeStamp.Ticks).Where(author => author.Author.Name == Name).Select(CheepDTO => new CheepDTO
+                { 
                     //Sets the properties of the Cheep
                     AuthorId = CheepDTO.Author.AuthorId,
                     Author = CheepDTO.Author.Name,
                     Message = CheepDTO.Text,
                     Timestamp = CheepDTO.TimeStamp
-                }
-                            );
+                });
                 cheepsToReturn.AddRange(cheepsDTO);
 
                 return cheepsToReturn;
@@ -145,18 +159,18 @@ namespace Chirp.Infrastructure
             {
                 return new List<CheepDTO>();
             }
-
-
-
-
         }
 
-        private static List<AuthorDTO> GetAllFollowedAuthors(int AuthorId, ChirpDBContext DBcontext) 
+        private static Task<List<AuthorDTO>> GetAllFollowedAuthorsAsync(int AuthorId, ChirpDBContext _dbcontext) {
+            return Task.Run(() => GetAllFollowedAuthor(AuthorId, _dbcontext));
+        }
+
+        private static List<AuthorDTO> GetAllFollowedAuthor(int AuthorId, ChirpDBContext _dbcontext) 
         {   
             List<AuthorDTO> followed = new List<AuthorDTO>();
 
             // pull out followed authors from a table not yet existing mapping between follower (foreign key to author) and author (foreign key to author)
-            var authorDTOs = DBcontext.Follows.ToList().Where(f => f.FolloweeId == AuthorId)
+            var authorDTOs = _dbcontext.Follows.ToList().Where(f => f.FolloweeId == AuthorId)
                 .Select(AuthorDTO => new AuthorDTO 
                 {
                     AuthorId = AuthorDTO.AuthorId,
@@ -170,13 +184,16 @@ namespace Chirp.Infrastructure
             return followed;
         }
 
-        private static List<AuthorDTO> GetAllFollowers(int AuthorId, ChirpDBContext DBcontext) 
+        private static Task<List<AuthorDTO>> GetAllFollowersAsync(int AuthorId, ChirpDBContext _dbcontext) {
+            return Task.Run(() => GetAllFollowers(AuthorId, _dbcontext));
+        }
+        private static List<AuthorDTO> GetAllFollowers(int AuthorId, ChirpDBContext _dbcontext) 
         {   
             List<AuthorDTO> followers = new List<AuthorDTO>();
 
             // pull out followed authors from a table not yet existing mapping between author (foreign key to author) and follower (foreign key to author)
             // pull out followed authors from a table not yet existing mapping between follower (foreign key to author) and author (foreign key to author)
-            var authorDTOs = DBcontext.Follows.ToList().Where(f => f.AuthorId == AuthorId)
+            var authorDTOs = _dbcontext.Follows.ToList().Where(f => f.AuthorId == AuthorId)
                 .Select(AuthorDTO => new AuthorDTO 
                 {
                     AuthorId = AuthorDTO.FolloweeId,
