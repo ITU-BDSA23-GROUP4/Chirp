@@ -65,7 +65,7 @@ public class PublicModel : PageModel
 
         return Page();
     }
-    public async Task<IActionResult> OnPostAsync()
+    public async Task<IActionResult> OnPost()
     {
         logger.Log("User clicked share on the cheep button");
         var userEmailClaim = User.Claims.FirstOrDefault(c => c.Type == "emails");
