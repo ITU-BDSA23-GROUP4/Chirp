@@ -72,18 +72,18 @@ public class PublicModel : PageModel
         {
             try
             {
-                var author = _service.GetAuthorByEmail(userEmailClaim.Value);
+                var author = await _service.GetAuthorByEmail(userEmailClaim.Value);
                 if (author != null)
                 {
                     var cheep = new CheepCreateDTO(author.Name, CheepMessageTimeLine);
-                    _service.Create(cheep);
+                    await _service.Create(cheep);
                     return Redirect(User.Identity.Name);
                 }
             }
             catch (Exception)
             {
                 await _service.AddAuthor(User.Identity.Name, userEmailClaim.Value);
-                _service.Create(new CheepCreateDTO(User.Identity.Name, CheepMessageTimeLine));
+                await _service.Create(new CheepCreateDTO(User.Identity.Name, CheepMessageTimeLine));
                 return Redirect(User.Identity.Name);
             }
         }

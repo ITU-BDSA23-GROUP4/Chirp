@@ -57,23 +57,23 @@ public class UserTimelineModel : PageModel
 
         return Page();
     }
-    public IActionResult OnPost()
+    public async Task<IActionResult> OnPost()
     {
         var userEmailClaim = User.Claims.FirstOrDefault(c => c.Type == "emails");
         if (User?.Identity?.IsAuthenticated == true && User?.Identity?.Name != null && userEmailClaim != null)
         {
             try
             {
-                var author = _service.GetAuthorByEmail(userEmailClaim.Value);
+                var author = await _service.GetAuthorByEmail(userEmailClaim.Value);
                 var cheep = new CheepCreateDTO(author.Name, CheepMessageTimeLine);
-                _service.Create(cheep);
+                await _service.Create(cheep);
                 return Redirect(User.Identity.Name);
             }
             catch
             {
                 if(userEmailClaim != null ) {
-                _service.AddAuthor(User.Identity.Name, userEmailClaim.Value);
-                _service.Create(new CheepCreateDTO(User.Identity.Name, CheepMessageTimeLine));
+                await _service.AddAuthor(User.Identity.Name, userEmailClaim.Value);
+                await _service.Create(new CheepCreateDTO(User.Identity.Name, CheepMessageTimeLine));
                 return Redirect(User.Identity.Name);
                 }
             }
