@@ -5,6 +5,7 @@ namespace Chirp.Infrastructure
 {
     public class AuthorRepository : IAuthorRepository
     {
+        LogFile logger = new LogFile("mylog.txt");
         private readonly ChirpDBContext _db;
         public AuthorRepository(ChirpDBContext db)
         {
@@ -13,9 +14,12 @@ namespace Chirp.Infrastructure
 
         public async Task AddAuthor(string name, string email)
         {
+            logger.Log("Adding author with name: "+ name + " and email: " + email);
             await _db.Authors.AddAsync(new Author { Name = name, Cheeps = new List<Cheep>(), Email = email });
+            logger.Log("The author was added trying to save changes");
             //_db.Add(new Author { Name = name, Cheeps = new List<Cheep>(), Email = email });
             _db.SaveChanges();
+            logger.Log("The author was added and the changes were saved");
         }
 
         public async Task<AuthorDTO> GetAuthorByID(int ID)

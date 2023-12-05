@@ -41,7 +41,7 @@ public class PublicModel : PageModel
             Cheeps = _service.GetCheeps(pageNum);
         }
 
-        /* var userEmailClaim = User.Claims.FirstOrDefault(c => c.Type == "emails");
+        var userEmailClaim = User.Claims.FirstOrDefault(c => c.Type == "emails");
         if(User?.Identity?.IsAuthenticated == true && User?.Identity?.Name != null && userEmailClaim != null)
         {
             try{
@@ -65,6 +65,8 @@ public class PublicModel : PageModel
 
         return Page();
     }
+
+    //This is the method that adds a cheep from the user, if a user isn't in the DB they will be added to the db
     public async Task<IActionResult> OnPost()
     {
         logger.Log("User clicked share on the cheep button");

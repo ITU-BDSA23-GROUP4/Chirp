@@ -1,6 +1,3 @@
-using System;
-using System.IO;
-namespace Chirp.Razor.Pages;
 public class LogFile
 {
     private readonly string filePath;
