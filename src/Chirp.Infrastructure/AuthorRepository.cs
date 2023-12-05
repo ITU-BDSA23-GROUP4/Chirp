@@ -5,7 +5,6 @@ namespace Chirp.Infrastructure
 {
     public class AuthorRepository : IAuthorRepository
     {
-        LogFile logger = new LogFile("mylog.txt");
         private readonly ChirpDBContext _db;
         public AuthorRepository(ChirpDBContext db)
         {
@@ -16,17 +15,12 @@ namespace Chirp.Infrastructure
         {
             try
             {
-                logger.Log("Adding author with name: "+ name + " and email: " + email);
                 await _db.Authors.AddAsync(new Author { Name = name, Cheeps = new List<Cheep>(), Email = email });
-                logger.Log("The author was added trying to save changes");
-                //_db.Add(new Author { Name = name, Cheeps = new List<Cheep>(), Email = email });
                 await _db.SaveChangesAsync();
-                logger.Log("The author was added and the changes were saved");
             } 
-            catch (Exception e)
+            catch (Exception)
             {
-                logger.Log("Something went wrong when adding the author: " + e.Message);
-                logger.Log("The stacktrace: " + e.StackTrace);
+                //Do nothing as the author already exists
             }
         }
 
@@ -84,6 +78,8 @@ namespace Chirp.Infrastructure
                 Followed = GetAllFollowedAuthor(authorDTO.AuthorId, _db),
                 Followers = GetAllFollowers(authorDTO.AuthorId, _db)
             }).FirstAsync();
+
+            
 
             if (author != null)
             {

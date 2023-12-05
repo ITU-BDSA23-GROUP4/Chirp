@@ -24,13 +24,12 @@ public class PublicModel : PageModel
     [FromQuery(Name = "{page}")]
     public int? pageNum { get; set; }
     
-   /*  [FromQuery(Name ="follow")]
+    [FromQuery(Name ="follow")]
     public int? follow{ get; set; }
 
     [FromQuery(Name ="unfollow")]
-    public int? unfollow{ get; set; } */
-    LogFile logger = new LogFile("mylog.txt");
-    public ActionResult OnGet()
+    public int? unfollow{ get; set; }
+    public async Task<ActionResult> OnGet()
     {
         if (pageNum.HasValue)
         {
@@ -41,27 +40,27 @@ public class PublicModel : PageModel
             Cheeps = _service.GetCheeps(pageNum);
         }
 
-        /* var userEmailClaim = User.Claims.FirstOrDefault(c => c.Type == "emails");
+        var userEmailClaim = User.Claims.FirstOrDefault(c => c.Type == "emails");
         if(User?.Identity?.IsAuthenticated == true && User?.Identity?.Name != null && userEmailClaim != null)
         { 
             try{
-                _service.AddAuthor(User.Identity.Name, userEmailClaim.Value);
+                await _service.AddAuthor(User.Identity.Name, userEmailClaim.Value);
             } catch (Exception) {
                 //Do nothing as the author already exists
             }
-        } */
-        /*
+        }
+        
         if (User?.Identity?.IsAuthenticated == true  && User.Identity.Name != null) {
-            AuthorDTO currentUser = _service.GetAuthorByName(User.Identity.Name);
+            AuthorDTO currentUser = await _service.GetAuthorByName(User.Identity.Name);
             if (follow.HasValue && follow != null) 
             {
-                _service.AddFollowee(currentUser.AuthorId, (int)follow);
+                await _service.AddFollowee(currentUser.AuthorId, (int)follow);
             } 
             else if (unfollow.HasValue && unfollow != null) 
             {
-                _service.RemoveFollowee(currentUser.AuthorId, (int)unfollow);
+                await _service.RemoveFollowee(currentUser.AuthorId, (int)unfollow);
             }
-        } */
+        }
 
         return Page();
     }
@@ -69,48 +68,37 @@ public class PublicModel : PageModel
     //This is the method that adds a cheep from the user, if a user isn't in the DB they will be added to the db
     public async Task<IActionResult> OnPost()
     {
-        logger.Log("User clicked share on the cheep button");
         var userEmailClaim = User.Claims.FirstOrDefault(c => c.Type == "emails");
         if(User?.Identity?.IsAuthenticated == true && User?.Identity?.Name != null && userEmailClaim != null)
         {
-            logger.Log("The user is authenticated");
             try
             {
-                logger.Log("Trying to add a cheep");
                 var author = await _service.GetAuthorByEmail(userEmailClaim.Value);
-                logger.Log("_service.GetAuthorByEmail has completed, author is: " + author.Name);
                 if (author != null)
                 {
-                    logger.Log("Author is not null");
                     var cheep = new CheepCreateDTO(author.Name, CheepMessageTimeLine);
-                    logger.Log("ChepDTO created with message: " + CheepMessageTimeLine + " and author: " + author.Name);
                     await _service.Create(cheep);
-                    logger.Log("_service.Create has completed. Will now redirect to userpage");
                     return Redirect(User.Identity.Name);
                 }
             }
             catch (Exception e)
             {
-                logger.Log("Exception " + e + " exception message" + e.Message);
-                logger.Log("Something went wrong we are now trying to add the author to the DB");
                 await _service.AddAuthor(User.Identity.Name, userEmailClaim.Value);
-                logger.Log("We added the author");
                 await _service.Create(new CheepCreateDTO(User.Identity.Name, CheepMessageTimeLine));
-                logger.Log("We added the cheep and are now redirecting");
                 return Redirect(User.Identity.Name);
             }
         }
         return Redirect("/");
     }
 
-   /*  public bool DoesFollow(int AuthorId) 
+    public async Task<bool> DoesFollow(int AuthorId) 
     {
         AuthorDTO? author = null;
         // Needs to be refactored into the get method so we does not call it 32 times per page load
         if (User?.Identity?.IsAuthenticated == true && User?.Identity?.Name != null) {
             
             if (User.Identity.Name != null) {
-                author = _service.GetAuthorByName(User.Identity.Name);
+                author = await _service.GetAuthorByName(User.Identity.Name);
             }
             
             if (author != null && author.Followed != null) {
@@ -122,5 +110,5 @@ public class PublicModel : PageModel
             }
         }
         return false;
-    } */
+    }
 }
