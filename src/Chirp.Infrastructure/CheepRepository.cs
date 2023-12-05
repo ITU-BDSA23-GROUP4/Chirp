@@ -46,6 +46,34 @@ public class CheepRepository : ICheepRepository
         }
     }
 
+    public void ReCheep(int authorid, CheepDTO cheep){
+        Console.WriteLine("OriginalAuthorid: " + cheep.AuthorId);
+        try
+        {
+            Console.WriteLine("OriginalAuthorid: " + cheep.AuthorId);
+            var author = GetAuthorById(authorid);
+            var originalAuthor = GetAuthorById(cheep.AuthorId);
+            if (author != null && authorid != cheep.AuthorId)
+            {
+                _db.Add(new Cheep
+                {
+                    Author = author,
+                    OriginalAuthor = originalAuthor,
+                    Text = cheep.Message,
+                    TimeStamp = DateTime.Now
+                });
+            }else
+            {
+                throw new ArgumentException("Could not reCheep the cheep");
+            }
+            _db.SaveChanges();
+        }
+        catch (System.Exception)
+        {
+            throw;
+        }
+    }
+
     public List<CheepDTO> GetCheeps(int? pageNum)
     {
         //Creates a list of max 32 CheepDTO sorted by recent cheep
