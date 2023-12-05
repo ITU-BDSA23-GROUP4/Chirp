@@ -18,7 +18,7 @@ namespace Chirp.Infrastructure
             await _db.Authors.AddAsync(new Author { Name = name, Cheeps = new List<Cheep>(), Email = email });
             logger.Log("The author was added trying to save changes");
             //_db.Add(new Author { Name = name, Cheeps = new List<Cheep>(), Email = email });
-            _db.SaveChanges();
+            await _db.SaveChangesAsync();
             logger.Log("The author was added and the changes were saved");
         }
 
