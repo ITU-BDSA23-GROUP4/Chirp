@@ -14,12 +14,20 @@ namespace Chirp.Infrastructure
 
         public async Task AddAuthor(string name, string email)
         {
-            logger.Log("Adding author with name: "+ name + " and email: " + email);
-            await _db.Authors.AddAsync(new Author { Name = name, Cheeps = new List<Cheep>(), Email = email });
-            logger.Log("The author was added trying to save changes");
-            //_db.Add(new Author { Name = name, Cheeps = new List<Cheep>(), Email = email });
-            await _db.SaveChangesAsync();
-            logger.Log("The author was added and the changes were saved");
+            try
+            {
+                logger.Log("Adding author with name: "+ name + " and email: " + email);
+                await _db.Authors.AddAsync(new Author { Name = name, Cheeps = new List<Cheep>(), Email = email });
+                logger.Log("The author was added trying to save changes");
+                //_db.Add(new Author { Name = name, Cheeps = new List<Cheep>(), Email = email });
+                await _db.SaveChangesAsync();
+                logger.Log("The author was added and the changes were saved");
+            } 
+            catch (Exception e)
+            {
+                logger.Log("Something went wrong when adding the author: " + e.Message);
+                logger.Log("The stacktrace: " + e.StackTrace);
+            }
         }
 
         public async Task<AuthorDTO> GetAuthorByID(int ID)
