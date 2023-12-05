@@ -29,7 +29,7 @@ public class PublicModel : PageModel
 
     [FromQuery(Name ="unfollow")]
     public int? unfollow{ get; set; } */
-    
+    LogFile logger = new LogFile("mylog.txt");
     public ActionResult OnGet()
     {
         if (pageNum.HasValue)
@@ -67,23 +67,33 @@ public class PublicModel : PageModel
     }
     public async Task<IActionResult> OnPostAsync()
     {
+        logger.Log("User clicked share on the cheep button");
         var userEmailClaim = User.Claims.FirstOrDefault(c => c.Type == "emails");
         if(User?.Identity?.IsAuthenticated == true && User?.Identity?.Name != null && userEmailClaim != null)
         {
+            logger.Log("The user is authenticated");
             try
             {
+                logger.Log("Trying to add a cheep");
                 var author = await _service.GetAuthorByEmail(userEmailClaim.Value);
+                logger.Log("_service.GetAuthorByEmail has completed");
                 if (author != null)
                 {
+                    logger.Log("Author is not null");
                     var cheep = new CheepCreateDTO(author.Name, CheepMessageTimeLine);
+                    logger.Log("ChepDTO created");
                     await _service.Create(cheep);
+                    logger.Log("_service.Create has completed. Will now redirect to userpage");
                     return Redirect(User.Identity.Name);
                 }
             }
             catch (Exception)
             {
+                logger.Log("Something went wrong we are now trying to add the author to the DB");
                 await _service.AddAuthor(User.Identity.Name, userEmailClaim.Value);
+                logger.Log("We added the author");
                 await _service.Create(new CheepCreateDTO(User.Identity.Name, CheepMessageTimeLine));
+                logger.Log("We added the cheep and are now redirecting");
                 return Redirect(User.Identity.Name);
             }
         }
