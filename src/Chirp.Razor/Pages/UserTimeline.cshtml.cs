@@ -43,7 +43,7 @@ public class UserTimelineModel : PageModel
             Cheeps = _service.GetCheepsFromAuthor(author, pageNum);
         }
 
-        if (User.Identity?.IsAuthenticated == true  && User.Identity.Name != null) {
+        /* if (User.Identity?.IsAuthenticated == true  && User.Identity.Name != null) {
             AuthorDTO currentUser = _service.GetAuthorByName(User.Identity.Name);
             if (follow.HasValue && follow != null) 
             {
@@ -55,7 +55,7 @@ public class UserTimelineModel : PageModel
             }
         }
 
-        return Page();
+        return Page(); */
     }
     public IActionResult OnPost()
     {
@@ -81,7 +81,7 @@ public class UserTimelineModel : PageModel
         return Redirect("/");
     }
 
-    public bool DoesFollow(int AuthorId) 
+/*     public bool DoesFollow(int AuthorId) 
     {
         AuthorDTO? author = null;
         // Needs to be refactored into the get method so we does not call it 32 times per page load
@@ -99,6 +99,6 @@ public class UserTimelineModel : PageModel
                 }
             }
         }
-        return false;
+        return false; */
     }
 }

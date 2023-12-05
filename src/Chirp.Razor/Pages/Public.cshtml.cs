@@ -90,7 +90,7 @@ public class PublicModel : PageModel
         return Redirect("/");
     }
 
-    public bool DoesFollow(int AuthorId) 
+   /*  public bool DoesFollow(int AuthorId) 
     {
         AuthorDTO? author = null;
         // Needs to be refactored into the get method so we does not call it 32 times per page load
@@ -109,5 +109,5 @@ public class PublicModel : PageModel
             }
         }
         return false;
-    }
+    } */
 }
