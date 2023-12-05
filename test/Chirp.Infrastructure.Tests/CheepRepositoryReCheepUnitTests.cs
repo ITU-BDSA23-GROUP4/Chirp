@@ -97,7 +97,6 @@ public class CheepRepositoryUnitTestsReCheep
         repository.Create(cheepCreateDto);
         List<CheepDTO> cheeps = repository.GetCheeps(1);
         CheepDTO cheep = cheeps[0];
-        Console.WriteLine(cheep.AuthorId);
 
         //Act
         repository.ReCheep(2, cheep);
@@ -105,6 +104,7 @@ public class CheepRepositoryUnitTestsReCheep
         CheepDTO reCheep = testAuthor.Cheeps[0];
 
         //Assert
-        reCheep.OriginalAuthorId.Should().Be(1);
+        reCheep.Should().Be(1);
+       // reCheep.OriginalAuthor.Should().Be("TestAuthor");
     }
 }

@@ -47,12 +47,14 @@ public class CheepRepository : ICheepRepository
     }
 
     public void ReCheep(int authorid, CheepDTO cheep){
-        Console.WriteLine("OriginalAuthorid: " + cheep.AuthorId);
         try
         {
-            Console.WriteLine("OriginalAuthorid: " + cheep.AuthorId);
             var author = GetAuthorById(authorid);
             var originalAuthor = GetAuthorById(cheep.AuthorId);
+            if (originalAuthor == null)
+            {
+                throw new ArgumentException("Original author does not exist");
+            }
             if (author != null && authorid != cheep.AuthorId)
             {
                 _db.Add(new Cheep

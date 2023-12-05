@@ -6,7 +6,7 @@ public class CheepDTO
 {
     public required int AuthorId { get; set; }
     public required string Author { get; set; }
-    public int? OriginalAuthorId { get; set; }
+    public string? OriginalAuthor { get; set; }
     public required string Message { get; set; }
     public required DateTime Timestamp { get; set; }
 }
