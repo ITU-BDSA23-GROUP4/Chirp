@@ -64,24 +64,20 @@ public class CheepRepository : ICheepRepository
         });
 
         cheepsToReturn.AddRange(cheepsDTO);
-        Console.WriteLine("Here are all the cheeps efrom Get cheeps: " + cheepsToReturn.Count);
 
         int? page = (pageNum - 1) * 32;
 
         if (cheepsToReturn.Count < 32)
         {
-            Console.WriteLine("Cheeps are less than 32 and these are the cheeps: " + cheepsToReturn.GetRange(0, cheepsToReturn.Count));
             return cheepsToReturn.GetRange(0, cheepsToReturn.Count);
         }
         if (page == null)
         {
-            Console.WriteLine("Page is null and these are the cheeps: " + cheepsToReturn.GetRange(0,32));
             return cheepsToReturn.GetRange(0, 32);
         }
         else
         {
             int endIndex = Math.Min((int)page + 32, (int)cheepsToReturn.Count);
-            Console.WriteLine("Page is " + page + " and these are the cheeps: " + cheepsToReturn.GetRange((int)page, endIndex - (int)(page)));
             return cheepsToReturn.GetRange((int)page, endIndex - (int)(page));
         }
     }
