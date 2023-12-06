@@ -6,6 +6,6 @@ public class Author
     public required string Name { get; set; }
     public required string Email { get; set; }
     public List<Cheep> Cheeps = new List<Cheep>();
-    public List<Author> Followed { get; set;} = new();
-    public List<Author> Followers { get; set;} = new();
+    public List<Author> Followed { get; } = new();
+    public List<Author> Followers { get; } = new();
 }

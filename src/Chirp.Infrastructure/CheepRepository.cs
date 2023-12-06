@@ -9,7 +9,7 @@ public class CheepRepository : ICheepRepository
 {
     private readonly ChirpDBContext _db; //Needed to get our CheepDTO
     private readonly AbstractValidator<CheepCreateDTO> _validator; //Needed to validate our CheepDTO
-
+    
     public CheepRepository(ChirpDBContext db, AbstractValidator<CheepCreateDTO>? validator) //If we want to use an existing db
     {
         _db = db;
@@ -47,7 +47,7 @@ public class CheepRepository : ICheepRepository
     }
 
     public List<CheepDTO> GetCheeps(int? pageNum)
-    {
+    { 
         //Creates a list of max 32 CheepDTO sorted by recent cheep
 
         List<CheepDTO> cheepsToReturn = new();

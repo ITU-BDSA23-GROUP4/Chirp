@@ -33,12 +33,12 @@
                                         if (!Model.DoesFollow(cheep.AuthorId)) 
                                         {
                                             // Link to page that adds the author to the following list of the current user and redirects back to the current page
-                                            <a href="location.href='?follow=@cheep.AuthorId'">follow</a>
+                                            <a href="?follow=@cheep.AuthorId">follow</a>
                                         } 
                                         else 
                                         {
                                             // Link to page that removes the author from the following list of the current user and redirects back to the current page
-                                            <a href="location.href='?unfollow=@cheep.AuthorId'">unfollow</a>
+                                            <a href="?unfollow=@cheep.AuthorId">unfollow</a>
                                         }
                                     }
                                 </strong>

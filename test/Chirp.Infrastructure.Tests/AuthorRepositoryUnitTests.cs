@@ -27,8 +27,6 @@ public class AuthorRepositoryUnitTests
             Name = "TestName",
             Email = "TestEmail",
             Cheeps = new List<Cheep>(),
-            Followed = new List<Follow>(),
-            Followers = new List<Follow>()
         };
         var testAuthor2 = new Author
         {
@@ -36,16 +34,12 @@ public class AuthorRepositoryUnitTests
             Name = "TestName2",
             Email = "TestEmail2",
             Cheeps = new List<Cheep>(),
-            Followed = new List<Follow>(),
-            Followers = new List<Follow>()
         };
         var testAuthor3 = new Author {
             AuthorId = 3,
             Name = "TestName3",
             Email = "TestEmail3",
             Cheeps = new List<Cheep>(),
-            Followed = new List<Follow>(),
-            Followers = new List<Follow>()
         };
 
         //Creates and adds aauthor to the database
@@ -70,8 +64,6 @@ public class AuthorRepositoryUnitTests
             Name = "TestName", 
             Email = "TestEmail", 
             Cheeps = new List<Cheep>(), 
-            Followed = new List<Follow>(), 
-            Followers = new List<Follow>() 
         });
     }
 
@@ -98,8 +90,6 @@ public class AuthorRepositoryUnitTests
             Name = "TestName", 
             Email = "TestEmail", 
             Cheeps = new List<Cheep>(), 
-            Followed = new List<Follow>(), 
-            Followers = new List<Follow>() 
         });
     }
 
@@ -127,8 +117,6 @@ public class AuthorRepositoryUnitTests
             Name = "TestName", 
             Email = "TestEmail", 
             Cheeps = new List<Cheep>(),
-            Followed = new List<Follow>(),
-            Followers = new List<Follow>() 
         });
     }
 
@@ -143,6 +131,8 @@ public class AuthorRepositoryUnitTests
         act.Should().Throw<ArgumentException>().WithMessage("Author with id 4 does not exist");
     }
 
+
+// Fails
     [Fact]
     public void UnitTestAddFolloweeAddsToTheAuthorsFollowedList(){
         //Arrange
@@ -177,6 +167,8 @@ public class AuthorRepositoryUnitTests
         author1.Followed?.Count.Should().Be(0);
     }
 
+
+// Fails
     [Fact]
     public void UnitTestRemoveIncorrectFollowee() {
         //Act
@@ -185,6 +177,7 @@ public class AuthorRepositoryUnitTests
         act.Should().Throw<NullReferenceException>().WithMessage("FollowerRelationship is null");
     }
 
+// Fails
     [Fact]
     public void UnitTestFollowTheSameAuthorTwice() {
         //Act
@@ -195,6 +188,8 @@ public class AuthorRepositoryUnitTests
         act.Should().Throw<InvalidOperationException>();
     }
 
+
+// Fails
     [Fact]
     public void UnitTestFollowAuthorUpdatesOtherAuthorsFollowersList() {
         //Act

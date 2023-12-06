@@ -27,8 +27,6 @@ public class InMemoryDatabaseTest
             Name = "TestName", 
             Email = "TestEmail", 
             Cheeps = new List<Cheep>(),
-            Followed = new List<Follow>(),
-            Followers = new List<Follow>()
             };
         var testCheep = new Cheep {
             CheepId = 1, 

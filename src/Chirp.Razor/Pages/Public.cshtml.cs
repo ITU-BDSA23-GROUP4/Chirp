@@ -92,22 +92,24 @@ public class PublicModel : PageModel
 
     public bool DoesFollow(int AuthorId) 
     {
-        AuthorDTO? author = null;
-        // Needs to be refactored into the get method so we does not call it 32 times per page load
-        if (User?.Identity?.IsAuthenticated == true && User?.Identity?.Name != null) {
+        // AuthorDTO? author = null;
+        // // Needs to be refactored into the get method so we does not call it 32 times per page load
+        // if (User?.Identity?.IsAuthenticated == true && User?.Identity?.Name != null) {
+        // List<AuthorDTO> followedMyAuthor = _service.GetAllFollowedAuthors(())
+        //     if (User.Identity.Name != null) {
+        //         author = _service.GetAuthorByName(User.Identity.Name);
+
+
+        //     }
             
-            if (User.Identity.Name != null) {
-                author = _service.GetAuthorByName(User.Identity.Name);
-            }
-            
-            if (author != null && author.Followed != null) {
-                foreach (AuthorDTO followingAuthor in author.Followed) {
-                    if (followingAuthor.AuthorId == AuthorId) {
-                        return true;
-                    }
-                }
-            }
-        }
+        //     if (author != null && author.Followed != null) {
+        //         foreach (AuthorDTO followingAuthor in author.Followed) {
+        //             if (followingAuthor.AuthorId == AuthorId) {
+        //                 return true;
+        //             }
+        //         }
+        //     }
+        // }
         return false;
     }
 }
