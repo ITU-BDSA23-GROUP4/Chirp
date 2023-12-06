@@ -41,7 +41,7 @@ using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
     var dbContext = services.GetRequiredService<ChirpDBContext>();
-    //dbContext.Database.Migrate();
+    dbContext.Database.Migrate();
 
     if (!dbContext.Authors.Any())
     {
