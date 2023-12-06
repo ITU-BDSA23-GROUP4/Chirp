@@ -8,5 +8,6 @@ namespace Chirp.Core
         Task<AuthorDTO> GetAuthorByEmail(string email);
         Task AddFollowee(int AuthorId, int FolloweeId);
         Task RemoveFollowee(int AuthorId, int FolloweeId);
+        Task<bool?> DoesAuthorExist(string email);
     }
 }

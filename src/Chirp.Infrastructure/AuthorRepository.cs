@@ -90,6 +90,28 @@ namespace Chirp.Infrastructure
                 throw new ArgumentException("Author with email " + email + " does not exist");
             }
         }
+
+        public async Task<bool?> DoesAuthorExist(string email)
+        {
+            var author = await _db.Authors.Where(author => author.Email == email).Select(authorDTO => new AuthorDTO
+            {
+                AuthorId = authorDTO.AuthorId,
+                Name = authorDTO.Name,
+                Email = authorDTO.Email,
+                Cheeps = GetAllCheepsFromAuthor(authorDTO.Name, _db),
+                Followed = GetAllFollowedAuthor(authorDTO.AuthorId, _db),
+                Followers = GetAllFollowers(authorDTO.AuthorId, _db)
+            }).FirstAsync();
+
+            if (author != null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     
         public async Task RemoveFollowee(int _AuthorId, int _FollowerId) {
             //I as a chirp author remover Chirp author by "name" from my Followed and remove myself from their followers list

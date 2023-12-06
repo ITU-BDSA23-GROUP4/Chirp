@@ -64,16 +64,24 @@ public class CheepRepository : ICheepRepository
         });
 
         cheepsToReturn.AddRange(cheepsDTO);
+        Console.WriteLine("Here are all the cheeps efrom Get cheeps: " + cheepsToReturn.Count);
 
         int? page = (pageNum - 1) * 32;
 
+        if (cheepsToReturn.Count < 32)
+        {
+            Console.WriteLine("Cheeps are less than 32 and these are the cheeps: " + cheepsToReturn.GetRange(0, cheepsToReturn.Count));
+            return cheepsToReturn.GetRange(0, cheepsToReturn.Count);
+        }
         if (page == null)
         {
+            Console.WriteLine("Page is null and these are the cheeps: " + cheepsToReturn.GetRange(0,32));
             return cheepsToReturn.GetRange(0, 32);
         }
         else
         {
             int endIndex = Math.Min((int)page + 32, (int)cheepsToReturn.Count);
+            Console.WriteLine("Page is " + page + " and these are the cheeps: " + cheepsToReturn.GetRange((int)page, endIndex - (int)(page)));
             return cheepsToReturn.GetRange((int)page, endIndex - (int)(page));
         }
     }
@@ -85,22 +93,22 @@ public class CheepRepository : ICheepRepository
         List<CheepDTO> cheepsToReturn = new List<CheepDTO>();
 
         var cheepsDTO = _db.Cheeps.ToList()
-    .Join(
-        _db.Authors,
-        cheep => cheep.Author.AuthorId,
-        author => author.AuthorId,
-        (cheep, author) => new { Cheep = cheep, Author = author }
-    )
-    .Where(joinResult => joinResult.Author.Name == author)
-    .OrderByDescending(joinResult => joinResult.Cheep.TimeStamp)
-    .Select(joinResult => new CheepDTO
-    {
-        //Sets the properties of the Cheep
-        AuthorId = joinResult.Author.AuthorId,
-        Author = joinResult.Author.Name,
-        Message = joinResult.Cheep.Text,
-        Timestamp = joinResult.Cheep.TimeStamp
-    });
+        .Join(
+            _db.Authors,
+            cheep => cheep.Author.AuthorId,
+            author => author.AuthorId,
+            (cheep, author) => new { Cheep = cheep, Author = author }
+        )
+        .Where(joinResult => joinResult.Author.Name == author)
+        .OrderByDescending(joinResult => joinResult.Cheep.TimeStamp)
+        .Select(joinResult => new CheepDTO
+        {
+            //Sets the properties of the Cheep
+            AuthorId = joinResult.Author.AuthorId,
+            Author = joinResult.Author.Name,
+            Message = joinResult.Cheep.Text,
+            Timestamp = joinResult.Cheep.TimeStamp
+        });
         cheepsToReturn.AddRange(cheepsDTO);
 
         int? page = (pageNum - 1) * 32;

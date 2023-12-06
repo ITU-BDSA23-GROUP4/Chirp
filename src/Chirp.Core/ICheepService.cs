@@ -13,4 +13,5 @@ public interface ICheepService
     Task AddAuthor(string name, string email);
     Task AddFollowee(int AuthorId, int FolleweeId);
     Task RemoveFollowee(int AuthorId, int FolleweeId);
+    Task<bool?> DoesAuthorExist(string email);
 }
