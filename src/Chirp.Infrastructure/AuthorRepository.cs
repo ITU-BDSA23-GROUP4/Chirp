@@ -93,6 +93,8 @@ namespace Chirp.Infrastructure
 
         public async Task<bool?> DoesAuthorExist(string email)
         {
+            try
+            {
             var author = await _db.Authors.Where(author => author.Email == email).Select(authorDTO => new AuthorDTO
             {
                 AuthorId = authorDTO.AuthorId,
@@ -102,13 +104,9 @@ namespace Chirp.Infrastructure
                 Followed = GetAllFollowedAuthor(authorDTO.AuthorId, _db),
                 Followers = GetAllFollowers(authorDTO.AuthorId, _db)
             }).FirstAsync();
-
-            if (author != null)
-            {
-                return true;
-            }
-            else
-            {
+            return true;
+            } 
+            catch {
                 return false;
             }
         }
