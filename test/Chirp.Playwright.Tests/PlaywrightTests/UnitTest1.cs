@@ -4,11 +4,18 @@ using System.Threading.Tasks;
 
 class Program
 {
+
+    // Playwright test will work under the assumption that the user allready is logged in 
+    // so that we can test the functionality of the site with authenticated required stuff
+    // When running the test a firefox browser will be opened and the following items will 
+    // be run. Before running the test for the first time make sure the browser has a cookie
+    // with auth token AKA logged in
     [Test]
     public static async Task Main()
     {
         using var playwright = await Playwright.CreateAsync();
-        await using var browser = await playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions
+        //await using var browser = await playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions
+        await using var browser = await playwright.Firefox.LaunchAsync(new BrowserTypeLaunchOptions
         {
             Headless = false,
         });
@@ -45,6 +52,5 @@ class Program
         await page.Locator("p").Filter(new() { HasText = "Lukan707 hej 2 — 12/05/2023 23:13:" }).GetByRole(AriaRole.Link).ClickAsync();
 
         await page.GetByRole(AriaRole.Link, new() { Name = "Icon1Chirp!" }).ClickAsync();
-
     }
 }
