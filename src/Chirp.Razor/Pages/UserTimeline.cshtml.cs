@@ -32,7 +32,7 @@ public class UserTimelineModel : PageModel
     [FromQuery(Name ="unfollow")]
     public int? unfollow{ get; set; }
 
-    public ActionResult OnGet(string author)
+    public async Task<ActionResult> OnGet(string author)
     {
         if (pageNum.HasValue)
         {
@@ -44,36 +44,36 @@ public class UserTimelineModel : PageModel
         }
 
         if (User.Identity?.IsAuthenticated == true  && User.Identity.Name != null) {
-            AuthorDTO currentUser = _service.GetAuthorByName(User.Identity.Name);
+            AuthorDTO currentUser = await _service.GetAuthorByName(User.Identity.Name);
             if (follow.HasValue && follow != null) 
             {
-                _service.AddFollowee(currentUser.AuthorId, (int)follow);
+                await _service.AddFollowee(currentUser.AuthorId, (int)follow);
             } 
             else if (unfollow.HasValue && unfollow != null) 
             {
-                _service.RemoveFollowee(currentUser.AuthorId, (int)unfollow);
+                await _service.RemoveFollowee(currentUser.AuthorId, (int)unfollow);
             }
-        }
+        } 
 
         return Page();
     }
-    public IActionResult OnPost()
+    public async Task<IActionResult> OnPost()
     {
         var userEmailClaim = User.Claims.FirstOrDefault(c => c.Type == "emails");
         if (User?.Identity?.IsAuthenticated == true && User?.Identity?.Name != null && userEmailClaim != null)
         {
             try
             {
-                var author = _service.GetAuthorByEmail(userEmailClaim.Value);
+                var author = await _service.GetAuthorByEmail(userEmailClaim.Value);
                 var cheep = new CheepCreateDTO(author.Name, CheepMessageTimeLine);
-                _service.Create(cheep);
+                await _service.Create(cheep);
                 return Redirect(User.Identity.Name);
             }
             catch
             {
                 if(userEmailClaim != null ) {
-                _service.AddAuthor(User.Identity.Name, userEmailClaim.Value);
-                _service.Create(new CheepCreateDTO(User.Identity.Name, CheepMessageTimeLine));
+                await _service.AddAuthor(User.Identity.Name, userEmailClaim.Value);
+                await _service.Create(new CheepCreateDTO(User.Identity.Name, CheepMessageTimeLine));
                 return Redirect(User.Identity.Name);
                 }
             }
@@ -81,14 +81,14 @@ public class UserTimelineModel : PageModel
         return Redirect("/");
     }
 
-    public bool DoesFollow(int AuthorId) 
+    public async Task<bool> DoesFollow(int AuthorId) 
     {
         AuthorDTO? author = null;
         // Needs to be refactored into the get method so we does not call it 32 times per page load
         if (User?.Identity?.IsAuthenticated == true && User?.Identity?.Name != null) {
             
             if (User.Identity.Name != null) {
-                author = _service.GetAuthorByName(User.Identity.Name);
+                author = await _service.GetAuthorByName(User.Identity.Name);
             }
             
             if (author != null && author.Followed != null) {
