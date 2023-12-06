@@ -51,7 +51,7 @@ public class CheepRepository : ICheepRepository
         {
             var author = GetAuthorById(authorid);
             var originalAuthor = GetAuthorById(cheep.AuthorId);
-            if (originalAuthor == null && originalAuthor.Name == null)
+            if (originalAuthor == null || originalAuthor.Name == null)
             {
                 throw new ArgumentException("Original author does not exist");
             }
