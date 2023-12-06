@@ -21,7 +21,7 @@ public class PublicModel : PageModel
     public string CheepMessageTimeLine { get; set; } = "";
     public List<CheepDTO>? Cheeps { get; set; }
 
-    [FromQuery(Name = "{page}")]
+    [FromQuery(Name = "page")]
     public int? pageNum { get; set; }
     
     [FromQuery(Name ="follow")]
@@ -43,10 +43,14 @@ public class PublicModel : PageModel
         var userEmailClaim = User.Claims.FirstOrDefault(c => c.Type == "emails");
         if(User?.Identity?.IsAuthenticated == true && User?.Identity?.Name != null && userEmailClaim != null)
         { 
-            try{
-                await _service.AddAuthor(User.Identity.Name, userEmailClaim.Value);
-            } catch (Exception) {
-                //Do nothing as the author already exists
+            var authorExists = await _service.DoesAuthorExist(userEmailClaim.Value);
+            if(!authorExists.HasValue || !authorExists.Value)
+            {
+                try{
+                    await _service.AddAuthor(User.Identity.Name, userEmailClaim.Value);
+                } catch (Exception) {
+                    //Do nothing as the author already exists
+                }
             }
         }
         

@@ -61,4 +61,8 @@ public class CheepService : ICheepService
     public async Task RemoveFollowee(int AuthorId, int FolloweeId) {
         await _authorRepository.RemoveFollowee(AuthorId, FolloweeId);
     }
+
+    public async Task<bool?> DoesAuthorExist(string email) {
+        return await _authorRepository.DoesAuthorExist(email);
+    }
 }

@@ -29,8 +29,8 @@
                             <p>
                                 <strong>
                                     <a href="/@cheep.Author">@cheep.Author</a>
-                                    @if (User.Identity?.IsAuthenticated == true) {
-                                        @* if (!Model.DoesFollow(cheep.AuthorId)) 
+                                    @* @if (User.Identity?.IsAuthenticated == true) {
+                                         if (!Model.DoesFollow(cheep.AuthorId)) 
                                         {
                                             // Link to page that adds the author to the following list of the current user and redirects back to the current page
                                             <a href="location.href='?follow=@cheep.AuthorId'">follow</a>
@@ -39,8 +39,8 @@
                                         {
                                             // Link to page that removes the author from the following list of the current user and redirects back to the current page
                                             <a href="location.href='?unfollow=@cheep.AuthorId'">unfollow</a>
-                                        } *@
-                                    }
+                                        } 
+                                    } *@
                                 </strong>
                                 @cheep.Message
                                 <small>&mdash; @cheep.Timestamp</small>
