@@ -20,7 +20,7 @@ public class CheepRepository : ICheepRepository
         _validator = validator;
     }
 
-    public void AddCheep(int authorId, string text)
+    public async Task AddCheep(int authorId, string text)
     {
         try
         {
@@ -39,7 +39,7 @@ public class CheepRepository : ICheepRepository
             {
                 throw new ArgumentException("Message is above 160 characters or empty");
             }
-            _db.SaveChanges();
+            await _db.SaveChangesAsync();
         }
         catch (Exception)
         {
@@ -84,6 +84,10 @@ public class CheepRepository : ICheepRepository
 
         int? page = (pageNum - 1) * 32;
 
+        if (cheepsToReturn.Count < 32)
+        {
+            return cheepsToReturn.GetRange(0, cheepsToReturn.Count);
+        }
         if (page == null)
         {
             return cheepsToReturn.GetRange(0, 32);
@@ -102,22 +106,22 @@ public class CheepRepository : ICheepRepository
         List<CheepDTO> cheepsToReturn = new List<CheepDTO>();
 
         var cheepsDTO = _db.Cheeps.ToList()
-    .Join(
-        _db.Authors,
-        cheep => cheep.Author.AuthorId,
-        author => author.AuthorId,
-        (cheep, author) => new { Cheep = cheep, Author = author }
-    )
-    .Where(joinResult => joinResult.Author.Name == author)
-    .OrderByDescending(joinResult => joinResult.Cheep.TimeStamp)
-    .Select(joinResult => new CheepDTO
-    {
-        //Sets the properties of the Cheep
-        AuthorId = joinResult.Author.AuthorId,
-        Author = joinResult.Author.Name,
-        Message = joinResult.Cheep.Text,
-        Timestamp = joinResult.Cheep.TimeStamp
-    });
+        .Join(
+            _db.Authors,
+            cheep => cheep.Author.AuthorId,
+            author => author.AuthorId,
+            (cheep, author) => new { Cheep = cheep, Author = author }
+        )
+        .Where(joinResult => joinResult.Author.Name == author)
+        .OrderByDescending(joinResult => joinResult.Cheep.TimeStamp)
+        .Select(joinResult => new CheepDTO
+        {
+            //Sets the properties of the Cheep
+            AuthorId = joinResult.Author.AuthorId,
+            Author = joinResult.Author.Name,
+            Message = joinResult.Cheep.Text,
+            Timestamp = joinResult.Cheep.TimeStamp
+        });
         cheepsToReturn.AddRange(cheepsDTO);
 
         int? page = (pageNum - 1) * 32;
@@ -179,7 +183,7 @@ public class CheepRepository : ICheepRepository
     }
     
     // Code directly from lecture
-    public void Create(CheepCreateDTO cheep)
+    public async Task Create(CheepCreateDTO cheep)
     {
         //NullReferenceException is handled in the constructor - CheepRepository()
         ValidationResult result = _validator.Validate(cheep);
@@ -198,6 +202,6 @@ public class CheepRepository : ICheepRepository
             TimeStamp = DateTime.Now
         });
       
-        _db.SaveChanges();
+        await _db.SaveChangesAsync();
     }
 }

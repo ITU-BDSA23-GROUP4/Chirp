@@ -1,26 +1,5 @@
-
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Chirp.Infrastructure;
 using Chirp.Core;
 
-
-public interface ICheepService
-{
-    List<CheepDTO> GetCheeps(int? pageNum);
-    List<CheepDTO> GetCheepsFromAuthor(string author, int? pageNum);
-    void AddCheep(int authorId, string text);
-    AuthorDTO GetAuthorByName(string name);
-    int GetCountOfAllCheepFromAuthor(string author);
-    AuthorDTO GetAuthorByEmail(string email);
-    int GetCountOfAllCheeps();
-    void Create(CheepCreateDTO cheep);
-    void DeleteCheepsFromAuthor(int authorid);
-    void DeleteAuthor(int authorId);
-    Task AddAuthor(string name, string email);
-    void AddFollowee(int AuthorId, int FolleweeId);
-    void RemoveFollowee(int AuthorId, int FolleweeId);
-}
 public class CheepService : ICheepService
 {
     public readonly ICheepRepository _cheepRepository;
@@ -32,9 +11,9 @@ public class CheepService : ICheepService
         _authorRepository = authorRepository;
     }
 
-    public void AddCheep(int authorId, string text)
+    public async Task AddCheep(int authorId, string text)
     {
-        _cheepRepository.AddCheep(authorId, text);
+       await _cheepRepository.AddCheep(authorId, text);
     }
 
     public List<CheepDTO> GetCheeps(int? pageNum)
@@ -47,12 +26,12 @@ public class CheepService : ICheepService
         return _cheepRepository.GetCheepsFromAuthor(author, pageNum);
     }
 
-    public AuthorDTO GetAuthorByName(string name)
+    public Task<AuthorDTO> GetAuthorByName(string name)
     {
         return _authorRepository.GetAuthorByName(name);
     }
 
-    public AuthorDTO GetAuthorByEmail(string email){
+    public Task<AuthorDTO> GetAuthorByEmail(string email){
         return _authorRepository.GetAuthorByEmail(email);
     }
 
@@ -66,9 +45,9 @@ public class CheepService : ICheepService
         return _cheepRepository.GetCountOfAllCheeps();
     }
 
-    public void Create(CheepCreateDTO cheep)
+    public async Task Create(CheepCreateDTO cheep)
     {
-        _cheepRepository.Create(cheep);
+        await _cheepRepository.Create(cheep);
     }
     public async Task AddAuthor(string name, string email)
     {
@@ -80,11 +59,16 @@ public class CheepService : ICheepService
     public void DeleteAuthor(int authorId){
        _authorRepository.DeleteAuthor(authorId);
     }
-    public void AddFollowee(int AuthorId, int FolloweeId) {
-        _authorRepository.AddFollowee(AuthorId, FolloweeId);
+
+    public async Task AddFollowee(int AuthorId, int FolloweeId) {
+        await _authorRepository.AddFollowee(AuthorId, FolloweeId);
     }
 
-    public void RemoveFollowee(int AuthorId, int FolloweeId) {
-        _authorRepository.RemoveFollowee(AuthorId, FolloweeId);
+    public async Task RemoveFollowee(int AuthorId, int FolloweeId) {
+        await _authorRepository.RemoveFollowee(AuthorId, FolloweeId);
+    }
+
+    public async Task<bool?> DoesAuthorExist(string email) {
+        return await _authorRepository.DoesAuthorExist(email);
     }
 }
