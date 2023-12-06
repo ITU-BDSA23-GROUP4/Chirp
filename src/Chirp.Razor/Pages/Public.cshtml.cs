@@ -44,7 +44,6 @@ public class PublicModel : PageModel
         if(User?.Identity?.IsAuthenticated == true && User?.Identity?.Name != null && userEmailClaim != null)
         { 
             bool authorExists = (bool)await _service.DoesAuthorExist(userEmailClaim.Value);
-            Console.WriteLine("Hello I am here " + authorExists);
             if(!authorExists)
             {
                 try{
