@@ -49,6 +49,11 @@ public class CheepService : ICheepService
     {
         await _cheepRepository.Create(cheep);
     }
+
+    public async Task IncreaseLikeAttributeInCheep(int cheepId) {
+        await _cheepRepository.IncreaseLikeAttributeInCheep(cheepId);
+    }
+
     public async Task AddAuthor(string name, string email)
     {
         await _authorRepository.AddAuthor(name, email);
