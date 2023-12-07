@@ -15,8 +15,6 @@ public class ChirpDBContext : DbContext
     {
         //Sets the max length, and makes sure that the text field is not empty for the Cheep
         modelBuilder.Entity<Cheep>()
-            .HasKey(c => c.CheepId);
-        modelBuilder.Entity<Cheep>()
             .Property(C => C.Text)
             .HasMaxLength(160);
         modelBuilder.Entity<Cheep>()
