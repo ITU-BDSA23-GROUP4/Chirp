@@ -34,6 +34,7 @@ public class RestrictedCheepTests
         {
             CheepId = 1,
             Author = testAuthor,
+            Likes = 0,
             TimeStamp = DateTime.Now,
             Text = "This is a cheep for testing"
         };
