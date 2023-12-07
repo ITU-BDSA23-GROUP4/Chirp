@@ -29,6 +29,7 @@ public class CheepRepository : ICheepRepository
             {
                 _db.Add(new Cheep
                 {
+                    CheepId = new Guid(),
                     Author = author,
                     Text = text,
                     Likes = 0,
@@ -185,6 +186,7 @@ public class CheepRepository : ICheepRepository
 
         _db.Add(new Cheep
         {
+            CheepId = new Guid(),
             Author = user,
             Text = cheep.Text,
             Likes = 0,
