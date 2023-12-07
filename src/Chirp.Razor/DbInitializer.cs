@@ -705,8 +705,10 @@ public static class DbInitializer
             chirpContext.SaveChanges();
             chirpContext.Database.ExecuteSqlRaw("SET IDENTITY_INSERT Authors OFF");
 
+            chirpContext.Cheeps.AddRange(cheeps);
+            chirpContext.SaveChanges();
+
             chirpContext.Database.CloseConnection();
-            
         }
     }
 }
