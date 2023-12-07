@@ -30,10 +30,11 @@ namespace Chirp.Razor.Pages
                 Console.WriteLine("Cheeps deleted");
 
                 //Deletes all following relationships for the specific author and who they are following
+                /*
                 foreach (var followee in _service.GetAllFollowees(authorID))
                 {
                     _service.RemoveFollowee(authorID, followee.AuthorId);
-                }
+                }*/
 
                 //Deletes the author
                 _service.DeleteAuthor(authorID);
