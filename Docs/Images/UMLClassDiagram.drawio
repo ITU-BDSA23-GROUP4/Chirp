@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram id="ww35-J_WLWEUMiR8cN5G" name="Page-1">
-        <mxGraphModel dx="-18" dy="571" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+        <mxGraphModel dx="537" dy="952" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -40,23 +40,10 @@
                 <mxCell id="13" value="Cheeps*" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
                     <mxGeometry x="1215" y="240" width="60" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="14" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;endArrow=block;endFill=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" edge="1" parent="1" source="15" target="19">
-                    <mxGeometry relative="1" as="geometry"/>
-                </mxCell>
-                <mxCell id="15" value="CheepCreateValidator&lt;br&gt;" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-                    <mxGeometry x="1605" y="290" width="290" height="86" as="geometry"/>
-                </mxCell>
-                <mxCell id="16" value="Record CheepCreateDTO(string author, string Text)" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="15">
-                    <mxGeometry y="26" width="290" height="26" as="geometry"/>
-                </mxCell>
-                <mxCell id="17" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" vertex="1" parent="15">
-                    <mxGeometry y="52" width="290" height="8" as="geometry"/>
-                </mxCell>
-                <mxCell id="18" value="+ CheepCreateValidator()" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="15">
-                    <mxGeometry y="60" width="290" height="26" as="geometry"/>
-                </mxCell>
-                <mxCell id="19" value="«interface»&lt;br&gt;&lt;b&gt;AbstractValidator&lt;/b&gt;" style="html=1;whiteSpace=wrap;" vertex="1" parent="1">
-                    <mxGeometry x="1695" y="200" width="110" height="50" as="geometry"/>
+                <mxCell id="14" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;endArrow=block;endFill=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" edge="1" parent="1" target="19">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1750" y="290" as="sourcePoint"/>
+                    </mxGeometry>
                 </mxCell>
                 <mxCell id="20" value="CheepCreateDTO" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
                     <mxGeometry x="2145" y="290" width="160" height="70" as="geometry"/>
@@ -309,17 +296,6 @@
                 </mxCell>
                 <mxCell id="79" value="Follower*" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
                     <mxGeometry x="1660" y="801" width="60" height="30" as="geometry"/>
-                </mxCell>
-                <mxCell id="80" value="" style="endArrow=block;endFill=1;html=1;edgeStyle=orthogonalEdgeStyle;align=left;verticalAlign=top;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=-0.022;entryY=0.282;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="16" target="21">
-                    <mxGeometry x="-1" relative="1" as="geometry">
-                        <mxPoint x="1765" y="328.6400000000001" as="sourcePoint"/>
-                        <mxPoint x="1945" y="328.64" as="targetPoint"/>
-                    </mxGeometry>
-                </mxCell>
-                <mxCell id="81" value="Author, text" style="edgeLabel;resizable=0;html=1;align=left;verticalAlign=bottom;" connectable="0" vertex="1" parent="80">
-                    <mxGeometry x="-1" relative="1" as="geometry">
-                        <mxPoint x="180" y="-13" as="offset"/>
-                    </mxGeometry>
                 </mxCell>
                 <mxCell id="82" value="«interface»&lt;br&gt;&lt;b&gt;ICheepService&lt;/b&gt;" style="html=1;whiteSpace=wrap;" vertex="1" parent="1">
                     <mxGeometry x="1220" y="430" width="110" height="50" as="geometry"/>
