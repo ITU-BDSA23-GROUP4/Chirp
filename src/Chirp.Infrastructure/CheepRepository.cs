@@ -29,6 +29,7 @@ public class CheepRepository : ICheepRepository
             {
                 _db.Add(new Cheep
                 {
+                    CheepId = new Guid(),
                     Author = author,
                     Text = text,
                     TimeStamp = DateTime.Now
@@ -180,6 +181,7 @@ public class CheepRepository : ICheepRepository
 
         _db.Add(new Cheep
         {
+            CheepId = new Guid(),
             Author = user,
             Text = cheep.Text,
             TimeStamp = DateTime.Now
