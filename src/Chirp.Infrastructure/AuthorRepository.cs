@@ -79,8 +79,6 @@ namespace Chirp.Infrastructure
                 Followers = GetAllFollowers(authorDTO.AuthorId, _db)
             }).FirstAsync();
 
-            
-
             if (author != null)
             {
                 return author;
