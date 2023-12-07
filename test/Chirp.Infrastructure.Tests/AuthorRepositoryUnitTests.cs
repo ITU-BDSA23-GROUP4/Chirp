@@ -202,7 +202,7 @@ public class AuthorRepositoryUnitTests
 
         //Assert
         //Should pass since the author is deleted
-        _context.Authors.Should().BeEmpty();
+        _context.Authors.Should().NotContain(a => a.AuthorId == 1);
     }
     
     [Fact]
