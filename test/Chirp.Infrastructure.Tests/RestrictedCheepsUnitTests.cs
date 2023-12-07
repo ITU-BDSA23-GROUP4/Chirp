@@ -32,7 +32,7 @@ public class RestrictedCheepTests
         };
         var testCheep = new Cheep
         {
-            CheepId = new Guid(),
+            CheepId = new Guid(1, 0, 0, new byte[]{0,0,0,0,0,0,0,0}),
             Author = testAuthor,
             TimeStamp = DateTime.Now,
             Text = "This is a cheep for testing"
@@ -126,6 +126,6 @@ public class RestrictedCheepTests
         cheeps.Should().NotBeNull(); //Makes sure the page is not empty
 
         //Assert
-        cheeps.Should().Contain(c => c.CheepId == 1 && c.Message == "This is a cheep for testing");
+        cheeps.Should().Contain(c => c.CheepId == new Guid(1, 0, 0, new byte[]{0,0,0,0,0,0,0,0}) && c.Message == "This is a cheep for testing");
     }
 }
