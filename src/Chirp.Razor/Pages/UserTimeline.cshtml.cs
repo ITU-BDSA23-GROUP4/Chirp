@@ -27,10 +27,10 @@ public class UserTimelineModel : PageModel
     public int? pageNum { get; set; }
 
     [FromQuery(Name ="follow")]
-    public int? follow{ get; set; }
+    public string? follow{ get; set; }
 
     [FromQuery(Name ="unfollow")]
-    public int? unfollow{ get; set; }
+    public string? unfollow{ get; set; }
 
     public ActionResult OnGet(string author)
     {
@@ -45,13 +45,13 @@ public class UserTimelineModel : PageModel
 
         if (User.Identity?.IsAuthenticated == true  && User.Identity.Name != null) {
             AuthorDTO currentUser = _service.GetAuthorByName(User.Identity.Name);
-            if (follow.HasValue && follow != null) 
+            if (follow != null) 
             {
-                _service.AddFollowee(currentUser.AuthorId, (int)follow);
+                _service.AddFollowee(currentUser.Name, follow);
             } 
-            else if (unfollow.HasValue && unfollow != null) 
+            else if (unfollow != null) 
             {
-                _service.RemoveFollowee(currentUser.AuthorId, (int)unfollow);
+                _service.RemoveFollowee(currentUser.Name, unfollow);
             }
         }
 
@@ -81,23 +81,19 @@ public class UserTimelineModel : PageModel
         return Redirect("/");
     }
 
-    public bool DoesFollow(int AuthorId) 
+    public bool DoesFollow(string AuthorId) 
     {
         AuthorDTO? author = null;
         // Needs to be refactored into the get method so we does not call it 32 times per page load
         if (User?.Identity?.IsAuthenticated == true && User?.Identity?.Name != null) {
             
-            if (User.Identity.Name != null) {
-                author = _service.GetAuthorByName(User.Identity.Name);
-            }
-            
-            if (author != null && author.Followed != null) {
-                foreach (AuthorDTO followingAuthor in author.Followed) {
-                    if (followingAuthor.AuthorId == AuthorId) {
-                        return true;
-                    }
-                }
-            }
+            // if (author != null && author.Followed != null) {
+            //     foreach (AuthorDTO followingAuthor in author.Followed) {
+            //         if (followingAuthor.AuthorId == AuthorId) {
+            //             return true;
+            //         }
+            //     }
+            // }
         }
         return false;
     }
