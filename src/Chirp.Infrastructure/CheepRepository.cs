@@ -57,13 +57,12 @@ public class CheepRepository : ICheepRepository
             }
             else if (author != null && authorid != cheep.AuthorId)
             {
-                Console.WriteLine("\n\n\n originalAuthor: " + originalAuthor.Name + "\n");
-                Console.WriteLine("author: " + author.Name + "\n");
                 _db.Add(new Cheep
                 {
                     Author = author,
                     OriginalAuthor = originalAuthor,
-                    Text = cheep.Message + " - ReCheeped",
+                    OriginalAuthorId = cheep.AuthorId,
+                    Text = cheep.Message,
                     TimeStamp = DateTime.Now
                 });
             }else

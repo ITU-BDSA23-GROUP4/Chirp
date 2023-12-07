@@ -20,6 +20,17 @@ public class ChirpDBContext : DbContext
         modelBuilder.Entity<Cheep>()
             .Property(C => C.Text)
             .IsRequired(true);
+
+        /*modelBuilder.Entity<Cheep>()
+            .HasOne(c => c.Author)
+            .WithMany(a => a.Cheeps)
+            .HasForeignKey(c => c.AuthorId); */
+        modelBuilder.Entity<Cheep>()
+            .HasOne(c => c.OriginalAuthor)
+            .WithMany(a => a.Cheeps)
+            .HasForeignKey(c => c.OriginalAuthorId)
+            .IsRequired(false);
+        
         modelBuilder.Entity<Author>()
             .Property(a => a.Name)
             .HasMaxLength(50);
