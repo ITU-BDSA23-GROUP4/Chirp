@@ -11,6 +11,6 @@ public interface ICheepService
     int GetCountOfAllCheeps();
     void Create(CheepCreateDTO cheep);
     Task AddAuthor(string name, string email);
-    void AddFollowee(int AuthorId, int FolleweeId);
-    void RemoveFollowee(int AuthorId, int FolleweeId);
+    void AddFollowee(string AuthorName, string FolleweeName);
+    void RemoveFollowee(string AuthorName, string FolleweeName);
 }

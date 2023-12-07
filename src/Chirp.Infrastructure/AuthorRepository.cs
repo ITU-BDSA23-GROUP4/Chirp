@@ -84,13 +84,13 @@ namespace Chirp.Infrastructure
             }
         }
 
-        public void RemoveFollowee(int _AuthorId, int _FolloweeId) 
+        public void RemoveFollowee(string _AuthorName, string _FolloweeName) 
         {
-            var Author = _db.Authors.Where(a => a.AuthorId == _AuthorId)
+            var Author = _db.Authors.Where(a => a.Name == _AuthorName)
                 .Include(a => a.Followed)
                 .FirstOrDefault();
 
-            var Followee = _db.Authors.Where(a => a.AuthorId == _FolloweeId)
+            var Followee = _db.Authors.Where(a => a.Name == _FolloweeName)
                 .Include(a => a.Followers)
                 .FirstOrDefault();
 
@@ -105,17 +105,17 @@ namespace Chirp.Infrastructure
         }
         
 
-        public void AddFollowee(int _AuthorId, int _FolloweeId) 
+        public void AddFollowee(string _AuthorName, string _FolloweeName) 
         {
-            Console.WriteLine("\n\n\nAutorID:"+ _AuthorId + "\nAutorID:" + _FolloweeId);
+            Console.WriteLine("\n\n\nAutorID:"+ _AuthorName + "\nAutorID:" + _FolloweeName);
             
-            var Author = _db.Authors.Where(a => a.AuthorId == _AuthorId)
+            var Author = _db.Authors.Where(a => a.Name == _AuthorName)
                 .Include(a => a.Followed)
                 .FirstOrDefault();
 
             // Console.WriteLine("\n\nAuthor\nID: "+Author.AuthorId+"\nName: "+ Author.Name + "\nEmail: "+Author.Email);
 
-            var Followee = _db.Authors.Where(a => a.AuthorId == _FolloweeId)
+            var Followee = _db.Authors.Where(a => a.Name == _FolloweeName)
                 .Include(a => a.Followers)
                 .FirstOrDefault();
 
@@ -168,8 +168,8 @@ namespace Chirp.Infrastructure
                 var cheepsDTO = _dbcontext.Cheeps.ToList().OrderByDescending(c => c.TimeStamp.Ticks).Where(author => author.Author.Name == Name).Select(CheepDTO => new CheepDTO
                 {
                     //Sets the properties of the Cheep
-                    AuthorId = CheepDTO.Author.AuthorId,
-                    Author = CheepDTO.Author.Name,
+                    CheepId = CheepDTO.Author.AuthorId,
+                    AuthorName = CheepDTO.Author.Name,
                     Message = CheepDTO.Text,
                     Timestamp = CheepDTO.TimeStamp
                 }

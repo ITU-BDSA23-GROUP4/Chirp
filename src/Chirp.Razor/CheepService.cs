@@ -54,11 +54,11 @@ public class CheepService : ICheepService
         await _authorRepository.AddAuthor(name, email);
     }
 
-    public void AddFollowee(int AuthorId, int FolloweeId) {
+    public void AddFollowee(string AuthorId, string FolloweeId) {
         _authorRepository.AddFollowee(AuthorId, FolloweeId);
     }
 
-    public void RemoveFollowee(int AuthorId, int FolloweeId) {
+    public void RemoveFollowee(string AuthorId, string FolloweeId) {
         _authorRepository.RemoveFollowee(AuthorId, FolloweeId);
     }
 }
