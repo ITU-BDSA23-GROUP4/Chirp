@@ -31,6 +31,7 @@ public class CheepRepository : ICheepRepository
                 {
                     Author = author,
                     Text = text,
+                    Likes = 0,
                     TimeStamp = DateTime.Now
                 });
             }
@@ -60,6 +61,7 @@ public class CheepRepository : ICheepRepository
             AuthorId = cheep.Author.AuthorId,
             Author = cheep.Author.Name,
             Message = cheep.Text,
+            Likes = cheep.Likes,
             Timestamp = cheep.TimeStamp
         });
 
@@ -103,6 +105,7 @@ public class CheepRepository : ICheepRepository
             AuthorId = joinResult.Author.AuthorId,
             Author = joinResult.Author.Name,
             Message = joinResult.Cheep.Text,
+            Likes = joinResult.Cheep.Likes,
             Timestamp = joinResult.Cheep.TimeStamp
         });
         cheepsToReturn.AddRange(cheepsDTO);
@@ -135,6 +138,7 @@ public class CheepRepository : ICheepRepository
             AuthorId = CheepDTO.Author.AuthorId,
             Author = CheepDTO.Author.Name,
             Message = CheepDTO.Text,
+            Likes = CheepDTO.Likes,
             Timestamp = CheepDTO.TimeStamp
         }
         ).Count();
@@ -154,6 +158,7 @@ public class CheepRepository : ICheepRepository
                 AuthorId = CheepDTO.Author.AuthorId,
                 Author = CheepDTO.Author.Name,
                 Message = CheepDTO.Text,
+                Likes = CheepDTO.Likes,
                 Timestamp = CheepDTO.TimeStamp
             }
         ).Count();
@@ -182,6 +187,7 @@ public class CheepRepository : ICheepRepository
         {
             Author = user,
             Text = cheep.Text,
+            Likes = 0,
             TimeStamp = DateTime.Now
         });
       
