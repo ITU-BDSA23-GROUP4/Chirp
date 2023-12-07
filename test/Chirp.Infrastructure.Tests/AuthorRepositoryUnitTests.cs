@@ -198,7 +198,7 @@ public class AuthorRepositoryUnitTests
     public void UnitTestDeleteAuthor()
     {
         //Act
-        repository.deleteAuthor(1);
+        repository.DeleteAuthor(1);
 
         //Assert
         //Should pass since the author is deleted

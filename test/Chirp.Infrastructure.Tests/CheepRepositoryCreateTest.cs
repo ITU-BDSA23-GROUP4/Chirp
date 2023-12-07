@@ -111,7 +111,7 @@ public class CheepRepositoryUnitTests
     public void UnitTestDeleteCheepsFromAuthor()
     {
         //Act
-        repository.deleteCheepsFromAuthor(1);
+        repository.DeleteCheepsFromAuthor(1);
 
         //Assert
         //Should pass since the cheeps are deleted
