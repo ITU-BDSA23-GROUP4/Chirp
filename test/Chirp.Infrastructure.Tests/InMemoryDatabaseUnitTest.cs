@@ -95,6 +95,6 @@ public class InMemoryDatabaseTest
 
         //Assert
         //See if the cheep is in the normal database, if it isn't it should PASS
-        cheeps.Should().NotContain(c => c.AuthorId == 1 && c.Message == "This is a cheep for testing");
+        cheeps.Should().NotContain(c => c.CheepId == 1 && c.Message == "This is a cheep for testing");
     }
 }
