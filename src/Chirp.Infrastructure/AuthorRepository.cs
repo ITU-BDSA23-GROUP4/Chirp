@@ -164,8 +164,8 @@ namespace Chirp.Infrastructure
                 var cheepsDTO =  _dbcontext.Cheeps.ToList().OrderByDescending(c => c.TimeStamp.Ticks).Where(author => author.Author.Name == Name).Select(CheepDTO => new CheepDTO
                 { 
                     //Sets the properties of the Cheep
-                    AuthorId = CheepDTO.Author.AuthorId,
-                    Author = CheepDTO.Author.Name,
+                    CheepId = CheepDTO.CheepId,
+                    AuthorName = CheepDTO.Author.Name,
                     Message = CheepDTO.Text,
                     Likes = CheepDTO.Likes,
                     Timestamp = CheepDTO.TimeStamp

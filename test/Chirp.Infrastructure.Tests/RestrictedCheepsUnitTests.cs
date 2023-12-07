@@ -127,6 +127,6 @@ public class RestrictedCheepTests
         cheeps.Should().NotBeNull(); //Makes sure the page is not empty
 
         //Assert
-        cheeps.Should().Contain(c => c.AuthorId == 1 && c.Message == "This is a cheep for testing");
+        cheeps.Should().Contain(c => c.CheepId == 1 && c.Message == "This is a cheep for testing");
     }
 }
