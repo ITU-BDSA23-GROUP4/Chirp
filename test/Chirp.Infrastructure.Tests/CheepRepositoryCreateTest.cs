@@ -22,7 +22,7 @@ public class CheepRepositoryUnitTests
         context.Database.EnsureCreated();
 
         var testAuthor = new Author {
-            AuthorId = 1, 
+            AuthorId = new Guid(1,0,0, new byte[] {0,0,0,0,0,0,0,0}), 
             Name = "TestAuthor", 
             Email = "TestEmail", 
             Cheeps = new List<Cheep>(),
@@ -55,7 +55,7 @@ public class CheepRepositoryUnitTests
         cheeps.Should().NotBeNull(); //Makes sure the page is not empty
 
         //Assert
-        cheeps.Should().Contain(c => c.Author == "TestAuthor" && c.Message == "TestMessage");
+        cheeps.Should().Contain(c => c.AuthorName == "TestAuthor" && c.Message == "TestMessage");
     }
 
     [Fact]
@@ -73,7 +73,7 @@ public class CheepRepositoryUnitTests
         cheeps.Should().NotBeNull(); //Makes sure the page is not empty
 
         //Assert
-        cheeps.Should().Contain(c => c.Author == "TestAuthor" && c.Message == "TestMessage2");
+        cheeps.Should().Contain(c => c.AuthorName == "TestAuthor" && c.Message == "TestMessage2");
     }
 
     [Fact]

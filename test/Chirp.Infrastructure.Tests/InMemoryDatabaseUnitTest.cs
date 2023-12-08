@@ -23,13 +23,13 @@ public class InMemoryDatabaseTest
 
         //Creates a cheep and author to add to the database
         var testAuthor = new Author {
-            AuthorId = 1, 
+            AuthorId = new Guid(1,0,0, new byte[] {0,0,0,0,0,0,0,0}), 
             Name = "TestName", 
             Email = "TestEmail", 
             Cheeps = new List<Cheep>(),
             };
         var testCheep = new Cheep {
-            CheepId = 1, 
+            CheepId = new Guid(1,0,0, new byte[] {0,0,0,0,0,0,0,0}), 
             Author = testAuthor, 
             TimeStamp = DateTime.Now, 
             Text = "This is a cheep for testing"
@@ -93,6 +93,6 @@ public class InMemoryDatabaseTest
 
         //Assert
         //See if the cheep is in the normal database, if it isn't it should PASS
-        cheeps.Should().NotContain(c => c.AuthorId == 1 && c.Message == "This is a cheep for testing");
+        cheeps.Should().NotContain(c => c.CheepId == new Guid(1,0,0, new byte[] {0,0,0,0,0,0,0,0}) && c.Message == "This is a cheep for testing");
     }
 }

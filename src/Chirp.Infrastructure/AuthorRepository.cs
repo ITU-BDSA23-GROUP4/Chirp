@@ -12,7 +12,13 @@ namespace Chirp.Infrastructure
         {
             _db = db;
         }
-
+        /// <summary>
+        ///  Adds an Author to the data base with all required fields Note 
+        ///  followed and followers list are not required
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="email"></param>
+        /// <returns></returns>
         public async Task AddAuthor(string name, string email)
         {
             try
