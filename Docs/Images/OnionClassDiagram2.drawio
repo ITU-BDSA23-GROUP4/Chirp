@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram id="_lKc9wc_WrMXuhMtQR7X" name="Page-1">
-        <mxGraphModel dx="456" dy="455" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" background="#ffffff" math="0" shadow="0">
+        <mxGraphModel dx="1131" dy="1128" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" background="#ffffff" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -105,7 +105,7 @@
                     <mxGeometry x="250" y="650" width="90" height="30" as="geometry"/>
                 </mxCell>
                 <mxCell id="36" value="&lt;font color=&quot;#000000&quot;&gt;Public&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=#000000;strokeWidth=1;fillColor=#A7D7FD;fontStyle=0" vertex="1" parent="1">
-                    <mxGeometry x="711" y="460" width="40" height="20" as="geometry"/>
+                    <mxGeometry x="712" y="465" width="40" height="20" as="geometry"/>
                 </mxCell>
                 <mxCell id="37" value="&lt;font color=&quot;#000000&quot;&gt;User-&lt;br&gt;Timeline&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=#000000;strokeWidth=1;fillColor=#A7D7FD;fontStyle=0" vertex="1" parent="1">
                     <mxGeometry x="716" y="604" width="50" height="30" as="geometry"/>
