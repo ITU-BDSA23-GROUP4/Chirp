@@ -95,7 +95,7 @@ public class CheepRepository : ICheepRepository
         }
     }
 
-    public List<CheepDTO> GetCheepsFromAuthor(string author, int? pageNum)
+    public List<CheepDTO> GetCheepsFromAuthor(string authorName, int? pageNum)
     {
         //Creates a list of max 32 CheepDTO sorted by recent cheep and only for the given author
 
@@ -108,7 +108,7 @@ public class CheepRepository : ICheepRepository
             author => author.AuthorId,
             (cheep, author) => new { Cheep = cheep, Author = author }
         )
-        .Where(joinResult => joinResult.Author.Name == author)
+        .Where(joinResult => joinResult.Author.Name == authorName)
         .OrderByDescending(joinResult => joinResult.Cheep.TimeStamp)
         .Select(joinResult => new CheepDTO
         {
@@ -157,12 +157,12 @@ public class CheepRepository : ICheepRepository
     }
 
     //This method is needed for the dynamic buttons as we only have methods for returning 32 cheeps at a time
-    public int GetCountOfAllCheepFromAuthor(string author)
+    public int GetCountOfAllCheepFromAuthor(string authorName)
     {
         List<CheepDTO> cheepsToReturn = new List<CheepDTO>();
 
         var cheepsDTO = _db.Cheeps
-            .Where(cheep => cheep.Author != null && cheep.Author.Name != null && cheep.Author.Name.Equals(author))
+            .Where(cheep => cheep.Author != null && cheep.Author.Name != null && cheep.Author.Name.Equals(authorName))
             .Select(CheepDTO => new CheepDTO
             {
                 //Sets the properties of the Cheep
