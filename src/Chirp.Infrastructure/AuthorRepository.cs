@@ -111,7 +111,6 @@ namespace Chirp.Infrastructure
 
             if (Author != null && Followee.Followers != null)
             {
-                // Author.Followed.Remove(Followee);
                 Followee.Followers.Remove(Author);
                 await _db.SaveChangesAsync();
             }
