@@ -697,21 +697,13 @@ public static class DbInitializer
             a11.Cheeps = new List<Cheep>() { c656 };
             a12.Cheeps = new List<Cheep>() { c657 };
 
-            // Set id for authors to allow insert
             chirpContext.Database.OpenConnection();
 
             chirpContext.Authors.AddRange(authors);
-            chirpContext.SaveChanges();
-
-
             chirpContext.Cheeps.AddRange(cheeps);
             chirpContext.SaveChanges();
 
             chirpContext.Database.CloseConnection();
-
-            // chirpContext.Authors.AddRange(authors);
-            // chirpContext.Cheeps.AddRange(cheeps);
-            // chirpContext.SaveChanges();
         }
     }
 }

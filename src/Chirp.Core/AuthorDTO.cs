@@ -2,7 +2,7 @@ namespace Chirp.Core;
 
 public class AuthorDTO
 {
-    public Guid AuthorId { get; set; }
+    public required Guid AuthorId { get; set; }
     public required string Name { get; set; }
     public required string Email { get; set; }
     public List<CheepDTO>? Cheeps { get; set; }
