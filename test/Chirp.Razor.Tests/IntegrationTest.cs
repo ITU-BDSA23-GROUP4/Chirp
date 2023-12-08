@@ -25,9 +25,6 @@ public class TestAPI : IClassFixture<WebApplicationFactory<Program>>
         var connectionString = new SqlConnection(_msSqlContainer.GetConnectionString());
         connectionString.OpenAsync().Wait();
 
-        //Print the connection string to the console
-        Console.WriteLine("Connection string: " + _msSqlContainer.GetConnectionString());
-
         _fixture = fixture.WithWebHostBuilder(builder =>
         {
             builder.ConfigureServices(services =>

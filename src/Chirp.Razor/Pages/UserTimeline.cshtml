@@ -47,10 +47,12 @@
                                 <span>@cheep.Message</span>
                                 <small>&mdash; @cheep.Timestamp</small>
                             </p>
-                           <p class="likesContainer">
-                                <button>Like</button>
-                                <small>Likes: @cheep.Likes</small>
-                            </p>
+                           <div class="likesContainer">
+                                <form asp-page-handler="Like" method="post">
+                                    <button name="cheepId" value="@cheep.CheepId">Like</button>
+                                </form>
+                                <small>Likes: </small>@cheep.Likes
+                            </div>
                         </li>
                     }
                 </ul>

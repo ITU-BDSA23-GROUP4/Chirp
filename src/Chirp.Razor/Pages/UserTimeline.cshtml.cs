@@ -95,4 +95,9 @@ public class UserTimelineModel : PageModel
         }
         return false;
     }
+    public async Task<IActionResult> OnPostLike(Guid cheepId)
+    {
+        await _service.IncreaseLikeAttributeInCheep(cheepId);
+        return Redirect("/");
+    }
 }
