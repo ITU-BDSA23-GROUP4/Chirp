@@ -31,7 +31,7 @@ public class InMemoryDatabaseTest
             Followers = new List<Follow>()
             };
         var testCheep = new Cheep {
-            CheepId = new Guid(1, 0, 0, new byte[]{0,0,0,0,0,0,0,0}), 
+            CheepId = new Guid(), 
             Author = testAuthor, 
             Likes = 0,
             TimeStamp = DateTime.Now, 
