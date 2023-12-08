@@ -58,10 +58,13 @@ public class AuthorRepositoryUnitTests
 
         //Assert
         //Should pass since they're the same
-        author.Should().BeEquivalentTo(new Author { AuthorId = new Guid(1,0,0, new byte[] {0,0,0,0,0,0,0,0}), 
+        author.Should().BeEquivalentTo(new Author {
+            AuthorId = new Guid(1,0,0, new byte[] {0,0,0,0,0,0,0,0}), 
             Name = "TestName", 
             Email = "TestEmail", 
             Cheeps = new List<Cheep>(), 
+            Followed = new List<Author>(),
+            Followers = new List<Author>()
         });
     }
 
@@ -87,7 +90,9 @@ public class AuthorRepositoryUnitTests
             AuthorId = new Guid(1,0,0, new byte[] {0,0,0,0,0,0,0,0}), 
             Name = "TestName", 
             Email = "TestEmail", 
-            Cheeps = new List<Cheep>(), 
+            Cheeps = new List<Cheep>(),  
+            Followed = new List<Author>(),
+            Followers = new List<Author>()
         });
     }
 
@@ -114,7 +119,9 @@ public class AuthorRepositoryUnitTests
             AuthorId = new Guid(1,0,0, new byte[] {0,0,0,0,0,0,0,0}), 
             Name = "TestName", 
             Email = "TestEmail", 
-            Cheeps = new List<Cheep>(),
+            Cheeps = new List<Cheep>(), 
+            Followed = new List<Author>(),
+            Followers = new List<Author>()
         });
     }
 
