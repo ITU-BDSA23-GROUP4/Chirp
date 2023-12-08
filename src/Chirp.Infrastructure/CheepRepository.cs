@@ -68,16 +68,6 @@ public class CheepRepository : ICheepRepository
 
         cheepsToReturn.AddRange(cheepsDTO);
 
-        Console.WriteLine("\n\n\n");
-        Console.WriteLine("HER:");
-        Console.WriteLine("størrelse cheepsToReturn: " + cheepsToReturn.Count);
-        Console.WriteLine("størrelse cheepsDTO: " + cheepsDTO.Count());
-        Console.WriteLine("\n\n\n");
-        
-        foreach (CheepDTO cheep in cheepsToReturn) {
-            Console.WriteLine(cheep.CheepId + cheep.AuthorName);
-        }
-
         int? page = (pageNum - 1) * 32;
 
         if (cheepsToReturn.Count < 32)
