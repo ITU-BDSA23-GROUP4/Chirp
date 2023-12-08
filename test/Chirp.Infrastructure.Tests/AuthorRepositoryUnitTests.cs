@@ -25,6 +25,8 @@ public class AuthorRepositoryUnitTests
             Name = "TestName",
             Email = "TestEmail",
             Cheeps = new List<Cheep>(),
+            Followed = new List<Author>(),
+            Followers = new List<Author>()
         };
         var testAuthor2 = new Author
         {
@@ -62,6 +64,8 @@ public class AuthorRepositoryUnitTests
             Name = "TestName", 
             Email = "TestEmail", 
             Cheeps = new List<Cheep>(), 
+            Followed = new List<Author>(),
+            Followers = new List<Author>()
         });
     }
 
@@ -87,7 +91,9 @@ public class AuthorRepositoryUnitTests
             AuthorId = new Guid(1,0,0, new byte[] {0,0,0,0,0,0,0,0}), 
             Name = "TestName", 
             Email = "TestEmail", 
-            Cheeps = new List<Cheep>(), 
+            Cheeps = new List<Cheep>(),
+            Followed = new List<Author>(),
+            Followers = new List<Author>()
         });
     }
 
@@ -115,6 +121,8 @@ public class AuthorRepositoryUnitTests
             Name = "TestName", 
             Email = "TestEmail", 
             Cheeps = new List<Cheep>(),
+            Followed = new List<Author>(),
+            Followers = new List<Author>()
         });
     }
 
