@@ -26,11 +26,11 @@ public class PublicModel : PageModel
     public int? pageNum { get; set; }
     
     [FromQuery(Name ="follow")]
-    public string? follow{ get; set; }
+    public string? follow { get; set; }
 
     [FromQuery(Name ="unfollow")]
-    public string? unfollow{ get; set; }
-    
+    public string? unfollow { get; set; }
+
     public async Task<ActionResult> OnGet()
     {
         if (pageNum.HasValue)
@@ -111,5 +111,10 @@ public class PublicModel : PageModel
         }
         
         return false;
+    }
+
+    public async Task OnPostLike(Guid cheepId) {
+        await _service.IncreaseLikeAttributeInCheep(cheepId);
+        Console.WriteLine("I am executed");
     }
 }

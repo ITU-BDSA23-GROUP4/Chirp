@@ -46,10 +46,10 @@
                                 <span>@cheep.Message</span>
                                 <small>&mdash; @cheep.Timestamp</small>
                             </p>
-                            <p class="likesContainer">
-                                <button>Like</button>
+                            <div class="likesContainer">
+                                <button type="submit" asp-asp-page-handler="Like">Like</button>
                                 <small>Likes: </small>@cheep.Likes
-                            </p>
+                            </div>
                         </li>
                     }
                 </ul> 
