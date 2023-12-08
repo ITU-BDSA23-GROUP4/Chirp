@@ -1,3 +1,4 @@
+
 public class RestrictedCheepTests
 {
     private readonly SqliteConnection? _connection; //Connection to the database
@@ -67,10 +68,10 @@ public class RestrictedCheepTests
         //Sets the message and adds an action to add the cheep to the in memory database
         string Message = "This string should be way over 160 characters, just so we can check that its not possible to make a message that is longer than nessesary.This will because of that, become a very long message.";
 
-        Action act = () => repository.AddCheep(1, Message); //Adds the cheep to the database
+        Func<Task> act = async () => await repository.AddCheep(1, Message); //Adds the cheep to the database
 
         //Assert
-        act.Should().Throw<ArgumentException>().WithMessage("Message is above 160 characters or empty"); //Should throw an exception to pass
+        act.Should().ThrowAsync<ArgumentException>().WithMessage("Message is above 160 characters or empty"); //Should throw an exception to pass
     }
 
     [Fact] //Should be possible to add a cheep at exactly 160 characters
@@ -80,10 +81,10 @@ public class RestrictedCheepTests
         //Sets the message and adds an action to add the cheep to the in memory database
         string Message = " This string should be at exactly 160 characters, so that we know its possible. There should not be a character more or less, so we'll have a very precise test.";
 
-        Action act = () => repository.AddCheep(1, Message);
+        Func<Task> act = async () => await repository.AddCheep(1, Message);
 
         //Assert
-        act.Should().NotThrow<ArgumentException>(); //Should not throw an exception to pass
+        act.Should().NotThrowAsync<ArgumentException>(); //Should not throw an exception to pass
     }
 
     [Fact] //Should be possible to add a cheep that is under 160 characters
@@ -93,10 +94,10 @@ public class RestrictedCheepTests
         //Sets the message and adds an action to add the cheep to the in memory database
         string Message = "This string is very much under 160 characters";
 
-        Action act = () => repository.AddCheep(1, Message);
+        Func<Task> act = async () => await repository.AddCheep(1, Message);
 
         //Assert
-        act.Should().NotThrow<ArgumentException>(); //Should not throw an exception to pass
+        act.Should().NotThrowAsync<ArgumentException>(); //Should not throw an exception to pass
     }
 
     [Fact] //Should not be possible to add a cheep that is empty
@@ -104,11 +105,11 @@ public class RestrictedCheepTests
     {
         //Act
         //Sets an action to add the cheep to the in memory database
-        Action act = () => repository.AddCheep(1, "");
+        Func<Task> act = async () => await repository.AddCheep(1, "");
 
         //Assert
         //Should throw an exception to pass
-        act.Should().Throw<ArgumentException>().WithMessage("Message is above 160 characters or empty");
+        act.Should().ThrowAsync<ArgumentException>().WithMessage("Message is above 160 characters or empty");
     }
 
     [Fact]

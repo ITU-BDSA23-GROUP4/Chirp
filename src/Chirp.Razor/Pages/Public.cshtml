@@ -11,7 +11,7 @@
           <div class="cheepbox">
             <h3>What's on your mind @(User.Identity.Name)?</h3>
             <form method="post">
-                <input type ="text" style="float: left" asp-for="CheepMessageTimeLine">
+                <input type ="text" style="float: left" asp-for="CheepMessageTimeLine" required>
                 <input type="submit" asp-page-handler="Submit" value="Share"> <!--value="Share" should be inside submit-->
             </form>
             </div>
@@ -30,7 +30,7 @@
                                 <strong>
                                     <a href="/@cheep.AuthorName">@cheep.AuthorName</a>
                                     @if (User.Identity?.IsAuthenticated == true) {
-                                        if (!Model.DoesFollow(cheep.AuthorName)) 
+                                        if (await !Model.DoesFollow(cheep.AuthorName)) 
                                         {
                                             // Link to page that adds the author to the following list of the current user and redirects back to the current page
                                             <a href="?follow=@cheep.AuthorName">follow</a>

@@ -19,7 +19,7 @@ public class CheepRepository : ICheepRepository
         _validator = validator;
     }
 
-    public void AddCheep(Guid authorId, string text)
+    public async Task AddCheep(Guid authorId, string text)
     {
         try
         {
@@ -39,7 +39,7 @@ public class CheepRepository : ICheepRepository
             {
                 throw new ArgumentException("Message is above 160 characters or empty");
             }
-            _db.SaveChanges();
+            await _db.SaveChangesAsync();
         }
         catch (Exception)
         {
@@ -68,6 +68,10 @@ public class CheepRepository : ICheepRepository
 
         int? page = (pageNum - 1) * 32;
 
+        if (cheepsToReturn.Count < 32)
+        {
+            return cheepsToReturn.GetRange(0, cheepsToReturn.Count);
+        }
         if (page == null)
         {
             return cheepsToReturn.GetRange(0, 32);
@@ -163,7 +167,7 @@ public class CheepRepository : ICheepRepository
     }
     
     // Code directly from lecture
-    public void Create(CheepCreateDTO cheep)
+    public async Task Create(CheepCreateDTO cheep)
     {
         //NullReferenceException is handled in the constructor - CheepRepository()
         ValidationResult result = _validator.Validate(cheep);
@@ -183,6 +187,6 @@ public class CheepRepository : ICheepRepository
             TimeStamp = DateTime.Now
         });
       
-        _db.SaveChanges();
+        await _db.SaveChangesAsync();
     }
 }

@@ -11,9 +11,9 @@ public class CheepService : ICheepService
         _authorRepository = authorRepository;
     }
 
-    public void AddCheep(Guid authorId, string text)
+    public async Task AddCheep(Guid authorId, string text)
     {
-        _cheepRepository.AddCheep(authorId, text);
+       await _cheepRepository.AddCheep(authorId, text);
     }
 
     public List<CheepDTO> GetCheeps(int? pageNum)
@@ -26,12 +26,12 @@ public class CheepService : ICheepService
         return _cheepRepository.GetCheepsFromAuthor(author, pageNum);
     }
 
-    public AuthorDTO GetAuthorByName(string name)
+    public Task<AuthorDTO> GetAuthorByName(string name)
     {
         return _authorRepository.GetAuthorByName(name);
     }
 
-    public AuthorDTO GetAuthorByEmail(string email){
+    public Task<AuthorDTO> GetAuthorByEmail(string email){
         return _authorRepository.GetAuthorByEmail(email);
     }
 
@@ -45,20 +45,24 @@ public class CheepService : ICheepService
         return _cheepRepository.GetCountOfAllCheeps();
     }
 
-    public void Create(CheepCreateDTO cheep)
+    public async Task Create(CheepCreateDTO cheep)
     {
-        _cheepRepository.Create(cheep);
+        await _cheepRepository.Create(cheep);
     }
     public async Task AddAuthor(string name, string email)
     {
         await _authorRepository.AddAuthor(name, email);
     }
 
-    public void AddFollowee(string AuthorId, string FolloweeId) {
-        _authorRepository.AddFollowee(AuthorId, FolloweeId);
+    public async Task AddFollowee(string AuthorName, string FolloweeName) {
+        await _authorRepository.AddFollowee(AuthorName, FolloweeName);
     }
 
-    public void RemoveFollowee(string AuthorId, string FolloweeId) {
-        _authorRepository.RemoveFollowee(AuthorId, FolloweeId);
+    public async Task RemoveFollowee(string AuthorName, string FolloweeName) {
+        await _authorRepository.RemoveFollowee(AuthorName, FolloweeName);
+    }
+
+    public async Task<bool?> DoesAuthorExist(string email) {
+        return await _authorRepository.DoesAuthorExist(email);
     }
 }

@@ -21,7 +21,7 @@ public class PublicModel : PageModel
     public string CheepMessageTimeLine { get; set; } = "";
     public List<CheepDTO>? Cheeps { get; set; }
 
-    [FromQuery(Name = "{page}")]
+    [FromQuery(Name = "page")]
     public int? pageNum { get; set; }
     
     [FromQuery(Name ="follow")]
@@ -30,7 +30,7 @@ public class PublicModel : PageModel
     [FromQuery(Name ="unfollow")]
     public string? unfollow{ get; set; }
     
-    public ActionResult OnGet()
+    public async Task<ActionResult> OnGet()
     {
         if (pageNum.HasValue)
         {
@@ -43,57 +43,59 @@ public class PublicModel : PageModel
 
         var userEmailClaim = User.Claims.FirstOrDefault(c => c.Type == "emails");
         if(User?.Identity?.IsAuthenticated == true && User?.Identity?.Name != null && userEmailClaim != null)
-        {
-            try{
-                _service.AddAuthor(User.Identity.Name, userEmailClaim.Value);
-            } catch (Exception) {
-                //Do nothing as the author already exists
+        { 
+            bool authorExists = (bool)await _service.DoesAuthorExist(userEmailClaim.Value);
+            if(!authorExists)
+            {
+                try{
+                    await _service.AddAuthor(User.Identity.Name, userEmailClaim.Value);
+                } catch (Exception) {
+                    //Do nothing as the author already exists
+                }
             }
         }
         
         if (User?.Identity?.IsAuthenticated == true  && User.Identity.Name != null) {
             if (follow != null) 
             {
-                Console.WriteLine("FIND ME Follow:");
-                Console.WriteLine(follow);
-                _service.AddFollowee(User.Identity.Name, follow);
+                await _service.AddFollowee(User.Identity.Name, follow);
             } 
             else if (unfollow != null) 
             {
-                Console.WriteLine("FIND ME Unfollow:");
-                Console.WriteLine(unfollow);
-                _service.RemoveFollowee(User.Identity.Name, unfollow);
+                await _service.RemoveFollowee(User.Identity.Name, unfollow);
             }
         }
 
         return Page();
     }
-    public async Task<IActionResult> OnPostAsync()
+
+    //This is the method that adds a cheep from the user, if a user isn't in the DB they will be added to the db
+    public async Task<IActionResult> OnPost()
     {
         var userEmailClaim = User.Claims.FirstOrDefault(c => c.Type == "emails");
         if(User?.Identity?.IsAuthenticated == true && User?.Identity?.Name != null && userEmailClaim != null)
         {
             try
             {
-                var author = _service.GetAuthorByEmail(userEmailClaim.Value);
+                var author = await _service.GetAuthorByEmail(userEmailClaim.Value);
                 if (author != null)
                 {
                     var cheep = new CheepCreateDTO(author.Name, CheepMessageTimeLine);
-                    _service.Create(cheep);
+                    await _service.Create(cheep);
                     return Redirect(User.Identity.Name);
                 }
             }
             catch (Exception)
             {
                 await _service.AddAuthor(User.Identity.Name, userEmailClaim.Value);
-                _service.Create(new CheepCreateDTO(User.Identity.Name, CheepMessageTimeLine));
+                await _service.Create(new CheepCreateDTO(User.Identity.Name, CheepMessageTimeLine));
                 return Redirect(User.Identity.Name);
             }
         }
         return Redirect("/");
     }
 
-    public bool DoesFollow(string AuthorName) 
+    public async Task<bool> DoesFollow(string AuthorName) 
     {
         // AuthorDTO? author = null;
         // // Needs to be refactored into the get method so we does not call it 32 times per page load

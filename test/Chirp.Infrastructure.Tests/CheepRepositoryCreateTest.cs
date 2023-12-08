@@ -1,6 +1,3 @@
-using Microsoft.Data.Sqlite;
-using Microsoft.EntityFrameworkCore;
-using FluentAssertions;
 using System.ComponentModel.DataAnnotations;
 
 public class CheepRepositoryUnitTests
@@ -45,14 +42,14 @@ public class CheepRepositoryUnitTests
     }
 
     [Fact]
-    public void UnitTestCreateMethod()
+    public async void UnitTestCreateMethod()
     {
         //Arrange
         string Message = "TestMessage";
         CheepCreateDTO cheepCreateDto = new CheepCreateDTO("TestAuthor", Message);
 
         //Act
-        repository.Create(cheepCreateDto); //Adds the cheep to the database
+        await repository.Create(cheepCreateDto); //Adds the cheep to the database
 
          var cheeps = repository.GetCheeps(1);
         cheeps.Should().NotBeNull(); //Makes sure the page is not empty
@@ -62,7 +59,7 @@ public class CheepRepositoryUnitTests
     }
 
     [Fact]
-    public void UnitTestCreateMethodAddedCheepIsInDatabase()
+    public async void UnitTestCreateMethodAddedCheepIsInDatabase()
     {
         //Arrange
         var initialCount = _context.Cheeps.Count();
@@ -70,7 +67,7 @@ public class CheepRepositoryUnitTests
         CheepCreateDTO cheepCreateDto = new CheepCreateDTO("TestAuthor", Message);
 
         //Act
-        repository.Create(cheepCreateDto); //Adds the cheep to the database
+        await repository.Create(cheepCreateDto); //Adds the cheep to the database
         
         var cheeps = repository.GetCheeps(1);
         cheeps.Should().NotBeNull(); //Makes sure the page is not empty
@@ -86,11 +83,11 @@ public class CheepRepositoryUnitTests
         string Message = "";
         CheepCreateDTO cheepCreateDto = new CheepCreateDTO("TestAuthor", Message);
 
-        var act = () => repository.Create(cheepCreateDto); //Adds the cheep to the database
+        var act = async () => await repository.Create(cheepCreateDto); //Adds the cheep to the database
 
         //Assert
         //Should throw an exception to pass
-        act.Should().Throw<ValidationException>().WithMessage("Exception of type 'System.ComponentModel.DataAnnotations.ValidationException' was thrown.");
+        act.Should().ThrowAsync<ValidationException>().WithMessage("Exception of type 'System.ComponentModel.DataAnnotations.ValidationException' was thrown.");
     }
 
     [Fact]
@@ -104,6 +101,6 @@ public class CheepRepositoryUnitTests
 
         //Assert
         //Should throw an exception to pass
-        act.Should().Throw<ValidationException>().WithMessage("Exception of type 'System.ComponentModel.DataAnnotations.ValidationException' was thrown.");
+        act.Should().ThrowAsync<ValidationException>().WithMessage("Exception of type 'System.ComponentModel.DataAnnotations.ValidationException' was thrown.");
     }
 }
