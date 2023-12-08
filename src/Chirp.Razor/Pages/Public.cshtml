@@ -30,7 +30,7 @@
                                 <strong>
                                     <a href="/@cheep.AuthorName">@cheep.AuthorName</a>
                                     @if (User.Identity?.IsAuthenticated == true) {
-                                        if (await !Model.DoesFollow(cheep.AuthorName)) 
+                                        if (!await Model.DoesFollow(cheep.AuthorName)) 
                                         {
                                             // Link to page that adds the author to the following list of the current user and redirects back to the current page
                                             <a href="?follow=@cheep.AuthorName">follow</a>
