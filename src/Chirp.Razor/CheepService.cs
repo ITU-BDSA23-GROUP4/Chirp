@@ -50,7 +50,7 @@ public class CheepService : ICheepService
         await _cheepRepository.Create(cheep);
     }
 
-    public async Task IncreaseLikeAttributeInCheep(int cheepId) {
+    public async Task IncreaseLikeAttributeInCheep(Guid cheepId) {
         await _cheepRepository.IncreaseLikeAttributeInCheep(cheepId);
     }
 

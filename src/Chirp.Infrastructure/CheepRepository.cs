@@ -22,7 +22,7 @@ public class CheepRepository : ICheepRepository
     public async Task AddCheep(int authorId, string text)
     {
         try
-        {
+        {    
             int TLength = text.Length; //Sets a scalable length that we can use for if statement
             var author = GetAuthorById(authorId);
             if (TLength <= 160 && TLength > 0 && author != null)
@@ -206,7 +206,7 @@ public class CheepRepository : ICheepRepository
         await _db.SaveChangesAsync();
     }
 
-    public async Task IncreaseLikeAttributeInCheep(int cheepId) {
+    public async Task IncreaseLikeAttributeInCheep(Guid cheepId) {
 
         var CheepDTO = _db.Cheeps.Where(c => c.CheepId == cheepId)
             .Select(c => new CheepDTO {
