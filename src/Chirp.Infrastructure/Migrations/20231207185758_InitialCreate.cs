@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Chirp.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class InitalCreate : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -15,8 +15,7 @@ namespace Chirp.Infrastructure.Migrations
                 name: "Authors",
                 columns: table => new
                 {
-                    AuthorId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    AuthorId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Email = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
                 },
@@ -29,8 +28,8 @@ namespace Chirp.Infrastructure.Migrations
                 name: "AuthorAuthor",
                 columns: table => new
                 {
-                    FollowedAuthorId = table.Column<int>(type: "int", nullable: false),
-                    FollowersAuthorId = table.Column<int>(type: "int", nullable: false)
+                    FollowedAuthorId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    FollowersAuthorId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -52,9 +51,8 @@ namespace Chirp.Infrastructure.Migrations
                 name: "Cheeps",
                 columns: table => new
                 {
-                    CheepId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    AuthorId = table.Column<int>(type: "int", nullable: false),
+                    CheepId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    AuthorId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Text = table.Column<string>(type: "nvarchar(160)", maxLength: 160, nullable: false),
                     TimeStamp = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
@@ -73,18 +71,6 @@ namespace Chirp.Infrastructure.Migrations
                 name: "IX_AuthorAuthor_FollowersAuthorId",
                 table: "AuthorAuthor",
                 column: "FollowersAuthorId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Authors_Email",
-                table: "Authors",
-                column: "Email",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Authors_Name",
-                table: "Authors",
-                column: "Name",
-                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Cheeps_AuthorId",

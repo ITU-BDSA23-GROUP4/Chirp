@@ -19,7 +19,7 @@ public class CheepRepository : ICheepRepository
         _validator = validator;
     }
 
-    public void AddCheep(int authorId, string text)
+    public void AddCheep(Guid authorId, string text)
     {
         try
         {
@@ -29,6 +29,7 @@ public class CheepRepository : ICheepRepository
             {
                 _db.Add(new Cheep
                 {
+                    CheepId = Guid.NewGuid(),
                     Author = author,
                     Text = text,
                     TimeStamp = DateTime.Now
@@ -156,7 +157,7 @@ public class CheepRepository : ICheepRepository
         return cheepsDTO;
     }
     // A method to get an Author class representation with an id
-    private Author? GetAuthorById(int id)
+    private Author? GetAuthorById(Guid id)
     {
         return _db.Authors.Where(author => author.AuthorId == id).FirstOrDefault();
     }
@@ -176,6 +177,7 @@ public class CheepRepository : ICheepRepository
 
         _db.Add(new Cheep
         {
+            CheepId = Guid.NewGuid(),
             Author = user,
             Text = cheep.Text,
             TimeStamp = DateTime.Now

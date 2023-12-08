@@ -54,10 +54,14 @@ public class PublicModel : PageModel
         if (User?.Identity?.IsAuthenticated == true  && User.Identity.Name != null) {
             if (follow != null) 
             {
+                Console.WriteLine("FIND ME Follow:");
+                Console.WriteLine(follow);
                 _service.AddFollowee(User.Identity.Name, follow);
             } 
             else if (unfollow != null) 
             {
+                Console.WriteLine("FIND ME Unfollow:");
+                Console.WriteLine(unfollow);
                 _service.RemoveFollowee(User.Identity.Name, unfollow);
             }
         }

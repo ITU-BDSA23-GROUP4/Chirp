@@ -2,7 +2,7 @@ namespace Chirp.Core
 {
     public interface ICheepRepository
     {
-        void AddCheep(int authorId, string text);
+        void AddCheep(Guid authorId, string text);
         List<CheepDTO> GetCheeps(int? pageNum);
         List<CheepDTO> GetCheepsFromAuthor(string author, int? pageNum);
         int GetCountOfAllCheeps();

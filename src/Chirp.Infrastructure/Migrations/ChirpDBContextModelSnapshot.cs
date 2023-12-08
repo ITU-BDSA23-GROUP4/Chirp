@@ -24,11 +24,11 @@ namespace Chirp.Infrastructure.Migrations
 
             modelBuilder.Entity("AuthorAuthor", b =>
                 {
-                    b.Property<int>("FollowedAuthorId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("FollowedAuthorId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("FollowersAuthorId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("FollowersAuthorId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("FollowedAuthorId", "FollowersAuthorId");
 
@@ -39,11 +39,9 @@ namespace Chirp.Infrastructure.Migrations
 
             modelBuilder.Entity("Chirp.Infrastructure.Author", b =>
                 {
-                    b.Property<int>("AuthorId")
+                    b.Property<Guid>("AuthorId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AuthorId"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -57,25 +55,17 @@ namespace Chirp.Infrastructure.Migrations
 
                     b.HasKey("AuthorId");
 
-                    b.HasIndex("Email")
-                        .IsUnique();
-
-                    b.HasIndex("Name")
-                        .IsUnique();
-
                     b.ToTable("Authors");
                 });
 
             modelBuilder.Entity("Chirp.Infrastructure.Cheep", b =>
                 {
-                    b.Property<int>("CheepId")
+                    b.Property<Guid>("CheepId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("uniqueidentifier");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CheepId"));
-
-                    b.Property<int>("AuthorId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("AuthorId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Text")
                         .IsRequired()

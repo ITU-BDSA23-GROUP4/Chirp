@@ -11,7 +11,7 @@ public class CheepService : ICheepService
         _authorRepository = authorRepository;
     }
 
-    public void AddCheep(int authorId, string text)
+    public void AddCheep(Guid authorId, string text)
     {
         _cheepRepository.AddCheep(authorId, text);
     }

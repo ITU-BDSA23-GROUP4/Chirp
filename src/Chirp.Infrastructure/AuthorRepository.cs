@@ -15,12 +15,12 @@ namespace Chirp.Infrastructure
 
         public async Task AddAuthor(string name, string email)
         {
-            await _db.Authors.AddAsync(new Author { Name = name, Cheeps = new List<Cheep>(), Email = email });
+            await _db.Authors.AddAsync(new Author { AuthorId = Guid.NewGuid(), Name = name, Cheeps = new List<Cheep>(), Email = email });
             //_db.Add(new Author { Name = name, Cheeps = new List<Cheep>(), Email = email });
             _db.SaveChanges();
         }
 
-        public AuthorDTO GetAuthorByID(int ID)
+        public AuthorDTO GetAuthorByID(Guid ID)
         {
             var author = _db.Authors.Where(author => author.AuthorId == ID).Select(authorDTO => new AuthorDTO
             {
@@ -84,7 +84,7 @@ namespace Chirp.Infrastructure
             }
         }
 
-        public void RemoveFollowee(string _AuthorName, string _FolloweeName) 
+        public void RemoveFollowee(string _AuthorName, string _FolloweeName)
         {
             var Author = _db.Authors.Where(a => a.Name == _AuthorName)
                 .Include(a => a.Followed)
@@ -94,67 +94,55 @@ namespace Chirp.Infrastructure
                 .Include(a => a.Followers)
                 .FirstOrDefault();
 
-            if (Author != null && Followee != null) {
+            if (Author != null && Followee != null)
+            {
                 // Author.Followed.Remove(Followee);
                 Followee.Followers.Remove(Author);
                 _db.SaveChanges();
 
-            } else {
-                  throw new NullReferenceException("FollowerRelationship is null");
+            }
+            else
+            {
+                throw new NullReferenceException("FollowerRelationship is null");
             }
         }
-        
 
-        public void AddFollowee(string _AuthorName, string _FolloweeName) 
+
+        public void AddFollowee(string _AuthorName, string _FolloweeName)
         {
-            Console.WriteLine("\n\n\nAutorID:"+ _AuthorName + "\nAutorID:" + _FolloweeName);
-            
+            Console.WriteLine("\n\n\nAutorID:" + _AuthorName + "\nAutorID:" + _FolloweeName);
+
             var Author = _db.Authors.Where(a => a.Name == _AuthorName)
                 .Include(a => a.Followed)
                 .FirstOrDefault();
 
-            // Console.WriteLine("\n\nAuthor\nID: "+Author.AuthorId+"\nName: "+ Author.Name + "\nEmail: "+Author.Email);
+            Console.WriteLine("\n\nAuthor\nID: "+Author.AuthorId+"\nName: "+ Author.Name + "\nEmail: "+Author.Email);
 
             var Followee = _db.Authors.Where(a => a.Name == _FolloweeName)
                 .Include(a => a.Followers)
                 .FirstOrDefault();
 
-            // Console.WriteLine("\n\nFollowee\nID: "+Followee.AuthorId+"\nName: "+ Followee.Name + "\nEmail: "+Followee.Email);
+            Console.WriteLine("\n\nFollowee\nID: "+Followee.AuthorId+"\nName: "+ Followee.Name + "\nEmail: "+Followee.Email);
 
-            if (Author != null && Followee != null) {
-
-                if (Author.Followed.Contains(Followee) || Followee.Followers.Contains(Author)) {
+            Author.Followed ??= new List<Author>();
+            Followee.Followers ??= new List<Author>();
+            
+            if (Author != null && Followee != null)
+            {
+                
+                if (Author.Followed.Contains(Followee) || Followee.Followers.Contains(Author))
+                {
                     throw new InvalidOperationException("Author: " + Author.Name + "already follows: " + Followee.Name);
                 }
-            // foreach (var a in _db.Authors.ToList()){
-            //       Console.WriteLine("\nNext");
-            //     Console.WriteLine("\n\nID: "+a.AuthorId+"\nName: "+ a.Name + "\nEmail: "+a.Email);
-            //     Console.WriteLine("\nFollowers");
-            //     foreach( var b in a.Followers){
-            //         Console.Write(b.AuthorId+" - ");
-            //     }
-            //     Console.WriteLine("\nFollowed");
-            //     foreach( var c in a.Followed){
-            //         Console.Write(c.AuthorId+ " - ");
-            //     }
-            //     }
+                Console.WriteLine("Addign followee");
                 Author.Followed.Add(Followee);
+                Console.WriteLine("Addign follower");
                 Followee.Followers.Add(Author);
 
-                // foreach (var a in _db.Authors.ToList()){
-                // Console.WriteLine("\nNext");
-                // Console.WriteLine("\n\nID: "+a.AuthorId+"\nName: "+ a.Name + "\nEmail: "+a.Email);
-                // Console.WriteLine("\nFollowers");
-                // foreach( var b in a.Followers){
-                //     Console.Write(b.AuthorId+" - ");
-                // }
-                // Console.WriteLine("\nFollowed");
-                // foreach( var c in a.Followed){
-                //     Console.Write(c.AuthorId+ " - ");
-                // }
-            // }
                 _db.SaveChanges();
-            } else {
+            }
+            else
+            {
                 throw new NullReferenceException("Obejct _Author or _Followee of type Author is null");
             }
         }
@@ -184,33 +172,34 @@ namespace Chirp.Infrastructure
             }
         }
 
-        private static List<AuthorDTO> GetAllFollowedAuthors(int AuthorId, ChirpDBContext DBcontext) 
-        {   
+        private static List<AuthorDTO> GetAllFollowedAuthors(Guid AuthorId, ChirpDBContext DBcontext)
+        {
             List<AuthorDTO> followed = new List<AuthorDTO>();
 
             var Author = DBcontext.Authors.Where(a => a.AuthorId == AuthorId)
                 .Include(a => a.Followed)
                 .FirstOrDefault();
-        
-            if (Author!= null) 
+
+            if (Author != null)
             {
-                var AuthorDTOs = Author.Followed.Select(AuthorDTO => new AuthorDTO 
-                    {
-                        AuthorId = AuthorDTO.AuthorId,
-                        Name = AuthorDTO.Name,
-                        Email = AuthorDTO.Email
-                    }).ToList();
-                    
-                if (AuthorDTOs != null) {
+                var AuthorDTOs = Author.Followed.Select(AuthorDTO => new AuthorDTO
+                {
+                    AuthorId = AuthorDTO.AuthorId,
+                    Name = AuthorDTO.Name,
+                    Email = AuthorDTO.Email
+                }).ToList();
+
+                if (AuthorDTOs != null)
+                {
                     followed.AddRange(AuthorDTOs);
                 }
-            }            
-            
+            }
+
             return followed;
         }
 
-        private static List<AuthorDTO> GetAllFollowers(int _AuthorId, ChirpDBContext DBcontext) 
-        {   
+        private static List<AuthorDTO> GetAllFollowers(Guid _AuthorId, ChirpDBContext DBcontext)
+        {
             List<AuthorDTO> followers = new List<AuthorDTO>();
 
             var Authors = DBcontext.Authors.
@@ -218,20 +207,22 @@ namespace Chirp.Infrastructure
                 .Include(a => a.Followers)
                 .FirstOrDefault();
 
-            if (Authors != null) 
+            if (Authors != null)
             {
-                var AuthorDTOs = Authors?.Followers.Select(AuthorDTO => new AuthorDTO() {
+                var AuthorDTOs = Authors?.Followers.Select(AuthorDTO => new AuthorDTO()
+                {
                     AuthorId = AuthorDTO.AuthorId,
                     Name = AuthorDTO.Name,
-                    Email = AuthorDTO.Email          
+                    Email = AuthorDTO.Email
                 })
                 .ToList();
 
-                if (AuthorDTOs != null) {
+                if (AuthorDTOs != null)
+                {
                     followers.AddRange(AuthorDTOs);
                 }
             }
-            
+
             return followers;
         }
     }
