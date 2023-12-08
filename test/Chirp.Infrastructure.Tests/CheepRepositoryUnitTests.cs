@@ -23,14 +23,12 @@ public class CheepRepositoryUnitTests {
             Name = "TestAuthor", 
             Email = "TestEmail", 
             Cheeps = new List<Cheep>(),
-            Followed = new List<Author>(),
-            Followers = new List<Author>()
         };
 
         context.Authors.Add(testAuthor); 
         
         var testCheep = new Cheep {
-            CheepId = new Guid(),
+            CheepId = new Guid(1,0,0,new byte[]{0,0,0,0,0,0,0,0}),
             Author = testAuthor,
             Text = "This is a test",
             Likes = 0,
@@ -53,7 +51,7 @@ public class CheepRepositoryUnitTests {
     [Fact]
     public async void UnitTestLikeIncreaseMethodIncreasesLikeAttribute() {
         // Act
-        await repository.IncreaseLikeAttributeInCheep(new Guid());
+        await repository.IncreaseLikeAttributeInCheep(new Guid(1,0,0,new byte[]{0,0,0,0,0,0,0,0}));
         CheepDTO cheep = repository.GetCheepsFromAuthor("TestAuthor", null)[0];
 
         // Assert
@@ -63,8 +61,8 @@ public class CheepRepositoryUnitTests {
     [Fact]
     public async void UnitTestTwoIncreaseMethodCallsEqualsValueOfTwo() {
         // Act
-        await repository.IncreaseLikeAttributeInCheep(new Guid());
-        await repository.IncreaseLikeAttributeInCheep(new Guid());
+        await repository.IncreaseLikeAttributeInCheep(new Guid(1,0,0,new byte[]{0,0,0,0,0,0,0,0}));
+        await repository.IncreaseLikeAttributeInCheep(new Guid(1,0,0,new byte[]{0,0,0,0,0,0,0,0}));
 
         CheepDTO cheep = repository.GetCheepsFromAuthor("TestAuthor", null)[0];
 

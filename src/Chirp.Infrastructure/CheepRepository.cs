@@ -198,17 +198,10 @@ public class CheepRepository : ICheepRepository
 
     public async Task IncreaseLikeAttributeInCheep(Guid cheepId) {
 
-        var CheepDTO = _db.Cheeps.Where(c => c.CheepId == cheepId)
-            .Select(c => new CheepDTO {
-                CheepId = c.CheepId,
-                AuthorName = c.Author.Name,
-                Message = c.Text,
-                Likes = c.Likes,
-                Timestamp = c.TimeStamp
-            }).FirstOrDefault();
+        var cheep = await _db.Cheeps.Where(c => c.CheepId == cheepId).FirstAsync();
 
-        if (CheepDTO != null)
-            CheepDTO.Likes++;
+        if (cheep != null)
+            cheep.Likes++;
 
         await _db.SaveChangesAsync();
     }
