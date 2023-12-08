@@ -19,12 +19,12 @@ public class CheepRepositoryUnitTests {
         context.Database.EnsureCreated();
 
         var testAuthor = new Author {
-            AuthorId = 1, 
+            AuthorId = new Guid(), 
             Name = "TestAuthor", 
             Email = "TestEmail", 
             Cheeps = new List<Cheep>(),
-            Followed = new List<Follow>(),
-            Followers = new List<Follow>()
+            Followed = new List<Author>(),
+            Followers = new List<Author>()
         };
 
         context.Authors.Add(testAuthor); 
