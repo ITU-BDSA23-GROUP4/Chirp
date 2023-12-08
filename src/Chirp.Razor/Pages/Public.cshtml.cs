@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Chirp.Core;
+using Chirp.Infrastructure;
 
 namespace Chirp.Razor.Pages;
 
@@ -25,10 +26,11 @@ public class PublicModel : PageModel
     public int? pageNum { get; set; }
     
     [FromQuery(Name ="follow")]
-    public int? follow{ get; set; }
+    public string? follow{ get; set; }
 
     [FromQuery(Name ="unfollow")]
-    public int? unfollow{ get; set; }
+    public string? unfollow{ get; set; }
+    
     public async Task<ActionResult> OnGet()
     {
         if (pageNum.HasValue)
@@ -55,14 +57,13 @@ public class PublicModel : PageModel
         }
         
         if (User?.Identity?.IsAuthenticated == true  && User.Identity.Name != null) {
-            AuthorDTO currentUser = await _service.GetAuthorByName(User.Identity.Name);
-            if (follow.HasValue && follow != null) 
+            if (follow != null) 
             {
-                await _service.AddFollowee(currentUser.AuthorId, (int)follow);
+                await _service.AddFollowee(User.Identity.Name, follow);
             } 
-            else if (unfollow.HasValue && unfollow != null) 
+            else if (unfollow != null) 
             {
-                await _service.RemoveFollowee(currentUser.AuthorId, (int)unfollow);
+                await _service.RemoveFollowee(User.Identity.Name, unfollow);
             }
         }
 
@@ -95,24 +96,20 @@ public class PublicModel : PageModel
         return Redirect("/");
     }
 
-    public async Task<bool> DoesFollow(int AuthorId) 
-    {
-        AuthorDTO? author = null;
-        // Needs to be refactored into the get method so we does not call it 32 times per page load
-        if (User?.Identity?.IsAuthenticated == true && User?.Identity?.Name != null) {
-            
-            if (User.Identity.Name != null) {
-                author = await _service.GetAuthorByName(User.Identity.Name);
-            }
-            
+    public async Task<bool> DoesFollow(string CheepAuthorName) 
+    {   //The Author who inquires
+        if(User.Identity?.IsAuthenticated == true && User.Identity?.Name != null )
+        {
+            AuthorDTO? author = await _service.GetAuthorByName(User.Identity.Name);
             if (author != null && author.Followed != null) {
-                foreach (AuthorDTO followingAuthor in author.Followed) {
-                    if (followingAuthor.AuthorId == AuthorId) {
+                foreach (AuthorDTO followee in author.Followed) 
+                {
+                    if (followee.Name == CheepAuthorName)  
                         return true;
-                    }
                 }
             }
         }
+        
         return false;
     }
 }

@@ -11,7 +11,7 @@ public class CheepService : ICheepService
         _authorRepository = authorRepository;
     }
 
-    public async Task AddCheep(int authorId, string text)
+    public async Task AddCheep(Guid authorId, string text)
     {
        await _cheepRepository.AddCheep(authorId, text);
     }
@@ -59,12 +59,12 @@ public class CheepService : ICheepService
         await _authorRepository.AddAuthor(name, email);
     }
 
-    public async Task AddFollowee(int AuthorId, int FolloweeId) {
-        await _authorRepository.AddFollowee(AuthorId, FolloweeId);
+    public async Task AddFollowee(string AuthorName, string FolloweeName) {
+        await _authorRepository.AddFollowee(AuthorName, FolloweeName);
     }
 
-    public async Task RemoveFollowee(int AuthorId, int FolloweeId) {
-        await _authorRepository.RemoveFollowee(AuthorId, FolloweeId);
+    public async Task RemoveFollowee(string AuthorName, string FolloweeName) {
+        await _authorRepository.RemoveFollowee(AuthorName, FolloweeName);
     }
 
     public async Task<bool?> DoesAuthorExist(string email) {

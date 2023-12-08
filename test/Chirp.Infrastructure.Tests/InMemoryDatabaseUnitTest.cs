@@ -23,12 +23,10 @@ public class InMemoryDatabaseTest
 
         //Creates a cheep and author to add to the database
         var testAuthor = new Author {
-            AuthorId = 1, 
+            AuthorId = new Guid(1,0,0, new byte[] {0,0,0,0,0,0,0,0}), 
             Name = "TestName", 
             Email = "TestEmail", 
             Cheeps = new List<Cheep>(),
-            Followed = new List<Follow>(),
-            Followers = new List<Follow>()
             };
         var testCheep = new Cheep {
             CheepId = new Guid(), 
