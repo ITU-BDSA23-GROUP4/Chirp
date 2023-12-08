@@ -25,6 +25,8 @@ In the Onion Architecture diagram, we can see how ours are presented. In the mid
 
 The Onion Architecture (or better known as Clean Architecture), is great for having low coupling and high cohesion. When looking at the UML, there is no unnessesary communication between scripts, with so low coupling the readability of the program is better, even though some of the repositories contains a fair amount of methods.
 
+A better representation of the architecture on a deep level, is the Onion class diagram we've created. Using the representation from our onion architecture we've placed our classes just like the UML class diagram. To make sense of these diagrams we've created an onion diagram, and an UML diagram on its own, and then merged them together to give a greater understanding. 
+
 ## Architecture of deployed application
 Illustrate the architecture of your deployed application. Remember, you developed a client-server application. Illustrate the server component and to where it is deployed, illustrate a client component, and show how these communicate with each other.
 
