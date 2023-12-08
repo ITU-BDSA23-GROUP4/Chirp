@@ -109,12 +109,12 @@ public class PublicModel : PageModel
                 }
             }
         }
-        
         return false;
     }
 
-    public async Task OnPostLike(Guid cheepId) {
+    public async Task<IActionResult> OnPostLike(Guid cheepId) {
         await _service.IncreaseLikeAttributeInCheep(cheepId);
         Console.WriteLine("I am executed");
+        return Redirect("/");
     }
 }

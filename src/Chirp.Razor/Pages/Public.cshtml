@@ -47,7 +47,9 @@
                                 <small>&mdash; @cheep.Timestamp</small>
                             </p>
                             <div class="likesContainer">
-                                <button type="submit" asp-asp-page-handler="Like">Like</button>
+                                <form asp-page-handler="Like" method="post">
+                                    <button value="@cheep.CheepId">Like</button>
+                                </form>
                                 <small>Likes: </small>@cheep.Likes
                             </div>
                         </li>
