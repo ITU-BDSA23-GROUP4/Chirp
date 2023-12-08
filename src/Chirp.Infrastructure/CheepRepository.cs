@@ -58,7 +58,7 @@ public class CheepRepository : ICheepRepository
         .OrderByDescending(c => c.TimeStamp.Ticks)
         .Select(cheep => new CheepDTO
         {
-            CheepId = cheep.Author.AuthorId,
+            CheepId = cheep.CheepId,
             AuthorName = cheep.Author.Name,
             Message = cheep.Text,
             Timestamp = cheep.TimeStamp
@@ -90,22 +90,22 @@ public class CheepRepository : ICheepRepository
         List<CheepDTO> cheepsToReturn = new List<CheepDTO>();
 
         var cheepsDTO = _db.Cheeps.ToList()
-    .Join(
-        _db.Authors,
-        cheep => cheep.Author.AuthorId,
-        author => author.AuthorId,
-        (cheep, author) => new { Cheep = cheep, Author = author }
-    )
-    .Where(joinResult => joinResult.Author.Name == author)
-    .OrderByDescending(joinResult => joinResult.Cheep.TimeStamp)
-    .Select(joinResult => new CheepDTO
-    {
-        //Sets the properties of the Cheep
-        CheepId = joinResult.Author.AuthorId,
-        AuthorName = joinResult.Author.Name,
-        Message = joinResult.Cheep.Text,
-        Timestamp = joinResult.Cheep.TimeStamp
-    });
+        .Join(
+            _db.Authors,
+            cheep => cheep.Author.AuthorId,
+            author => author.AuthorId,
+            (cheep, author) => new { Cheep = cheep, Author = author }
+        )
+        .Where(joinResult => joinResult.Author.Name == author)
+        .OrderByDescending(joinResult => joinResult.Cheep.TimeStamp)
+        .Select(joinResult => new CheepDTO
+        {
+            //Sets the properties of the Cheep
+            CheepId = joinResult.Cheep.CheepId,
+            AuthorName = joinResult.Author.Name,
+            Message = joinResult.Cheep.Text,
+            Timestamp = joinResult.Cheep.TimeStamp
+        });
         cheepsToReturn.AddRange(cheepsDTO);
 
         int? page = (pageNum - 1) * 32;
@@ -133,7 +133,7 @@ public class CheepRepository : ICheepRepository
         var cheepsDTO = _db.Cheeps.Select(CheepDTO => new CheepDTO
         {
             //Sets the properties of the Cheep
-            CheepId = CheepDTO.Author.AuthorId,
+            CheepId = CheepDTO.CheepId,
             AuthorName = CheepDTO.Author.Name,
             Message = CheepDTO.Text,
             Timestamp = CheepDTO.TimeStamp
@@ -152,7 +152,7 @@ public class CheepRepository : ICheepRepository
             .Select(CheepDTO => new CheepDTO
             {
                 //Sets the properties of the Cheep
-                CheepId = CheepDTO.Author.AuthorId,
+                CheepId = CheepDTO.CheepId,
                 AuthorName = CheepDTO.Author.Name,
                 Message = CheepDTO.Text,
                 Timestamp = CheepDTO.TimeStamp
