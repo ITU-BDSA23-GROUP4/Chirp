@@ -8,12 +8,10 @@ using Initializer;
 using Microsoft.Data.SqlClient;
 using Microsoft.Identity.Client;
 
-
 public class TestAPI : IClassFixture<WebApplicationFactory<Program>>
 {
     private readonly WebApplicationFactory<Program> _fixture;
     private readonly MsSqlContainer _msSqlContainer = new MsSqlBuilder().Build();
-
 
     private readonly HttpClient _client;
 
@@ -201,6 +199,4 @@ public class TestAPI : IClassFixture<WebApplicationFactory<Program>>
         //Assert 
         Assert.True(InOrder);
     }
-
-
 }

@@ -97,7 +97,8 @@ public class UserTimelineModel : PageModel
     }
     public async Task<IActionResult> OnPostLike(Guid cheepId)
     {
-        await _service.IncreaseLikeAttributeInCheep(cheepId);
+        if (User.Identity != null && User.Identity.IsAuthenticated)
+            await _service.IncreaseLikeAttributeInCheep(cheepId);
         return Redirect("/");
     }
 }

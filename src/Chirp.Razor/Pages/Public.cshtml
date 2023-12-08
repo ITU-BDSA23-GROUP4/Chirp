@@ -47,9 +47,11 @@
                                 <small>&mdash; @cheep.Timestamp</small>
                             </p>
                             <div class="likesContainer">
-                                <form asp-page-handler="Like" method="post">
-                                    <button name="cheepId" value="@cheep.CheepId">Like</button>
-                                </form>
+                                @if (User.Identity != null && User.Identity.IsAuthenticated) {
+                                    <form asp-page-handler="Like" method="post">
+                                        <button name="cheepId" value="@cheep.CheepId">Like</button>
+                                    </form>
+                                }
                                 <small>Likes: </small>@cheep.Likes
                             </div>
                         </li>
