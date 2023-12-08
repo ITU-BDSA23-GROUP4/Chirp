@@ -196,13 +196,13 @@ public class CheepRepository : ICheepRepository
         await _db.SaveChangesAsync();
     }
 
-    public async Task IncreaseLikeAttributeInCheep(Guid cheepId) {
-
-        var cheep = _db.Cheeps.Where(c => c.CheepId == cheepId).FirstOrDefault();
+    public async Task IncreaseLikeAttributeInCheep(Guid cheepId)
+    {
+        var cheep = await _db.Cheeps.Where(c => c.CheepId == cheepId).FirstOrDefaultAsync();
 
         if (cheep != null)
             cheep.Likes++;
-
+        
         await _db.SaveChangesAsync();
     }
 }

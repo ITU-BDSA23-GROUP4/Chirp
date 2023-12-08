@@ -48,7 +48,7 @@
                             </p>
                             <div class="likesContainer">
                                 <form asp-page-handler="Like" method="post">
-                                    <button value="@cheep.CheepId">Like</button>
+                                    <button name="cheepId" value="@cheep.CheepId">Like</button>
                                 </form>
                                 <small>Likes: </small>@cheep.Likes
                             </div>

@@ -151,7 +151,7 @@ namespace Chirp.Infrastructure
             
             if (Author != null && Followee != null)
             {
-                
+
                 if (Author.Followed.Contains(Followee) || Followee.Followers.Contains(Author))
                 {
                     throw new InvalidOperationException("Author: " + Author.Name + "already follows: " + Followee.Name);
