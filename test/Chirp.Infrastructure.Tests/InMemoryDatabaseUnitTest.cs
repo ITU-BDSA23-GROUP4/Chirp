@@ -31,7 +31,7 @@ public class InMemoryDatabaseTest
             Followers = new List<Follow>()
             };
         var testCheep = new Cheep {
-            CheepId = new Guid(1, 0, 0, new byte[]{0,0,0,0,0,0,0,0}), 
+            CheepId = new Guid(), 
             Author = testAuthor, 
             TimeStamp = DateTime.Now, 
             Text = "This is a cheep for testing"
@@ -95,6 +95,6 @@ public class InMemoryDatabaseTest
 
         //Assert
         //See if the cheep is in the normal database, if it isn't it should PASS
-        cheeps.Should().NotContain(c => c.CheepId == new Guid(1, 0, 0, new byte[]{0,0,0,0,0,0,0,0}) && c.Message == "This is a cheep for testing");
+        cheeps.Should().NotContain(c => c.CheepId == new Guid() && c.Message == "This is a cheep for testing");
     }
 }
