@@ -130,6 +130,10 @@ div.page ul.cheeps li p.likesContainer {
   bottom: 5px;
 }
 
+div.page ul.cheeps li div.likesContainer form {
+  display: inline-block;
+}
+
 div.page ul.cheeps li div.likesContainer button {
   background-color: #26776F;
   border: white;
