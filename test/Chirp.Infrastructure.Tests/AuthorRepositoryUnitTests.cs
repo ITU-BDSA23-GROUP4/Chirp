@@ -107,43 +107,12 @@ public class AuthorRepositoryUnitTests
         act.Should().ThrowAsync<ArgumentException>().WithMessage("Author with name TestNameWrong does not exist");
     }
 
-    [Fact] //Test method to get an author by id - should be possible
-    public async void UnitTestFindAuthorById()
-    {
-        //Act
-        var author = await repository.GetAuthorByID(new Guid(1,0,0, new byte[] {0,0,0,0,0,0,0,0}));
-
-        //Assert
-        //Should pass since they're the same
-        author.Should().BeEquivalentTo(new Author { 
-            AuthorId = new Guid(1,0,0, new byte[] {0,0,0,0,0,0,0,0}), 
-            Name = "TestName", 
-            Email = "TestEmail", 
-            Cheeps = new List<Cheep>(), 
-            Followed = new List<Author>(),
-            Followers = new List<Author>()
-        });
-    }
-
-    [Fact] //Test method to get an author by wrong ide - shouldn't be possible
-    public void UnitTestFindAuthorByWrongId()
-    {
-        //Act
-        Func<Task> act = async () => await repository.GetAuthorByID(new Guid(4,0,0, new byte[] {0,0,0,0,0,0,0,0}));
-
-        //Assert
-        //Should throw an exception since the id doesn't exist in our database
-        act.Should().ThrowAsync<ArgumentException>().WithMessage("Author with id 4 does not exist");
-    }
-
-
-// Fails
     [Fact]
     public async void UnitTestAddFolloweeAddsToTheAuthorsFollowedList(){
         //Arrange
         //Act
         await repository.AddFollowee("TestName","TestName2");
-        AuthorDTO author1 = await repository.GetAuthorByID(new Guid(1,0,0, new byte[] {0,0,0,0,0,0,0,0}));
+        AuthorDTO author1 = await repository.GetAuthorByName("TestName");
 
         //Assert
         author1.Followed?[0].AuthorId.Should().Be(new Guid(2,0,0, new byte[] {0,0,0,0,0,0,0,0}));
@@ -166,7 +135,7 @@ public class AuthorRepositoryUnitTests
 
         //Act
         await repository.RemoveFollowee("TestName","TestName2");
-        AuthorDTO author1 = await repository.GetAuthorByID(new Guid(1,0,0, new byte[] {0,0,0,0,0,0,0,0}));
+        AuthorDTO author1 = await repository.GetAuthorByName("TestName");
 
         //Assert
         author1.Followed?.Count.Should().Be(0);
@@ -199,7 +168,7 @@ public class AuthorRepositoryUnitTests
     public async void UnitTestFollowAuthorUpdatesOtherAuthorsFollowersList() {
         //Act
         await repository.AddFollowee("TestName","TestName2");
-        AuthorDTO author2 = await repository.GetAuthorByID(new Guid(2,0,0, new byte[] {0,0,0,0,0,0,0,0}));
+        AuthorDTO author2 = await repository.GetAuthorByName("TestName2");
 
         //Assert
         author2.Followers?[0].AuthorId.Should().Be(new Guid(1,0,0, new byte[] {0,0,0,0,0,0,0,0}));
@@ -212,7 +181,7 @@ public class AuthorRepositoryUnitTests
 
         //Act
         await repository.RemoveFollowee("TestName","TestName2");
-        AuthorDTO author = await repository.GetAuthorByID(new Guid(2,0,0, new byte[] {0,0,0,0,0,0,0,0}));
+        AuthorDTO author = await repository.GetAuthorByName("TestName2");
         
         // Assert
         author.Followers?.Count.Should().Be(0);
@@ -224,7 +193,7 @@ public class AuthorRepositoryUnitTests
         await repository.AddFollowee("TestName","TestName2");
 
         //Assert
-        AuthorDTO author = await repository.GetAuthorByID(new Guid(3,0,0, new byte[] {0,0,0,0,0,0,0,0}));
+        AuthorDTO author = await repository.GetAuthorByName("TestName3");
 
         author.Followed?.Count.Should().Be(0);
         author.Followers?.Count.Should().Be(0);
@@ -233,7 +202,7 @@ public class AuthorRepositoryUnitTests
     [Fact]
     public async void UnitTestEnsureFollowAndFollowedListAreEmptyBeDefault() {
         //Assert
-        AuthorDTO author = await repository.GetAuthorByID(new Guid(1,0,0, new byte[] {0,0,0,0,0,0,0,0}));
+        AuthorDTO author = await repository.GetAuthorByName("TestName");
 
         author.Followed?.Count.Should().Be(0);
         author.Followers?.Count.Should().Be(0);
@@ -245,8 +214,8 @@ public class AuthorRepositoryUnitTests
         await repository.AddFollowee("TestName","TestName2");
 
         //Assert
-        AuthorDTO author1 = await repository.GetAuthorByID(new Guid(1,0,0, new byte[] {0,0,0,0,0,0,0,0}));
-        AuthorDTO author2 = await repository.GetAuthorByID(new Guid(2,0,0, new byte[] {0,0,0,0,0,0,0,0}));
+        AuthorDTO author1 = await repository.GetAuthorByName("TestName");
+        AuthorDTO author2 = await repository.GetAuthorByName("TestName2");
 
         author1.Followers?.Count.Should().Be(0);
         author2.Followed?.Count.Should().Be(0);

@@ -32,28 +32,6 @@ namespace Chirp.Infrastructure
             }
         }
 
-        public async Task<AuthorDTO> GetAuthorByID(Guid ID)
-        { 
-            var author = await _db.Authors.Where(author => author.AuthorId == ID).Select(authorDTO => new AuthorDTO
-            {
-                AuthorId = ID,
-                Name = authorDTO.Name,
-                Email = authorDTO.Email,
-                Cheeps = GetAllCheepsFromAuthor(authorDTO.Name, _db),
-                Followed = GetAllFollowedAuthor(authorDTO.AuthorId, _db),
-                Followers = GetAllFollowers(authorDTO.AuthorId, _db)
-            }).FirstAsync();
-            
-            if (author != null)
-            {
-                return author;
-            }
-            else
-            {
-                throw new ArgumentException("Author with ID " + ID + " does not exist");
-            }
-        }
-
         public async Task<AuthorDTO> GetAuthorByName(string name)
         {
             var author = await _db.Authors.Where(author => author.Name == name).Select(authorDTO => new AuthorDTO

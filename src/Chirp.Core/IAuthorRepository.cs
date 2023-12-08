@@ -3,7 +3,6 @@ namespace Chirp.Core
     public interface IAuthorRepository
     {
         Task AddAuthor(string name, string email);
-        Task<AuthorDTO> GetAuthorByID(Guid ID);
         Task<AuthorDTO> GetAuthorByName(string name);
         Task<AuthorDTO> GetAuthorByEmail(string email);
         Task AddFollowee(string AuthorName, string FolloweeName);
