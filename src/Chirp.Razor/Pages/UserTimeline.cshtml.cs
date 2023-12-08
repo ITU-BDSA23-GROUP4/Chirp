@@ -81,19 +81,17 @@ public class UserTimelineModel : PageModel
         return Redirect("/");
     }
 
-    public async Task<bool> DoesFollow(string AuthorName) 
-    {
-        AuthorDTO? author = null;
-        // Needs to be refactored into the get method so we does not call it 32 times per page load
-        if (User?.Identity?.IsAuthenticated == true && User?.Identity?.Name != null) {
-            
-            // if (author != null && author.Followed != null) {
-            //     foreach (AuthorDTO followingAuthor in author.Followed) {
-            //         if (followingAuthor.AuthorId == AuthorId) {
-            //             return true;
-            //         }
-            //     }
-            // }
+    public async Task<bool> DoesFollow(string CheepAuthorName) 
+    {   //The Author who inquires
+        if (User.Identity?.IsAuthenticated == true && User.Identity?.Name != null) {
+            AuthorDTO? author = await _service.GetAuthorByName(User.Identity.Name);
+            if (author != null && author.Followed != null) {
+                foreach (AuthorDTO followee in author.Followed) 
+                {
+                    if (followee.Name == CheepAuthorName)  
+                        return true;
+                }
+            }
         }
         return false;
     }
