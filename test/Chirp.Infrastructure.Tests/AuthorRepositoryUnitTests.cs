@@ -190,7 +190,7 @@ public class AuthorRepositoryUnitTests
         Func<Task> act = async () => await repository.AddFollowee(1,2);
 
         //Assert
-        act.Should().ThrowAsync<InvalidOperationException>();
+        await act.Should().ThrowAsync<InvalidOperationException>();
     }
 
     [Fact]

@@ -35,14 +35,18 @@ public class TestAPI : IClassFixture<WebApplicationFactory<Program>>
                 var dbContextDescriptor = services.SingleOrDefault(
                     d => d.ServiceType ==
                         typeof(DbContextOptions<ChirpDBContext>));
-
-                services.Remove(dbContextDescriptor);
-
+           
                 var dbConnectionStringDescriptor = services.SingleOrDefault(
                     d => d.ServiceType ==
                         typeof(string));
-
-                services.Remove(dbConnectionStringDescriptor);
+                if (dbContextDescriptor!=null && dbConnectionStringDescriptor!=null)
+                {
+                    services.Remove(dbContextDescriptor);
+                    services.Remove(dbConnectionStringDescriptor);
+                }else {
+                    throw new NullReferenceException();
+                }
+                
 
                 services.AddSingleton(_msSqlContainer);
 

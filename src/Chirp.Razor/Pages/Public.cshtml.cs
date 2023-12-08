@@ -85,7 +85,7 @@ public class PublicModel : PageModel
                     return Redirect(User.Identity.Name);
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 await _service.AddAuthor(User.Identity.Name, userEmailClaim.Value);
                 await _service.Create(new CheepCreateDTO(User.Identity.Name, CheepMessageTimeLine));
