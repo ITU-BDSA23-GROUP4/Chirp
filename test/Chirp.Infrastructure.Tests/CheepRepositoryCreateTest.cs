@@ -57,7 +57,7 @@ public class CheepRepositoryUnitTests
         cheeps.Should().NotBeNull(); //Makes sure the page is not empty
 
         //Assert
-        cheeps.Should().Contain(c => c.Author == "TestAuthor" && c.Message == "TestMessage");
+        cheeps.Should().Contain(c => c.AuthorName == "TestAuthor" && c.Message == "TestMessage");
     }
 
     [Fact]
@@ -75,7 +75,7 @@ public class CheepRepositoryUnitTests
         cheeps.Should().NotBeNull(); //Makes sure the page is not empty
 
         //Assert
-        cheeps.Should().Contain(c => c.Author == "TestAuthor" && c.Message == "TestMessage2");
+        cheeps.Should().Contain(c => c.AuthorName == "TestAuthor" && c.Message == "TestMessage2");
     }
 
     [Fact]
