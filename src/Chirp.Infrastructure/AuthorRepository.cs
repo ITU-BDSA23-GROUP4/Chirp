@@ -31,41 +31,7 @@ namespace Chirp.Infrastructure
                 //Do nothing as the author already exists
             }
         }
-        /// <summary>
-        /// Finds an Author in the database based in ID 
-        /// 
-        /// Should be debrecated
-        /// </summary>
-        /// <param name="ID"></param>
-        /// <returns></returns>
-        /// <exception cref="ArgumentException"></exception>
-        public async Task<AuthorDTO> GetAuthorByID(Guid ID)
-        { 
-            var author = await _db.Authors.Where(author => author.AuthorId == ID).Select(authorDTO => new AuthorDTO
-            {
-                AuthorId = ID,
-                Name = authorDTO.Name,
-                Email = authorDTO.Email,
-                Cheeps = GetAllCheepsFromAuthor(authorDTO.Name, _db),
-                Followed = GetAllFollowedAuthor(authorDTO.AuthorId, _db),
-                Followers = GetAllFollowers(authorDTO.AuthorId, _db)
-            }).FirstAsync();
-            
-            if (author != null)
-            {
-                return author;
-            }
-            else
-            {
-                throw new ArgumentException("Author with ID " + ID + " does not exist");
-            }
-        }
-        /// <summary>
-        /// Finds an Author in the Databse based on Name needs to be exact. 
-        /// </summary>
-        /// <param name="name"></param>
-        /// <returns></returns>
-        /// <exception cref="ArgumentException"></exception>
+
         public async Task<AuthorDTO> GetAuthorByName(string name)
         {
             var author = await _db.Authors.Where(author => author.Name == name).Select(authorDTO => new AuthorDTO
