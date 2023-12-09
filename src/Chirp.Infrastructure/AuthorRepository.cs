@@ -31,7 +31,14 @@ namespace Chirp.Infrastructure
                 //Do nothing as the author already exists
             }
         }
-
+        /// <summary>
+        /// Finds an Author in the database based in ID 
+        /// 
+        /// Should be debrecated
+        /// </summary>
+        /// <param name="ID"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
         public async Task<AuthorDTO> GetAuthorByID(Guid ID)
         { 
             var author = await _db.Authors.Where(author => author.AuthorId == ID).Select(authorDTO => new AuthorDTO
@@ -53,7 +60,12 @@ namespace Chirp.Infrastructure
                 throw new ArgumentException("Author with ID " + ID + " does not exist");
             }
         }
-
+        /// <summary>
+        /// Finds an Author in the Databse based on Name needs to be exact. 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
         public async Task<AuthorDTO> GetAuthorByName(string name)
         {
             var author = await _db.Authors.Where(author => author.Name == name).Select(authorDTO => new AuthorDTO
@@ -74,7 +86,12 @@ namespace Chirp.Infrastructure
                 throw new ArgumentException("Author with name " + name + " does not exist");
             }
         }
-
+        /// <summary>
+        /// Finds an Author in the Databse based on Email needs to be exact. 
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
         public async Task<AuthorDTO> GetAuthorByEmail(string email)
         {
             var author = await _db.Authors.Where(author => author.Email == email).Select(authorDTO => new AuthorDTO
@@ -98,7 +115,12 @@ namespace Chirp.Infrastructure
                 throw new ArgumentException("Author with email " + email + " does not exist");
             }
         }
-
+        /// <summary>
+        /// The author asking for the removal removes the requesting author from both Authors follow lists 
+        /// </summary>
+        /// <param name="_AuthorName"></param>
+        /// <param name="_FolloweeName"></param>
+        /// <returns></returns>
         public async Task RemoveFollowee(string _AuthorName, string _FolloweeName)
         {
             var Author = await _db.Authors.Where(a => a.Name == _AuthorName)
@@ -136,7 +158,14 @@ namespace Chirp.Infrastructure
             }
         }
 
-
+         /// <summary>
+        /// Makes an Author Follow another follower Followee<\br> 
+        /// This is done through the SelfRelecting AuthorAuthor relation.
+        /// </summary>
+        /// <param name="_AuthorId"></param>
+        /// <param name="_FolloweeId"></param>
+        /// <returns></returns>
+        /// <exception cref="NullReferenceException"></exception>
         public async Task AddFollowee(string _AuthorName, string _FolloweeName)
         {
             var Author = await _db.Authors.Where(a => a.Name == _AuthorName)
