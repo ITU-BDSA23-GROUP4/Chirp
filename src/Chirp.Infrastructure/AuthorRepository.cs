@@ -104,8 +104,6 @@ namespace Chirp.Infrastructure
                 Followers = GetAllFollowers(authorDTO.AuthorId, _db)
             }).FirstAsync();
 
-            
-
             if (author != null)
             {
                 return author;
@@ -182,7 +180,7 @@ namespace Chirp.Infrastructure
             
             if (Author != null && Followee != null)
             {
-                
+
                 if (Author.Followed.Contains(Followee) || Followee.Followers.Contains(Author))
                 {
                     throw new InvalidOperationException("Author: " + Author.Name + "already follows: " + Followee.Name);
@@ -212,6 +210,7 @@ namespace Chirp.Infrastructure
                     CheepId = CheepDTO.CheepId,
                     AuthorName = CheepDTO.Author.Name,
                     Message = CheepDTO.Text,
+                    Likes = CheepDTO.Likes,
                     Timestamp = CheepDTO.TimeStamp
                 });
                 cheepsToReturn.AddRange(cheepsDTO);

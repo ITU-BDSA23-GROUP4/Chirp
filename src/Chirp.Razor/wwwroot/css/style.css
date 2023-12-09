@@ -111,6 +111,8 @@ div.page ul.cheeps {
 div.page ul.cheeps li {
   margin: 10px 0;
   padding: 5px;
+  position: relative;
+  padding-bottom: 26px;
   background: #F0FAF9;
   border: 1px solid #DBF3F1;
   border-radius: 2px;
@@ -121,6 +123,21 @@ div.page ul.cheeps li {
 
 div.page ul.cheeps p {
   margin: 0;
+}
+
+div.page ul.cheeps li p.likesContainer {
+  position: absolute;
+  bottom: 5px;
+}
+
+div.page ul.cheeps li div.likesContainer form {
+  display: inline-block;
+}
+
+div.page ul.cheeps li div.likesContainer button {
+  background-color: #26776F;
+  border: white;
+  color: white;
 }
 
 div.page ul.cheeps li img {
@@ -241,4 +258,9 @@ li.topic {
 
 .logoStyling:hover {
   color: white;
+}
+
+.likesContainer {
+  position: absolute;
+  bottom: 5px;
 }

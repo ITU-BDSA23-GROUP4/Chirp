@@ -8,12 +8,10 @@ using Initializer;
 using Microsoft.Data.SqlClient;
 using Microsoft.Identity.Client;
 
-
 public class TestAPI : IClassFixture<WebApplicationFactory<Program>>
 {
     private readonly WebApplicationFactory<Program> _fixture;
     private readonly MsSqlContainer _msSqlContainer = new MsSqlBuilder().Build();
-
 
     private readonly HttpClient _client;
 
@@ -24,9 +22,6 @@ public class TestAPI : IClassFixture<WebApplicationFactory<Program>>
 
         var connectionString = new SqlConnection(_msSqlContainer.GetConnectionString());
         connectionString.OpenAsync().Wait();
-
-        //Print the connection string to the console
-        Console.WriteLine("Connection string: " + _msSqlContainer.GetConnectionString());
 
         _fixture = fixture.WithWebHostBuilder(builder =>
         {
@@ -206,6 +201,4 @@ public class TestAPI : IClassFixture<WebApplicationFactory<Program>>
         //Assert 
         Assert.True(InOrder);
     }
-
-
 }
