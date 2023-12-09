@@ -1,13 +1,13 @@
 using System.ComponentModel.DataAnnotations;
 
-public class CheepRepositoryUnitTests
+public class CheepRepositoryCreateUnitTests
 {
     private readonly SqliteConnection? _connection; //Connection to the database
     private readonly ChirpDBContext _context; //Context for the database
     private readonly CheepRepository repository; //Repository for the database
     private readonly CheepCreateValidator validator; //Validator for the database
 
-    public CheepRepositoryUnitTests()
+    public CheepRepositoryCreateUnitTests()
     {
         //Arrange
         //Creates a database in memory - Makkes connection string before opening the connection
@@ -32,9 +32,9 @@ public class CheepRepositoryUnitTests
         
         validator = new CheepCreateValidator();
         if (validator == null)
-            {
-                throw new Exception("Validator is null");
-            }
+        {
+            throw new Exception("Validator is null");
+        }
 
         context.SaveChanges();
         _context = context;
@@ -51,7 +51,7 @@ public class CheepRepositoryUnitTests
         //Act
         await repository.Create(cheepCreateDto); //Adds the cheep to the database
 
-         var cheeps = repository.GetCheeps(1);
+        var cheeps = repository.GetCheeps(1);
         cheeps.Should().NotBeNull(); //Makes sure the page is not empty
 
         //Assert

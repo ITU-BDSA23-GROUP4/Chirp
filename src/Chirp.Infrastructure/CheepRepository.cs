@@ -22,7 +22,7 @@ public class CheepRepository : ICheepRepository
     public async Task AddCheep(Guid authorId, string text)
     {
         try
-        {
+        {    
             int TLength = text.Length; //Sets a scalable length that we can use for if statement
             var author = GetAuthorById(authorId);
             if (TLength <= 160 && TLength > 0 && author != null)
@@ -32,6 +32,7 @@ public class CheepRepository : ICheepRepository
                     CheepId = Guid.NewGuid(),
                     Author = author,
                     Text = text,
+                    Likes = 0,
                     TimeStamp = DateTime.Now
                 });
             }
@@ -61,6 +62,7 @@ public class CheepRepository : ICheepRepository
             CheepId = cheep.CheepId,
             AuthorName = cheep.Author.Name,
             Message = cheep.Text,
+            Likes = cheep.Likes,
             Timestamp = cheep.TimeStamp
         });
 
@@ -83,7 +85,7 @@ public class CheepRepository : ICheepRepository
         }
     }
 
-    public List<CheepDTO> GetCheepsFromAuthor(string author, int? pageNum)
+    public List<CheepDTO> GetCheepsFromAuthor(string authorName, int? pageNum)
     {
         //Creates a list of max 32 CheepDTO sorted by recent cheep and only for the given author
 
@@ -96,7 +98,7 @@ public class CheepRepository : ICheepRepository
             author => author.AuthorId,
             (cheep, author) => new { Cheep = cheep, Author = author }
         )
-        .Where(joinResult => joinResult.Author.Name == author)
+        .Where(joinResult => joinResult.Author.Name == authorName)
         .OrderByDescending(joinResult => joinResult.Cheep.TimeStamp)
         .Select(joinResult => new CheepDTO
         {
@@ -104,6 +106,7 @@ public class CheepRepository : ICheepRepository
             CheepId = joinResult.Cheep.CheepId,
             AuthorName = joinResult.Author.Name,
             Message = joinResult.Cheep.Text,
+            Likes = joinResult.Cheep.Likes,
             Timestamp = joinResult.Cheep.TimeStamp
         });
         cheepsToReturn.AddRange(cheepsDTO);
@@ -136,6 +139,7 @@ public class CheepRepository : ICheepRepository
             CheepId = CheepDTO.CheepId,
             AuthorName = CheepDTO.Author.Name,
             Message = CheepDTO.Text,
+            Likes = CheepDTO.Likes,
             Timestamp = CheepDTO.TimeStamp
         }
         ).Count();
@@ -143,18 +147,19 @@ public class CheepRepository : ICheepRepository
     }
 
     //This method is needed for the dynamic buttons as we only have methods for returning 32 cheeps at a time
-    public int GetCountOfAllCheepFromAuthor(string author)
+    public int GetCountOfAllCheepFromAuthor(string authorName)
     {
         List<CheepDTO> cheepsToReturn = new List<CheepDTO>();
 
         var cheepsDTO = _db.Cheeps
-            .Where(cheep => cheep.Author != null && cheep.Author.Name != null && cheep.Author.Name.Equals(author))
+            .Where(cheep => cheep.Author != null && cheep.Author.Name != null && cheep.Author.Name.Equals(authorName))
             .Select(CheepDTO => new CheepDTO
             {
                 //Sets the properties of the Cheep
                 CheepId = CheepDTO.CheepId,
                 AuthorName = CheepDTO.Author.Name,
                 Message = CheepDTO.Text,
+                Likes = CheepDTO.Likes,
                 Timestamp = CheepDTO.TimeStamp
             }
         ).Count();
@@ -184,9 +189,20 @@ public class CheepRepository : ICheepRepository
             CheepId = Guid.NewGuid(),
             Author = user,
             Text = cheep.Text,
+            Likes = 0,
             TimeStamp = DateTime.Now
         });
       
+        await _db.SaveChangesAsync();
+    }
+
+    public async Task IncreaseLikeAttributeInCheep(Guid cheepId)
+    {
+        var cheep = await _db.Cheeps.Where(c => c.CheepId == cheepId).FirstOrDefaultAsync();
+
+        if (cheep != null)
+            cheep.Likes++;
+        
         await _db.SaveChangesAsync();
     }
 }

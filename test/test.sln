@@ -1,0 +1,42 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.002.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chirp.Infrastructure.Tests", "Chirp.Infrastructure.Tests\Chirp.Infrastructure.Tests.csproj", "{724BC56D-ED33-4654-A333-C0F044CE64D7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chirp.Razor.Tests", "Chirp.Razor.Tests\Chirp.Razor.Tests.csproj", "{B22C6B41-0AC1-4316-A27B-DDD3ED101084}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Chirp.Playwright.Tests", "Chirp.Playwright.Tests", "{3827BDAE-93EF-492A-AD32-63E543C4B8B7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlaywrightTests", "Chirp.Playwright.Tests\PlaywrightTests\PlaywrightTests.csproj", "{E411EDDC-82F3-4946-ACB2-F6F2CBFEA934}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{724BC56D-ED33-4654-A333-C0F044CE64D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{724BC56D-ED33-4654-A333-C0F044CE64D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{724BC56D-ED33-4654-A333-C0F044CE64D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{724BC56D-ED33-4654-A333-C0F044CE64D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B22C6B41-0AC1-4316-A27B-DDD3ED101084}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B22C6B41-0AC1-4316-A27B-DDD3ED101084}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B22C6B41-0AC1-4316-A27B-DDD3ED101084}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B22C6B41-0AC1-4316-A27B-DDD3ED101084}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E411EDDC-82F3-4946-ACB2-F6F2CBFEA934}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E411EDDC-82F3-4946-ACB2-F6F2CBFEA934}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E411EDDC-82F3-4946-ACB2-F6F2CBFEA934}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E411EDDC-82F3-4946-ACB2-F6F2CBFEA934}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{E411EDDC-82F3-4946-ACB2-F6F2CBFEA934} = {3827BDAE-93EF-492A-AD32-63E543C4B8B7}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C824F030-7840-4549-BEA3-8813D67D2018}
+	EndGlobalSection
+EndGlobal
