@@ -9,7 +9,7 @@ public class CheepRepository : ICheepRepository
 {
     private readonly ChirpDBContext _db; //Needed to get our CheepDTO
     private readonly AbstractValidator<CheepCreateDTO> _validator; //Needed to validate our CheepDTO
-
+    
     public CheepRepository(ChirpDBContext db, AbstractValidator<CheepCreateDTO>? validator) //If we want to use an existing db
     {
         _db = db;
@@ -19,7 +19,7 @@ public class CheepRepository : ICheepRepository
         _validator = validator;
     }
 
-    public async Task AddCheep(int authorId, string text)
+    public async Task AddCheep(Guid authorId, string text)
     {
         try
         {
@@ -29,6 +29,7 @@ public class CheepRepository : ICheepRepository
             {
                 _db.Add(new Cheep
                 {
+                    CheepId = Guid.NewGuid(),
                     Author = author,
                     Text = text,
                     TimeStamp = DateTime.Now
@@ -47,7 +48,7 @@ public class CheepRepository : ICheepRepository
     }
 
     public List<CheepDTO> GetCheeps(int? pageNum)
-    {
+    { 
         //Creates a list of max 32 CheepDTO sorted by recent cheep
 
         List<CheepDTO> cheepsToReturn = new();
@@ -57,8 +58,8 @@ public class CheepRepository : ICheepRepository
         .OrderByDescending(c => c.TimeStamp.Ticks)
         .Select(cheep => new CheepDTO
         {
-            AuthorId = cheep.Author.AuthorId,
-            Author = cheep.Author.Name,
+            CheepId = cheep.CheepId,
+            AuthorName = cheep.Author.Name,
             Message = cheep.Text,
             Timestamp = cheep.TimeStamp
         });
@@ -100,8 +101,8 @@ public class CheepRepository : ICheepRepository
         .Select(joinResult => new CheepDTO
         {
             //Sets the properties of the Cheep
-            AuthorId = joinResult.Author.AuthorId,
-            Author = joinResult.Author.Name,
+            CheepId = joinResult.Cheep.CheepId,
+            AuthorName = joinResult.Author.Name,
             Message = joinResult.Cheep.Text,
             Timestamp = joinResult.Cheep.TimeStamp
         });
@@ -132,8 +133,8 @@ public class CheepRepository : ICheepRepository
         var cheepsDTO = _db.Cheeps.Select(CheepDTO => new CheepDTO
         {
             //Sets the properties of the Cheep
-            AuthorId = CheepDTO.Author.AuthorId,
-            Author = CheepDTO.Author.Name,
+            CheepId = CheepDTO.CheepId,
+            AuthorName = CheepDTO.Author.Name,
             Message = CheepDTO.Text,
             Timestamp = CheepDTO.TimeStamp
         }
@@ -151,8 +152,8 @@ public class CheepRepository : ICheepRepository
             .Select(CheepDTO => new CheepDTO
             {
                 //Sets the properties of the Cheep
-                AuthorId = CheepDTO.Author.AuthorId,
-                Author = CheepDTO.Author.Name,
+                CheepId = CheepDTO.CheepId,
+                AuthorName = CheepDTO.Author.Name,
                 Message = CheepDTO.Text,
                 Timestamp = CheepDTO.TimeStamp
             }
@@ -160,7 +161,7 @@ public class CheepRepository : ICheepRepository
         return cheepsDTO;
     }
     // A method to get an Author class representation with an id
-    private Author? GetAuthorById(int id)
+    private Author? GetAuthorById(Guid id)
     {
         return _db.Authors.Where(author => author.AuthorId == id).FirstOrDefault();
     }
@@ -180,6 +181,7 @@ public class CheepRepository : ICheepRepository
 
         _db.Add(new Cheep
         {
+            CheepId = Guid.NewGuid(),
             Author = user,
             Text = cheep.Text,
             TimeStamp = DateTime.Now

@@ -29,18 +29,18 @@
                         <li>
                             <p>
                                 <strong>
-                                    <a href="/@cheep.Author">@cheep.Author</a>
+                                    <a href="/@cheep.AuthorName">@cheep.AuthorName</a>
                                     @if (User.Identity?.IsAuthenticated == true) {
-                                       @*  if (!Model.DoesFollow(cheep.AuthorId)) 
+                                        if (!await Model.DoesFollow(cheep.AuthorName)) 
                                         {
                                             // Link to page that adds the author to the following list of the current user and redirects back to the current page
-                                            <a href="location.href='?follow=@cheep.AuthorId'">follow</a>
+                                            <a href="?follow=@cheep.AuthorName">follow</a>
                                         } 
-                                        else 
+                                        else
                                         {
                                             // Link to page that removes the author from the following list of the current user and redirects back to the current page
-                                            <a href="location.href='?unfollow=@cheep.AuthorId'">unfollow</a>
-                                        } *@
+                                            <a href="?unfollow=@cheep.AuthorName">unfollow</a>
+                                        }
                                     }
                                 </strong>
                                 @cheep.Message
@@ -51,7 +51,7 @@
                 </ul>
                  <div class="pageNumber">
                     <span>Page:</span>
-                    @for (int i = 1; i < ((Model._service.GetCountOfAllCheepFromAuthor(Model.Cheeps[0].Author)/32)+2); i++)
+                    @for (int i = 1; i < ((Model._service.GetCountOfAllCheepFromAuthor(Model.Cheeps[0].AuthorName)/32)+2); i++)
                     {   
                         <button onclick="location.href='?page=@i'">@i</button>
                     }
