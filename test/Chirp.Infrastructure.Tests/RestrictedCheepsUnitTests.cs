@@ -23,16 +23,14 @@ public class RestrictedCheepTests
         /* Creates a cheep and author to add to the database. These objects are used in each test */
         var testAuthor = new Author
         {
-            AuthorId = 1,
+            AuthorId = new Guid(1,0,0, new byte[] {0,0,0,0,0,0,0,0}),
             Name = "TestName",
             Email = "TestEmail",
             Cheeps = new List<Cheep>(),
-            Followed = new List<Follow>(),
-            Followers = new List<Follow>()
         };
         var testCheep = new Cheep
         {
-            CheepId = new Guid(1, 0, 0, new byte[]{0,0,0,0,0,0,0,0}),
+            CheepId = new Guid(1,0,0, new byte[] {0,0,0,0,0,0,0,0}),
             Author = testAuthor,
             TimeStamp = DateTime.Now,
             Text = "This is a cheep for testing"
@@ -57,7 +55,7 @@ public class RestrictedCheepTests
     public void TestIfAuthorIsThere()
     {
         //Act
-        var author = _context.Authors.Where(author => author.AuthorId == 1).FirstOrDefault();
+        var author = _context.Authors.Where(author => author.AuthorId == new Guid(1,0,0, new byte[] {0,0,0,0,0,0,0,0})).FirstOrDefault();
 
         //Assert
         author.Should().NotBeNull();
@@ -70,7 +68,7 @@ public class RestrictedCheepTests
         //Sets the message and adds an action to add the cheep to the in memory database
         string Message = "This string should be way over 160 characters, just so we can check that its not possible to make a message that is longer than nessesary.This will because of that, become a very long message.";
 
-        Func<Task> act = async () => await repository.AddCheep(1, Message); //Adds the cheep to the database
+        Func<Task> act = async () => await repository.AddCheep(new Guid(1,0,0, new byte[] {0,0,0,0,0,0,0,0}), Message); //Adds the cheep to the database
 
         //Assert
         act.Should().ThrowAsync<ArgumentException>().WithMessage("Message is above 160 characters or empty"); //Should throw an exception to pass
@@ -83,7 +81,7 @@ public class RestrictedCheepTests
         //Sets the message and adds an action to add the cheep to the in memory database
         string Message = " This string should be at exactly 160 characters, so that we know its possible. There should not be a character more or less, so we'll have a very precise test.";
 
-        Func<Task> act = async () => await repository.AddCheep(1, Message);
+        Func<Task> act = async () => await repository.AddCheep(new Guid(1,0,0, new byte[] {0,0,0,0,0,0,0,0}), Message);
 
         //Assert
         act.Should().NotThrowAsync<ArgumentException>(); //Should not throw an exception to pass
@@ -96,7 +94,7 @@ public class RestrictedCheepTests
         //Sets the message and adds an action to add the cheep to the in memory database
         string Message = "This string is very much under 160 characters";
 
-        Func<Task> act = async () => await repository.AddCheep(1, Message);
+        Func<Task> act = async () => await repository.AddCheep(new Guid(1,0,0, new byte[] {0,0,0,0,0,0,0,0}), Message);
 
         //Assert
         act.Should().NotThrowAsync<ArgumentException>(); //Should not throw an exception to pass
@@ -107,7 +105,7 @@ public class RestrictedCheepTests
     {
         //Act
         //Sets an action to add the cheep to the in memory database
-        Func<Task> act = async () => await repository.AddCheep(1, "");
+        Func<Task> act = async () => await repository.AddCheep(new Guid(1,0,0, new byte[] {0,0,0,0,0,0,0,0}), "");
 
         //Assert
         //Should throw an exception to pass
@@ -126,6 +124,6 @@ public class RestrictedCheepTests
         cheeps.Should().NotBeNull(); //Makes sure the page is not empty
 
         //Assert
-        cheeps.Should().Contain(c => c.CheepId == new Guid(1, 0, 0, new byte[]{0,0,0,0,0,0,0,0}) && c.Message == "This is a cheep for testing");
+        cheeps.Should().Contain(c => c.CheepId == new Guid(1,0,0, new byte[] {0,0,0,0,0,0,0,0}) && c.Message == "This is a cheep for testing");
     }
 }

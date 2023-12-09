@@ -22,12 +22,10 @@ public class CheepRepositoryUnitTests
         context.Database.EnsureCreated();
 
         var testAuthor = new Author {
-            AuthorId = 1, 
+            AuthorId = new Guid(1,0,0, new byte[] {0,0,0,0,0,0,0,0}), 
             Name = "TestAuthor", 
             Email = "TestEmail", 
             Cheeps = new List<Cheep>(),
-            Followed = new List<Follow>(),
-            Followers = new List<Follow>()
             };
 
         context.Authors.Add(testAuthor); 

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Chirp.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class InitalCreate : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -15,8 +15,7 @@ namespace Chirp.Infrastructure.Migrations
                 name: "Authors",
                 columns: table => new
                 {
-                    AuthorId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    AuthorId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Email = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
                 },
@@ -26,11 +25,34 @@ namespace Chirp.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "AuthorAuthor",
+                columns: table => new
+                {
+                    FollowedAuthorId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    FollowersAuthorId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AuthorAuthor", x => new { x.FollowedAuthorId, x.FollowersAuthorId });
+                    table.ForeignKey(
+                        name: "FK_AuthorAuthor_Authors_FollowedAuthorId",
+                        column: x => x.FollowedAuthorId,
+                        principalTable: "Authors",
+                        principalColumn: "AuthorId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_AuthorAuthor_Authors_FollowersAuthorId",
+                        column: x => x.FollowersAuthorId,
+                        principalTable: "Authors",
+                        principalColumn: "AuthorId");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Cheeps",
                 columns: table => new
                 {
                     CheepId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    AuthorId = table.Column<int>(type: "int", nullable: false),
+                    AuthorId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Text = table.Column<string>(type: "nvarchar(160)", maxLength: 160, nullable: false),
                     TimeStamp = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
@@ -45,61 +67,25 @@ namespace Chirp.Infrastructure.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "Follows",
-                columns: table => new
-                {
-                    AuthorId = table.Column<int>(type: "int", nullable: false),
-                    FolloweeId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Follows", x => new { x.AuthorId, x.FolloweeId });
-                    table.ForeignKey(
-                        name: "FK_Follows_Authors_AuthorId",
-                        column: x => x.AuthorId,
-                        principalTable: "Authors",
-                        principalColumn: "AuthorId",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Follows_Authors_FolloweeId",
-                        column: x => x.FolloweeId,
-                        principalTable: "Authors",
-                        principalColumn: "AuthorId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
             migrationBuilder.CreateIndex(
-                name: "IX_Authors_Email",
-                table: "Authors",
-                column: "Email",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Authors_Name",
-                table: "Authors",
-                column: "Name",
-                unique: true);
+                name: "IX_AuthorAuthor_FollowersAuthorId",
+                table: "AuthorAuthor",
+                column: "FollowersAuthorId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Cheeps_AuthorId",
                 table: "Cheeps",
                 column: "AuthorId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Follows_FolloweeId",
-                table: "Follows",
-                column: "FolloweeId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Cheeps");
+                name: "AuthorAuthor");
 
             migrationBuilder.DropTable(
-                name: "Follows");
+                name: "Cheeps");
 
             migrationBuilder.DropTable(
                 name: "Authors");
