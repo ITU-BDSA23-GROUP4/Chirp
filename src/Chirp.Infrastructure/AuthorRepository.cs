@@ -1,3 +1,5 @@
+using System.Data.Common;
+using System.Net;
 using Chirp.Core;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,12 +12,18 @@ namespace Chirp.Infrastructure
         {
             _db = db;
         }
-
+        /// <summary>
+        ///  Adds an Author to the data base with all required fields Note 
+        ///  followed and followers list are not required
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="email"></param>
+        /// <returns></returns>
         public async Task AddAuthor(string name, string email)
         {
             try
             {
-                await _db.Authors.AddAsync(new Author { Name = name, Cheeps = new List<Cheep>(), Email = email });
+                await _db.Authors.AddAsync(new Author { AuthorId = Guid.NewGuid(), Name = name, Cheeps = new List<Cheep>(), Email = email });
                 await _db.SaveChangesAsync();
             } 
             catch (Exception)
@@ -80,7 +88,12 @@ namespace Chirp.Infrastructure
                 throw new ArgumentException("Author with name " + name + " does not exist");
             }
         }
-
+        /// <summary>
+        /// Finds an Author in the Databse based on Email needs to be exact. 
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
         public async Task<AuthorDTO> GetAuthorByEmail(string email)
         {
             var author = await _db.Authors.Where(author => author.Email == email).Select(authorDTO => new AuthorDTO
@@ -93,8 +106,6 @@ namespace Chirp.Infrastructure
                 Followers = GetAllFollowers(authorDTO.AuthorId, _db)
             }).FirstAsync();
 
-            
-
             if (author != null)
             {
                 return author;
@@ -102,6 +113,28 @@ namespace Chirp.Infrastructure
             else
             {
                 throw new ArgumentException("Author with email " + email + " does not exist");
+            }
+        }
+        /// <summary>
+        /// The author asking for the removal removes the requesting author from both Authors follow lists 
+        /// </summary>
+        /// <param name="_AuthorName"></param>
+        /// <param name="_FolloweeName"></param>
+        /// <returns></returns>
+        public async Task RemoveFollowee(string _AuthorName, string _FolloweeName)
+        {
+            var Author = await _db.Authors.Where(a => a.Name == _AuthorName)
+                .Include(a => a.Followed)
+                .FirstAsync();
+
+            var Followee = await _db.Authors.Where(a => a.Name == _FolloweeName)
+                .Include(a => a.Followers)
+                .FirstAsync();
+
+            if (Author != null && Followee.Followers != null)
+            {
+                Followee.Followers.Remove(Author);
+                await _db.SaveChangesAsync();
             }
         }
 
@@ -124,45 +157,41 @@ namespace Chirp.Infrastructure
                 return false;
             }
         }
-    
-        public async Task RemoveFollowee(int _AuthorId, int _FollowerId) {
-            //I as a chirp author remover Chirp author by "name" from my Followed and remove myself from their followers list
+
+         /// <summary>
+        /// Makes an Author Follow another follower Followee<\br> 
+        /// This is done through the SelfRelecting AuthorAuthor relation.
+        /// </summary>
+        /// <param name="_AuthorId"></param>
+        /// <param name="_FolloweeId"></param>
+        /// <returns></returns>
+        /// <exception cref="NullReferenceException"></exception>
+        public async Task AddFollowee(string _AuthorName, string _FolloweeName)
+        {
+            var Author = await _db.Authors.Where(a => a.Name == _AuthorName)
+                .Include(a => a.Followed)
+                .FirstAsync();
+
+
+            var Followee = await _db.Authors.Where(a => a.Name == _FolloweeName)
+                .Include(a => a.Followers)
+                .FirstAsync();
             
-            var FollowerRelationship = await _db.Follows.Where(f => f.FolloweeId == _AuthorId && f.AuthorId == _FollowerId).FirstAsync();
+                Author.Followed ??= new List<Author>();
+                Followee.Followers ??= new List<Author>();
             
-            if (FollowerRelationship != null) {
-                _db.Follows.Remove(FollowerRelationship);
+            if (Author != null && Followee != null)
+            {
+
+                if (Author.Followed.Contains(Followee) || Followee.Followers.Contains(Author))
+                {
+                    throw new InvalidOperationException("Author: " + Author.Name + "already follows: " + Followee.Name);
+                }
+                Author.Followed.Add(Followee);
+                 Followee.Followers.Add(Author);
                 await _db.SaveChangesAsync();
             }
-            else 
-            {
-                throw new NullReferenceException("FollowerRelationship is null");
-            }
-        }
-
-        private async Task<Author?> GetRealAuthorByID(int ID){
-            var author = await _db.Authors.FirstAsync(author => author.AuthorId == ID);
-            System.Threading.Thread.Sleep(5000);
-            return author;
-        }
-        //Should be async?
-        public async Task AddFollowee(int _AuthorId, int _FolloweeId) {
-            //I as a chirp author add Chirp author by "name" to my Folled and add myself  to their followers list
-            Author? _Author =  await GetRealAuthorByID(_AuthorId);
-            Author? _Followee = await GetRealAuthorByID(_FolloweeId);
-
-            if (_Author != null && _Followee != null)
-            { 
-                _db.Follows.Add(new Follow 
-                {
-                    AuthorId = _AuthorId, 
-                    FolloweeId = _FolloweeId, 
-                    Author = _Author, 
-                    Follower = _Followee
-                });
-                await _db.SaveChangesAsync();            
-            } 
-            else 
+            else
             {
                 throw new NullReferenceException("Obejct _Author or _Followee of type Author is null");
             }
@@ -180,9 +209,10 @@ namespace Chirp.Infrastructure
                 var cheepsDTO =  _dbcontext.Cheeps.ToList().OrderByDescending(c => c.TimeStamp.Ticks).Where(author => author.Author.Name == Name).Select(CheepDTO => new CheepDTO
                 { 
                     //Sets the properties of the Cheep
-                    AuthorId = CheepDTO.Author.AuthorId,
-                    Author = CheepDTO.Author.Name,
+                    CheepId = CheepDTO.CheepId,
+                    AuthorName = CheepDTO.Author.Name,
                     Message = CheepDTO.Text,
+                    Likes = CheepDTO.Likes,
                     Timestamp = CheepDTO.TimeStamp
                 });
                 cheepsToReturn.AddRange(cheepsDTO);
@@ -195,48 +225,65 @@ namespace Chirp.Infrastructure
             }
         }
 
-        private static Task<List<AuthorDTO>> GetAllFollowedAuthorsAsync(int AuthorId, ChirpDBContext _dbcontext) {
+        private static Task<List<AuthorDTO>> GetAllFollowedAuthorAsync(Guid AuthorId, ChirpDBContext _dbcontext) {
             return Task.Run(() => GetAllFollowedAuthor(AuthorId, _dbcontext));
         }
 
-        private static List<AuthorDTO> GetAllFollowedAuthor(int AuthorId, ChirpDBContext _dbcontext) 
-        {   
+        private static List<AuthorDTO> GetAllFollowedAuthor(Guid AuthorId, ChirpDBContext DBcontext)
+        {
             List<AuthorDTO> followed = new List<AuthorDTO>();
 
-            // pull out followed authors from a table not yet existing mapping between follower (foreign key to author) and author (foreign key to author)
-            var authorDTOs = _dbcontext.Follows.ToList().Where(f => f.FolloweeId == AuthorId)
-                .Select(AuthorDTO => new AuthorDTO 
+            var Author = DBcontext.Authors.Where(a => a.AuthorId == AuthorId)
+                .Include(a => a.Followed)
+                .FirstOrDefault();
+
+            if (Author != null && Author.Followed != null)
+            {
+                var AuthorDTOs = Author.Followed.Select(AuthorDTO => new AuthorDTO
                 {
                     AuthorId = AuthorDTO.AuthorId,
-                    Name = AuthorDTO.Author.Name,
-                    Email = AuthorDTO.Author.Email
-                }
-            );
+                    Name = AuthorDTO.Name,
+                    Email = AuthorDTO.Email
+                }).ToList();
 
-            followed.AddRange(authorDTOs);
+                if (AuthorDTOs != null)
+                {
+                    followed.AddRange(AuthorDTOs);
+                }
+            }
 
             return followed;
         }
 
-        private static Task<List<AuthorDTO>> GetAllFollowersAsync(int AuthorId, ChirpDBContext _dbcontext) {
+        private static Task<List<AuthorDTO>> GetAllFollowersAsync(Guid AuthorId, ChirpDBContext _dbcontext) {
             return Task.Run(() => GetAllFollowers(AuthorId, _dbcontext));
         }
-        private static List<AuthorDTO> GetAllFollowers(int AuthorId, ChirpDBContext _dbcontext) 
-        {   
+        private static List<AuthorDTO> GetAllFollowers(Guid _AuthorId, ChirpDBContext _dbcontext) 
+        { 
             List<AuthorDTO> followers = new List<AuthorDTO>();
 
-            // pull out followed authors from a table not yet existing mapping between author (foreign key to author) and follower (foreign key to author)
-            // pull out followed authors from a table not yet existing mapping between follower (foreign key to author) and author (foreign key to author)
-            var authorDTOs = _dbcontext.Follows.ToList().Where(f => f.AuthorId == AuthorId)
-                .Select(AuthorDTO => new AuthorDTO 
-                {
-                    AuthorId = AuthorDTO.FolloweeId,
-                    Name = AuthorDTO.Follower.Name,
-                    Email = AuthorDTO.Follower.Email
-                }
-            );
+            var Authors = _dbcontext.Authors.
+                Where(a => a.AuthorId == _AuthorId)
+                .Include(a => a.Followers)
+                .FirstOrDefault();
 
-            followers.AddRange(authorDTOs);
+            if (Authors != null && Authors.Followers != null)
+            {
+            // pull out followed authors from a table not yet existing mapping between author (foreign key to author) and follower (foreign key to author)
+            // pull out followed authors from a table not yet existing mapping between follower (foreign key to author) and author (foreign key to author
+                var AuthorDTOs = Authors?.Followers.Select(AuthorDTO => new AuthorDTO()
+                {
+                    AuthorId = AuthorDTO.AuthorId,
+                    Name = AuthorDTO.Name,
+                    Email = AuthorDTO.Email
+                })
+                .ToList();
+
+                if (AuthorDTOs != null)
+                {
+                    followers.AddRange(AuthorDTOs);
+                }
+            }
 
             return followers;
         }

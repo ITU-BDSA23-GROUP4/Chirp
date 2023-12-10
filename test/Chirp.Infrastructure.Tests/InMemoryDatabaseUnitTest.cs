@@ -23,16 +23,15 @@ public class InMemoryDatabaseTest
 
         //Creates a cheep and author to add to the database
         var testAuthor = new Author {
-            AuthorId = 1, 
+            AuthorId = new Guid(1,0,0, new byte[] {0,0,0,0,0,0,0,0}), 
             Name = "TestName", 
             Email = "TestEmail", 
             Cheeps = new List<Cheep>(),
-            Followed = new List<Follow>(),
-            Followers = new List<Follow>()
             };
         var testCheep = new Cheep {
-            CheepId = 1, 
+            CheepId = new Guid(), 
             Author = testAuthor, 
+            Likes = 0,
             TimeStamp = DateTime.Now, 
             Text = "This is a cheep for testing"
         };
@@ -77,24 +76,5 @@ public class InMemoryDatabaseTest
         //Assert
         //If not empty it should PASS
         act.Should().NotThrow<Exception>();
-    }
-
-
-    [Fact] //Check that adding a cheep to the in memory database doesn't affect our current database
-    public void MemoryDatabaseShouldntAffectDatabaseTest()
-    {
-        /* We use the object from the constructor, to compare in the Assert */
-        
-        //Act
-        //Get the cheeps from the current database
-        Action act = () => ExistingRepository.GetCheeps(1);
-        act.Should().NotThrow<Exception>(); //Making sure it's possible
-
-        var cheeps = ExistingRepository.GetCheeps(1);
-        cheeps.Should().NotBeNull(); //Makes sure the page is not empty
-
-        //Assert
-        //See if the cheep is in the normal database, if it isn't it should PASS
-        cheeps.Should().NotContain(c => c.AuthorId == 1 && c.Message == "This is a cheep for testing");
     }
 }

@@ -28,23 +28,32 @@
                         <li>
                             <p>
                                 <strong>
-                                    <a href="/@cheep.Author">@cheep.Author</a>
-                                    @* @if (User.Identity?.IsAuthenticated == true) {
-                                         if (!Model.DoesFollow(cheep.AuthorId)) 
+                                    <a href="/@cheep.AuthorName">@cheep.AuthorName</a>
+                                    @if (User.Identity?.IsAuthenticated == true) {
+                                        if (!await Model.DoesFollow(cheep.AuthorName)) 
                                         {
                                             // Link to page that adds the author to the following list of the current user and redirects back to the current page
-                                            <a href="location.href='?follow=@cheep.AuthorId'">follow</a>
+                                            <a href="?follow=@cheep.AuthorName">follow</a>
                                         } 
                                         else 
                                         {
                                             // Link to page that removes the author from the following list of the current user and redirects back to the current page
-                                            <a href="location.href='?unfollow=@cheep.AuthorId'">unfollow</a>
-                                        } 
-                                    } *@
+                                            <a href="?unfollow=@cheep.AuthorName">unfollow</a>
+                                        }
+                                    }
                                 </strong>
-                                @cheep.Message
+                                <br />
+                                <span>@cheep.Message</span>
                                 <small>&mdash; @cheep.Timestamp</small>
                             </p>
+                            <div class="likesContainer">
+                                @if (User.Identity != null && User.Identity.IsAuthenticated) {
+                                    <form asp-page-handler="Like" method="post">
+                                        <button name="cheepId" value="@cheep.CheepId">Like</button>
+                                    </form>
+                                }
+                                <small>Likes: </small>@cheep.Likes
+                            </div>
                         </li>
                     }
                 </ul> 

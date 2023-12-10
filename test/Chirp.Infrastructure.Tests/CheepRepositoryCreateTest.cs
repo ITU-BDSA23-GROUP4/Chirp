@@ -1,13 +1,13 @@
 using System.ComponentModel.DataAnnotations;
 
-public class CheepRepositoryUnitTests
+public class CheepRepositoryCreateUnitTests
 {
     private readonly SqliteConnection? _connection; //Connection to the database
     private readonly ChirpDBContext _context; //Context for the database
     private readonly CheepRepository repository; //Repository for the database
     private readonly CheepCreateValidator validator; //Validator for the database
 
-    public CheepRepositoryUnitTests()
+    public CheepRepositoryCreateUnitTests()
     {
         //Arrange
         //Creates a database in memory - Makkes connection string before opening the connection
@@ -22,21 +22,19 @@ public class CheepRepositoryUnitTests
         context.Database.EnsureCreated();
 
         var testAuthor = new Author {
-            AuthorId = 1, 
+            AuthorId = new Guid(1,0,0, new byte[] {0,0,0,0,0,0,0,0}), 
             Name = "TestAuthor", 
             Email = "TestEmail", 
             Cheeps = new List<Cheep>(),
-            Followed = new List<Follow>(),
-            Followers = new List<Follow>()
             };
 
         context.Authors.Add(testAuthor); 
         
         validator = new CheepCreateValidator();
         if (validator == null)
-            {
-                throw new Exception("Validator is null");
-            }
+        {
+            throw new Exception("Validator is null");
+        }
 
         context.SaveChanges();
         _context = context;
@@ -53,11 +51,11 @@ public class CheepRepositoryUnitTests
         //Act
         await repository.Create(cheepCreateDto); //Adds the cheep to the database
 
-         var cheeps = repository.GetCheeps(1);
+        var cheeps = repository.GetCheeps(1);
         cheeps.Should().NotBeNull(); //Makes sure the page is not empty
 
         //Assert
-        cheeps.Should().Contain(c => c.Author == "TestAuthor" && c.Message == "TestMessage");
+        cheeps.Should().Contain(c => c.AuthorName == "TestAuthor" && c.Message == "TestMessage");
     }
 
     [Fact]
@@ -75,7 +73,7 @@ public class CheepRepositoryUnitTests
         cheeps.Should().NotBeNull(); //Makes sure the page is not empty
 
         //Assert
-        cheeps.Should().Contain(c => c.Author == "TestAuthor" && c.Message == "TestMessage2");
+        cheeps.Should().Contain(c => c.AuthorName == "TestAuthor" && c.Message == "TestMessage2");
     }
 
     [Fact]
