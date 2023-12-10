@@ -108,10 +108,15 @@ public class CheepRepositoryUnitTests
 
     //Test that deleting all of an authors cheeps works
     [Fact]
-    public void UnitTestDeleteCheepsFromAuthor()
+    public async void UnitTestDeleteCheepsFromAuthor()
     {
+        //Arrange
+        string Message = "TestMessage";
+        CheepCreateDTO cheepCreateDto = new CheepCreateDTO("TestAuthor", Message);
+        await repository.Create(cheepCreateDto); //Adds the cheep to the database
+
         //Act
-        repository.DeleteCheepsFromAuthor(1);
+        await repository.DeleteCheepsFromAuthor(1);
 
         //Assert
         //Should pass since the cheeps are deleted

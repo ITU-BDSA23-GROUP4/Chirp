@@ -24,14 +24,15 @@ namespace Chirp.Infrastructure
             }
         }
 
-        public void DeleteAuthor(int authorId){
+        public async Task DeleteAuthor(int authorId){
+            //Gets the author from the database
             var author = _db.Authors.Where(author => author.AuthorId == authorId).FirstOrDefault();
-            if (author != null)
+            if (author != null) //Removes the author from the database
             {
                 _db.Remove(author);
-                _db.SaveChanges();
+                await _db.SaveChangesAsync();
             }
-            else
+            else //In case the author doesn't exist
             {
                 throw new ArgumentException("Author with ID " + authorId + " does not exist");
             }

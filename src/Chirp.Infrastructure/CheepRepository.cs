@@ -47,14 +47,14 @@ public class CheepRepository : ICheepRepository
         }
     }
 
-    public void DeleteCheepsFromAuthor(int authorid){
+    public async Task DeleteCheepsFromAuthor(int authorid){
         //Deletes all cheeps from a given author
         try
         {
-            var author = GetAuthorById(authorid);
-            if(author != null){
+            var author = GetAuthorById(authorid); //Gets the author from the database
+            if(author != null){ //Deletes all the cheeps from the author
                 _db.RemoveRange(_db.Cheeps.Where(cheep => cheep.Author == author));
-                _db.SaveChanges();
+                await _db.SaveChangesAsync();
             }
         }
         catch (System.Exception)

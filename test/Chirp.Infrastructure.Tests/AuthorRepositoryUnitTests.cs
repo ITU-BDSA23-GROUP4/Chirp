@@ -195,10 +195,10 @@ public class AuthorRepositoryUnitTests
 
     //Test that the method to delete an author works
     [Fact]
-    public void UnitTestDeleteAuthor()
+    public async void UnitTestDeleteAuthorAsync()
     {
         //Act
-        repository.DeleteAuthor(1);
+        await repository.DeleteAuthor(1);
 
         //Assert
         //Should pass since the author is deleted

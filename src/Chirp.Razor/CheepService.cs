@@ -51,13 +51,13 @@ public class CheepService : ICheepService
     }
     public async Task AddAuthor(string name, string email)
     {
-        _authorRepository.AddAuthor(name, email);
+        await _authorRepository.AddAuthor(name, email);
     }   
-    public void DeleteCheepsFromAuthor(int authorid){
-        _cheepRepository.DeleteCheepsFromAuthor(authorid);
+    public async Task DeleteCheepsFromAuthor(int authorid){
+       await _cheepRepository.DeleteCheepsFromAuthor(authorid);
     }
-    public void DeleteAuthor(int authorId){
-       _authorRepository.DeleteAuthor(authorId);
+    public async Task DeleteAuthor(int authorId){
+       await _authorRepository.DeleteAuthor(authorId);
     }
 
     public async Task AddFollowee(int AuthorId, int FolloweeId) {

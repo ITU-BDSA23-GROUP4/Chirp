@@ -27,7 +27,6 @@ namespace Chirp.Razor.Pages
                 //Calls to deleteCheepsFromAuthor for the specific author
                 var authorID = int.Parse(authorIdClaim.Value);
                 _service.DeleteCheepsFromAuthor(authorID);
-                Console.WriteLine("Cheeps deleted");
 
                 //Deletes all following relationships for the specific author and who they are following
                 /*
@@ -38,7 +37,6 @@ namespace Chirp.Razor.Pages
 
                 //Deletes the author
                 _service.DeleteAuthor(authorID);
-                Console.WriteLine("Author deleted");
 
                 //Logs the user out
                 HttpContext.SignOutAsync();

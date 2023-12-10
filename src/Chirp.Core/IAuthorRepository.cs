@@ -9,6 +9,6 @@ namespace Chirp.Core
         Task AddFollowee(int AuthorId, int FolloweeId);
         Task RemoveFollowee(int AuthorId, int FolloweeId);
         Task<bool?> DoesAuthorExist(string email);
-        void DeleteAuthor(int authorId);
+        Task DeleteAuthor(int authorId);
     }
 }
