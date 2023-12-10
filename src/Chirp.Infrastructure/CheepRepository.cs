@@ -49,7 +49,7 @@ public class CheepRepository : ICheepRepository
         }
     }
 
-    public async Task DeleteCheepsFromAuthor(int authorid){
+    public async Task DeleteCheepsFromAuthor(Guid authorid){
         //Deletes all cheeps from a given author
         try
         {

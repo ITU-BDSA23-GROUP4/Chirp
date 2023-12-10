@@ -114,7 +114,7 @@ public class CheepRepositoryCreateUnitTests
         await repository.Create(cheepCreateDto); //Adds the cheep to the database
 
         //Act
-        await repository.DeleteCheepsFromAuthor(1);
+        await repository.DeleteCheepsFromAuthor(new Guid(1, 0, 0, new byte[] { 0, 0, 0, 0, 0, 0, 0, 0 }));
 
         //Assert
         //Should pass since the cheeps are deleted

@@ -32,7 +32,7 @@ namespace Chirp.Infrastructure
             }
         }
 
-        public async Task DeleteAuthor(int authorId){
+        public async Task DeleteAuthor(Guid authorId){
             //Gets the author from the database
             var author = _db.Authors.Where(author => author.AuthorId == authorId).FirstOrDefault();
             if (author != null) //Removes the author from the database
@@ -46,7 +46,7 @@ namespace Chirp.Infrastructure
             }
         }
 
-        public async Task<AuthorDTO> GetAuthorByID(int ID)
+        public async Task<AuthorDTO> GetAuthorByID(Guid ID)
         { 
             var author = await _db.Authors.Where(author => author.AuthorId == ID).Select(authorDTO => new AuthorDTO
             {

@@ -169,11 +169,11 @@ public class AuthorRepositoryUnitTests
     public async void UnitTestDeleteAuthorAsync()
     {
         //Act
-        await repository.DeleteAuthor(1);
+        await repository.DeleteAuthor(new Guid(1, 0, 0, new byte[] { 0, 0, 0, 0, 0, 0, 0, 0 }));
 
         //Assert
         //Should pass since the author is deleted
-        _context.Authors.Should().NotContain(a => a.AuthorId == 1);
+        _context.Authors.Should().NotContain(a => a.AuthorId == new Guid(1, 0, 0, new byte[] { 0, 0, 0, 0, 0, 0, 0, 0 }));
     }
     
 

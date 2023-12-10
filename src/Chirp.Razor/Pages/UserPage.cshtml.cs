@@ -25,7 +25,7 @@ namespace Chirp.Razor.Pages
             try
             {
                 //Calls to deleteCheepsFromAuthor for the specific author
-                var authorID = int.Parse(authorIdClaim.Value);
+                var authorID = Guid.Parse(authorIdClaim.Value);
                 _service.DeleteCheepsFromAuthor(authorID);
 
                 //Deletes all following relationships for the specific author and who they are following

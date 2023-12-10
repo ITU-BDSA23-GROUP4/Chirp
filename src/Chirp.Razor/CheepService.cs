@@ -58,10 +58,10 @@ public class CheepService : ICheepService
     {
         await _authorRepository.AddAuthor(name, email);
     }   
-    public async Task DeleteCheepsFromAuthor(int authorid){
+    public async Task DeleteCheepsFromAuthor(Guid authorid){
        await _cheepRepository.DeleteCheepsFromAuthor(authorid);
     }
-    public async Task DeleteAuthor(int authorId){
+    public async Task DeleteAuthor(Guid authorId){
        await _authorRepository.DeleteAuthor(authorId);
     }
 
