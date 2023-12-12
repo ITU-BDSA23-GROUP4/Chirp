@@ -41,10 +41,10 @@ using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
     var dbContext = services.GetRequiredService<ChirpDBContext>();
-    dbContext.Database.Migrate();
 
     if (!dbContext.Authors.Any())
     {
+        dbContext.Database.Migrate();
         DbInitializer.SeedDatabase(dbContext);
     }
 }
