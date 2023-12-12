@@ -1,3 +1,4 @@
+using Chirp.Core;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
@@ -14,6 +15,18 @@ namespace Chirp.Razor.Pages
             _service = service;
         }
         public ICheepService _service;
+
+        public List<AuthorDTO>? Following { get; set; }
+
+        public async Task<ActionResult> OnGet(string author)
+        {
+            if (User.Identity?.IsAuthenticated == true  && User.Identity.Name != null) {
+                AuthorDTO currentUser = await _service.GetAuthorByName(User.Identity.Name);
+                Following = await _service.GetFollowees(currentUser.Name);
+            } 
+            return Page();
+        }
+    
 
         public async Task<IActionResult> OnPostForgetMeAsync()
         {

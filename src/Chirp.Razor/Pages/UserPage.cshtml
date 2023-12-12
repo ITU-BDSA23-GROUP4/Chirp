@@ -14,7 +14,16 @@
 
     <div class="userpage-section">
         <h3 class="userpage-heading">Following</h3>
-        <p class="userpage-text">You are not following anyone.</p>
+        <ul class="userpage-list">
+            @if(User?.Identity?.Name != null && Model.Following != null)
+            {
+                foreach (var following in Model.Following)
+                {
+                    <li class="userpage-list-item">@following</li>
+                }
+            } else {
+                <p class="userpage-text">You are not following anyone.</p>
+            }
     </div>
 
     <div class="userpage-section">
