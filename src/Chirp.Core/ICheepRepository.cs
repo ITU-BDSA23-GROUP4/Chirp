@@ -9,5 +9,6 @@ namespace Chirp.Core
         int GetCountOfAllCheepFromAuthor(string author);
         Task Create(CheepCreateDTO cheep);
         Task IncreaseLikeAttributeInCheep(Guid cheepId);
+        Task<List<CheepDTO>> GetCheepsFromAuthorAndFollowers(string authorname, int? pagenum);
     }
 }

@@ -206,13 +206,17 @@ public class CheepRepository : ICheepRepository
         await _db.SaveChangesAsync();
     }
 
-    public async Task<List<CheepDTO>> GetCheepsFromAuthorAndFollowers(string authorname)
+    public async Task<List<CheepDTO>> GetCheepsFromAuthorAndFollowers(string authorname, int? pagenum)
     {
         List<CheepDTO> cheeps = new();
 
         // List of authors the author follows
-        var author = await _db.Authors.Where(a => authorname == a.Name).Include(a => a.Followed).FirstOrDefaultAsync();
-        
+         var author = await _db.Authors.Where(a => a.Name == authorname).Select(authorDTO => new AuthorDTO
+            {
+                AuthorId = authorDTO.AuthorId,
+                Name = authorDTO.Name,
+                Email = authorDTO.Email
+            }).FirstOrDefaultAsync();
         if (author == null || author.Followed == null)
         {
             throw new NullReferenceException("Author or the Authors List of followers couldn't be found");
@@ -224,9 +228,27 @@ public class CheepRepository : ICheepRepository
 
         var followed = Chirp.Infrastructure.GetAllFollowedAuthor(author.AuthorId, _db);
 
-        foreach (Author followee in author.Followed) 
+        foreach (Author followed in author.Followed) 
         {
-            var cheepsForauthors = await _db.Cheeps.Where(a => followee.Name == a.AuthorName);
+            var cheepsFromAuthors = await _db.Cheeps.Where(a => followed.Name == a.AuthorName);
         }
+        cheeps.AddRange(GetCheepsFromAuthor).OrderByDescending(c => c.TimeStamp.Ticks);
+        
+        int? page = (pageNum - 1) * 32;
+
+        if (cheepsFromAuthors.Count < 32)
+        {
+            return cheepsFromAuthors.GetRange(0, cheepsFromAuthors.Count);
+        }
+        if (page == null)
+        {
+            return cheepsFromAuthors.GetRange(0, 32);
+        }
+        else
+        {
+            int endIndex = Math.Min((int)page + 32, (int)cheepsFromAuthors.Count);
+            return cheepsFromAuthors.GetRange((int)page, endIndex - (int)(page));
+        }
+
     }
 }

@@ -11,8 +11,41 @@
 </div>
 
 <div>
-    <h3>Following</h3>
-    <p>You are not following anyone.</p> @*if following someone: You are not following anyone*@
+    <h3>My Timeline</h3>
+          @foreach (var cheep in Model.Cheeps)
+                    {
+                        <li>
+                            <p>
+                                <strong>
+                                    <a href="/@cheep.AuthorName">@cheep.AuthorName</a>
+                                    @if (User.Identity?.IsAuthenticated == true) {
+                                        if (!await Model.DoesFollow(cheep.AuthorName)) 
+                                        {
+                                            // Link to page that adds the author to the following list of the current user and redirects back to the current page
+                                            <a href="?follow=@cheep.AuthorName">follow</a>
+                                        } 
+                                        else 
+                                        {
+                                            // Link to page that removes the author from the following list of the current user and redirects back to the current page
+                                            <a href="?unfollow=@cheep.AuthorName">unfollow</a>
+                                        }
+                                    }
+                                </strong>
+                                <br />
+                                <span>@cheep.Message</span>
+                                <small>&mdash; @cheep.Timestamp</small>
+                            </p>
+                            <div class="likesContainer">
+                                @if (User.Identity != null && User.Identity.IsAuthenticated) {
+                                    <form asp-page-handler="Like" method="post">
+                                        <button name="cheepId" value="@cheep.CheepId">Like</button>
+                                    </form>
+                                }
+                                <small>Likes: </small>@cheep.Likes
+                            </div>
+                        </li>
+                    }
+                </ul>
     <br/>
 </div>
 
