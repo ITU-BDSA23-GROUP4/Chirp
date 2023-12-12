@@ -1,3 +1,4 @@
+using System.Security.Cryptography.X509Certificates;
 using Chirp.Core;
 using FluentValidation;
 using FluentValidation.Results;
@@ -43,6 +44,22 @@ public class CheepRepository : ICheepRepository
             await _db.SaveChangesAsync();
         }
         catch (Exception)
+        {
+            throw;
+        }
+    }
+
+    public async Task DeleteCheepsFromAuthor(Guid authorid){
+        //Deletes all cheeps from a given author
+        try
+        {
+            var author = GetAuthorById(authorid); //Gets the author from the database
+            if(author != null){ //Deletes all the cheeps from the author
+                _db.RemoveRange(_db.Cheeps.Where(cheep => cheep.Author == author));
+                await _db.SaveChangesAsync();
+            }
+        }
+        catch (System.Exception)
         {
             throw;
         }

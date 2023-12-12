@@ -57,6 +57,12 @@ public class CheepService : ICheepService
     public async Task AddAuthor(string name, string email)
     {
         await _authorRepository.AddAuthor(name, email);
+    }   
+    public async Task DeleteCheepsFromAuthor(Guid authorid){
+       await _cheepRepository.DeleteCheepsFromAuthor(authorid);
+    }
+    public async Task DeleteAuthor(Guid authorId){
+       await _authorRepository.DeleteAuthor(authorId);
     }
 
     public async Task AddFollowee(string AuthorName, string FolloweeName) {
