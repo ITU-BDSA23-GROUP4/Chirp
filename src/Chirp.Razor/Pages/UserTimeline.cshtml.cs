@@ -6,7 +6,7 @@ namespace Chirp.Razor.Pages;
 
 /*
 <Summary>
-This is the users timeline model
+This is the razors users timeline's page model
 This is where the user can see their own timeline and those they follow.
 </Summary>
 */

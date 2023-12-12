@@ -12,6 +12,8 @@ using FluentValidation;
 <Summary>
 This is the program file
 This is where we configure our services and the database.
+This is the main entry point of the program, that is, 
+to run the program you have to be in this folder.
 </Summary>
 */
 

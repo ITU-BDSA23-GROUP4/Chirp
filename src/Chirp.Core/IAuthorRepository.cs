@@ -1,7 +1,7 @@
 /*
 <Summary>
 This is the author Repository interface
-The Author Repository will inherit from this interface, and implement the methods.
+The Author Repository will Implement the methods from this interface.
 </Summary>
 */
 

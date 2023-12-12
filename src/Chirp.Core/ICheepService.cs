@@ -3,7 +3,7 @@ using Chirp.Core;
 /*
 <Summary>
 This is the Cheep Service interface
-The Cheep Service will inherit from this interface, and implement the methods.
+The Cheep Service will implement from this interface.
 </Summary>
 */
 public interface ICheepService

@@ -4,7 +4,7 @@ using Chirp.Core;
 
 /*
 <Summary>
-This is model for the public page
+This is the model for the public razor page
 This is where we react to all of the users behaviour. 
 That is, getting all the cheeps for the relevant page and showing the cheeps with the correct information.
 </Summary>

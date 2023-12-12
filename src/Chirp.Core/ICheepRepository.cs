@@ -1,7 +1,7 @@
 /*
 <Summary>
 This is the Cheep Repository interface
-The Cheep Repository will inherit from this interface, and implement the methods.
+The Cheep Repository will implement the methods from this interface.
 </Summary>
 */
 
