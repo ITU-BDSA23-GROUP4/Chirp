@@ -164,6 +164,18 @@ public class AuthorRepositoryUnitTests
         await act.Should().ThrowAsync<InvalidOperationException>();
     }
 
+    //Test that the method to delete an author works
+    [Fact]
+    public async void UnitTestDeleteAuthorAsync()
+    {
+        //Act
+        await repository.DeleteAuthor(new Guid(1, 0, 0, new byte[] { 0, 0, 0, 0, 0, 0, 0, 0 }));
+
+        //Assert
+        //Should pass since the author is deleted
+        _context.Authors.Should().NotContain(a => a.AuthorId == new Guid(1, 0, 0, new byte[] { 0, 0, 0, 0, 0, 0, 0, 0 }));
+    }
+    
 
 // Fails
     [Fact]

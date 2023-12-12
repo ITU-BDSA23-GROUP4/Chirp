@@ -48,12 +48,22 @@ using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
     var dbContext = services.GetRequiredService<ChirpDBContext>();
-    dbContext.Database.Migrate();
 
+    // We need to migrate everytime the program starts because of the razor tests
+    // will fail otherwise. But azure crashes on deployment if we run migrations
+    // when the database already exists. Therefore this step is introduced.
+    if(app.Environment.IsDevelopment()){
+        dbContext.Database.Migrate();
+    }
+    
     if (!dbContext.Authors.Any())
     {
+        if(!app.Environment.IsDevelopment()){
+            dbContext.Database.Migrate();  
+        }
         DbInitializer.SeedDatabase(dbContext);
     }
+    
 }
 
 // Configure the HTTP request pipeline.
