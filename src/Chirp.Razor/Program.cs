@@ -16,10 +16,11 @@ builder.Services.AddRazorPages();
 
 builder.Configuration.AddJsonFile("appSettings.json", optional: false, reloadOnChange: true).AddJsonFile($"appSettings.{builder.Environment.EnvironmentName}.json", optional: true);
 
+var connectionString = $"Data source={Path.Combine(Path.GetTempPath() + "chirp.db")}";
 
 builder.Services.AddDbContext<ChirpDBContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("ChirpDB"));
+    options.UseSqlite(connectionString);
 });
 
 
