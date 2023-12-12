@@ -7,6 +7,9 @@ namespace Chirp.Razor.Pages;
 
 public class PublicModel : PageModel
 {
+    [BindProperty(SupportsGet = true)]
+    public int CurrentPage { get; set; } = 1;
+    public int Count { get; set; }
     public readonly ICheepService _service;
     
     public PublicModel(ICheepService service)
