@@ -103,4 +103,21 @@ public class CheepRepositoryCreateUnitTests
         //Should throw an exception to pass
         act.Should().ThrowAsync<ValidationException>().WithMessage("Exception of type 'System.ComponentModel.DataAnnotations.ValidationException' was thrown.");
     }
+
+    //Test that deleting all of an authors cheeps works
+    [Fact]
+    public async void UnitTestDeleteCheepsFromAuthor()
+    {
+        //Arrange
+        string Message = "TestMessage";
+        CheepCreateDTO cheepCreateDto = new CheepCreateDTO("TestAuthor", Message);
+        await repository.Create(cheepCreateDto); //Adds the cheep to the database
+
+        //Act
+        await repository.DeleteCheepsFromAuthor(new Guid(1, 0, 0, new byte[] { 0, 0, 0, 0, 0, 0, 0, 0 }));
+
+        //Assert
+        //Should pass since the cheeps are deleted
+        _context.Cheeps.Should().BeEmpty();
+    }
 }

@@ -32,6 +32,42 @@ namespace Chirp.Infrastructure
             }
         }
 
+        public async Task DeleteAuthor(Guid authorId){
+            //Gets the author from the database
+            var author = _db.Authors.Where(author => author.AuthorId == authorId).FirstOrDefault();
+            if (author != null) //Removes the author from the database
+            {
+                _db.Remove(author);
+                await _db.SaveChangesAsync();
+            }
+            else //In case the author doesn't exist
+            {
+                throw new ArgumentException("Author with ID " + authorId + " does not exist");
+            }
+        }
+
+        public async Task<AuthorDTO> GetAuthorByID(Guid ID)
+        { 
+            var author = await _db.Authors.Where(author => author.AuthorId == ID).Select(authorDTO => new AuthorDTO
+            {
+                AuthorId = ID,
+                Name = authorDTO.Name,
+                Email = authorDTO.Email,
+                Cheeps = GetAllCheepsFromAuthor(authorDTO.Name, _db),
+                Followed = GetAllFollowedAuthor(authorDTO.AuthorId, _db),
+                Followers = GetAllFollowers(authorDTO.AuthorId, _db)
+            }).FirstAsync();
+            
+            if (author != null)
+            {
+                return author;
+            }
+            else
+            {
+                throw new ArgumentException("Author with ID " + ID + " does not exist");
+            }
+        }
+
         public async Task<AuthorDTO> GetAuthorByName(string name)
         {
             var author = await _db.Authors.Where(author => author.Name == name).Select(authorDTO => new AuthorDTO

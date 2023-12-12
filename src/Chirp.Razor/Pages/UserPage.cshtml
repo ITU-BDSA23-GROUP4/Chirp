@@ -1,4 +1,5 @@
 @page "/Profilepage"
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @model Chirp.Razor.Pages.UserPage
 @{
     ViewData["Title"] = "Profile Page";
@@ -27,13 +28,13 @@
     <p>We use your information to create a great experience on our application, and to make sure everything is working correctly.</p>
     <p>Your information will be kept with us/our professor/class and will move no further.</p>
     <p>Your concrete information is saved in our database using sql.</p>
-    <br
+    <br />
 </div>
 
 <div>
     <h2>Authentication Type:</h2>
     <p>@User?.Identity?.AuthenticationType</p>
-    <br
+    <br />
 </div>
 
 <div>
@@ -47,4 +48,18 @@
             }
         }
     </ul>
+    <br />
+</div>
+
+<div>
+    <h2>Deletion of account</h2>
+    <p>When pressing the Forget Me button, we will delete all your information</p>
+    <form method="post">
+        <input type="submit" value="Forget Me" class="btn btn-danger"
+            style="background-color: rgb(255, 68, 68); color: white; float: right;"
+            asp-page-handler="ForgetMe"
+            onclick="return confirm('Are you sure you want to delete your account? This cannot be undone')" >
+        </input>
+    </form>
+    <br />
 </div>
