@@ -35,12 +35,25 @@ public class UserTimelineModel : PageModel
     public async Task<ActionResult> OnGet(string author)
     {
         if (pageNum.HasValue)
-        {
-            Cheeps = _service.GetCheepsFromAuthor(author, pageNum);
+        {   
+            if(User.Identity?.Name==author)
+            {
+                Cheeps = _service.CombineCheepsAndFollowerCheeps(author ,pageNum);
+                
+            } else {
+                Cheeps = _service.GetCheepsFromAuthor(author, pageNum);
+            }
         }
         else
-        {
-            Cheeps = _service.GetCheepsFromAuthor(author, pageNum);
+       {   
+            if(User.Identity?.Name==author)
+            {
+                //Console.WriteLine("This is the user:"+ User.Identity?.Name);
+                Cheeps =  _service.CombineCheepsAndFollowerCheeps(author ,pageNum);
+                
+            } else {
+                Cheeps = _service.GetCheepsFromAuthor(author, pageNum);
+            }
         }
 
         if (User.Identity?.IsAuthenticated == true  && User.Identity.Name != null) {

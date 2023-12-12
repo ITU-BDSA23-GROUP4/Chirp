@@ -15,5 +15,5 @@ public interface ICheepService
     Task AddFollowee(string AuthorName, string FolleweeName);
     Task RemoveFollowee(string AuthorName, string FolleweeName);
     Task<bool?> DoesAuthorExist(string email);
-    Task GetCheepsFromAuthorAndFollowers(string authorname, int? pagenum);
+    List<CheepDTO> CombineCheepsAndFollowerCheeps(string AuthorName, int? pageNum);
 }

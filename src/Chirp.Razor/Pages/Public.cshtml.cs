@@ -7,8 +7,6 @@ namespace Chirp.Razor.Pages;
 
 public class PublicModel : PageModel
 {
-    [BindProperty(SupportsGet = true)]
-
     public readonly ICheepService _service;
     
     public PublicModel(ICheepService service)

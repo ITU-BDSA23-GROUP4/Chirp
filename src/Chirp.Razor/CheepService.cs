@@ -70,4 +70,8 @@ public class CheepService : ICheepService
     public async Task<bool?> DoesAuthorExist(string email) {
         return await _authorRepository.DoesAuthorExist(email);
     }
+    public List<CheepDTO> CombineCheepsAndFollowerCheeps(string Authorname, int? pageNum){
+        return _cheepRepository.CombineCheepsAndFollowerCheeps(Authorname,pageNum);
+    }
+    
 }

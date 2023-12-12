@@ -12,50 +12,15 @@
 
 <div>
     <h3>My Timeline</h3>
-          @foreach (var cheep in Model.Cheeps)
-                    {
-                        <li>
-                            <p>
-                                <strong>
-                                    <a href="/@cheep.AuthorName">@cheep.AuthorName</a>
-                                    @if (User.Identity?.IsAuthenticated == true) {
-                                        if (!await Model.DoesFollow(cheep.AuthorName)) 
-                                        {
-                                            // Link to page that adds the author to the following list of the current user and redirects back to the current page
-                                            <a href="?follow=@cheep.AuthorName">follow</a>
-                                        } 
-                                        else 
-                                        {
-                                            // Link to page that removes the author from the following list of the current user and redirects back to the current page
-                                            <a href="?unfollow=@cheep.AuthorName">unfollow</a>
-                                        }
-                                    }
-                                </strong>
-                                <br />
-                                <span>@cheep.Message</span>
-                                <small>&mdash; @cheep.Timestamp</small>
-                            </p>
-                            <div class="likesContainer">
-                                @if (User.Identity != null && User.Identity.IsAuthenticated) {
-                                    <form asp-page-handler="Like" method="post">
-                                        <button name="cheepId" value="@cheep.CheepId">Like</button>
-                                    </form>
-                                }
-                                <small>Likes: </small>@cheep.Likes
-                            </div>
-                        </li>
-                    }
-                </ul>
-    <br/>
-</div>
 
+</div>
 <div>
     <h2>Privacy policy</h2>
     <p>This is a project that group 4 is making in the course BDSA at ITU.</p>
 
     <h3>What information we collect from you</h3>
     <li>When you register with github we get access to most of your Github information, but we don't use it.</li>
-    <li>When registered we collect your username, email and create an ID.</lli>
+    <li>When registered we collect your username, email and create an ID.</li>
     <li>We will keep a few lists of who you are following, being followed by and which cheeps you are posting.</li>
 
     <h3>How we use your information</h3>

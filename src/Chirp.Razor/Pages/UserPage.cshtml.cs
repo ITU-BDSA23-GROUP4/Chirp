@@ -10,27 +10,17 @@ namespace Chirp.Razor.Pages
     
     public class UserPage : PageModel
     {
-        [BindProperty(SupportsGet = true)]
-
+        public readonly ICheepService _service;
+    
+        
         public List<CheepDTO>? Cheeps { get; set; }
         
         [FromQuery(Name = "page")]
         public int? pageNum { get; set; }
-        public PublicModel(ICheepService service)
+        public UserPage(ICheepService service)
             {
                 _service = service;
             }
-
-
-        public async Task<ActionResult> OnGet()
-        {
-        if (pageNum.HasValue)
-        {
-            Cheeps = _service.GetCheepsFromAuthorAndFollowers(pageNum);
-        }
-        else
-        {
-            Cheeps = _service.GetCheepsFromAuthorAndFollowers(1);
-        }
+        
     }
 }
