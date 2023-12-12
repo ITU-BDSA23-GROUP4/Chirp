@@ -25,13 +25,6 @@ namespace Chirp.Razor.Pages
                     //Calls to deleteCheepsFromAuthor for the specific author
                     await _service.DeleteCheepsFromAuthor(author.AuthorId);
 
-                    //Deletes all following relationships for the specific author and who they are following
-                    /*
-                    foreach (var followee in _service.GetAllFollowees(authorID))
-                    {
-                        _service.RemoveFollowee(authorID, followee.AuthorId);
-                    }*/
-
                     //Deletes the author
                     await _service.DeleteAuthor(author.AuthorId);
 
