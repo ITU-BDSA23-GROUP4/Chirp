@@ -1,6 +1,13 @@
 using Chirp.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 
+/*
+<Summary>
+This is the DB Initializer
+This is where we seed our database with data.
+</Summary>
+*/
+
 namespace Initializer;
 
 public static class DbInitializer

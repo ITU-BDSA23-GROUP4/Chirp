@@ -1,9 +1,15 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Chirp.Infrastructure;
 using Chirp.Core;
 using Microsoft.AspNetCore.Authorization;
 namespace Chirp.Razor.Pages;
+
+/*
+<Summary>
+This is the users timeline model
+This is where the user can see their own timeline and those they follow.
+</Summary>
+*/
 
 [AllowAnonymous]
 public class UserTimelineModel : PageModel

@@ -1,5 +1,11 @@
 using Chirp.Core;
 
+/*
+<Summary>
+This is the Cheep Service interface
+The Cheep Service will inherit from this interface, and implement the methods.
+</Summary>
+*/
 public interface ICheepService
 {
     List<CheepDTO> GetCheeps(int? pageNum);

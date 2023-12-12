@@ -8,6 +8,13 @@ using Microsoft.Identity.Web.UI;
 using Microsoft.IdentityModel.Logging;
 using FluentValidation;
 
+/*
+<Summary>
+This is the program file
+This is where we configure our services and the database.
+</Summary>
+*/
+
 var builder = WebApplication.CreateBuilder(args);
 
 
