@@ -279,22 +279,25 @@ public class CheepRepository : ICheepRepository
         List<CheepDTO> cheepsToReturn = new List<CheepDTO>();
         cheepsToReturn.AddRange(AuthorCheeps);
         cheepsToReturn.AddRange(FollowedCheeps);
-        cheepsToReturn.OrderByDescending(a => a.Timestamp.Ticks);
+        
+        //OrderByDescending doesn't sort the list but returns a new sequence, therefore we need to assign it to a new list
+        var sortedCheeps = cheepsToReturn.OrderByDescending(a => a.Timestamp.Ticks).ToList();
         int? page = (pageNum - 1) * 32;
         
         if (cheepsToReturn.Count < 32)
         {
-            return cheepsToReturn.GetRange(0, cheepsToReturn.Count);
+            return sortedCheeps.GetRange(0, cheepsToReturn.Count);
         } if (page == null)
         {
-            return cheepsToReturn.GetRange(0, 32);
+            return sortedCheeps.GetRange(0, 32);
         } else
         {
             int endIndex = Math.Min((int)page + 32, (int)cheepsToReturn.Count);
-            return cheepsToReturn.GetRange((int)page, endIndex - (int)(page));
+            return sortedCheeps.GetRange((int)page, endIndex - (int)(page));
         }
     }
 }
+
 
 //     public async Task<List<CheepDTO>> GetCheepsFromAuthorAndFollowers(string authorname, int? pageNum)
 //     {        List<CheepDTO> cheeps = new();
