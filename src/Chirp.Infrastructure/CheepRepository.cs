@@ -205,4 +205,28 @@ public class CheepRepository : ICheepRepository
         
         await _db.SaveChangesAsync();
     }
+
+    public async Task<List<CheepDTO>> GetCheepsFromAuthorAndFollowers(string authorname)
+    {
+        List<CheepDTO> cheeps = new();
+
+        // List of authors the author follows
+        var author = await _db.Authors.Where(a => authorname == a.Name).Include(a => a.Followed).FirstOrDefaultAsync();
+        
+        if (author == null || author.Followed == null)
+        {
+            throw new NullReferenceException("Author or the Authors List of followers couldn't be found");
+        }
+
+        // Adding the
+        
+        cheeps.AddRange(author.Cheeps);
+
+        var followed = Chirp.Infrastructure.GetAllFollowedAuthor(author.AuthorId, _db);
+
+        foreach (Author followee in author.Followed) 
+        {
+            var cheepsForauthors = await _db.Cheeps.Where(a => followee.Name == a.AuthorName);
+        }
+    }
 }
