@@ -222,4 +222,166 @@ public class CheepRepository : ICheepRepository
         
         await _db.SaveChangesAsync();
     }
+
+    private List<CheepDTO> GetCheepsFromFollowed(string AuthorName)
+    {
+        List<CheepDTO> cheepsToReturn = new ();
+    
+        var author = _db.Authors.Where(a => a.Name == AuthorName).Select(authorDTO => new Author
+            {
+                AuthorId = authorDTO.AuthorId,
+                Name = authorDTO.Name,
+                Email = authorDTO.Email,
+                Followed= authorDTO.Followed
+            }).FirstOrDefault();
+
+      
+        if (author == null || author.Followed == null)
+        {
+            throw new NullReferenceException("Author or the Authors List of followers couldn't be found");
+        }
+        List<AuthorDTO> followed = new List<AuthorDTO>();
+
+        foreach (Author followee in author.Followed) 
+        {
+            var cheepsFromAuthors = _db.Cheeps.Where(a => a.Author.Name == followee.Name).Select(
+                CheepDTO => new CheepDTO
+                {
+                    //Sets the properties of the Cheep
+                    CheepId = CheepDTO.CheepId,
+                    AuthorName = CheepDTO.Author.Name,
+                    Message = CheepDTO.Text,
+                    Likes = CheepDTO.Likes,
+                    Timestamp = CheepDTO.TimeStamp
+                }
+            ).ToList();
+            cheepsToReturn.AddRange(cheepsFromAuthors);
+        }
+        //Change later
+        return cheepsToReturn;
+    } 
+    
+    private List<CheepDTO> GetAllCheepsFromAuthor(string AuthorName)
+    {
+        List<CheepDTO> cheepsToReturn = new List<CheepDTO>();
+
+        var cheepsDTO = _db.Cheeps.ToList()
+        .Join(
+            _db.Authors,
+            cheep => cheep.Author.AuthorId,
+            author => author.AuthorId,
+            (cheep, author) => new { Cheep = cheep, Author = author }
+        )
+        .Where(joinResult => joinResult.Author.Name == AuthorName)
+        .OrderByDescending(joinResult => joinResult.Cheep.TimeStamp)
+        .Select(joinResult => new CheepDTO
+        {
+            //Sets the properties of the Cheep
+            CheepId = joinResult.Cheep.CheepId,
+            AuthorName = joinResult.Author.Name,
+            Message = joinResult.Cheep.Text,
+            Likes = joinResult.Cheep.Likes,
+            Timestamp = joinResult.Cheep.TimeStamp
+        });
+        cheepsToReturn.AddRange(cheepsDTO);
+
+        return cheepsToReturn;
+    }
+
+    public List<CheepDTO> CombineCheepsAndFollowerCheeps(string AuthorName, int? pageNum)
+    {
+        List<CheepDTO> AuthorCheeps = GetAllCheepsFromAuthor(AuthorName);
+        List<CheepDTO> FollowedCheeps = GetCheepsFromFollowed(AuthorName);
+
+        List<CheepDTO> cheepsToReturn = new List<CheepDTO>();
+        cheepsToReturn.AddRange(AuthorCheeps);
+        cheepsToReturn.AddRange(FollowedCheeps);
+        
+        //OrderByDescending doesn't sort the list but returns a new sequence, therefore we need to assign it to a new list
+        var sortedCheeps = cheepsToReturn.OrderByDescending(a => a.Timestamp.Ticks).ToList();
+        int? page = (pageNum - 1) * 32;
+        
+        if (cheepsToReturn.Count < 32)
+        {
+            return sortedCheeps.GetRange(0, cheepsToReturn.Count);
+        } if (page == null)
+        {
+            return sortedCheeps.GetRange(0, 32);
+        } else
+        {
+            int endIndex = Math.Min((int)page + 32, (int)cheepsToReturn.Count);
+            return sortedCheeps.GetRange((int)page, endIndex - (int)(page));
+        }
+    }
 }
+
+
+//     public async Task<List<CheepDTO>> GetCheepsFromAuthorAndFollowers(string authorname, int? pageNum)
+//     {        List<CheepDTO> cheeps = new();
+ 
+//         // List of authors the author follows
+//          var author = await _db.Authors.Where(a => a.Name == authorname).Select(authorDTO => new AuthorDTO
+//             {
+//                 AuthorId = authorDTO.AuthorId,
+//                 Name = authorDTO.Name,
+//                 Email = authorDTO.Email
+//             }).FirstOrDefaultAsync();
+//         if (author == null || author.Followed == null)
+//         {
+//             throw new NullReferenceException("Author or the Authors List of followers couldn't be found");
+//         }
+
+//         // Adding the
+//         if (author.Cheeps!=null)
+//         {
+//         cheeps.AddRange(author.Cheeps);
+//         }
+//         List<AuthorDTO> followed = new List<AuthorDTO>(); 
+
+            
+//         var AuthorDTOs = author.Followed.Select(AuthorDTO => new AuthorDTO
+//         {
+//             AuthorId = AuthorDTO.AuthorId,
+//             Name = AuthorDTO.Name,
+//             Email = AuthorDTO.Email
+//         }).ToList();
+
+//         if (AuthorDTOs != null)
+//         {
+//             followed.AddRange(AuthorDTOs);
+//         }
+//         foreach (AuthorDTO followee in followed) 
+//         {
+//             var cheepsFromAuthors = await _db.Cheeps.Where(a => a.Author.Name == followee.Name).Select(
+//                 CheepDTO => new CheepDTO
+//                 {
+//                     //Sets the properties of the Cheep
+//                     CheepId = CheepDTO.CheepId,
+//                     AuthorName = CheepDTO.Author.Name,
+//                     Message = CheepDTO.Text,
+//                     Likes = CheepDTO.Likes,
+//                     Timestamp = CheepDTO.TimeStamp
+//                 }
+//             ).ToListAsync();
+//             cheeps.AddRange(cheepsFromAuthors);
+//         }
+        
+//         cheeps.OrderByDescending(a => a.Timestamp);
+//         int? page = (pageNum - 1) * 32;
+
+//         if (cheeps.Count < 32)
+//         {
+//             return cheeps.GetRange(0, cheeps.Count);
+//         }
+//         if (page == null)
+//         {
+//             return cheeps.GetRange(0, 32);
+//         }
+//         else
+//         {
+//             int endIndex = Math.Min((int)page + 32, (int)cheeps.Count);
+//             return cheeps.GetRange((int)page, endIndex - (int)(page));
+//         }
+
+//     }
+// }

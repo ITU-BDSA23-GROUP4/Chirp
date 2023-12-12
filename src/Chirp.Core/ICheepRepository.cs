@@ -10,5 +10,6 @@ namespace Chirp.Core
         Task DeleteCheepsFromAuthor(Guid authorid);
         Task Create(CheepCreateDTO cheep);
         Task IncreaseLikeAttributeInCheep(Guid cheepId);
+        List<CheepDTO> CombineCheepsAndFollowerCheeps(string AuthorName, int? pageNum);
     }
 }
