@@ -264,3 +264,58 @@ li.topic {
   position: absolute;
   bottom: 5px;
 }
+.userpage-body {
+  font-family: 'Arial', sans-serif;
+  margin: 20px;
+}
+
+.userpage-heading {
+  color: #333;
+}
+
+.userpage-text {
+  color: #555;
+}
+
+.userpage-list {
+  padding: 0;
+  margin-left: 0;
+}
+
+.userpage-list-item {
+  margin-bottom: 8px;
+  margin-left: 20px;
+}
+
+.userpage-btn-danger {
+  background-color: #ff4444;
+  color: #fff;
+  padding: 8px 16px;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.userpage-btn-danger:hover {
+  background-color: #cc0000;
+}
+
+.userpage-container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.userpage-profile-section {
+  margin-bottom: 20px;
+}
+
+.userpage-privacy-policy-section {
+  margin-bottom: 30px;
+}
+
+.userpage-section {
+  border: 1px solid #ddd;
+  padding: 15px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
