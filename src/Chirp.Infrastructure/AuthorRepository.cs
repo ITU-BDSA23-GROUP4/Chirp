@@ -1,7 +1,12 @@
-using System.Data.Common;
-using System.Net;
 using Chirp.Core;
 using Microsoft.EntityFrameworkCore;
+
+/*
+<Summary>
+This is the authorRepository, where we can work with our authors
+This is the repository that adheres to Authors, so this is were we can create, read, update and delete authors.
+</Summary>
+*/
 
 namespace Chirp.Infrastructure
 {
@@ -12,6 +17,8 @@ namespace Chirp.Infrastructure
         {
             _db = db;
         }
+
+
         /// <summary>
         ///  Adds an Author to the data base with all required fields Note 
         ///  followed and followers list are not required

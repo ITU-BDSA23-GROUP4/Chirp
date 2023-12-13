@@ -1,7 +1,10 @@
 ﻿namespace Chirp.Core;
-
-/*Cheep DTO is the information that we want the client to know
-In the future, this will by example not include password*/
+/*
+<Summary>
+This is the Cheep DTO
+The DTO is the Data Transfer Object, which is used to transfer data between the client and the server.
+</Summary>
+*/
 public class CheepDTO
 {
     public required Guid CheepId { get; set; }
