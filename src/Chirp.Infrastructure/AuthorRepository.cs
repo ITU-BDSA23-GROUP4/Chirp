@@ -294,5 +294,9 @@ namespace Chirp.Infrastructure
 
             return followers;
         }
+        public List<AuthorDTO> GetFollowers(Guid _AuthorId)
+        {
+            return GetAllFollowers(_AuthorId, _db);
+        }
     }
 }
