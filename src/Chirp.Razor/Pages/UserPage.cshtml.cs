@@ -39,7 +39,7 @@ public class UserPage : PageModel
         if(userEmailClaim != null)
         {
             var author = await _service.GetAuthorByEmail(userEmailClaim.Value);
-            Following = _service.GetFollowers(author.AuthorId);
+            Following = author.Followers;
             return Page();
         }
         

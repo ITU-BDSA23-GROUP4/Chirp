@@ -16,6 +16,5 @@ namespace Chirp.Core
         Task RemoveFollowee(string AuthorName, string FolloweeName);
         Task<bool?> DoesAuthorExist(string email);
         Task DeleteAuthor(Guid authorId);
-        List<AuthorDTO> GetFollowers(Guid _AuthorId);
     }
 }

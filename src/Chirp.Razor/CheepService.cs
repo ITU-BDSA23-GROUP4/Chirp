@@ -87,8 +87,4 @@ public class CheepService : ICheepService
     public List<CheepDTO> CombineCheepsAndFollowerCheeps(string Authorname, int? pageNum){
         return _cheepRepository.CombineCheepsAndFollowerCheeps(Authorname,pageNum);
     }
-     public List<AuthorDTO> GetFollowers(Guid _AuthorId){
-        return  _authorRepository.GetFollowers(_AuthorId);
-    }
-    
 }
