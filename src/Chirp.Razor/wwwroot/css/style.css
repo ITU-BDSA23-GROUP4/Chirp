@@ -279,12 +279,12 @@ li.topic {
 
 .userpage-list {
   padding: 0;
-  margin-left: 0;
+  margin-left: 10;
 }
 
 .userpage-list-item {
   margin-bottom: 8px;
-  margin-left: 20px;
+  margin-left: 10px;
 }
 
 .userpage-btn-danger {
@@ -318,4 +318,16 @@ li.topic {
   padding: 15px;
   border-radius: 5px;
   margin-bottom: 20px;
+}
+
+.userpage-custom-list-link {
+  display: block; 
+  padding: 8px;
+  margin-bottom: 8px;
+  color: #26776F; 
+  text-decoration: none; 
+}
+
+.userpage-custom-list-link:hover {
+  color: #cc0000;
 }

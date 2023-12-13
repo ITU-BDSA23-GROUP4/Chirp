@@ -21,12 +21,10 @@
                 amountOfPeople = "person";
             }
             <p class="userpage-text">You are following @Model.Following.Count @amountOfPeople</p>
-            <ul class="userpage-list">
                 @foreach (var user in Model.Following)
                 {
-                    <a class="userpage-list-item" href="/@user.Name">@user.Name</a>
+                    <a class="userpage-custom-list-link" href="/@user.Name">@user.Name</a>
                 }
-            </ul>
         }
         else
         {
