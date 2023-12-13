@@ -1,3 +1,10 @@
+/*
+<Summary>
+This is the Cheep Repository interface
+The Cheep Repository will implement the methods from this interface.
+</Summary>
+*/
+
 namespace Chirp.Core
 {
     public interface ICheepRepository

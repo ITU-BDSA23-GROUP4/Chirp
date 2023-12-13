@@ -1,7 +1,14 @@
-using Microsoft.AspNetCore.Mvc.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 
+/*
+<Summary>
+This is the DBContext, which is the main class that we use to work with our database.
+This is where we set restrains on our entities and have dbSets for our entities.
+</Summary>
+*/
+
 namespace Chirp.Infrastructure;
+
 public class ChirpDBContext : DbContext
 {
     public DbSet<Cheep> Cheeps { get; set; }

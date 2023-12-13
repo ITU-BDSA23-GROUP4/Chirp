@@ -5,6 +5,13 @@ using FluentValidation.Results;
 using Microsoft.EntityFrameworkCore;
 using ValidationException = System.ComponentModel.DataAnnotations.ValidationException;
 
+/*
+<Summary>
+This is the CheepRepository, where we can work with our cheeps
+Here we can create, read, update and delete cheeps, as well as get a list of cheeps from the page or from a specific author.
+</Summary>
+*/
+
 namespace Chirp.Infrastructure;
 public class CheepRepository : ICheepRepository
 {

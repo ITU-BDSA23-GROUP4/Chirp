@@ -1,5 +1,13 @@
 using Chirp.Core;
 
+/*
+<Summary>
+This is the Cheep Service
+This uses the Cheep Repository and the Author Repository, so in implementation we only need to use this service.
+It contains the methods from both the Cheep Repository and the Author Repository.
+</Summary>
+*/
+
 public class CheepService : ICheepService
 {
     public readonly ICheepRepository _cheepRepository;
