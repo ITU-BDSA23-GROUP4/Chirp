@@ -31,7 +31,7 @@ public class UserPage : PageModel
     [FromQuery(Name = "page")]
     public int? pageNum { get; set; }
 
-    public List<AuthorDTO> Following { get; set; }
+    public List<AuthorDTO>? Following { get; set; }
     
     public async Task<ActionResult> OnGet()
     {

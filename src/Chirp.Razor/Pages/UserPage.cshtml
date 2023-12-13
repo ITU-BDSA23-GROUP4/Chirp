@@ -14,7 +14,7 @@
 
     <div class="userpage-section">
         <h3 class="userpage-heading">Following</h3>
-        @if (true)
+        @if (Model != null && Model.Following != null)
         {
             string amountOfPeople = "people"; 
             @if(@Model.Following.Count == 1){
