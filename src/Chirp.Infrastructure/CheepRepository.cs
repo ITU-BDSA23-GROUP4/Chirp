@@ -257,7 +257,6 @@ public class CheepRepository : ICheepRepository
             ).ToList();
             cheepsToReturn.AddRange(cheepsFromAuthors);
         }
-        //Change later
         return cheepsToReturn;
     } 
     
@@ -289,8 +288,10 @@ public class CheepRepository : ICheepRepository
     }
 
     public List<CheepDTO> CombineCheepsAndFollowerCheeps(string AuthorName, int? pageNum)
-    {
+    {   
+        // Function returns list of cheeps from the logged in user (Author)
         List<CheepDTO> AuthorCheeps = GetAllCheepsFromAuthor(AuthorName);
+        // Function returns list of cheeps from all authors the user follows
         List<CheepDTO> FollowedCheeps = GetCheepsFromFollowed(AuthorName);
 
         List<CheepDTO> cheepsToReturn = new List<CheepDTO>();
@@ -314,74 +315,3 @@ public class CheepRepository : ICheepRepository
         }
     }
 }
-
-
-//     public async Task<List<CheepDTO>> GetCheepsFromAuthorAndFollowers(string authorname, int? pageNum)
-//     {        List<CheepDTO> cheeps = new();
- 
-//         // List of authors the author follows
-//          var author = await _db.Authors.Where(a => a.Name == authorname).Select(authorDTO => new AuthorDTO
-//             {
-//                 AuthorId = authorDTO.AuthorId,
-//                 Name = authorDTO.Name,
-//                 Email = authorDTO.Email
-//             }).FirstOrDefaultAsync();
-//         if (author == null || author.Followed == null)
-//         {
-//             throw new NullReferenceException("Author or the Authors List of followers couldn't be found");
-//         }
-
-//         // Adding the
-//         if (author.Cheeps!=null)
-//         {
-//         cheeps.AddRange(author.Cheeps);
-//         }
-//         List<AuthorDTO> followed = new List<AuthorDTO>(); 
-
-            
-//         var AuthorDTOs = author.Followed.Select(AuthorDTO => new AuthorDTO
-//         {
-//             AuthorId = AuthorDTO.AuthorId,
-//             Name = AuthorDTO.Name,
-//             Email = AuthorDTO.Email
-//         }).ToList();
-
-//         if (AuthorDTOs != null)
-//         {
-//             followed.AddRange(AuthorDTOs);
-//         }
-//         foreach (AuthorDTO followee in followed) 
-//         {
-//             var cheepsFromAuthors = await _db.Cheeps.Where(a => a.Author.Name == followee.Name).Select(
-//                 CheepDTO => new CheepDTO
-//                 {
-//                     //Sets the properties of the Cheep
-//                     CheepId = CheepDTO.CheepId,
-//                     AuthorName = CheepDTO.Author.Name,
-//                     Message = CheepDTO.Text,
-//                     Likes = CheepDTO.Likes,
-//                     Timestamp = CheepDTO.TimeStamp
-//                 }
-//             ).ToListAsync();
-//             cheeps.AddRange(cheepsFromAuthors);
-//         }
-        
-//         cheeps.OrderByDescending(a => a.Timestamp);
-//         int? page = (pageNum - 1) * 32;
-
-//         if (cheeps.Count < 32)
-//         {
-//             return cheeps.GetRange(0, cheeps.Count);
-//         }
-//         if (page == null)
-//         {
-//             return cheeps.GetRange(0, 32);
-//         }
-//         else
-//         {
-//             int endIndex = Math.Min((int)page + 32, (int)cheeps.Count);
-//             return cheeps.GetRange((int)page, endIndex - (int)(page));
-//         }
-
-//     }
-// }
