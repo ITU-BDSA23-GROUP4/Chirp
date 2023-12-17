@@ -2,6 +2,7 @@ using Microsoft.Playwright;
 using System;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
+using NUnit.Framework;
 
 class Program
 {
