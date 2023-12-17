@@ -196,7 +196,6 @@ namespace Chirp.Infrastructure
                 }
                 Author.Followed.Add(Followee);
                 Followee.Followers.Add(Author);
-                Console.WriteLine("Author: " + Author.Name + " now follows: " + Followee.Name);
                 await _db.SaveChangesAsync();
             }
             else
