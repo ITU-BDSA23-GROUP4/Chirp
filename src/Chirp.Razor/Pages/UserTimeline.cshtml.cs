@@ -54,7 +54,6 @@ public class UserTimelineModel : PageModel
        {   
             if(User.Identity?.Name==author)
             {
-                //Console.WriteLine("This is the user:"+ User.Identity?.Name);
                 Cheeps =  _service.CombineCheepsAndFollowerCheeps(author ,pageNum);
                 
             } else {

@@ -195,7 +195,7 @@ namespace Chirp.Infrastructure
                     throw new InvalidOperationException("Author: " + Author.Name + "already follows: " + Followee.Name);
                 }
                 Author.Followed.Add(Followee);
-                 Followee.Followers.Add(Author);
+                Followee.Followers.Add(Author);
                 await _db.SaveChangesAsync();
             }
             else
@@ -276,8 +276,6 @@ namespace Chirp.Infrastructure
 
             if (Authors != null && Authors.Followers != null)
             {
-            // pull out followed authors from a table not yet existing mapping between author (foreign key to author) and follower (foreign key to author)
-            // pull out followed authors from a table not yet existing mapping between follower (foreign key to author) and author (foreign key to author
                 var AuthorDTOs = Authors?.Followers.Select(AuthorDTO => new AuthorDTO()
                 {
                     AuthorId = AuthorDTO.AuthorId,
@@ -294,5 +292,6 @@ namespace Chirp.Infrastructure
 
             return followers;
         }
+      
     }
 }

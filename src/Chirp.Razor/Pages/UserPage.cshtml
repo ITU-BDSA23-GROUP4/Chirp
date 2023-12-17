@@ -14,7 +14,22 @@
 
     <div class="userpage-section">
         <h3 class="userpage-heading">Following</h3>
-        <p class="userpage-text">You are not following anyone.</p>
+        @if (Model != null && Model.Following != null)
+        {
+            string amountOfPeople = "people"; 
+            @if(@Model.Following.Count == 1){
+                amountOfPeople = "person";
+            }
+            <p class="userpage-text">You are following @Model.Following.Count @amountOfPeople</p>
+                @foreach (var user in Model.Following)
+                {
+                    <a class="userpage-custom-list-link" href="/@user.Name">@user.Name</a>
+                }
+        }
+        else
+        {
+            <p class="userpage-text">You are not following anyone.</p>
+        }
     </div>
 
     <div class="userpage-section">

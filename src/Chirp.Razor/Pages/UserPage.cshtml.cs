@@ -13,24 +13,36 @@ The user page is where the user can see their own information, so this is used f
 </Summary>
 */
 
-namespace Chirp.Razor.Pages
-{
-    [Authorize]
-    
-    public class UserPage : PageModel
-    {
+namespace Chirp.Razor.Pages;
 
-        public readonly ICheepService _service;
+[Authorize]
+
+public class UserPage : PageModel
+{
+
+    public readonly ICheepService _service;
+    public UserPage(ICheepService service)
+    {
+        _service = service;
+    }
     
+    public List<CheepDTO>? Cheeps { get; set; }
+    
+    [FromQuery(Name = "page")]
+    public int? pageNum { get; set; }
+
+    public List<AuthorDTO>? Following { get; set; }
+    
+    public async Task<ActionResult> OnGet()
+    {
+        var userEmailClaim = User.Claims.FirstOrDefault(c => c.Type == "emails");
+        if(userEmailClaim != null)
+        {
+            var author = await _service.GetAuthorByEmail(userEmailClaim.Value);
+            Following = author.Followed;
+        }
         
-        public List<CheepDTO>? Cheeps { get; set; }
-        
-        [FromQuery(Name = "page")]
-        public int? pageNum { get; set; }
-        public UserPage(ICheepService service)
-            {
-                _service = service;
-            }
-        
+        return Page();
     }
 }
+
