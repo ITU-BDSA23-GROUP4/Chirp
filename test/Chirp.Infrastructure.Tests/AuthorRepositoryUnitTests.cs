@@ -1,3 +1,5 @@
+using System.ComponentModel;
+
 public class AuthorRepositoryUnitTests
 {
     private readonly SqliteConnection? _connection; //Connection to the database
@@ -110,7 +112,8 @@ public class AuthorRepositoryUnitTests
     }
 
     [Fact]
-    public async void UnitTestAddFolloweeAddsToTheAuthorsFollowedList(){
+    public async void UnitTestAddFolloweeAddsToTheAuthorsFollowedList()
+    {
         //Arrange
         //Act
         await repository.AddFollowee("TestName","TestName2");
@@ -121,7 +124,8 @@ public class AuthorRepositoryUnitTests
     }
 
     [Fact]
-    public void UnitTestAddIncorrectFollowee(){
+    public void UnitTestAddIncorrectFollowee()
+    {
         //Arrange
         //Act
         Func<Task> act = async () => await repository.AddFollowee("TestName","TestName4");
@@ -131,7 +135,8 @@ public class AuthorRepositoryUnitTests
     }
 
     [Fact]
-    public async void UnitTestRemoveFolloweeRemovesFromTheAuthorsFollowedList() {
+    public async void UnitTestRemoveFolloweeRemovesFromTheAuthorsFollowedList() 
+    {
         // Arrange
         await repository.AddFollowee("TestName","TestName2");
 
@@ -146,7 +151,8 @@ public class AuthorRepositoryUnitTests
 
 // Fails
     [Fact]
-    public void UnitTestRemoveIncorrectFollowee() {
+    public void UnitTestRemoveIncorrectFollowee() 
+    {
         //Act
         Func<Task> act = async () => await repository.RemoveFollowee("TestName","TestName4");
         //Assert
@@ -155,7 +161,8 @@ public class AuthorRepositoryUnitTests
 
 // Fails
     [Fact]
-    public async void UnitTestFollowTheSameAuthorTwice() {
+    public async void UnitTestFollowTheSameAuthorTwice() 
+    {
         //Act
         await repository.AddFollowee("TestName","TestName2");
         Func<Task> act = async () => await repository.AddFollowee("TestName","TestName2");
@@ -179,7 +186,8 @@ public class AuthorRepositoryUnitTests
 
 // Fails
     [Fact]
-    public async void UnitTestFollowAuthorUpdatesOtherAuthorsFollowersList() {
+    public async void UnitTestFollowAuthorUpdatesOtherAuthorsFollowersList() 
+    {
         //Act
         await repository.AddFollowee("TestName","TestName2");
         AuthorDTO author2 = await repository.GetAuthorByName("TestName2");
@@ -189,7 +197,8 @@ public class AuthorRepositoryUnitTests
     }
 
     [Fact]
-    public async void UnitTestUnFollowAuthorUpdatesOtherAuthorsFollowersList() {
+    public async void UnitTestUnFollowAuthorUpdatesOtherAuthorsFollowersList() 
+    {
         // Arrange
         await repository.AddFollowee("TestName","TestName2");
 
@@ -202,7 +211,8 @@ public class AuthorRepositoryUnitTests
     }
 
     [Fact]
-    public async void UnitTestAddFollowDoesNotAffactOtherAuthors() {
+    public async void UnitTestAddFollowDoesNotAffactOtherAuthors() 
+    {
         //Act
         await repository.AddFollowee("TestName","TestName2");
 
@@ -214,7 +224,8 @@ public class AuthorRepositoryUnitTests
     }
 
     [Fact]
-    public async void UnitTestEnsureFollowAndFollowedListAreEmptyBeDefault() {
+    public async void UnitTestEnsureFollowAndFollowedListAreEmptyBeDefault() 
+    {
         //Assert
         AuthorDTO author = await repository.GetAuthorByName("TestName");
 
@@ -223,7 +234,8 @@ public class AuthorRepositoryUnitTests
     }
 
     [Fact]
-    public async void UnitTestAddFollowDoesNotAffectWrongList() {
+    public async void UnitTestAddFollowDoesNotAffectWrongList() 
+    {
         //Act
         await repository.AddFollowee("TestName","TestName2");
 
@@ -233,5 +245,15 @@ public class AuthorRepositoryUnitTests
 
         author1.Followers?.Count.Should().Be(0);
         author2.Followed?.Count.Should().Be(0);
+    }
+
+    [Fact]
+    public async void UnitTestFollowYourSelfThrowsException()
+    {
+        // Act
+        Func<Task> act= async () => await repository.AddFollowee("TestName", "TestName");
+
+        // Assert
+        await act.Should().ThrowAsync<ArgumentException>().WithMessage("TestName can not follow TestName, as TestName can not follow itself");
     }
 }
