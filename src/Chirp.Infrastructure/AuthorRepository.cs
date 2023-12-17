@@ -145,20 +145,20 @@ namespace Chirp.Infrastructure
             }
         }
 
-        public async Task<bool?> DoesAuthorExist(string email)
+        public async Task<bool> DoesAuthorExist(string email)
         {
             try
             {
-            var author = await _db.Authors.Where(author => author.Email == email).Select(authorDTO => new AuthorDTO
-            {
-                AuthorId = authorDTO.AuthorId,
-                Name = authorDTO.Name,
-                Email = authorDTO.Email,
-                Cheeps = GetAllCheepsFromAuthor(authorDTO.Name, _db),
-                Followed = GetAllFollowedAuthor(authorDTO.AuthorId, _db),
-                Followers = GetAllFollowers(authorDTO.AuthorId, _db)
-            }).FirstAsync();
-            return true;
+                var author = await _db.Authors.Where(author => author.Email == email).Select(authorDTO => new AuthorDTO
+                {
+                    AuthorId = authorDTO.AuthorId,
+                    Name = authorDTO.Name,
+                    Email = authorDTO.Email,
+                    Cheeps = GetAllCheepsFromAuthor(authorDTO.Name, _db),
+                    Followed = GetAllFollowedAuthor(authorDTO.AuthorId, _db),
+                    Followers = GetAllFollowers(authorDTO.AuthorId, _db)
+                }).FirstAsync();
+                return true;
             } 
             catch {
                 return false;
