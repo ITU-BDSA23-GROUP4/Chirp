@@ -1,3 +1,10 @@
+/*
+<Summary>
+This is the author Repository interface
+The Author Repository will Implement the methods from this interface.
+</Summary>
+*/
+
 namespace Chirp.Core
 {
     public interface IAuthorRepository

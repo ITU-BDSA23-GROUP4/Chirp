@@ -1,9 +1,11 @@
 namespace Chirp.Infrastructure;
 
-//<Summary>
-//The cheep is the main entity of the application. 
-//It is the main object that is being created, read, updated and deleted.
-//</Summary>
+/*
+<Summary>
+The cheep is the main entity of the application. 
+It is the main object that is being created, read, updated and deleted.
+</Summary>
+*/
 
 public class Cheep
 {
