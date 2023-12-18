@@ -175,6 +175,11 @@ namespace Chirp.Infrastructure
         /// <exception cref="NullReferenceException"></exception>
         public async Task AddFollowee(string _AuthorName, string _FolloweeName)
         {
+            if (_AuthorName == _FolloweeName)
+            {
+                throw new ArgumentException(_AuthorName + " can not follow " + _FolloweeName + ", as " + _AuthorName + " can not follow itself");
+            }
+
             var Author = await _db.Authors.Where(a => a.Name == _AuthorName)
                 .Include(a => a.Followed)
                 .FirstAsync();
