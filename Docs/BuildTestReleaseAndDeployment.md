@@ -2,14 +2,15 @@
 <!-- Illustrate with a UML activity diagram how your Chirp! applications are build, tested, released, and deployed. That is, illustrate the flow of activities in your respective GitHub Actions workflows. -->
 
 <!-- Describe briefly the illustration, i.e., how you application is built, tested, released, and deployed. -->
-### Github workflows
-In this section we will go over the github workflows and how they work and  use for the flow of the project. This will also entail when the workflows are activated and used.
+### GitHub workflows
+To ensure the flow of the project, we use a tool developed by GitHub known as. GitHub Action, otherwise known as workflow. This will also entail when the workflows are activated and used.
 #### Build and Test
-The build and test work flow can be found on (Appendix?). Here we can see an activity diagram that shows how the github make sure what is merged into main. This workflow is ran on a pull request every time a commit is being made to the branch in the pull request. This is to ensure that the main will still work by building the project with dotnet and the test that has been made for the project. By running the test as well will make sure that if the new changes that the new branch is adding still work with the code already on main. If anything fails it will stop and prevent the branch from being merged into main.
+The build and test workflow can be found in (appendix?). The activity diagram shows how GitHub ensures what is merged into main. This workflow is run on a pull request every time a commit is made to the branch in the pull request. This is to ensure that main will still work by building the project with dotnet and tests made for the project.
+ Because it runs the tests as well, it ensures that any incoming changes do not affect the functionality. If anything fails, it will stop and prevent the branch from merging into main.
 #### Publish and release
-This workflow is made to automate the creation of a github release when a tag is added (Appendix?) it will next time create a release of the tag. But first the workflow builds a version for Windows, MacOS and Linux. After that it will zip the files and adding them to the release if a release was made. 
+This workflow is made to automate the creation of a GitHub release when a tag is added (Appendix?). It will create a release of the tag. But first, the workflow builds a version for Windows, MacOS and Linux. After that, it will zip the files and add them to the release if a release was made. 
 #### Build and deploy
-This workflow can be seen her (Appendix?). The workflow is made so it will build the program and runs the publish command to build a version for linux to be ran on the azure wep app. After the publish part it uploads the artifacts so the next job can use the files. The deploy job will the download the artifact and use the files to deploy to our azure web app.
+This workflow can be seen here (Appendix?). The workflow is made so it will build the program and run the "publish" command to build a version for Linux to be run on the Azure web app. After the publish command, it uploads the artifacts so the next job can use the files. The deploy job will download the artefact and use the files to deploy to our Azure web app.
 <br>
 ...............................................
 <br>
