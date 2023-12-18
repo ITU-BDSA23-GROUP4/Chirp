@@ -41,6 +41,7 @@ public class PublicModel : PageModel
         {
             Cheeps = _service.GetCheeps(pageNum);
         }
+        // the else statement with the same code ensures page 0 and page 1 shows the same cheeps
         else
         {
             Cheeps = _service.GetCheeps(pageNum);
