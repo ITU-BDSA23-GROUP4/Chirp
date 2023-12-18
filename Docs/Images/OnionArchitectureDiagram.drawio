@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram id="BJenyY6yj-jro_CbNjga" name="Page-1">
-        <mxGraphModel dx="1513" dy="1038" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+        <mxGraphModel dx="452" dy="485" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -37,7 +37,7 @@
                 <mxCell id="16" value="Contains our DTO's and interfaces" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e3c800;fontColor=#000000;strokeColor=#B09500;" parent="1" vertex="1">
                     <mxGeometry x="530" y="432.5" width="147.5" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="229" value="&lt;font style=&quot;&quot; color=&quot;#030303&quot;&gt;Pages&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;labelBackgroundColor=#FFFFFF;strokeColor=#3A5431;fontColor=#ffffff;fillColor=#6d8764;" vertex="1" parent="1">
+                <mxCell id="229" value="&lt;font style=&quot;&quot; color=&quot;#030303&quot;&gt;Pages&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;labelBackgroundColor=none;strokeColor=#3A5431;fontColor=#ffffff;fillColor=#6d8764;" parent="1" vertex="1">
                     <mxGeometry x="365" y="352.5" width="50" height="30" as="geometry"/>
                 </mxCell>
             </root>
