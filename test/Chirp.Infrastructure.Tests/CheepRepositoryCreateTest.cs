@@ -5,7 +5,6 @@ public class CheepRepositoryCreateUnitTests
     private readonly SqliteConnection? _connection; //Connection to the database
     private readonly ChirpDBContext _context; //Context for the database
     private readonly CheepRepository repository; //Repository for the database
-    private readonly CheepCreateValidator validator; //Validator for the database
 
     public CheepRepositoryCreateUnitTests()
     {
@@ -30,15 +29,11 @@ public class CheepRepositoryCreateUnitTests
 
         context.Authors.Add(testAuthor); 
         
-        validator = new CheepCreateValidator();
-        if (validator == null)
-        {
-            throw new Exception("Validator is null");
-        }
+        
 
         context.SaveChanges();
         _context = context;
-        repository = new CheepRepository(_context, validator);
+        repository = new CheepRepository(_context);
     }
 
     [Fact]
