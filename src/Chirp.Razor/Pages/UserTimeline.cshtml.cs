@@ -71,6 +71,7 @@ public class UserTimelineModel : PageModel
             else if (unfollow != null) 
             {
                 await _service.RemoveFollowee(currentUser.Name, unfollow);
+                return Redirect(User.Identity.Name);
             }
         } 
 
