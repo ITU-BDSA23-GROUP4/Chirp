@@ -81,7 +81,7 @@ public class CheepService : ICheepService
         await _authorRepository.RemoveFollowee(AuthorName, FolloweeName);
     }
 
-    public async Task<bool?> DoesAuthorExist(string email) {
+    public async Task<bool> DoesAuthorExist(string email) {
         return await _authorRepository.DoesAuthorExist(email);
     }
     public List<CheepDTO> CombineCheepsAndFollowerCheeps(string Authorname, int? pageNum){

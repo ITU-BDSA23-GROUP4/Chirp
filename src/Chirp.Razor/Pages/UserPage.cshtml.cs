@@ -36,7 +36,7 @@ public class UserPage : PageModel
     public async Task<ActionResult> OnGet()
     {
         var userEmailClaim = User.Claims.FirstOrDefault(c => c.Type == "emails");
-        if(userEmailClaim != null)
+        if(userEmailClaim != null && await _service.DoesAuthorExist(userEmailClaim.Value))
         {
             var author = await _service.GetAuthorByEmail(userEmailClaim.Value);
             Following = author.Followed;
@@ -44,5 +44,23 @@ public class UserPage : PageModel
         
         return Page();
     }
-}
 
+    public async Task<IActionResult> OnPostForgetMeAsync()
+    {      
+        if (User != null && User?.Identity?.Name != null) 
+        {
+            var author = await _service.GetAuthorByName(User.Identity.Name);
+
+            //Calls to deleteCheepsFromAuthor for the specific author
+            await _service.DeleteCheepsFromAuthor(author.AuthorId);
+
+            //Deletes the author
+            await _service.DeleteAuthor(author.AuthorId);
+                
+            //Logs the user out
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+        }
+        
+        return Redirect("/Profilepage");
+    }
+}
