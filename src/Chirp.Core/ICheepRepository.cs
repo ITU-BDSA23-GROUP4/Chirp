@@ -14,6 +14,7 @@ namespace Chirp.Core
         List<CheepDTO> GetCheepsFromAuthor(string author, int? pageNum);
         int GetCountOfAllCheeps();
         int GetCountOfAllCheepFromAuthor(string author);
+        int GetCountOfAllCheepsFromCombinedAuthor(string author);
         Task DeleteCheepsFromAuthor(Guid authorid);
         Task Create(CheepCreateDTO cheep);
         Task IncreaseLikeAttributeInCheep(Guid cheepId);
