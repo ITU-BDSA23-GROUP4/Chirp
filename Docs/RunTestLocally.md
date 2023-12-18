@@ -2,7 +2,7 @@
 The test suite of Chirp consists of 3 test folders each targeting their own part of the application, Infrastructure, Razor and playwright tests. All the tests are found in *Chirp/test/*
 
 ## Infrastructure.Tests
-No prerequisites are needed to accomplish the infrastructure test, simply cd into the *Chirp/test.Chirp.Infrastructure.Tests/* folder in your terminal and
+No prerequisites are needed to accomplish the infrastructure test, simply cd into the *Chirp/test/Chirp.Infrastructure.Tests* folder in your terminal and
 run 
   ```bash
   dotnet test
