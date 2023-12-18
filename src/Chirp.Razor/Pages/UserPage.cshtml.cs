@@ -59,8 +59,9 @@ public class UserPage : PageModel
                 
             //Logs the user out
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            Redirect("/");
         }
         
-        return Redirect("/Profilepage");
+        return Redirect("/");
     }
 }
