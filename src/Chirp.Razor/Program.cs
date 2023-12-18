@@ -32,7 +32,6 @@ builder.Services.AddDbContext<ChirpDBContext>(options =>
 });
 
 
-builder.Services.AddScoped<AbstractValidator<CheepCreateDTO>, CheepCreateValidator>();
 builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
 builder.Services.AddScoped<ICheepRepository, CheepRepository>();
 builder.Services.AddScoped<ICheepService, CheepService>();
