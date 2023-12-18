@@ -9,15 +9,15 @@ run
   ```
 Our Infrastructure tests targets our database and repositories, it creates an in memory database which all the test are run against.
 ```bash
-        var builder = new DbContextOptionsBuilder<ChirpDBContext>();
-        builder.UseSqlite("Filename=:memory:");
-        ChirpDBContext context = new(builder.Options);
-        _connection = context.Database.GetDbConnection() as SqliteConnection;
-        if (_connection != null)  //Takes care of the null exception
-        {
-            _connection.Open();
-        }
-        context.Database.EnsureCreated();
+var builder = new DbContextOptionsBuilder<ChirpDBContext>();
+builder.UseSqlite("Filename=:memory:");
+ChirpDBContext context = new(builder.Options);
+_connection = context.Database.GetDbConnection() as SqliteConnection;
+if (_connection != null)  //Takes care of the null exception
+{
+    _connection.Open();
+}
+context.Database.EnsureCreated();
 ```
 ### what is tested
 - AuthorRepositoryUnitTests
@@ -37,7 +37,7 @@ Our Infrastructure tests targets our database and repositories, it creates an in
 
 
 ## Razor.Tests
-To run the tests you need to setup and download docker. A complete guide for downloading and setting up docker correctly with our application can be found in our [README.md](..\README.md)
+To run the tests you need to setup and download docker. A complete guide for downloading and setting up docker correctly with our application can be found in our [README.md](..\README.md#docker-setup)
 After following the guide cd into the Chirp.Razor.tests folder and run the following command
 ```bash
 dotnet test
