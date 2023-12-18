@@ -13,12 +13,12 @@ class Program
     for now the developer has to manually login when running the test. Simply run dotnet run, and
     a private firefox window will open and playwright will direct the developer to login wherein you
     enter your credentials and the test will run as normal. your credentials are NOT SAVED anywhere
-    insert your github username into the variable at line 18*/
+    insert your github username into the variable at line 21*/
 
     [Test]
     public static async Task Main()
     {
-        string username = "Faberen";
+        string username = "YourGithubUsername";
         using var playwright = await Playwright.CreateAsync();
         await using var browser = await playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions
         {
