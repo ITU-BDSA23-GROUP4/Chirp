@@ -1,13 +1,39 @@
 ## How to run test locally
 The test suite of Chirp consists of 3 test folders each targeting their own part of the application, Infrastructure, Razor and playwright tests. All the tests are found in *Chirp/test/*
 
-
 ### Infrastructure.Tests
 No prerequisites are needed to accomplish the infrastructure test, simply cd into the *Chirp/test.Chirp.Infrastructure.Tests/* folder in your terminal and
 run 
   ```bash
   dotnet test
   ```
+Our Infrastructure tests targets our database and repositories, it creates an in memory database which all the test are run against.
+```bash
+        var builder = new DbContextOptionsBuilder<ChirpDBContext>();
+        builder.UseSqlite("Filename=:memory:");
+        ChirpDBContext context = new(builder.Options);
+        _connection = context.Database.GetDbConnection() as SqliteConnection;
+        if (_connection != null)  //Takes care of the null exception
+        {
+            _connection.Open();
+        }
+        context.Database.EnsureCreated();
+```
+- AuthorRepositoryUnitTests
+<br> This class targets our AuthorRepository. It performs unit tests for almost every method created in the repository with both correct and incorrect input. e.g. finding author by email or adding a follower.
+
+- CheepRepositoryCreateUnitTests
+<br> This class targets our CheepRepository. It specifically targets the methods for creation of cheeps. e.g. Adding a cheep and checking if a cheep is not empty
+
+- CheepRepositoryUnitTests
+<br> This class targets our AuthorRepository. It performs unit tests on liking a cheep. e.g. liking increases a cheeps total likes.
+
+- InMemoryDatabaseTests
+<br> This class tests if the in memory database is created correctly which is crucial for the other classes since they all rely on it.
+
+- RestrictedCheepsUnitTests
+<br> This class targets the Cheepvalidator. It performs unit test on if a cheep has the correct information we want from it. e.g. A cheep not being empty or over 160 chars, and has a valid author.
+
 
 ### Razor.Tests
 To run the tests you need to setup and download docker. A complete guide for downloading and setting up docker correctly with our application can be found in our [README.md](..\README.md)
