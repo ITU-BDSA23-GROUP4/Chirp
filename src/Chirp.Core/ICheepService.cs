@@ -15,6 +15,7 @@ public interface ICheepService
     int GetCountOfAllCheepFromAuthor(string author);
     Task<AuthorDTO> GetAuthorByEmail(string email);
     int GetCountOfAllCheeps();
+    int GetCountOfAllCheepsFromCombinedAuthor(string author);
     Task Create(CheepCreateDTO cheep);            
     Task IncreaseLikeAttributeInCheep(Guid cheepId);
     Task AddAuthor(string name, string email);

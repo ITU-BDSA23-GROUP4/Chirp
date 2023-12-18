@@ -321,4 +321,14 @@ public class CheepRepository : ICheepRepository
             return sortedCheeps.GetRange((int)page, endIndex - (int)(page));
         }
     }
+
+    public int GetCountOfAllCheepsFromCombinedAuthor (string AuthorName)
+    {
+        List<CheepDTO> AuthorCheeps = GetAllCheepsFromAuthor(AuthorName);
+        List<CheepDTO> FollowedCheeps = GetCheepsFromFollowed(AuthorName);
+        List<CheepDTO> cheepsToReturn = new List<CheepDTO>();
+        cheepsToReturn.AddRange(AuthorCheeps);
+        cheepsToReturn.AddRange(FollowedCheeps);
+        return cheepsToReturn.Count;
+    }
 }

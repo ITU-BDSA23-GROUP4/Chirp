@@ -53,6 +53,12 @@ public class CheepService : ICheepService
         return _cheepRepository.GetCountOfAllCheeps();
     }
 
+    public int GetCountOfAllCheepsFromCombinedAuthor(string author)
+    {
+        return _cheepRepository.GetCountOfAllCheepsFromCombinedAuthor(author);
+    }
+    
+
     public async Task Create(CheepCreateDTO cheep)
     {
         await _cheepRepository.Create(cheep);

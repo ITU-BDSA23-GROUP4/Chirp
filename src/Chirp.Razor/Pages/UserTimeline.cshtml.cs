@@ -50,6 +50,7 @@ public class UserTimelineModel : PageModel
                 Cheeps = _service.GetCheepsFromAuthor(author, pageNum);
             }
         }
+        // the else statement with the same code ensures page 0 and page 1 shows the same cheeps
         else
        {   
             if(User.Identity?.Name==author)
