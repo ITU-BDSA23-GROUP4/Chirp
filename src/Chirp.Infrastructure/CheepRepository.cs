@@ -304,6 +304,7 @@ public class CheepRepository : ICheepRepository
         //OrderByDescending doesn't sort the list but returns a new sequence, therefore we need to assign it to a new list
         var sortedCheeps = cheepsToReturn.OrderByDescending(a => a.Timestamp.Ticks).ToList();
         int? page = (pageNum - 1) * 32;
+        Console.WriteLine("So many cheeps to print wow: " + cheepsToReturn.Count  + "\n \n\n\n\n\n\n\n\n");
         
         if (cheepsToReturn.Count < 32)
         {
