@@ -58,11 +58,11 @@ if you run in to issues with the version of .net replace net7.0 in the command w
 if you don't have powerShell installed follow these instructions
 [Install PowerShell](https://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell?view=powershell-7.4)
 
-Extra logic for authorization hasn't been implemented so the developer has to manually enter their Github username into the variable at line 18 in the **PlaywrightTests.cs** file. Further explanation is also found there. After completing these steps you can run the test with: 
+After completing these steps you can run the test with: 
 ```bash 
 dotnet test 
   ```
-When you run the test a chromium based browser will open and the first step tries to login. Here the automation stops and the user has to log in through Github themselves. **No passwords are saved!** After this step is completed playwright will do the rest itself.
+When you run the test a chromium based browser will open and the first step tries to log in. Here the automation stops and the user has to log in through Github themselves. **No passwords are saved!** After this step is completed playwright will do the rest itself.
 
 ### what is tested
 The playwright test differs from the razor test in that it, mimics user behavior on our live website compared to the razor test which test locally. The test navigates through different pages and interacts with the website's functionality confirming that what it interacts with is as expected in the test. 
