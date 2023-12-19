@@ -2,15 +2,16 @@
 
 ## AI Help
 
-In this section we will go over the AI help that has been through out the process of creating the project. This will be about what AI help has been used and to what extend.
+In this section we will go over the AI help that has been through out the process of creating the project.
 
 ### ChatGBT
 
-ChatGBT is one of the AI's that we have used through out the project for smaller questions. Theses questions range from C# code, refactoring of code, setup of docker or .NET projects. With the help from the AI we can ask questions and get quick response that can help us in the right direction. There are somethings to consider when using ChatGBT the main thing will be the validity of the response since we can't guarantee that it's right.
+ChatGBT is one of the AI's that we have used through out the project for smaller questions. Theses questions range from C# related code, refactoring of code, setup of docker or .NET console commands. With the help from the AI we can ask questions and get quick response that can help us in the right direction. There are somethings to consider when using ChatGBT the main thing will be the validity of the response since we can't guarantee that it's right.
 
 ### Github CoPilot
 
-Github CoPilot has been used through out the project to help with speeding up the process of writing code. It gives suggestions to code that you were writing either way with autocompleting a few lines. It can also sometimes help with debugging. It has also help with the creation of unit tests.
+Github CoPilot has been used through out the project to help with speeding up the process of writing code. This range from repetitive code to unit tests. This is where CoPilot shines with helping auto completion. With the recommendation that you get from CoPilot may not work since the AI can't know the full extend of the program.
+
 <!-- ChatGBT and/or CoPilot
 ChatGBT was used for small questions, or just the simple things as refactoring through the code
  
