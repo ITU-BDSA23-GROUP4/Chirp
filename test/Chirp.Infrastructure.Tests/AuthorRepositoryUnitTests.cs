@@ -2,25 +2,28 @@ using System.ComponentModel;
 
 public class AuthorRepositoryUnitTests
 {
-    private readonly SqliteConnection? _connection; //Connection to the database
-    private readonly ChirpDBContext _context; //Context for the database
-    private readonly AuthorRepository repository; //Repository for the database
+    private readonly SqliteConnection? _connection; // Connection to the database
+    private readonly ChirpDBContext _context; // Context for the database
+    private readonly AuthorRepository repository; // The repository contains the methods, tested by the unit tests
 
+    // The constructor is executed before each test
     public AuthorRepositoryUnitTests()
     {
-        //Arrange
-        //Creates a database in memory - Makkes connection string before opening the connection
+        // Arrange
+
+        // Creates a SQLite database in memory
         var builder = new DbContextOptionsBuilder<ChirpDBContext>();
         builder.UseSqlite("Filename=:memory:");
         ChirpDBContext context = new(builder.Options);
+
         _connection = context.Database.GetDbConnection() as SqliteConnection;
-        if (_connection != null)  //Takes care of the null exception
+        if (_connection != null)
         {
             _connection.Open();
         }
         context.Database.EnsureCreated();
-        /* Creates a author to add to the database. The objects are used in each test 
-        Is the same author as in the restrictedCheepsUnitTests, so we know he is there*/
+
+        // Test data
         var testAuthor = new Author
         {
             AuthorId = new Guid(1,0,0, new byte[] {0,0,0,0,0,0,0,0}),
@@ -44,24 +47,22 @@ public class AuthorRepositoryUnitTests
             Cheeps = new List<Cheep>(),
         };
 
-        //Creates and adds aauthor to the database
         context.Authors.Add(testAuthor);
         context.Authors.Add(testAuthor2);
         context.Authors.Add(testAuthor3);
-
         context.SaveChanges();
+
         _context = context;
         repository = new AuthorRepository(_context);
     }
 
-    [Fact] //Test the method to get author by email - should be possible
+    [Fact]
     public async void UnitTestFindAuthorByEmail()
     {
         //Act
         var author = await repository.GetAuthorByEmail("TestEmail");
 
         //Assert
-        //Should pass since they're the same
         author.Should().BeEquivalentTo(new Author {
             AuthorId = new Guid(1,0,0, new byte[] {0,0,0,0,0,0,0,0}), 
             Name = "TestName", 
@@ -72,24 +73,22 @@ public class AuthorRepositoryUnitTests
         });
     }
 
-    [Fact] //Test the method to get Author by a wrong email - shouldn't be possible
+    [Fact]
     public void UnitTestFindAuthorByWrongEmail(){
         //Act
         Func<Task> act = async () => await repository.GetAuthorByEmail("TestEmailWrong");
 
         //Assert
-        //Should throw an exception since the email doesn't exist in our database
         act.Should().ThrowAsync<ArgumentException>().WithMessage("Author with email TestEmailWrong does not exist");
     }
 
-    [Fact] //Test method to get Author by name - should be possible
+    [Fact]
     public async void UnitTestFindAuthorByName()
     {
         //Act
         var author = await repository.GetAuthorByName("TestName");
 
         //Assert
-        //Should pass since they're the same
         author.Should().BeEquivalentTo(new Author { 
             AuthorId = new Guid(1,0,0, new byte[] {0,0,0,0,0,0,0,0}), 
             Name = "TestName", 
@@ -100,21 +99,19 @@ public class AuthorRepositoryUnitTests
         });
     }
 
-    [Fact] //Test method to get an author by the wrong name - shouldn't be possible
+    [Fact]
     public void UnitTestFindAuthorByWrongName()
     {
         //Act
         Func<Task> act = async () => await repository.GetAuthorByName("TestNameWrong");
 
         //Assert
-        //Should throw an exception since the name doesn't exist in our database
         act.Should().ThrowAsync<ArgumentException>().WithMessage("Author with name TestNameWrong does not exist");
     }
 
     [Fact]
     public async void UnitTestAddFolloweeAddsToTheAuthorsFollowedList()
     {
-        //Arrange
         //Act
         await repository.AddFollowee("TestName","TestName2");
         AuthorDTO author1 = await repository.GetAuthorByName("TestName");
@@ -126,7 +123,6 @@ public class AuthorRepositoryUnitTests
     [Fact]
     public void UnitTestAddIncorrectFollowee()
     {
-        //Arrange
         //Act
         Func<Task> act = async () => await repository.AddFollowee("TestName","TestName4");
         
@@ -148,8 +144,6 @@ public class AuthorRepositoryUnitTests
         author1.Followed?.Count.Should().Be(0);
     }
 
-
-// Fails
     [Fact]
     public void UnitTestRemoveIncorrectFollowee() 
     {
@@ -159,7 +153,6 @@ public class AuthorRepositoryUnitTests
         act.Should().ThrowAsync<NullReferenceException>().WithMessage("FollowerRelationship is null");
     }
 
-// Fails
     [Fact]
     public async void UnitTestFollowTheSameAuthorTwice() 
     {
@@ -171,7 +164,6 @@ public class AuthorRepositoryUnitTests
         await act.Should().ThrowAsync<InvalidOperationException>();
     }
 
-    //Test that the method to delete an author works
     [Fact]
     public async void UnitTestDeleteAuthorAsync()
     {
@@ -179,12 +171,9 @@ public class AuthorRepositoryUnitTests
         await repository.DeleteAuthor(new Guid(1, 0, 0, new byte[] { 0, 0, 0, 0, 0, 0, 0, 0 }));
 
         //Assert
-        //Should pass since the author is deleted
         _context.Authors.Should().NotContain(a => a.AuthorId == new Guid(1, 0, 0, new byte[] { 0, 0, 0, 0, 0, 0, 0, 0 }));
     }
     
-
-// Fails
     [Fact]
     public async void UnitTestFollowAuthorUpdatesOtherAuthorsFollowersList() 
     {
