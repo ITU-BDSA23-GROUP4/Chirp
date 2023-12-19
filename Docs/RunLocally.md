@@ -1,0 +1,4 @@
+## How to make _Chirp!_ work locally
+To run chirp locally. A docker container is needed and should use the image mcr.microsoft.com/mssql/server:2022-latest. Then you will need to add a user secret to the Chirp.Razor project file which can be done with dotnet. You will need to add the connectionstring for the container in the user secret, it will look something like this:<br> ```dotnet user-secrets set "ConnectionStrings:ChirpDB" "Server=localhost,1433;Database=ChirpDB;User=SA;Password=Admin123;TrustServerCertificate=True;MultipleActiveResultSets=True;"```
+
+The container will act as an SQL Server like in production. The code in program.cs will make sure that a database will be made on the container. To run the project run the Chirp.Razor project which will locally host the website and it will connect to the container that acts as a SQL Server.
