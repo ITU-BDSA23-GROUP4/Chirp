@@ -3,8 +3,8 @@ using Microsoft.EntityFrameworkCore;
 
 /*
 <Summary>
-This is the authorRepository, where we can work with our authors
-This is the repository that adheres to Authors, so this is were we can create, read, update and delete authors.
+This is the AuthorRepository.
+It contains method to interact with the Author and AuthorAuthor tables.
 </Summary>
 */
 
@@ -18,14 +18,6 @@ namespace Chirp.Infrastructure
             _db = db;
         }
 
-
-        /// <summary>
-        ///  Adds an Author to the data base with all required fields Note 
-        ///  followed and followers list are not required
-        /// </summary>
-        /// <param name="name"></param>
-        /// <param name="email"></param>
-        /// <returns></returns>
         public async Task AddAuthor(string name, string email)
         {
             try
@@ -270,6 +262,7 @@ namespace Chirp.Infrastructure
         private static Task<List<AuthorDTO>> GetAllFollowersAsync(Guid AuthorId, ChirpDBContext _dbcontext) {
             return Task.Run(() => GetAllFollowers(AuthorId, _dbcontext));
         }
+        
         private static List<AuthorDTO> GetAllFollowers(Guid _AuthorId, ChirpDBContext _dbcontext) 
         { 
             List<AuthorDTO> followers = new List<AuthorDTO>();
@@ -297,6 +290,5 @@ namespace Chirp.Infrastructure
 
             return followers;
         }
-      
     }
 }

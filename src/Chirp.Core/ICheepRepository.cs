@@ -1,7 +1,8 @@
 /*
 <Summary>
-This is the Cheep Repository interface
-The Cheep Repository will implement the methods from this interface.
+This is the cheep repository interface.
+The CheepRepository implements this interface.
+The methods handles all interactions with the Cheeo entity in the database.
 </Summary>
 */
 
