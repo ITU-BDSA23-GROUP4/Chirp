@@ -87,5 +87,13 @@ class Program
 
         await page.Locator("p").Filter(new() { HasText = "Jacqualine Gilcoine Starbuck" }).GetByRole(AriaRole.Link).ClickAsync();
 
+        await page.GetByRole(AriaRole.Button, new() { Name = "12", Exact = true }).ClickAsync();
+
+        await page.GetByText("Upon making known our desires").ClickAsync();
+
+        await page.GetByRole(AriaRole.Button, new() { Name = "1", Exact = true }).ClickAsync();
+
+        await page.Locator("p").Filter(new() { HasText = "Jacqualine Gilcoine Starbuck" }).GetByRole(AriaRole.Link).ClickAsync();
+
     }
 }
