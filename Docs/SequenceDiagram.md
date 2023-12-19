@@ -1,12 +1,23 @@
+<!-- Figugres are refered to as SQDX as in Sequence Diagram X -->
 ## Sequence diagram
-as ilustarted in the sequence diagram an actor tries to connect to the website they send a get request to our razor page. Here it access its interface requesting cheepDTO's. The interface in the core calls to the repository which in turn calls to the SQL server hosted on azure. Afterwards the 32 cheeps are returned.
+In Figure SQD1. A sequence diagram of an unauthorized actor. Henceforth, referred to as UA, accessing our project. It shows the UA sending the HTTP get request to receive the website. After the initial request, the Chirp.Razor starts to build the HTML. Here, an asynchronous object creation message is sent through the interface in the core and onto the repository. The repository returns the same for all actors sending this request. Using Linq, the repository inquires the SQL database for the 32 most recent cheeps. 
 
-As the Cheeps are returned they are turned into Cheep dto ensuring that only the neccesary data acompanies them. They pass through the repository that manipulates them to the appropriet form and sends the set of 32 CheepDTOs' to the Chirp.Razor package.  
+The database sends the 32 cheeps to the repository. Which inserts each cheep into a CheepDTO before returning a list of 32 CheepDTOs. This list is sent back through the system, shown in Fig SQD1. Arriving in Chirp.Razor. It is weaved into the HTML, checking the if the user is Authorized. Before the page is returned to the UA. 
+<figure align = "center">
+    <img title="Sequence Diagram Unauthorized" style="width:70%" alt="Alt text" src="Images\SequenceDiagramUnauthorized.svg">
+    <figcaption style="  font-size:11px"><b>Fig. SQD1 - Sequence diagram for an unauthorized user </b></figcaption>
+</figure>
 
 
+Figure SQD2. Show a known actor accessing our site, logging in and sending a Cheep. The first Get request is the same as seen in Fig SQD1. It deviates during the authentication step as the actor presses the login link. As they log in, Microsoft Identity redirects them to Azure OIDC. Which then redirect to GitHub. 
 
-Make sure that your illustration is complete.
-That is, likely for many of you there will be different kinds of "calls" and responses.
-Some HTTP calls and responses, some calls and responses in C# and likely some more.
-(Note the previous sentence is vague on purpose. I want that you create a complete illustration.)
-<!-- Not sure it is "complete" -->
+After the actor has logged in, GitHub sends a token back to being logged on Azure. Their token is in the URL. With it confirmed, the Razor page HTML Will change. 
+
+Then the authorized user fills out the desired cheep and Chirps it. When that happens, Chirp.Razor constructs a CheepDTO and sends it through the core, where it is validated and sent to the repository. Afterwards it is committed to the database granted that Validation confirms. 
+
+Then, confirmation of success is sent back until the razorpage redirects to itself to reload. 
+<figure align = "center">
+    <img title="Sequence Diagram Authorized" style="width:70%" alt="Alt text" src="Images\SequenceDiagramAuthorized.svg">
+    <figcaption style="  font-size:11px"><b>Fig. SQD2 - Sequence diagram for an unauthorized user </b></figcaption>
+</figure>
+
