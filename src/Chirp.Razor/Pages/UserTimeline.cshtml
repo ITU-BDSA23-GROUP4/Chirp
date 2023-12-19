@@ -63,7 +63,7 @@
                         </li>
                     }
                 </ul>
-                @if(User?.Identity?.Name!=null){
+                @if(User?.Identity?.Name!=null && User.Identity.Name == Model.Author){
                  <div class="pageNumber">
                     <span>Page:</span>
                     
@@ -72,15 +72,22 @@
                         <button onclick="location.href='?page=@i'">@i</button>
                     }
                 </div>
-                <div class="pageNumber">
-                    <button onclick="location.href='?page=1'">Go to page 1</button>
-                </div>
                 }
+               @if(User?.Identity?.Name!=null && Model.Cheeps.Count!=0 && User.Identity.Name != Model.Author)
+               {
+                @for (int i = 1; i < ((Model._service.GetCountOfAllCheepFromAuthor(Model.Author)/32)+2); i++)
+                    {   
+                        <button onclick="location.href='?page=@i'">@i</button>
+                    }
+               }
             }
             else
             {
                 <em>There are no cheeps so far.</em>
             }
+            <div class="pageNumber">
+                    <button onclick="location.href='?page=1'">Go to page 1</button>
+            </div>
         }
     }
 </div>

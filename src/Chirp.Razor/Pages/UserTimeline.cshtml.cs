@@ -37,6 +37,9 @@ public class UserTimelineModel : PageModel
 
     [FromQuery(Name ="unfollow")]
     public string? unfollow{ get; set; }
+    
+    [BindProperty(SupportsGet = true)]
+    public string? Author { get; set; }
 
     public async Task<ActionResult> OnGet(string author)
     {
@@ -47,7 +50,7 @@ public class UserTimelineModel : PageModel
                 Cheeps = _service.CombineCheepsAndFollowerCheeps(author ,pageNum);
                 
             } else {
-                Cheeps = _service.GetCheepsFromAuthor(author, pageNum);
+                Cheeps = _service.CombineCheepsAndFollowerCheeps(author, pageNum);
             }
         }
         // the else statement with the same code ensures page 0 and page 1 shows the same cheeps
@@ -58,7 +61,7 @@ public class UserTimelineModel : PageModel
                 Cheeps =  _service.CombineCheepsAndFollowerCheeps(author ,pageNum);
                 
             } else {
-                Cheeps = _service.GetCheepsFromAuthor(author, pageNum);
+                Cheeps = _service.CombineCheepsAndFollowerCheeps(author, pageNum);
             }
         }
 
