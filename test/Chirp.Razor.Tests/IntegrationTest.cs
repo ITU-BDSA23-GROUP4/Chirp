@@ -4,9 +4,7 @@ using System.Text.RegularExpressions;
 using Testcontainers.MsSql;
 using Chirp.Infrastructure;
 using Microsoft.EntityFrameworkCore;
-using Initializer;
 using Microsoft.Data.SqlClient;
-using Microsoft.Identity.Client;
 
 public class TestAPI : IClassFixture<WebApplicationFactory<Program>>
 {

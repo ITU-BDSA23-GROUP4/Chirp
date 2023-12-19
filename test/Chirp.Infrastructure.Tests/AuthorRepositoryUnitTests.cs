@@ -1,5 +1,3 @@
-using System.ComponentModel;
-
 public class AuthorRepositoryUnitTests
 {
     private readonly SqliteConnection? _connection; // Connection to the database

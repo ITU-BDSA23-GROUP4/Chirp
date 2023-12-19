@@ -1,4 +1,3 @@
-using System.Security.Cryptography.X509Certificates;
 using Chirp.Core;
 using FluentValidation;
 using FluentValidation.Results;
