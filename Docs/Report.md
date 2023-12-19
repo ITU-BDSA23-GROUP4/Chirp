@@ -23,7 +23,7 @@ Illustrate the organization of your code base. That is, illustrate which layers 
 <br>
 In the Onion Architecture diagram, we can see how ours are presented. In the middle we have our core package, that is our DTO's and our interfaces. This is the lowest layer of the application. If you look at the UML of our whole application, you will se the Core folder doesn't use any types/method from the other packages, this is why its in the middle of the onion. This applies to the next level using Infrastructure. This folder only takes information from itself or from the Core, and the same does the Razor.
 
-The Onion Architecture (or better known as Clean Architecture), is great for having low coupling and high cohesion. When looking at the UML, there is no unnessesary communication between scripts, with so low coupling the readability of the program is better, even though some of the repositories contains a fair amount of methods.
+The Onion Architecture (or better known as Clean Architecture), is great for having low coupling and high cohesion. When looking at the UML, there is no unnecessary communication between scripts, with so low coupling the readability of the program is better, even though some of the repositories contains a fair amount of methods.
 
 A better representation of the architecture on a deep level, is the Onion class diagram we've created. Using the representation from our onion architecture we've placed our classes just like the UML class diagram. To make sense of these diagrams we've created an onion diagram, and an UML diagram on its own, and then merged them together to give a greater understanding. 
 
