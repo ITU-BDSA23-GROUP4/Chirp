@@ -37,7 +37,7 @@ context.Database.EnsureCreated();
 
 
 ## Razor.Tests
-To run the tests you need to setup and download docker. A complete guide for downloading and setting up docker correctly with our application can be found in our [README.md](..\README.md#docker-setup)
+To run the tests you need to setup and download docker. A complete guide for downloading and setting up docker correctly with our application can be found in our ![README.md](..\README.md#docker-setup)
 After following the guide cd into the Chirp.Razor.tests folder and run the following command
 ```bash
 dotnet test
