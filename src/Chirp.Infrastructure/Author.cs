@@ -1,4 +1,5 @@
 ﻿namespace Chirp.Infrastructure;
+
 /*
 <Summary>
 This class models the Author entity in the database.

@@ -1,15 +1,14 @@
 using Chirp.Core;
 using Microsoft.EntityFrameworkCore;
 
-/*
-<Summary>
-This is the AuthorRepository.
-It contains method to interact with the Author and AuthorAuthor tables.
-</Summary>
-*/
-
 namespace Chirp.Infrastructure
 {
+    /*
+    <Summary>
+    This is the AuthorRepository.
+    It contains method to interact with the Author and AuthorAuthor entities.
+    </Summary>
+    */
     public class AuthorRepository : IAuthorRepository
     {
         private readonly ChirpDBContext _db;
@@ -27,19 +26,18 @@ namespace Chirp.Infrastructure
             } 
             catch (Exception)
             {
-                //Do nothing as the author already exists
+                // Do nothing as the author already exists
             }
         }
 
         public async Task DeleteAuthor(Guid authorId){
-            //Gets the author from the database
             var author = _db.Authors.Where(author => author.AuthorId == authorId).FirstOrDefault();
-            if (author != null) //Removes the author from the database
+            if (author != null)
             {
                 _db.Remove(author);
                 await _db.SaveChangesAsync();
             }
-            else //In case the author doesn't exist
+            else
             {
                 throw new ArgumentException("Author with ID " + authorId + " does not exist");
             }
@@ -112,17 +110,23 @@ namespace Chirp.Infrastructure
 
         public async Task RemoveFollowee(string _AuthorName, string _FolloweeName)
         {
+            // Find current user in db
             var Author = await _db.Authors.Where(a => a.Name == _AuthorName)
                 .Include(a => a.Followed)
                 .FirstAsync();
 
+            // Find the user we wish to unfollow in the db
             var Followee = await _db.Authors.Where(a => a.Name == _FolloweeName)
                 .Include(a => a.Followers)
                 .FirstAsync();
 
-            if (Author != null && Followee.Followers != null)
+            if (Author.Followed != null && Followee != null)
             {
-                Followee.Followers.Remove(Author);
+                /* Remove the user we wish to unfollow, from the current users list of followed users.
+                This will also remove the current user, 
+                from the list of followers of the user we wish to unfollow, 
+                as the this list is represented by the same tuple in the db. */
+                Author.Followed.Remove(Followee);
                 await _db.SaveChangesAsync();
             }
         }
@@ -142,23 +146,26 @@ namespace Chirp.Infrastructure
                 }).FirstAsync();
                 return true;
             } 
-            catch {
+            catch 
+            {
                 return false;
             }
         }
 
         public async Task AddFollowee(string _AuthorName, string _FolloweeName)
         {
+            // Constraint that a user can not follow itself
             if (_AuthorName == _FolloweeName)
             {
                 throw new ArgumentException(_AuthorName + " can not follow " + _FolloweeName + ", as " + _AuthorName + " can not follow itself");
             }
 
+            // Find the current user
             var Author = await _db.Authors.Where(a => a.Name == _AuthorName)
                 .Include(a => a.Followed)
                 .FirstAsync();
 
-
+            // Find the user we wish to follow
             var Followee = await _db.Authors.Where(a => a.Name == _FolloweeName)
                 .Include(a => a.Followers)
                 .FirstAsync();
@@ -168,13 +175,17 @@ namespace Chirp.Infrastructure
             
             if (Author != null && Followee != null)
             {
-
+                /* Adding a duplicate tuple to the db, already provokes and exeption.
+                However, this gives us full control of what type of exception is thrown and with which message. */
                 if (Author.Followed.Contains(Followee) || Followee.Followers.Contains(Author))
                 {
                     throw new InvalidOperationException("Author: " + Author.Name + "already follows: " + Followee.Name);
                 }
+                /* Adds the user we wish to follow, to the current users list of followed users.
+                This will also add the current user, 
+                to the list of followers of the user we wish to follow, 
+                as the this list is represented by the same tuple in the db. */
                 Author.Followed.Add(Followee);
-                Followee.Followers.Add(Author);
                 await _db.SaveChangesAsync();
             }
             else
@@ -183,10 +194,7 @@ namespace Chirp.Infrastructure
             }
         }
 
-        private static Task<List<CheepDTO>> GetAllCheepsFromAuthorAsync(string Name, ChirpDBContext _dbcontext) {
-            return Task.Run(() => GetAllCheepsFromAuthor(Name, _dbcontext));
-        }
-
+        // Helper method: Retrieves all cheeps related to the given author from the db.
         private  static List<CheepDTO> GetAllCheepsFromAuthor(string Name, ChirpDBContext _dbcontext)
         {
             List<CheepDTO> cheepsToReturn = new List<CheepDTO>();
@@ -194,7 +202,6 @@ namespace Chirp.Infrastructure
             {
                 var cheepsDTO =  _dbcontext.Cheeps.ToList().OrderByDescending(c => c.TimeStamp.Ticks).Where(author => author.Author.Name == Name).Select(CheepDTO => new CheepDTO
                 { 
-                    //Sets the properties of the Cheep
                     CheepId = CheepDTO.CheepId,
                     AuthorName = CheepDTO.Author.Name,
                     Message = CheepDTO.Text,
@@ -211,6 +218,7 @@ namespace Chirp.Infrastructure
             }
         }
 
+        // Helper method: Retrieves all followed authors from the AuthorAuthor entity in the db.
         private static List<AuthorDTO> GetAllFollowedAuthor(Guid AuthorId, ChirpDBContext DBcontext)
         {
             List<AuthorDTO> followed = new List<AuthorDTO>();
@@ -237,6 +245,7 @@ namespace Chirp.Infrastructure
             return followed;
         }
         
+        // Helper method: Retrieves all followers (authors) from the AuthorAuthor entity in the db.
         private static List<AuthorDTO> GetAllFollowers(Guid _AuthorId, ChirpDBContext _dbcontext) 
         { 
             List<AuthorDTO> followers = new List<AuthorDTO>();
