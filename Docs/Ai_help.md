@@ -4,9 +4,9 @@
 
 In this section we will go over the AI help that has been through out the process of creating the project.
 
-### ChatGBT
+### ChatGPT
 
-ChatGBT is one of the AI's that we have used through out the project for smaller questions. Theses questions range from C# related code, refactoring of code, setup of docker or .NET console commands. With the help from the AI we can ask questions and get quick response that can help us in the right direction. There are somethings to consider when using ChatGBT the main thing will be the validity of the response since we can't guarantee that it's right.
+ChatGPT is one of the AI's that we have used through out the project for smaller questions. Theses questions range from C# related code, refactoring of code, setup of docker or .NET console commands. With the help from the AI we can ask questions and get quick response that can help us in the right direction. There are somethings to consider when using ChatGPT the main thing will be the validity of the response since we can't guarantee that it's right.
 
 ### Github CoPilot
 
