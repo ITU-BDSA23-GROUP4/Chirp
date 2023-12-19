@@ -10,7 +10,7 @@ class Program
     /* RUN THIS LINE TO INSTALL 
     pwsh bin/Debug/net7.0/playwright.ps1 install 
     The playwrighttest tries to access features that are only available to authenticated users
-    for now the developer has to manually login when running the test. Simply run dotnet run, and
+    for now the developer has to manually login when running the test. Simply run dotnet test, and
     a private firefox window will open and playwright will direct the developer to login wherein you
     enter your credentials and the test will run as normal. your credentials are NOT SAVED anywhere
    */
