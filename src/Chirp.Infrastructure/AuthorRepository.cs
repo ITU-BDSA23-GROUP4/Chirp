@@ -229,10 +229,6 @@ namespace Chirp.Infrastructure
             }
         }
 
-        private static Task<List<AuthorDTO>> GetAllFollowedAuthorAsync(Guid AuthorId, ChirpDBContext _dbcontext) {
-            return Task.Run(() => GetAllFollowedAuthor(AuthorId, _dbcontext));
-        }
-
         private static List<AuthorDTO> GetAllFollowedAuthor(Guid AuthorId, ChirpDBContext DBcontext)
         {
             List<AuthorDTO> followed = new List<AuthorDTO>();
@@ -257,10 +253,6 @@ namespace Chirp.Infrastructure
             }
 
             return followed;
-        }
-
-        private static Task<List<AuthorDTO>> GetAllFollowersAsync(Guid AuthorId, ChirpDBContext _dbcontext) {
-            return Task.Run(() => GetAllFollowers(AuthorId, _dbcontext));
         }
         
         private static List<AuthorDTO> GetAllFollowers(Guid _AuthorId, ChirpDBContext _dbcontext) 
