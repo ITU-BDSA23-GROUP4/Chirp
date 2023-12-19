@@ -37,6 +37,9 @@ public class UserTimelineModel : PageModel
 
     [FromQuery(Name ="unfollow")]
     public string? unfollow{ get; set; }
+    
+    [BindProperty(SupportsGet = true)]
+    public string Author { get; set; }
 
     public async Task<ActionResult> OnGet(string author)
     {
