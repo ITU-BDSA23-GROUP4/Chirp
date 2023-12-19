@@ -16,15 +16,11 @@ namespace Chirp.Infrastructure;
 public class CheepRepository : ICheepRepository
 {
     private readonly ChirpDBContext _db; //Needed to get our CheepDTO
-    private readonly AbstractValidator<CheepCreateDTO> _validator; //Needed to validate our CheepDTO
+    private readonly CheepCreateValidator _validator = new(); //Needed to validate our CheepDTO
     
-    public CheepRepository(ChirpDBContext db, AbstractValidator<CheepCreateDTO>? validator) //If we want to use an existing db
+    public CheepRepository(ChirpDBContext db) //If we want to use an existing db
     {
         _db = db;
-        if (validator == null) {
-            throw new NullReferenceException();
-        }
-        _validator = validator;
     }
 
     public async Task AddCheep(Guid authorId, string text)

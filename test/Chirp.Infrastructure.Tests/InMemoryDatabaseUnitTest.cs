@@ -4,7 +4,6 @@ public class InMemoryDatabaseTest
     private readonly ChirpDBContext _context; //The context of the database
     private readonly CheepRepository repository; //The repository of the memory database
     private readonly CheepRepository ExistingRepository; //The repository of the existing database
-    private readonly CheepCreateValidator validator; //Validator for the database
 
     public InMemoryDatabaseTest()
     {
@@ -51,16 +50,10 @@ public class InMemoryDatabaseTest
         }
         context2.Database.EnsureCreated();
 
-        validator = new CheepCreateValidator();
-        if (validator == null)
-            {
-                throw new Exception("Validator is null");
-            }
-
         context.SaveChanges();
         _context = context; 
-        repository = new CheepRepository(_context, validator);
-        ExistingRepository = new CheepRepository(context2, validator);
+        repository = new CheepRepository(_context);
+        ExistingRepository = new CheepRepository(context2);
     }
 
     [Fact] //Check if the memory database is not empty
