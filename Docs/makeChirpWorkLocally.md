@@ -1,6 +1,3 @@
-There has to be some documentation on how to come from cloning your project to a running system. That is, Rasmus or Helge have to know precisely what to do in which order. Likely, it is best to describe how we clone your project, which commands we have to execute, and what we are supposed to see then.
-
-
 # How to make Chirp! work locally
 
 ## 1. Clone the repository
