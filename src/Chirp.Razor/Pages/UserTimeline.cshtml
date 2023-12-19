@@ -73,7 +73,7 @@
                     }
                 </div>
                 }
-               @if(User?.Identity?.Name!=null && Model.Cheeps.Count!=0 && User.Identity.Name != Model.Author)
+               @if(Model.Cheeps.Count!=0 && User?.Identity?.Name != Model.Author && Model.Author!= null)
                {
                 @for (int i = 1; i < ((Model._service.GetCountOfAllCheepFromAuthor(Model.Author)/32)+2); i++)
                     {   
