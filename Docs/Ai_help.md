@@ -10,7 +10,7 @@ ChatGBT is one of the AI's that we have used through out the project for smaller
 
 ### Github CoPilot
 
-Github CoPilot has been used through out the project to help with speeding up the process of writing code. CoPilot gives suggestions to code that you were writing either way with autocompleting a few lines. CoPilot can also sometimes help with debugging. CoPilot has also help with the creation of unit tests.
+Github CoPilot has been used through out the project to help with speeding up the process of writing code. It gives suggestions to code that you were writing either way with autocompleting a few lines. It can also sometimes help with debugging. It has also help with the creation of unit tests.
 <!-- ChatGBT and/or CoPilot
 ChatGBT was used for small questions, or just the simple things as refactoring through the code
  
