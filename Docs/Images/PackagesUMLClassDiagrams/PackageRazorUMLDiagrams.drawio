@@ -1,43 +1,43 @@
 <mxfile host="65bd71144e">
     <diagram id="Bt2sSARLeS8u310CAgdE" name="Page-1">
-        <mxGraphModel dx="301" dy="-222" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" background="#ffffff" math="0" shadow="0">
+        <mxGraphModel dx="-286" dy="-482" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" background="#ffffff" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
-                <mxCell id="13" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;" vertex="1" parent="1">
+                <mxCell id="13" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;" parent="1" vertex="1">
                     <mxGeometry x="860" y="1161" width="835" height="624" as="geometry"/>
                 </mxCell>
-                <mxCell id="2" value="" style="shape=folder;fontStyle=1;spacingTop=10;tabWidth=190;tabHeight=35;tabPosition=left;html=1;strokeColor=#000000;fillColor=none;" vertex="1" parent="1">
+                <mxCell id="2" value="" style="shape=folder;fontStyle=1;spacingTop=10;tabWidth=190;tabHeight=35;tabPosition=left;html=1;strokeColor=#000000;fillColor=none;" parent="1" vertex="1">
                     <mxGeometry x="881" y="1176" width="789" height="589" as="geometry"/>
                 </mxCell>
-                <mxCell id="3" value="" style="shape=folder;fontStyle=1;spacingTop=10;tabWidth=190;tabHeight=35;tabPosition=left;html=1;strokeColor=#000000;fillColor=none;" vertex="1" parent="1">
+                <mxCell id="3" value="" style="shape=folder;fontStyle=1;spacingTop=10;tabWidth=190;tabHeight=35;tabPosition=left;html=1;strokeColor=#000000;fillColor=none;" parent="1" vertex="1">
                     <mxGeometry x="926" y="1607.37" width="714" height="133.5" as="geometry"/>
                 </mxCell>
-                <mxCell id="4" value="&lt;font color=&quot;#000000&quot; style=&quot;font-size: 20px;&quot;&gt;Chirp.Razor&lt;/font&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+                <mxCell id="4" value="&lt;font color=&quot;#000000&quot; style=&quot;font-size: 20px;&quot;&gt;Chirp.Razor&lt;/font&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
                     <mxGeometry x="941" y="1176" width="60" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="5" value="&lt;font color=&quot;#000000&quot;&gt;DbInitializer&lt;/font&gt;" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;strokeColor=#000000;fillColor=none;" vertex="1" parent="1">
+                <mxCell id="5" value="&lt;font color=&quot;#000000&quot;&gt;DbInitializer&lt;/font&gt;" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;strokeColor=#000000;fillColor=none;" parent="1" vertex="1">
                     <mxGeometry x="1350" y="1582" width="290" height="52" as="geometry"/>
                 </mxCell>
-                <mxCell id="6" value="&lt;font color=&quot;#000000&quot;&gt;+ SeedDatabase(ChirpDBContext chirpContext)&lt;/font&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="5">
+                <mxCell id="6" value="&lt;font color=&quot;#000000&quot;&gt;+ SeedDatabase(ChirpDBContext chirpContext)&lt;/font&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="5" vertex="1">
                     <mxGeometry y="26" width="290" height="26" as="geometry"/>
                 </mxCell>
-                <mxCell id="7" value="&lt;font color=&quot;#000000&quot; style=&quot;font-size: 20px;&quot;&gt;Pages&lt;/font&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+                <mxCell id="7" value="&lt;font color=&quot;#000000&quot; style=&quot;font-size: 20px;&quot;&gt;Pages&lt;/font&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
                     <mxGeometry x="980" y="1607" width="60" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="8" value="&lt;font color=&quot;#000000&quot;&gt;CheepService&lt;/font&gt;" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;strokeColor=#000000;fillColor=none;" vertex="1" parent="1">
+                <mxCell id="8" value="&lt;font color=&quot;#000000&quot;&gt;CheepService&lt;/font&gt;" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;strokeColor=#000000;fillColor=none;" parent="1" vertex="1">
                     <mxGeometry x="913" y="1228" width="520" height="332" as="geometry"/>
                 </mxCell>
-                <mxCell id="9" value="&lt;font color=&quot;#000000&quot;&gt;+ _cheepRepository ICheepRepository&lt;br&gt;+ _authorRepository IAuthorRepository&lt;/font&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="8">
+                <mxCell id="9" value="&lt;font color=&quot;#000000&quot;&gt;+ _cheepRepository : ICheepRepository&lt;br&gt;+ _authorRepository : IAuthorRepository&lt;/font&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="8" vertex="1">
                     <mxGeometry y="26" width="520" height="44" as="geometry"/>
                 </mxCell>
-                <mxCell id="10" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" vertex="1" parent="8">
+                <mxCell id="10" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" parent="8" vertex="1">
                     <mxGeometry y="70" width="520" height="8" as="geometry"/>
                 </mxCell>
-                <mxCell id="11" value="&lt;font color=&quot;#000000&quot;&gt;+ CheepService(ICheepRepository cheepRepository, IAuthorRepository authorrepository)&lt;br&gt;+ AddCheep(guid authorid, string text)&lt;br&gt;+ GetCheeps(int pageNum)&lt;br&gt;+ CetCheepsFromAuthor(string author, int pageNum)&lt;br&gt;+ GetAuthorByName(string name)&lt;br&gt;+ GetAuthorByEmail(string email)&lt;br&gt;+ GetCountOfAllCheepsFromAuthor(string author)&lt;br&gt;+ GetCountOfAllCheeps()&lt;br&gt;+ Create(CheepCreateDTO)&lt;br&gt;+ IncreaseLikeAttributeInCheep(guid cheepId)&lt;br&gt;+ AddAuthor(string name, string email)&lt;br&gt;+ DeleteCheepsFromAuthor(guid authorid)&lt;br&gt;+ DeleteAuthor(guid authorid)&lt;br&gt;+ AddFollowee(string AuthorName, string FolloweeName)&lt;br&gt;+ RemoveFollowee(string AuthorName, string FolloweeName)&lt;br&gt;+ DoesAuthorExist(string email)&lt;br&gt;+ CombineCheepsAndFollowersCheeps(string AuthorName, int pageNum)&lt;br&gt;&lt;/font&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="8">
+                <mxCell id="11" value="&lt;font color=&quot;#000000&quot;&gt;+ CheepService(&lt;/font&gt;&lt;span style=&quot;color: rgb(0, 0, 0);&quot;&gt;cheepRepository:&amp;nbsp;&lt;/span&gt;&lt;font color=&quot;#000000&quot;&gt;ICheepRepository, authorrepository :&amp;nbsp;&lt;/font&gt;&lt;span style=&quot;color: rgb(0, 0, 0);&quot;&gt;IAuthorRepository&lt;/span&gt;&lt;font color=&quot;#000000&quot;&gt;)&lt;br&gt;&lt;/font&gt;&lt;font color=&quot;#000000&quot;&gt;+ GetCheeps(pageNum :&amp;nbsp;&lt;/font&gt;&lt;span style=&quot;color: rgb(0, 0, 0);&quot;&gt;int&lt;/span&gt;&lt;font color=&quot;#000000&quot;&gt;) : List&amp;lt;CheepDTO&amp;gt;&lt;br&gt;+ CetCheepsFromAuthor(string author, int pageNum) : List&amp;lt;CheepDTO&amp;gt;&lt;br&gt;+ GetAuthorByName(string name)&lt;br&gt;+ GetAuthorByEmail(string email)&lt;br&gt;+ GetCountOfAllCheepsFromAuthor(string author)&lt;br&gt;+ GetCountOfAllCheeps()&lt;br&gt;+ Create(CheepCreateDTO)&lt;br&gt;+ IncreaseLikeAttributeInCheep(guid cheepId)&lt;br&gt;+ AddAuthor(string name, string email)&lt;br&gt;+ DeleteCheepsFromAuthor(guid authorid)&lt;br&gt;+ DeleteAuthor(guid authorid)&lt;br&gt;+ AddFollowee(string AuthorName, string FolloweeName)&lt;br&gt;+ RemoveFollowee(string AuthorName, string FolloweeName)&lt;br&gt;+ DoesAuthorExist(string email)&lt;br&gt;+ CombineCheepsAndFollowersCheeps(string AuthorName, int pageNum)&lt;br&gt;&lt;/font&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="8" vertex="1">
                     <mxGeometry y="78" width="520" height="254" as="geometry"/>
                 </mxCell>
-                <mxCell id="12" value="&lt;font color=&quot;#000000&quot;&gt;Program&lt;/font&gt;" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;strokeColor=#000000;fillColor=none;" vertex="1" parent="1">
+                <mxCell id="12" value="&lt;font color=&quot;#000000&quot;&gt;Program&lt;/font&gt;" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;strokeColor=#000000;fillColor=none;" parent="1" vertex="1">
                     <mxGeometry x="1488" y="1276" width="160" height="34" as="geometry"/>
                 </mxCell>
             </root>
