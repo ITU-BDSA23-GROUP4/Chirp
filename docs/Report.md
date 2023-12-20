@@ -96,11 +96,8 @@ The build and test workflow can be found in [here](#BuildTest). The activity dia
 Because it runs the tests as well, it ensures that any incoming changes do not affect the functionality. If anything fails, it will stop and prevent the branch from merging into main.
 
 [BuildTest]: Images/BuildAndTest.png "Build and test activity diagram" 
-![Build and test activity diagram][image] 
+![Build and test activity diagram][image]{width=60%}
 
-
-
-![Build and test activity diagram](Images/BuildAndTest.png){width=60%}
 
 
 #### Publish and release
