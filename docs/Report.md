@@ -8,7 +8,16 @@ author:
 - "Niels Christian Skov Faber <nfab@itu.dk>"
 - "Oliver Asger-Sharp Johansen <oash@itu.dk>"
 numbersections: true
+figPrefix:
+- "fig."
+- "figs."
 header-includes: |
+ \usepackage{hyperref}
+ \hypersetup{
+  colorlinks=true,
+  linkcolor=blue,
+  urlcolor=cyan,
+  }
  \usepackage{float}
  \let\origfigure\figure
  \let\endorigfigure\endfigure
@@ -28,7 +37,7 @@ Provide an illustration of your domain model. Make sure that it is correct and c
 In the Onion Architecture diagram bellow you'll see our applications. In the centre we have our core package. This is the lowest layer of the application. Then we move outwards through the layers end with our  SQL-Server and razor pages, which interacts with our Azure application. 
 <br>
 
-![Onion Architecture Diagram](Images/OnionArchitectureDiagram.png){width=60%}
+![Onion Architecture Diagram](Images/OnionArchitectureDiagram.png){width=60% #fig:OnionArchitecture}
 
 In order not to overwhelm the diagram. The details of the classes are kept minimal in the Onion class diagram [OnionClassDiagram](#OnionClassDiagram). There is a UML class diagram for each package. All of these are shown in the Onion class diagram. This is done to keep the diagrams clear and readable. The interaction between layers and packages is shown in the Onion class diagram. The internal interaction is shown in the UML class Diagrams. 
 
@@ -137,11 +146,13 @@ Briefly describe and illustrate the flow of activities that happen from the new 
 
 # How to make Chirp! work locally
 prerequisites:
+
 1. [download .NET](https://dotnet.microsoft.com/en-us/download)
+
 2. IDE of your choice
 
 
-## 1. Clone the repository
+## Clone the repository - Step 1
 Follow this link: [github.com/ITU-BDSA23-GROUP4](https://github.com/ITU-BDSA23-GROUP4/Chirp.git)
 
 ![Fix.XX Cloning](Images/cloning.png){width=60%}
@@ -153,7 +164,7 @@ copy the url and run the following command in your terminal where you want to cl
 git clone https://github.com/ITU-BDSA23-GROUP4/Chirp.git
 ```
 
-## 2. Running and installing migrations
+## Running and installing migrations - Step 2
 naviate to the root folder of the program, run the following command in your terminal.
 ```bash
 --global dotnet-ef
@@ -170,13 +181,13 @@ Then run the following command
 dotnet ef migrations add InitialCreate
 dotnet ef database update
 ```
-## 3. Setting up docker {#sec:dockerguide}
+## Setting up docker - Step 3 {#sec:dockerguide} 
 To setup the Docker container for development on own pc you need to run the following command:
 ```docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=Admin123" -p 1433:1433 --name chirpdb --hostname chirpdb -d mcr.microsoft.com/mssql/server:2022-latest```
 <br />
 After this the Container should have been created and a new Image can be seen in your Docker Desktop app. With the new lines of code in Program.cs it should create the database on the container. We can all just use the same command since the connectionstring is already made for this password. hostname and port.
 
-### Setup Database on docker
+### Setup Database on docker 
 The last step is to create the database on the docker server to do this you are to navigate to the ```Exec``` on your new server. <br/>
 To get there go to "Containers" and click on your container.<br/>
 
@@ -192,15 +203,21 @@ To get there go to "Containers" and click on your container.<br/>
 
 Her you can run bash commands on your container and look around the container.<br/>
 We are here to use the MsSQL tool to make a database on this container. To do this we run this ```/opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P Admin123``` (the ```-U``` is the user in our case we will just use SA which is System Admin and ```-P``` is the password for SA) this will gain access to the MsSQL tool. Here we can run SQL commands. Bare in mind that this is a diffrent tool the usual and have different commands.<br/>
-The last part is to add the docker connectionstring to the user secrets. Navigate to src/Chirp.Razor and run command ```dotnet user-secrets set "ConnectionStrings:ChirpDB" "Server=localhost,1433;Database=ChirpDB;User=SA;Password=Admin123;TrustServerCertificate=True;MultipleActiveResultSets=True;"```<br/>
+The last part is to add the docker connectionstring to the user secrets. Navigate to src/Chirp.Razor and run command 
+
+```bash
+dotnet user-secrets set "ConnectionStrings:ChirpDB" "Server=localhost,1433;Database=ChirpDB;User=SA;Password=Admin123;TrustServerCertificate=True;MultipleActiveResultSets=True;"
+```
+
 You can also give your docker container another name if you want to.
 
 
-## 4. Running the program
+## Running the program - Step 4
 navigate to *src\\Chirp.Razor* and run the following command
 ```bash
 dotnet run
 ```
+The program should now be able to run correctly.
 
 # How to run test locally
 The test suite of Chirp consists of 3 test folders each targeting their own part of the application, Infrastructure, Razor and playwright tests. All the tests are found in *Chirp/test/*
@@ -275,7 +292,7 @@ The playwright test differs from the razor test in that it, mimics user behavior
 
 # Ethics
 ## License
-We chose the [MIT license](https://licenses.nuget.org/MIT)for our application, with the major reason being it's open-source nature towards programming-collaboration. Furthermore all the dependencies which we use in our application are also under the MIT license except one, which encourages the collaborative nature of the programming community. A list of all our dependencies and their licenses can be found [here](../License.md). One of our packages is under the [Apache-license](https://licenses.nuget.org/Apache-2.0), which is fine since both are permissive licenses meaning they are able to be used together. This is also stated in our license file. 
+We chose the *[MIT license](https://licenses.nuget.org/MIT)* for our application, with the major reason being it's open-source nature towards programming-collaboration. Furthermore all the dependencies which we use in our application are also under the MIT license except one, which encourages the collaborative nature of the programming community. A list of all our dependencies and their licenses can be found in the license.md file in the Chirp application. One of our packages is under the *[Apache-license](https://licenses.nuget.org/Apache-2.0)*, which is fine since both are permissive licenses meaning they are able to be used together. This is also stated in our license file. 
 
 ## LLMs, ChatGPT, CoPilot, and others
 In this section we will go over the AI help that has been through out the process of creating the project.
