@@ -19,31 +19,52 @@ Provide an illustration of your domain model. Make sure that it is correct and c
 ## Architecture — In the small
 In the Onion Architecture diagram bellow you'll see our applications. In the centre we have our core package. This is the lowest layer of the application. Then we move outwards for the layers with a larger impact, and end with our SQL-Server and razor pages, which interacts with our Azure application. 
 <br>
-![OnionArchitectureDiagram](Images\OnionArchitectureDiagram.png)
+
+<figure align = "center">
+    <img title="Onion Architecture Diagram" style="width:30%" alt="Alt text" src="Images\OnionArchitectureDiagram.png">
+    <figcaption style="  font-size:11px"><b>Fig. XX - Onion Architecture Diagram</b></figcaption>
+</figure>
 
 These layers can be seen more detailed in our class diagram. There is one for each package, and they show everything needed to know about our classes. We've chosen to do this for more simplicity in reading the diagrams. The diagrams show each package and how the classes interact with each other. To see how they interact with the other layers, see [OnionClassDiagram](Images\OnionClassDiagram.png) further down.
 
 You will see in our repositories, that we're deleting the author at some point, this was a project demand. We had two possibilities; delete the user in the sense that they will no longer be traceable, that is make everything anonymous and delete their information, or we had the possibility of just deleting everything that the user ever touched. We chose to be sure that the user wouldn't come back complaining that their username/normal name still was in a cheep, so we deleted everything that they touched. This was also the easier approach since we could delete everything that contained that user's id or name, instead of altering everything. 
 <br>
-![PackageCoreUMLDiagram](Images\PackagesUMLClassDiagrams\PackageCoreUMLDiagram.png)
-![PackageInfrastructureUMLDiagram](Images\PackagesUMLClassDiagrams\PackageInfrastructureUMLDiagram.png)
-![PackageRazorUMLDiagram](Images\PackagesUMLClassDiagrams\PackageRazorUMLDiagrams.png)
-![PackagePagesUMLDiagram](Images\PackagesUMLClassDiagrams\PackagePagesUMLDiagram.png)
+
+<figure align = "center">
+    <img title="ULM Class Diagram" style="width:30%" alt="Alt text" src="Images/PackageCoreUMLDiagram.png">
+    <figcaption style="  font-size:11px"><b>Fig. XX - ULM Class Diagram</b></figcaption>
+</figure>
+
+<figure align = "center">
+    <img title="ULM Class Core" style="width:30%" alt="Alt text" src="Images/PackageCoreUMLDiagram.png">
+    <figcaption style="  font-size:11px"><b>Fig. XX - ULM Package Diagram of the Chirp.Core</b></figcaption>
+</figure>
+
+<figure align = "center">
+    <img title="ULM Class Razor" style="width:30%" alt="Alt text" src="Images/PackageRazorUMLDiagrams.png">
+    <figcaption style="  font-size:11px"><b>Fig. XX - ULM Package Diagram of the Chirp.Razor </b></figcaption>
+</figure>
+
+<figure align = "center">
+    <img title="ULM Class Pages" style="width:30%" alt="Alt text" src="Images/PackagePagesUMLDiagram.png">
+    <figcaption style="  font-size:11px"><b>Fig. XX - ULM Package Diagram of the Chirp.Razor/Pages </b></figcaption>
+</figure>
 
 The Onion Architecture (otherwise known as Clean Architecture), is great for having low coupling and high cohesion. When looking at the UML in the more specified onion diagram bellow, there is no unnecessary communication between scripts, having low coupling making the readability of the program better, even though some of the repositories contain a fair amount of methods. When moving outward you'll see the packages only use entities further in or in the same layer.
 
 It is worth mentioning that the only way of interacting with the repositories is through their interfaces, which is an important factor in making sure the application has low coupling. The same goes for the CheepService, since every class that needs to access it uses information from the interface, and that interface uses from the other interfaces. 
 <br>
-![OnionClassDiagram](Images\OnionClassDiagram.png)
+<figure>
+    <center><img src="Images\OnionClassDiagram.png" style="width:30%" alt="onion diagram">
+  <figcaption>Fig.XX OnionClassDiagram</figcaption></center>
+</figure>
 
-## Architecture of deployed application
 ## Architecture of deployed application
 In the following figure a deployment diagram can be seen of our Chirp application.
 
 <figure>
-    <img src="Images/DeploymentDiagram.png"
-         alt="Deploy diagram">
-    <center><figcaption>Fig.XX Deployment diagram</figcaption></center>
+    <center><img src="Images/DeploymentDiagram.png" alt="Deploy diagram">
+  <figcaption>Fig.XX Deployment diagram</figcaption></center>
 </figure>
 
 
@@ -62,7 +83,7 @@ In Figure SQD1. A sequence diagram of an unauthorized actor. Henceforth, referre
 
 The database sends the 32 cheeps to the repository. Which inserts each cheep into a CheepDTO before returning a list of 32 CheepDTOs. This list is sent back through the system, shown in Fig SQD1. Arriving in Chirp.Razor. It is weaved into the HTML, checking the if the user is Authorized. Before the page is returned to the UA. 
 <figure align = "center">
-    <img title="Sequence Diagram Unauthorized" style="width:70%" alt="Alt text" src="Images\SequenceDiagramUnauthorized.svg">
+    <img title="Sequence Diagram Unauthorized" style="width:30%" alt="Alt text" src="Images\SequenceDiagramUnauthorized.svg">
     <figcaption style="  font-size:11px"><b>Fig. SQD1 - Sequence diagram for an unauthorized user </b></figcaption>
 </figure>
 
@@ -75,7 +96,7 @@ Then the authorized user fills out the desired cheep and Chirps it. When that ha
 
 Then, confirmation of success is sent back until the razorpage redirects to itself to reload. 
 <figure align = "center">
-    <img title="Sequence Diagram Authorized" style="width:70%" alt="Alt text" src="Images\SequenceDiagramAuthorized.svg">
+    <img title="Sequence Diagram Authorized" style="width:30%" alt="Alt text" src="Images\SequenceDiagramAuthorized.svg">
     <figcaption style="  font-size:11px"><b>Fig. SQD2 - Sequence diagram for an unauthorized user </b></figcaption>
 </figure>
 
@@ -145,7 +166,11 @@ prerequisites:
 ## 1. Clone the repository
 Follow this link: [github.com/ITU-BDSA23-GROUP4](https://github.com/ITU-BDSA23-GROUP4/Chirp.git)
 <br>
-![cloning](Images/cloning.png)
+
+<figure>
+    <center><img src="Images/cloning.png" alt="Cloning">
+  <figcaption>Fig.XX Cloning</figcaption></center>
+</figure>
 
 copy the url and run the following command in your terminal where you want to clone the repository to.
 ```bash
@@ -161,8 +186,10 @@ naviagte to *Chirp/src/Chirp.Infrastructure*
 <br> delete all migrations file if they exists
 <br>
 
-![cloning](Images/deleteMigations.png)
-<br>
+<figure>
+    <center><img src="Images/deleteMigations.png" alt="Deletion">
+  <figcaption>Fig.XX Deletion of migrations</figcaption></center>
+</figure>
 
 then run the following command
 
@@ -182,11 +209,18 @@ To get there go to "Containers" and click on your container.<br/>
 1. Go to the "Containers"
 2. Open your Container ours is "chirpdb"
 
-![image](https://github.com/ITU-BDSA23-GROUP4/Chirp/assets/143702901/83f988d8-291e-4af1-81df-2d21e834efab)<br/>
+<figure>
+    <center><img src="https://github.com/ITU-BDSA23-GROUP4/Chirp/assets/143702901/83f988d8-291e-4af1-81df-2d21e834efab" style="50%" alt="Container">
+  <figcaption>Fig.XX Container</figcaption></center>
+</figure>
 
 3. Open ```Exec```
 
-![image](https://github.com/ITU-BDSA23-GROUP4/Chirp/assets/143702901/797cb7e5-e011-4afc-8d0b-3aa77a429983)<br/>
+<figure>
+    <center><img src="https://github.com/ITU-BDSA23-GROUP4/Chirp/assets/143702901/797cb7e5-e011-4afc-8d0b-3aa77a429983" style="50%" alt="Exec">
+  <figcaption>Fig.XX Exec</figcaption></center>
+</figure>
+
 Her you can run bash commands on your container and look around the container.<br/>
 We are here to use the MsSQL tool to make a database on this container. To do this we run this ```/opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P Admin123``` (the ```-U``` is the user in our case we will just use SA which is System Admin and ```-P``` is the password for SA) this will gain access to the MsSQL tool. Here we can run SQL commands. Bare in mind that this is a diffrent tool the usual and have different commands.<br/>
 The last part is to add the docker connectionstring to the user secrets. Navigate to src/Chirp.Razor and run command ```dotnet user-secrets set "ConnectionStrings:ChirpDB" "Server=localhost,1433;Database=ChirpDB;User=SA;Password=Admin123;TrustServerCertificate=True;MultipleActiveResultSets=True;"```<br/>
@@ -199,8 +233,6 @@ navigate to *src\Chirp.Razor* and run the following command
 dotnet run
 ```
 
-
-## How to run test suite locally
 # How to run test locally
 The test suite of Chirp consists of 3 test folders each targeting their own part of the application, Infrastructure, Razor and playwright tests. All the tests are found in *Chirp/test/*
 
@@ -240,7 +272,7 @@ context.Database.EnsureCreated();
 
 
 ## Razor.Tests
-To run the tests you need to setup and download docker. A complete guide for downloading and setting up docker correctly with our application can be found in our ![README.md](..\README.md#docker-setup)
+To run the tests you need to setup and download docker. A complete guide for downloading and setting up docker correctly with our application can be found [here](#3-setting-up-docker)
 After following the guide cd into the Chirp.Razor.tests folder and run the following command
 ```bash
 dotnet test
