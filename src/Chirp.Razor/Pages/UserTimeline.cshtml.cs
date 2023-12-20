@@ -43,26 +43,13 @@ public class UserTimelineModel : PageModel
 
     public async Task<ActionResult> OnGet(string author)
     {
-        if (pageNum.HasValue)
-        {   
-            if(User.Identity?.Name==author)
-            {
-                Cheeps = _service.CombineCheepsAndFollowerCheeps(author ,pageNum);
-                
-            } else {
-                Cheeps = _service.CombineCheepsAndFollowerCheeps(author, pageNum);
-            }
-        }
-        // the else statement with the same code ensures page 0 and page 1 shows the same cheeps
-        else
-       {   
-            if(User.Identity?.Name==author)
-            {
-                Cheeps =  _service.CombineCheepsAndFollowerCheeps(author ,pageNum);
-                
-            } else {
-                Cheeps = _service.CombineCheepsAndFollowerCheeps(author, pageNum);
-            }
+
+        if(User.Identity?.Name==author)
+        {
+            Cheeps = _service.CombineCheepsAndFollowerCheeps(author ,pageNum);
+            
+        } else {
+            Cheeps = _service.GetCheepsFromAuthor(author, pageNum);
         }
 
         if (User.Identity?.IsAuthenticated == true  && User.Identity.Name != null) {
