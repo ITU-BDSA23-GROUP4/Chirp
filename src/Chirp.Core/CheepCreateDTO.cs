@@ -10,7 +10,6 @@ This is the DTO that we send from the application back to the database, for us t
 */
 public record CheepCreateDTO(string Author, string Text);
 
-
 /*
 <Summary>
 This is the Cheep Validator
