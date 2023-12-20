@@ -119,7 +119,7 @@ To ensure the flow of the project, we use a tool developed by GitHub known as. G
 The build and test workflow can be found in . The activity diagram shows how GitHub ensures what is merged into main. This workflow is run on a pull request every time a commit is made to the branch in the pull request. This is to ensure that main will still work by building the project with dotnet and tests made for the project.
  Because it runs the tests as well, it ensures that any incoming changes do not affect the functionality. If anything fails, it will stop and prevent the branch from merging into main.
 <figure>
-   <center> <img src="Images/BuildAndTest.png"
+   <center> <img src="Images/BuildAndTestSmall.png"
          alt="BuildAndTest Activity diagram">
     <figcaption>Fig.XX Build and test activity diagram</figcaption></center>
 </figure>
@@ -128,7 +128,7 @@ The build and test workflow can be found in . The activity diagram shows how Git
 
 This workflow is made to automate the creation of a GitHub release when a tag is added (Appendix?). It will create a release of the tag. But first, the workflow builds a version for Windows, MacOS and Linux. After that, it will zip the files and add them to the release if a release was made.
 <figure>
-   <center> <img src="Images/PublishNewRelease.png"
+   <center> <img src="Images/PublishNewReleaseSmall.png"
          alt="PublishNewRelease Activity diagram">
     <figcaption>Fig.XX Publish new release activity diagram</figcaption></center>
 </figure>
@@ -136,7 +136,7 @@ This workflow is made to automate the creation of a GitHub release when a tag is
 #### Build and deploy
 This workflow can be seen here (Appendix?). The workflow is made so it will build the program and run the "publish" command to build a version for Linux to be run on the Azure web app. After the publish command, it uploads the artifacts so the next job can use the files. The deploy job will download the artefact and use the files to deploy to our Azure web app.
 <figure>
-   <center> <img src="Images/BuildAndDeploy.png"
+   <center> <img src="Images/BuildAndDeploySmall.png"
          alt="BuildAndDeploy Activity diagram">
     <figcaption>Fig.XX Build and deploy activity diagram</figcaption></center>
 </figure>
