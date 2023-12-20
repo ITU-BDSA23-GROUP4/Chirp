@@ -92,8 +92,9 @@ To ensure the flow of the project, we use a tool developed by GitHub known as. G
 
 #### Build and Test
 
-The build and test workflow can be found in [here](#BuildTest). The activity diagram shows how GitHub ensures what is merged into main. This workflow is run on a pull request every time a commit is made to the branch in the pull request. This is to ensure that main will still work by building the project with dotnet and tests made for the project.
-Because it runs the tests as well, it ensures that any incoming changes do not affect the functionality. If anything fails, it will stop and prevent the branch from merging into main.
+The build and test workflow can be found [here](#BuildTest). The activity diagram shows how GitHub ensures what is merged into main does not damage it. 
+This workflow is run on a pull request every time a commit is made to the branch belonging to the pull request. 
+This ensures that main will stay functional by building and testing the project with dotnet and our test suite. If anything fails, it will stop and prevent the branch from merging into main.
 
 [BuildTest]: Images/BuildAndTest.png "Build and test activity diagram" 
 ![Build and test activity diagram][image]{width=60%}
@@ -102,13 +103,13 @@ Because it runs the tests as well, it ensures that any incoming changes do not a
 
 #### Publish and release
 
-This workflow is made to automate the creation of a GitHub release when a tag is added (Appendix?). It will create a release of the tag. But first, the workflow builds a version for Windows, MacOS and Linux. After that, it will zip the files and add them to the release if a release was made.
+This workflow is made to automate the creation of a GitHub release when a tag is added (Appendix?). It will create a release of the tag. But first, the workflow in succession builds a version for Windows, MacOS and Linux. After that, it will zip the files and add them to the release if a release was made.
 
 
 ![Publish New Release Activity diagram](Images/PublishNewRelease.png){width=60%}
 
 #### Build and deploy
-This workflow can be seen here (Appendix?). The workflow is made so it will build the program and run the "publish" command to build a version for Linux to be run on the Azure web app. After the publish command, it uploads the artifacts so the next job can use the files. The deploy job will download the artefact and use the files to deploy to our Azure web app.
+This workflow can be seen here (Appendix?). The workflow is made so it will build the program and run the "publish" command to build a version for Linux to be run on the Azure web app. After the publish command, it uploads the artefacts so the next job can use the files of the artefacts. The deploy job will download the artefacts and use their files to deploy to our Azure web app.
 
 
 ![Build And Deploy Activity diagram](Images/BuildAndDeploy.png){width=60%}
@@ -120,9 +121,9 @@ This workflow can be seen here (Appendix?). The workflow is made so it will buil
 <br>
 ...............................................
 <br>
-Before putting anything into the workflow actions, we create test manually to run on the computer with the "dotnet test" command. There has been created an activity diagram showing this. For most test we try to implement it going how we expect the method or feature to behave, and after we've concluded that it works, we create a test to challenge this method. By example we can look at the Create(CreateCheepDTO)'s tests in the unit tests. <br>
-This can be found in the infrastructure tests in the tests for Cheep Repository. 
-We start by testing that what we want it to will work, and then we challenge it, by giving it some input that should throw validation exceptions. When we know both of these will pass, we can then move onto the workflows. 
+Before committing anything and thus starting the suitable workflow, we test locally with the `dotnet test` command. There is an activity diagram showing this. Tests are implemented with the logic of expected functionality in mind. Testing that the method in question works as expected. It should react as expected, both with harmless and malicious inputs.
+
+For example, the tests for the method Create(CreateCheepDTO) can be examined. They can be found in the infrastructure tests for the tests for Cheap Repository. First, we test that it works as intended with the intended input. After this, we challenge it in the test by giving it the wrong input and testing if validation exceptions are thrown.  
 
 ## Team work
 Show a screenshot of your project board right before hand-in. Briefly describe which tasks are still unresolved, i.e., which features are missing from your applications or which functionality is incomplete.
@@ -170,6 +171,7 @@ To setup the Docker container for development on own pc you need to run the foll
 ```docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=Admin123" -p 1433:1433 --name chirpdb --hostname chirpdb -d mcr.microsoft.com/mssql/server:2022-latest```
 <br />
 After this the Container should have been created and a new Image can be seen in your Docker Desktop app. With the new lines of code in Program.cs it should create the database on the container. We can all just use the same command since the connectionstring is already made for this password. hostname and port.
+
 ### Setup Database on docker
 The last step is to create the database on the docker server to do this you are to navigate to the ```Exec``` on your new server. <br/>
 To get there go to "Containers" and click on your container.<br/>
