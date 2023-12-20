@@ -127,7 +127,6 @@ Show a screenshot of your project board right before hand-in. Briefly describe w
 
 Briefly describe and illustrate the flow of activities that happen from the new creation of an issue (task description), over development, etc. until a feature is finally merged into the main branch of your repository.
 
-## How to make _Chirp!_ work locally
 # How to make Chirp! work locally
 prerequisites:
 1. [download .NET](https://dotnet.microsoft.com/en-us/download)
