@@ -50,14 +50,10 @@ public class PublicModel : PageModel
         var userEmailClaim = User.Claims.FirstOrDefault(c => c.Type == "emails");
         if(User?.Identity?.IsAuthenticated == true && User?.Identity?.Name != null && userEmailClaim != null)
         { 
-            bool authorExists = (bool)await _service.DoesAuthorExist(userEmailClaim.Value);
+            bool authorExists = await _service.DoesAuthorExist(userEmailClaim.Value);
             if(!authorExists)
             {
-                try{
-                    await _service.AddAuthor(User.Identity.Name, userEmailClaim.Value);
-                } catch (Exception) {
-                    //Do nothing as the author already exists
-                }
+                await _service.AddAuthor(User.Identity.Name, userEmailClaim.Value);
             }
         }
         
