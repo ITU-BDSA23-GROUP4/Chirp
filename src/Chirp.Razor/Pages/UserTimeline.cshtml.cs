@@ -6,8 +6,9 @@ namespace Chirp.Razor.Pages;
 
 /*
 <Summary>
-This is the razors users timeline's page model
-This is where the user can see their own timeline and those they follow.
+This is the model for the UsersTimeline page.
+
+This is where the user can see their own timeline of cheeps and those they follow.
 </Summary>
 */
 
@@ -24,7 +25,6 @@ public class UserTimelineModel : PageModel
         _service = service;
     }
 
-    // private readonly ICheepService _service;
     [BindProperty]
     public string CheepMessageTimeLine { get; set; } = "";
     public List<CheepDTO>? Cheeps { get; set; }
@@ -88,16 +88,19 @@ public class UserTimelineModel : PageModel
             try
             {
                 var author = await _service.GetAuthorByEmail(userEmailClaim.Value);
+                // Theese lines executes if the user already exists in the database as an author
                 var cheep = new CheepCreateDTO(author.Name, CheepMessageTimeLine);
                 await _service.Create(cheep);
                 return Redirect(User.Identity.Name);
             }
             catch
-            {
-                if(userEmailClaim != null ) {
-                await _service.AddAuthor(User.Identity.Name, userEmailClaim.Value);
-                await _service.Create(new CheepCreateDTO(User.Identity.Name, CheepMessageTimeLine));
-                return Redirect(User.Identity.Name);
+            {   
+                // Theese lines are executed if the user is not yet added to the database as an author
+                if(userEmailClaim != null ) 
+                {
+                    await _service.AddAuthor(User.Identity.Name, userEmailClaim.Value);
+                    await _service.Create(new CheepCreateDTO(User.Identity.Name, CheepMessageTimeLine));
+                    return Redirect(User.Identity.Name);
                 }
             }
         }
@@ -105,7 +108,7 @@ public class UserTimelineModel : PageModel
     }
 
     public async Task<bool> DoesFollow(string CheepAuthorName) 
-    {   //The Author who inquires
+    {
         if (User.Identity?.IsAuthenticated == true && User.Identity?.Name != null) {
             AuthorDTO? author = await _service.GetAuthorByName(User.Identity.Name);
             if (author != null && author.Followed != null) {
