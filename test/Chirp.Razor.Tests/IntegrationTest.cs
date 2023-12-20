@@ -15,7 +15,6 @@ public class TestAPI : IClassFixture<WebApplicationFactory<Program>>
 
     public TestAPI(WebApplicationFactory<Program> fixture)
     {
-        
         _msSqlContainer.StartAsync().Wait();
 
         var connectionString = new SqlConnection(_msSqlContainer.GetConnectionString());
@@ -50,8 +49,6 @@ public class TestAPI : IClassFixture<WebApplicationFactory<Program>>
         });
         _client = _fixture.CreateClient(new WebApplicationFactoryClientOptions { AllowAutoRedirect = true, HandleCookies = true });
     }
-
-
 
     [Fact]
     public async void CanSeePublicTimeline()
@@ -98,7 +95,7 @@ public class TestAPI : IClassFixture<WebApplicationFactory<Program>>
 
         //Act
         var content = await response.Content.ReadAsStringAsync();
-        //https://stackoverflow.com/questions/3016522/count-the-number-of-times-a-string-appears-within-a-string
+        //This solution is inspired by: https://stackoverflow.com/questions/3016522/count-the-number-of-times-a-string-appears-within-a-string
         MatchCollection matches = Regex.Matches(content, "<li>");
         int count = matches.Count;
 
@@ -118,12 +115,18 @@ public class TestAPI : IClassFixture<WebApplicationFactory<Program>>
         //Content from page 1
         var responseFromPageOne = await _client.GetAsync(path + "?page=1");
         responseFromPageOne.EnsureSuccessStatusCode();
+
         //Act
         var content = await response.Content.ReadAsStringAsync();
         var contentFromPageOne = await responseFromPageOne.Content.ReadAsStringAsync();
-        // In the course removing the Token element from the pages as it is unique to all pages we used chatgpt to help out
-        // It refined the method
-        // Load the HTML into HtmlDocuments
+        
+        /* 
+        The following lines filters out a Token from the pages,
+        which is unique to all pages, and therefor wrongly causes
+        the test to fail.
+        
+        We have used ChatGPT to create this solution. 
+        */
         var htmlDoc = new HtmlAgilityPack.HtmlDocument();
         htmlDoc.LoadHtml(content);
         var htmlDocFromPageOne = new HtmlAgilityPack.HtmlDocument();
@@ -135,7 +138,6 @@ public class TestAPI : IClassFixture<WebApplicationFactory<Program>>
 
         // Remove the nodes
         if (node != null)
-
         {
             node.Remove();
         }
@@ -144,14 +146,13 @@ public class TestAPI : IClassFixture<WebApplicationFactory<Program>>
             nodeFromPageOne.Remove();
         }
 
-        // Get the cleaned HTML
+        // Get the clean HTML
         var cleanedHtml = htmlDoc.DocumentNode.OuterHtml;
         var cleanedHtmlFromPageOne = htmlDocFromPageOne.DocumentNode.OuterHtml;
 
         //Assert
         Assert.Contains(cleanedHtmlFromPageOne, cleanedHtml);
     }
-
 
     [Theory]
     [InlineData("/")]
@@ -176,6 +177,7 @@ public class TestAPI : IClassFixture<WebApplicationFactory<Program>>
         //Assert
         Assert.NotEqual(contentFromPageTwo, content);
     }
+
     [Theory]
     [InlineData("/")]
     [InlineData("/Jacqualine Gilcoine/")]
@@ -187,15 +189,19 @@ public class TestAPI : IClassFixture<WebApplicationFactory<Program>>
 
         //Act
         var content = await response.Content.ReadAsStringAsync();
+
+        // Select all date time strings
         MatchCollection matches = Regex.Matches(content, "2023-[0-1][0-9]-[03][0-9] [0-2][0-9]:[0-6][0-9]:[0-6][0-9]");
-        Boolean InOrder = true;
+        bool InOrder = true;
         for (int i = 1; i < matches.Count; i++)
         {
+            // Compare the earlier element in the collection with the current, using datetimes built in CompareTo method
             if (DateTime.Parse("" + matches[i - 1]).CompareTo(DateTime.Parse("" + matches[i])) == -1)
             {
                 InOrder = false;
             }
         }
+
         //Assert 
         Assert.True(InOrder);
     }
