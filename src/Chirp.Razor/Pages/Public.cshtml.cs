@@ -38,15 +38,7 @@ public class PublicModel : PageModel
 
     public async Task<ActionResult> OnGet()
     {
-        if (pageNum.HasValue)
-        {
-            Cheeps = _service.GetCheeps(pageNum);
-        }
-        // the else statement with the same code ensures page 0 and page 1 shows the same cheeps
-        else
-        {
-            Cheeps = _service.GetCheeps(pageNum);
-        }
+        Cheeps = _service.GetCheeps(pageNum);
 
         var userEmailClaim = User.Claims.FirstOrDefault(c => c.Type == "emails");
         if(User?.Identity?.IsAuthenticated == true && User?.Identity?.Name != null && userEmailClaim != null)
