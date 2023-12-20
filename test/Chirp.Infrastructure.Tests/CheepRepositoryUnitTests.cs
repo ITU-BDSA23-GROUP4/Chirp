@@ -114,6 +114,17 @@ public class CheepRepositoryUnitTests {
         cheep.Should().Contain(c => c.AuthorName == "TestAuthor" && c.Message == "This is a test");
     }
 
+    //Test get cheeps method fail
+    [Fact]
+    public void UnitTestGetCheepsFromAuthorReturnsEmptyList() 
+    {
+        // Act
+        List<CheepDTO> cheep = repository.GetCheeps(null);
+
+        // Assert
+        cheep.Should().NotBeEmpty();
+    }
+
     //Test get cheeps method with author
     [Fact]
     public void UnitTestGetCheepsFromAuthorReturnsCorrectCheepWithAuthor() 
@@ -123,6 +134,17 @@ public class CheepRepositoryUnitTests {
 
         // Assert
         cheep.Should().Contain(c => c.AuthorName == "TestAuthor" && c.Message == "This is a test");
+    }
+
+    //Test get method with wrong author
+    [Fact]
+    public void UnitTestGetCheepsFromAuthorReturnsEmptyListWithWrongAuthor() 
+    {
+        // Act
+        List<CheepDTO> cheep = repository.GetCheepsFromAuthor("WrongAuthor", null);
+
+        // Assert
+        cheep.Should().BeEmpty();
     }
 
     // Test get count of all cheeps
@@ -136,6 +158,17 @@ public class CheepRepositoryUnitTests {
         count.Should().Be(3);
     }
 
+    // Test get wrong count of all cheeps
+    [Fact]
+    public void UnitTestGetCountOfAllCheepsReturnsWrongCount() 
+    {
+        // Act
+        int count = repository.GetCountOfAllCheeps();
+
+        // Assert
+        count.Should().NotBe(2);
+    }
+
     // Test get count of all cheeps from author
     [Fact]
     public void UnitTestGetCountOfAllCheepsFromAuthorReturnsCorrectCount() 
@@ -145,6 +178,28 @@ public class CheepRepositoryUnitTests {
 
         // Assert
         count.Should().Be(1);
+    }
+
+    // Test get wrong count of all cheeps from author
+    [Fact]
+    public void UnitTestGetCountOfAllCheepsFromAuthorReturnsWrongCount() 
+    {
+        // Act
+        int count = repository.GetCountOfAllCheepFromAuthor("TestAuthor");
+
+        // Assert
+        count.Should().NotBe(2);
+    }
+
+    // Test get count of all cheeps from author with wrong author
+    [Fact]
+    public void UnitTestGetCountOfAllCheepsFromAuthorReturnsZeroWithWrongAuthor() 
+    {
+        // Act
+        int count = repository.GetCountOfAllCheepFromAuthor("WrongAuthor");
+
+        // Assert
+        count.Should().Be(0);
     }
 
     // Test CombineCheepsAndFollowerCheeps
@@ -159,6 +214,22 @@ public class CheepRepositoryUnitTests {
         cheep.Should().Contain(c => c.AuthorName == "TestAuthor2" && c.Message == "This is a test2");
     }
 
+    // Test CombineCheepsAndFollowerCheeps with wrong author assert error
+    [Fact]
+    public void UnitTestCombineCheepsAndFollowerCheepsReturnsEmptyListWithWrongAuthor() 
+    {
+        // Act
+        try
+        {
+            List<CheepDTO> cheep = repository.CombineCheepsAndFollowerCheeps("WrongAuthor", null);
+        }
+        catch (Exception e)
+        {
+            // Assert
+            e.Should().BeOfType<NullReferenceException>();
+        }
+    }
+
     // Test GetCountOfAllCheepsFromCombinedAuthor with author
     [Fact]
     public void UnitTestGetCountOfAllCheepsFromCombinedAuthorReturnsCorrectCount() 
@@ -168,5 +239,21 @@ public class CheepRepositoryUnitTests {
 
         // Assert
         count.Should().Be(2);
+    }
+
+    // Test GetCountOfAllCheepsFromCombinedAuthor with wrong author
+    [Fact]
+    public void UnitTestGetCountOfAllCheepsFromCombinedAuthorReturnsZeroWithWrongAuthor() 
+    {
+        // Act
+        try
+        {
+            int count = repository.GetCountOfAllCheepsFromCombinedAuthor("WrongAuthor");
+        }
+        catch (Exception e)
+        {
+            // Assert
+            e.Should().BeOfType<NullReferenceException>();
+        }
     }
 }
