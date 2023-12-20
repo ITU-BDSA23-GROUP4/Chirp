@@ -1,8 +1,9 @@
-Illustrate typical scenarios of a user journey through your Chirp! application. That is, start illustrating the first page that is presented to a non-authorized user, illustrate what a non-authorized user can do with your Chirp! application, and finally illustrate what a user can do after authentication. 
+For each user activity that we've drawn bellow, there is a headline describing that scenario. There's 1 activity diagram that shows the application for a non-authorized user, since most of our features requires the user to be logged in. This shows what the user can see, the only available page for them, will be the public page, with no additional features like a cheepbox or the possibility of following/unfollowing. They can show a specific page for the user for a cheep, if they press their name. 
 
-Make sure that the illustrations are in line with the actual behavior of your application.
+If a user is logged in, there is many possible user activities as shown bellow. You'll find diagrams that show what the user can experience when following or unfollowing someone, how the user will see who they're following and vice versa, how they write and share a new cheep, how to delete their information and what happens upon login and logout.
+If a new user wants register, they will need to login with github. Since this will redirect from our own razor pages, this hasn't been included in the activity diagrams.
 
+![ActivityDiagramArchitecture](Images\ActivityDiagramArchitecture.png)
 
-
-------- TEXT
-
+The userpage will show some more detailed information other that who's following you and so on, this is where the user can find their claims(such as their email and other information), they'll be able to read about how we're using their information, and this is also the location of the forget me feature(which deletes their profile).
+Most of these diagrams are not very detailed, to see more detail of the application you can run it with the help of our guide (How to make _Chirp!_ work locally). There you will see the interface as well as our behavior. 
