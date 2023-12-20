@@ -30,7 +30,7 @@ These layers can be seen more detailed in our class diagram. There is one for ea
 
 You will see in our repositories, that we're deleting the author at some point, this was a project demand. We had two possibilities; delete the user in the sense that they will no longer be traceable, that is make everything anonymous and delete their information, or we had the possibility of just deleting everything that the user ever touched. We chose to be sure that the user wouldn't come back complaining that their username/normal name still was in a cheep, so we deleted everything that they touched. This was also the easier approach since we could delete everything that contained that user's id or name, instead of altering everything. 
 <br>
-![Alt text](Images/BuildAndTest.png =250x)
+
 
 <figure align = "center">
     <img title="ULM Class Diagram" style="width:30%" alt="Alt text" src="Images/PackageCoreUMLDiagram.png">
