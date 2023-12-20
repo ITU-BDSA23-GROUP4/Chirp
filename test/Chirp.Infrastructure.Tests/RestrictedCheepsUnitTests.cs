@@ -58,10 +58,12 @@ public class RestrictedCheepTests
     [Fact]
     public void TestRestrictedCreationOfCheepOver160Char()
     {
-        //Act
+        //Arrange
         string Message = "This string should be way over 160 characters, just so we can check that its not possible to make a message that is longer than nessesary.This will because of that, become a very long message.";
 
-        Func<Task> act = async () => await repository.AddCheep(new Guid(1,0,0, new byte[] {0,0,0,0,0,0,0,0}), Message);
+        //Act
+        Func<Task> act = async () => await repository.Create(new CheepCreateDTO("TestName", Message));
+
         //Assert
         act.Should().ThrowAsync<ArgumentException>().WithMessage("Message is above 160 characters or empty");
     }
@@ -69,10 +71,11 @@ public class RestrictedCheepTests
     [Fact]
     public void TestRestrictedCreationOfCheepAt160Char()
     {
-        //Act
+        //Arrange
         string Message = " This string should be at exactly 160 characters, so that we know its possible. There should not be a character more or less, so we'll have a very precise test.";
 
-        Func<Task> act = async () => await repository.AddCheep(new Guid(1,0,0, new byte[] {0,0,0,0,0,0,0,0}), Message);
+        //Act
+        Func<Task> act = async () => await repository.Create(new CheepCreateDTO("TestName", Message));
 
         //Assert
         act.Should().NotThrowAsync<ArgumentException>();
@@ -81,10 +84,11 @@ public class RestrictedCheepTests
     [Fact]
     public void TestRestrictedCreationOfCheepUnder160Char()
     {
-        //Act
+        //Arrange
         string Message = "This string is very much under 160 characters";
 
-        Func<Task> act = async () => await repository.AddCheep(new Guid(1,0,0, new byte[] {0,0,0,0,0,0,0,0}), Message);
+        //Act
+        Func<Task> act = async () => await repository.Create(new CheepCreateDTO("TestName", Message)); //Adds the cheep to the database
 
         //Assert
         act.Should().NotThrowAsync<ArgumentException>();
@@ -93,8 +97,11 @@ public class RestrictedCheepTests
     [Fact]
     public void TestRestrictedCreationOfCheepOf0Char()
     {
+        //Arrange
+        string Message = "";
+
         //Act
-        Func<Task> act = async () => await repository.AddCheep(new Guid(1,0,0, new byte[] {0,0,0,0,0,0,0,0}), "");
+        Func<Task> act = async () => await repository.Create(new CheepCreateDTO("TestName", Message));
 
         //Assert
         act.Should().ThrowAsync<ArgumentException>().WithMessage("Message is above 160 characters or empty");

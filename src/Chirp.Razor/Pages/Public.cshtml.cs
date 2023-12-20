@@ -54,11 +54,7 @@ public class PublicModel : PageModel
             bool authorExists = await _service.DoesAuthorExist(userEmailClaim.Value);
             if(!authorExists)
             {
-                try{
-                    await _service.AddAuthor(User.Identity.Name, userEmailClaim.Value);
-                } catch (Exception) {
-                    //Do nothing as the author already exists
-                }
+                await _service.AddAuthor(User.Identity.Name, userEmailClaim.Value);
             }
         }
         

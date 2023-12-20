@@ -21,48 +21,12 @@ public class CheepRepository : ICheepRepository
         _db = db;
     }
 
-    public async Task AddCheep(Guid authorId, string text)
-    {
-        try
-        {    
-            int TLength = text.Length;
-            var author = GetAuthorById(authorId);
-            if (TLength <= 160 && TLength > 0 && author != null)
-            {
-                _db.Add(new Cheep
-                {
-                    CheepId = Guid.NewGuid(),
-                    Author = author,
-                    Text = text,
-                    Likes = 0,
-                    TimeStamp = DateTime.Now
-                });
-            }
-            else
-            {
-                throw new ArgumentException("Message is above 160 characters or empty");
-            }
-            await _db.SaveChangesAsync();
-        }
-        catch (Exception)
-        {
-            throw;
-        }
-    }
-
     public async Task DeleteCheepsFromAuthor(Guid authorid){
-        try
+        var author = GetAuthorById(authorid);
+        if(author != null)
         {
-            var author = GetAuthorById(authorid);
-            if(author != null)
-            {
-                _db.RemoveRange(_db.Cheeps.Where(cheep => cheep.Author == author));
-                await _db.SaveChangesAsync();
-            }
-        }
-        catch (Exception)
-        {
-            throw;
+            _db.RemoveRange(_db.Cheeps.Where(cheep => cheep.Author == author));
+            await _db.SaveChangesAsync();
         }
     }
 
@@ -86,25 +50,7 @@ public class CheepRepository : ICheepRepository
 
         cheepsToReturn.AddRange(cheepsDTO);
 
-        // Calculate starting index from the given pagenumber
-        int? page = (pageNum - 1) * 32;
-
-        // Skip further calculations if unecessary
-        if (cheepsToReturn.Count < 32)
-        {
-            return cheepsToReturn.GetRange(0, cheepsToReturn.Count);
-        }
-        if (page == null)
-        {
-            return cheepsToReturn.GetRange(0, 32);  // Return cheeps for page 1, if no pagenumber is given
-
-        }
-        else
-        {
-            // Calculate ending index given the current page and number of cheeps
-            int endIndex = Math.Min((int)page + 32, cheepsToReturn.Count);
-            return cheepsToReturn.GetRange((int)page, endIndex - (int)page);
-        }
+        return GetRangeOfCheeps(pageNum, cheepsToReturn);
     }
 
     /* Returns 32 cheeps for a given author and pagenumber 
@@ -133,6 +79,13 @@ public class CheepRepository : ICheepRepository
         });
         cheepsToReturn.AddRange(cheepsDTO);
 
+        return GetRangeOfCheeps(pageNum, cheepsToReturn);
+    }
+
+
+
+    private static List<CheepDTO> GetRangeOfCheeps(int? pageNum, List<CheepDTO> cheepsToReturn) 
+    {
         // Calculate starting index from the given pagenumber
         int? page = (pageNum - 1) * 32;
 
