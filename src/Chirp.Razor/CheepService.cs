@@ -2,9 +2,11 @@ using Chirp.Core;
 
 /*
 <Summary>
-This is the Cheep Service
-This uses the Cheep Repository and the Author Repository, so in implementation we only need to use this service.
-It contains the methods from both the Cheep Repository and the Author Repository.
+This is the CheepService
+
+It combines the two IAuthorRepository interface and the ICheepRepository into one.
+It implements the ICheepService, and implements the methods, calling method,
+from the two referenced interfaces.
 </Summary>
 */
 

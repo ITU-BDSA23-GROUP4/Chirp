@@ -2,8 +2,9 @@ using Chirp.Core;
 
 /*
 <Summary>
-This is the Cheep Service interface
-The Cheep Service will implement from this interface.
+This is the cheep service interface
+The CheepService implements this interface.
+The methods are the combined methods of the author and cheep interfaces.
 </Summary>
 */
 public interface ICheepService

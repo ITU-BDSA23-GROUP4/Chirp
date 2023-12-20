@@ -2,7 +2,7 @@
 /*
 <Summary>
 This is the Cheep DTO
-The DTO is the Data Transfer Object, which is used to transfer data between the client and the server.
+The DTO is the Data Transfer Object, which is used to transfer data between the packages in the domain logic.
 </Summary>
 */
 public class CheepDTO

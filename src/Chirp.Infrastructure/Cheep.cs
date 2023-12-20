@@ -2,14 +2,12 @@ namespace Chirp.Infrastructure;
 
 /*
 <Summary>
-The cheep is the main entity of the application. 
-It is the main object that is being created, read, updated and deleted.
+This class models the Cheep entity in the database.
+A Cheep has a reference to an Author class.
 </Summary>
 */
-
 public class Cheep
 {
-    //The cheep needs to have an author, a text and a timestamp and should not exitst without any of these.
     public required Guid CheepId { get; set; }
     public required Author Author { get; set; }
     public required string Text { get; set; }

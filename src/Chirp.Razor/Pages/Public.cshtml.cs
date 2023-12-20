@@ -2,15 +2,16 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Chirp.Core;
 
+namespace Chirp.Razor.Pages;
+
 /*
 <Summary>
-This is the model for the public razor page
+This is the model for the Public page.
+
 This is where we react to all of the users behaviour. 
 That is, getting all the cheeps for the relevant page and showing the cheeps with the correct information.
 </Summary>
 */
-
-namespace Chirp.Razor.Pages;
 
 public class PublicModel : PageModel
 {
@@ -57,7 +58,8 @@ public class PublicModel : PageModel
             }
         }
         
-        if (User?.Identity?.IsAuthenticated == true  && User.Identity.Name != null) {
+        if (User?.Identity?.IsAuthenticated == true  && User.Identity.Name != null) 
+        {
             if (follow != null) 
             {
                 await _service.AddFollowee(User.Identity.Name, follow);
@@ -71,7 +73,6 @@ public class PublicModel : PageModel
         return Page();
     }
 
-    //This is the method that adds a cheep from the user, if a user isn't in the DB they will be added to the db
     public async Task<IActionResult> OnPost()
     {
         var userEmailClaim = User.Claims.FirstOrDefault(c => c.Type == "emails");
@@ -80,15 +81,14 @@ public class PublicModel : PageModel
             try
             {
                 var author = await _service.GetAuthorByEmail(userEmailClaim.Value);
-                if (author != null)
-                {
-                    var cheep = new CheepCreateDTO(author.Name, CheepMessageTimeLine);
-                    await _service.Create(cheep);
-                    return Redirect(User.Identity.Name);
-                }
+                // Theese lines executes if the user already exists in the database as an author
+                var cheep = new CheepCreateDTO(author.Name, CheepMessageTimeLine);
+                await _service.Create(cheep);
+                return Redirect(User.Identity.Name);
             }
             catch (Exception)
             {
+                // Theese lines are executed if the user is not yet added to the database as an author
                 await _service.AddAuthor(User.Identity.Name, userEmailClaim.Value);
                 await _service.Create(new CheepCreateDTO(User.Identity.Name, CheepMessageTimeLine));
                 return Redirect(User.Identity.Name);
@@ -98,7 +98,7 @@ public class PublicModel : PageModel
     }
 
     public async Task<bool> DoesFollow(string CheepAuthorName) 
-    {   //The Author who inquires
+    {
         if(User.Identity?.IsAuthenticated == true && User.Identity?.Name != null )
         {
             AuthorDTO? author = await _service.GetAuthorByName(User.Identity.Name);
