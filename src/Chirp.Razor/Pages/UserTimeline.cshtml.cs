@@ -66,14 +66,13 @@ public class UserTimelineModel : PageModel
         }
 
         if (User.Identity?.IsAuthenticated == true  && User.Identity.Name != null) {
-            AuthorDTO currentUser = await _service.GetAuthorByName(User.Identity.Name);
             if (follow != null) 
             {
-                await _service.AddFollowee(currentUser.Name, follow);
+                await _service.AddFollowee(User.Identity.Name, follow);
             } 
             else if (unfollow != null) 
             {
-                await _service.RemoveFollowee(currentUser.Name, unfollow);
+                await _service.RemoveFollowee(User.Identity.Name, unfollow);
                 return Redirect(User.Identity.Name);
             }
         } 
