@@ -243,4 +243,26 @@ public class AuthorRepositoryUnitTests
         // Assert
         await act.Should().ThrowAsync<ArgumentException>().WithMessage("TestName can not follow TestName, as TestName can not follow itself");
     }
+
+    [Fact]
+    public async void UnitTestAddAuthorCorrectInput()
+    {
+        // Arrange
+        var testAuthor = new Author
+        {
+            AuthorId = new Guid(4,0,0, new byte[] {0,0,0,0,0,0,0,0}),
+            Name = "TestName4",
+            Email = "TestEmail4",
+            Cheeps = new List<Cheep>(),
+            Followed = new List<Author>(),
+            Followers = new List<Author>()
+        };
+
+        // Act
+        await repository.AddAuthor(testAuthor.Name, testAuthor.Email);
+
+        // Assert
+        AuthorDTO author = await repository.GetAuthorByName("TestName4");
+        author.Name.Should().BeEquivalentTo(testAuthor.Name);
+    }
 }
