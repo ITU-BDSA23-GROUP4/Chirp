@@ -81,21 +81,7 @@ public class CheepRepository : ICheepRepository
 
         cheepsToReturn.AddRange(cheepsDTO);
 
-        int? page = (pageNum - 1) * 32;
-
-        if (cheepsToReturn.Count < 32)
-        {
-            return cheepsToReturn.GetRange(0, cheepsToReturn.Count);
-        }
-        if (page == null)
-        {
-            return cheepsToReturn.GetRange(0, 32);
-        }
-        else
-        {
-            int endIndex = Math.Min((int)page + 32, (int)cheepsToReturn.Count);
-            return cheepsToReturn.GetRange((int)page, endIndex - (int)(page));
-        }
+        return GetRangeOfCheeps(pageNum, cheepsToReturn);
     }
 
     public List<CheepDTO> GetCheepsFromAuthor(string authorName, int? pageNum)
@@ -124,6 +110,11 @@ public class CheepRepository : ICheepRepository
         });
         cheepsToReturn.AddRange(cheepsDTO);
 
+        return GetRangeOfCheeps(pageNum, cheepsToReturn);
+    }
+
+    private static List<CheepDTO> GetRangeOfCheeps(int? pageNum, List<CheepDTO> cheepsToReturn) 
+    {
         int? page = (pageNum - 1) * 32;
 
         if (cheepsToReturn.Count < 32)
@@ -137,7 +128,7 @@ public class CheepRepository : ICheepRepository
         else
         {
             int endIndex = Math.Min((int)page + 32, (int)cheepsToReturn.Count);
-            return cheepsToReturn.GetRange((int)page, endIndex - (int)(page));
+            return cheepsToReturn.GetRange((int)page, endIndex - (int)page);
         }
     }
 
