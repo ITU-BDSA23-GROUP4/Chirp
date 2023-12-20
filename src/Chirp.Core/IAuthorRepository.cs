@@ -1,7 +1,9 @@
 /*
 <Summary>
-This is the author Repository interface
-The Author Repository will Implement the methods from this interface.
+This is the author repository interface
+The AuthorRepository implements this interface.
+The methods handles all interactions with the Author entity,
+and the AuthorAthor entity in the database.
 </Summary>
 */
 

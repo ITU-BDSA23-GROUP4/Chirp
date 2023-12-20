@@ -1,4 +1,3 @@
-using System.Security.Cryptography.X509Certificates;
 using Chirp.Core;
 using FluentValidation;
 using FluentValidation.Results;
@@ -11,14 +10,13 @@ This is the CheepRepository, where we can work with our cheeps
 Here we can create, read, update and delete cheeps, as well as get a list of cheeps from the page or from a specific author.
 </Summary>
 */
-
 namespace Chirp.Infrastructure;
 public class CheepRepository : ICheepRepository
 {
-    private readonly ChirpDBContext _db; //Needed to get our CheepDTO
-    private readonly CheepCreateValidator _validator = new(); //Needed to validate our CheepDTO
+    private readonly ChirpDBContext _db; // The db this repository works on
+    private readonly CheepCreateValidator _validator = new(); // Needed to validate our CheepDTO in the Create method
     
-    public CheepRepository(ChirpDBContext db) //If we want to use an existing db
+    public CheepRepository(ChirpDBContext db)
     {
         _db = db;
     }
@@ -27,7 +25,7 @@ public class CheepRepository : ICheepRepository
     {
         try
         {    
-            int TLength = text.Length; //Sets a scalable length that we can use for if statement
+            int TLength = text.Length;
             var author = GetAuthorById(authorId);
             if (TLength <= 160 && TLength > 0 && author != null)
             {
@@ -53,27 +51,27 @@ public class CheepRepository : ICheepRepository
     }
 
     public async Task DeleteCheepsFromAuthor(Guid authorid){
-        //Deletes all cheeps from a given author
         try
         {
-            var author = GetAuthorById(authorid); //Gets the author from the database
-            if(author != null){ //Deletes all the cheeps from the author
+            var author = GetAuthorById(authorid);
+            if(author != null)
+            {
                 _db.RemoveRange(_db.Cheeps.Where(cheep => cheep.Author == author));
                 await _db.SaveChangesAsync();
             }
         }
-        catch (System.Exception)
+        catch (Exception)
         {
             throw;
         }
     }
 
+    // Returns 32 cheeps for a given pagenumber (each webpage displays 32 cheeps)
     public List<CheepDTO> GetCheeps(int? pageNum)
     { 
-        //Creates a list of max 32 CheepDTO sorted by recent cheep
-
         List<CheepDTO> cheepsToReturn = new();
 
+        // Retrieve all cheeps, sorted by date and time
         var cheepsDTO = _db.Cheeps.Include(c => c.Author)
         .ToList()
         .OrderByDescending(c => c.TimeStamp.Ticks)
@@ -88,29 +86,34 @@ public class CheepRepository : ICheepRepository
 
         cheepsToReturn.AddRange(cheepsDTO);
 
+        // Calculate starting index from the given pagenumber
         int? page = (pageNum - 1) * 32;
 
+        // Skip further calculations if unecessary
         if (cheepsToReturn.Count < 32)
         {
             return cheepsToReturn.GetRange(0, cheepsToReturn.Count);
         }
         if (page == null)
         {
-            return cheepsToReturn.GetRange(0, 32);
+            return cheepsToReturn.GetRange(0, 32);  // Return cheeps for page 1, if no pagenumber is given
+
         }
         else
         {
-            int endIndex = Math.Min((int)page + 32, (int)cheepsToReturn.Count);
-            return cheepsToReturn.GetRange((int)page, endIndex - (int)(page));
+            // Calculate ending index given the current page and number of cheeps
+            int endIndex = Math.Min((int)page + 32, cheepsToReturn.Count);
+            return cheepsToReturn.GetRange((int)page, endIndex - (int)page);
         }
     }
 
+    /* Returns 32 cheeps for a given author and pagenumber 
+    (each webpage related to a single author, displays 32 cheeps) */
     public List<CheepDTO> GetCheepsFromAuthor(string authorName, int? pageNum)
     {
-        //Creates a list of max 32 CheepDTO sorted by recent cheep and only for the given author
-
         List<CheepDTO> cheepsToReturn = new List<CheepDTO>();
 
+        // Retrieve all cheeps related to the given author, sorted by date and time
         var cheepsDTO = _db.Cheeps.ToList()
         .Join(
             _db.Authors,
@@ -122,7 +125,6 @@ public class CheepRepository : ICheepRepository
         .OrderByDescending(joinResult => joinResult.Cheep.TimeStamp)
         .Select(joinResult => new CheepDTO
         {
-            //Sets the properties of the Cheep
             CheepId = joinResult.Cheep.CheepId,
             AuthorName = joinResult.Author.Name,
             Message = joinResult.Cheep.Text,
@@ -131,20 +133,23 @@ public class CheepRepository : ICheepRepository
         });
         cheepsToReturn.AddRange(cheepsDTO);
 
+        // Calculate starting index from the given pagenumber
         int? page = (pageNum - 1) * 32;
 
+        // Skip further calculations if unecessary
         if (cheepsToReturn.Count < 32)
         {
             return cheepsToReturn.GetRange(0, cheepsToReturn.Count);
         }
         if (page == null)
         {
-            return cheepsToReturn.GetRange(0, 32);
+            return cheepsToReturn.GetRange(0, 32); // Return cheeps for page 1, if no pagenumber is given
         }
         else
         {
-            int endIndex = Math.Min((int)page + 32, (int)cheepsToReturn.Count);
-            return cheepsToReturn.GetRange((int)page, endIndex - (int)(page));
+            // Calculate ending index given the current page and number of cheeps
+            int endIndex = Math.Min((int)page + 32, cheepsToReturn.Count);
+            return cheepsToReturn.GetRange((int)page, endIndex - (int)page);
         }
     }
 
@@ -166,7 +171,7 @@ public class CheepRepository : ICheepRepository
         return cheepsDTO;
     }
 
-    //This method is needed for the dynamic buttons as we only have methods for returning 32 cheeps at a time
+    //This method is used by the razor pages to add dynamic buttons for the pagination
     public int GetCountOfAllCheepFromAuthor(string authorName)
     {
         List<CheepDTO> cheepsToReturn = new List<CheepDTO>();
@@ -175,7 +180,6 @@ public class CheepRepository : ICheepRepository
             .Where(cheep => cheep.Author != null && cheep.Author.Name != null && cheep.Author.Name.Equals(authorName))
             .Select(CheepDTO => new CheepDTO
             {
-                //Sets the properties of the Cheep
                 CheepId = CheepDTO.CheepId,
                 AuthorName = CheepDTO.Author.Name,
                 Message = CheepDTO.Text,
@@ -185,16 +189,16 @@ public class CheepRepository : ICheepRepository
         ).Count();
         return cheepsDTO;
     }
-    // A method to get an Author class representation with an id
+
+    // Helper method: used by DeleteFromAuthors
     private Author? GetAuthorById(Guid id)
     {
         return _db.Authors.Where(author => author.AuthorId == id).FirstOrDefault();
     }
     
-    // Code directly from lecture
+    // Code from the lecture (the Create method to be precise)
     public async Task Create(CheepCreateDTO cheep)
     {
-        //NullReferenceException is handled in the constructor - CheepRepository()
         ValidationResult result = _validator.Validate(cheep);
 
         if (!result.IsValid)
@@ -250,7 +254,6 @@ public class CheepRepository : ICheepRepository
             var cheepsFromAuthors = _db.Cheeps.Where(a => a.Author.Name == followee.Name).Select(
                 CheepDTO => new CheepDTO
                 {
-                    //Sets the properties of the Cheep
                     CheepId = CheepDTO.CheepId,
                     AuthorName = CheepDTO.Author.Name,
                     Message = CheepDTO.Text,
@@ -278,7 +281,6 @@ public class CheepRepository : ICheepRepository
         .OrderByDescending(joinResult => joinResult.Cheep.TimeStamp)
         .Select(joinResult => new CheepDTO
         {
-            //Sets the properties of the Cheep
             CheepId = joinResult.Cheep.CheepId,
             AuthorName = joinResult.Author.Name,
             Message = joinResult.Cheep.Text,

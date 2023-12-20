@@ -2,7 +2,7 @@ namespace Chirp.Core;
 /*
 <Summary>
 This is the Author DTO
-The DTO is the Data Transfer Object, which is used to transfer data between the client and the server.
+The DTO is the Data Transfer Object, which is used to transfer data between the packages in the domain logic.
 </Summary>
 */
 public class AuthorDTO

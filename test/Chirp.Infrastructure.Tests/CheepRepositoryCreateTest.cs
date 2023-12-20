@@ -2,24 +2,26 @@ using System.ComponentModel.DataAnnotations;
 
 public class CheepRepositoryCreateUnitTests
 {
-    private readonly SqliteConnection? _connection; //Connection to the database
-    private readonly ChirpDBContext _context; //Context for the database
-    private readonly CheepRepository repository; //Repository for the database
-
+    private readonly SqliteConnection? _connection; // Connection to the database
+    private readonly ChirpDBContext _context; // Context for the database
+    private readonly CheepRepository repository; // The repository contains the methods, tested by the unit tests
     public CheepRepositoryCreateUnitTests()
     {
-        //Arrange
-        //Creates a database in memory - Makkes connection string before opening the connection
+        // Arrange
+        
+        // Creates a SQLite database in memory
         var builder = new DbContextOptionsBuilder<ChirpDBContext>();
         builder.UseSqlite("Filename=:memory:");
         ChirpDBContext context = new(builder.Options);
+
         _connection = context.Database.GetDbConnection() as SqliteConnection;
-        if (_connection != null)  //Takes care of the null exception
+        if (_connection != null)
         {
             _connection.Open();
         }
         context.Database.EnsureCreated();
 
+        // Test data
         var testAuthor = new Author {
             AuthorId = new Guid(1,0,0, new byte[] {0,0,0,0,0,0,0,0}), 
             Name = "TestAuthor", 
@@ -27,11 +29,9 @@ public class CheepRepositoryCreateUnitTests
             Cheeps = new List<Cheep>(),
             };
 
-        context.Authors.Add(testAuthor); 
-        
-        
-
+        context.Authors.Add(testAuthor);
         context.SaveChanges();
+
         _context = context;
         repository = new CheepRepository(_context);
     }
@@ -44,10 +44,9 @@ public class CheepRepositoryCreateUnitTests
         CheepCreateDTO cheepCreateDto = new CheepCreateDTO("TestAuthor", Message);
 
         //Act
-        await repository.Create(cheepCreateDto); //Adds the cheep to the database
-
+        await repository.Create(cheepCreateDto);
         var cheeps = repository.GetCheeps(1);
-        cheeps.Should().NotBeNull(); //Makes sure the page is not empty
+        cheeps.Should().NotBeNull();
 
         //Assert
         cheeps.Should().Contain(c => c.AuthorName == "TestAuthor" && c.Message == "TestMessage");
@@ -62,10 +61,9 @@ public class CheepRepositoryCreateUnitTests
         CheepCreateDTO cheepCreateDto = new CheepCreateDTO("TestAuthor", Message);
 
         //Act
-        await repository.Create(cheepCreateDto); //Adds the cheep to the database
-        
+        await repository.Create(cheepCreateDto);
         var cheeps = repository.GetCheeps(1);
-        cheeps.Should().NotBeNull(); //Makes sure the page is not empty
+        cheeps.Should().NotBeNull();
 
         //Assert
         cheeps.Should().Contain(c => c.AuthorName == "TestAuthor" && c.Message == "TestMessage2");
@@ -78,10 +76,9 @@ public class CheepRepositoryCreateUnitTests
         string Message = "";
         CheepCreateDTO cheepCreateDto = new CheepCreateDTO("TestAuthor", Message);
 
-        var act = async () => await repository.Create(cheepCreateDto); //Adds the cheep to the database
+        var act = async () => await repository.Create(cheepCreateDto);
 
         //Assert
-        //Should throw an exception to pass
         act.Should().ThrowAsync<ValidationException>().WithMessage("Exception of type 'System.ComponentModel.DataAnnotations.ValidationException' was thrown.");
     }
 
@@ -91,28 +88,24 @@ public class CheepRepositoryCreateUnitTests
         //Arrange
         string Message = "This string should be way over 160 characters, just so we can check that its not possible to make a message that is longer than nessesary.This will because of that, become a very long message.";
         CheepCreateDTO cheepCreateDto = new CheepCreateDTO("TestAuthor", Message);
-
-        var act = () => repository.Create(cheepCreateDto); //Adds the cheep to the database
+        var act = () => repository.Create(cheepCreateDto);
 
         //Assert
-        //Should throw an exception to pass
         act.Should().ThrowAsync<ValidationException>().WithMessage("Exception of type 'System.ComponentModel.DataAnnotations.ValidationException' was thrown.");
     }
 
-    //Test that deleting all of an authors cheeps works
     [Fact]
     public async void UnitTestDeleteCheepsFromAuthor()
     {
         //Arrange
         string Message = "TestMessage";
         CheepCreateDTO cheepCreateDto = new CheepCreateDTO("TestAuthor", Message);
-        await repository.Create(cheepCreateDto); //Adds the cheep to the database
+        await repository.Create(cheepCreateDto);
 
         //Act
         await repository.DeleteCheepsFromAuthor(new Guid(1, 0, 0, new byte[] { 0, 0, 0, 0, 0, 0, 0, 0 }));
 
         //Assert
-        //Should pass since the cheeps are deleted
         _context.Cheeps.Should().BeEmpty();
     }
 }

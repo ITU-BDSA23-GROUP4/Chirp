@@ -2,16 +2,20 @@ using Microsoft.EntityFrameworkCore;
 
 /*
 <Summary>
-This is the DBContext, which is the main class that we use to work with our database.
-This is where we set restrains on our entities and have dbSets for our entities.
+This is the DBContext
+It is instanciated every time we query or save changes to an entity in the database.
+Here we apply custom constrains to the database.
 </Summary>
 */
-
 namespace Chirp.Infrastructure;
 
 public class ChirpDBContext : DbContext
 {
+    /* A collection of Cheep objcts, 
+    each representing a tuple (row) from the Cheep entity. */
     public DbSet<Cheep> Cheeps { get; set; }
+    /* A collection of Author objects, 
+    each representing a tuple (row) from the Author entity */
     public DbSet<Author> Authors { get; set; }
 
     public ChirpDBContext(DbContextOptions options) : base(options)
@@ -20,7 +24,7 @@ public class ChirpDBContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        //Sets the max length, and makes sure that the text field is not empty for the Cheep
+        // Defining constraints on the entities at the database level
         modelBuilder.Entity<Cheep>()
             .Property(C => C.Text)
             .HasMaxLength(160);
