@@ -20,53 +20,35 @@ Provide an illustration of your domain model. Make sure that it is correct and c
 In the Onion Architecture diagram bellow you'll see our applications. In the centre we have our core package. This is the lowest layer of the application. Then we move outwards for the layers with a larger impact, and end with our SQL-Server and razor pages, which interacts with our Azure application. 
 <br>
 
-<figure align = "center">
-    <img title="Onion Architecture Diagram" id="OnionArchitectureDiagram" style="width:30%" alt="Alt text" src="Images\OnionArchitectureDiagram.png">
-    <figcaption style="font-size:11px" ><b>Fig. XX - Onion Architecture Diagram</b></figcaption>
-</figure>
-
+![Onion Architecture Diagram](Images/OnionArchitectureDiagram.png){width=60%}
 
 These layers can be seen more detailed in our class diagram. There is one for each package, and they show everything needed to know about our classes. We've chosen to do this for more simplicity in reading the diagrams. The diagrams show each package and how the classes interact with each other. To see how they interact with the other layers, see [OnionClassDiagram](#OnionClassDiagram) further down.
 
 You will see in our repositories, that we're deleting the author at some point, this was a project demand. We had two possibilities; delete the user in the sense that they will no longer be traceable, that is make everything anonymous and delete their information, or we had the possibility of just deleting everything that the user ever touched. We chose to be sure that the user wouldn't come back complaining that their username/normal name still was in a cheep, so we deleted everything that they touched. This was also the easier approach since we could delete everything that contained that user's id or name, instead of altering everything. 
 <br>
 
-<figure align = "center">
-    <img title="ULM Class Diagram" style="width:30%" alt="Alt text" src="Images/PackageCoreUMLDiagram.png">
-    <figcaption style="  font-size:11px"><b>Fig. XX - ULM Class Diagram</b></figcaption>
-</figure>
 
-<figure align = "center">
-    <img title="ULM Class Infrastructure" style="width:30%" alt="Alt text" src="Images/PackageInfrastructureUMLDiagram.png">
-    <figcaption style="  font-size:11px"><b>Fig. XX - ULM Package Diagram of the Chirp.Infrastructure</b></figcaption>
-</figure>
+![ULM Class Diagram](Images/PackageCoreUMLDiagram.png){width=60%}
 
-<figure align = "center">
-    <img title="ULM Class Razor" style="width:30%" alt="Alt text" src="Images/PackageRazorUMLDiagrams.png">
-    <figcaption style="  font-size:11px"><b>Fig. XX - ULM Package Diagram of the Chirp.Razor </b></figcaption>
-</figure>
+![ULM Class Infrastructure](Images/PackageInfrastructureUMLDiagram.png){width=60%}
 
-<figure align = "center">
-    <img title="ULM Class Pages" style="width:30%" alt="Alt text" src="Images/PackagePagesUMLDiagram.png">
-    <figcaption style="  font-size:11px"><b>Fig. XX - ULM Package Diagram of the Chirp.Razor/Pages </b></figcaption>
-</figure>
+![ULM Class Razor](Images/PackageRazorUMLDiagrams.png){width=60%}
+
+
+![ULM Class Pages](Images/PackagePagesUMLDiagram.png){width=60%}
 
 The Onion Architecture (otherwise known as Clean Architecture), is great for having low coupling and high cohesion. When looking at the UML in the more specified onion diagram bellow, there is no unnecessary communication between scripts, having low coupling making the readability of the program better, even though some of the repositories contain a fair amount of methods. When moving outward you'll see the packages only use entities further in or in the same layer.
 
 It is worth mentioning that the only way of interacting with the repositories is through their interfaces, which is an important factor in making sure the application has low coupling. The same goes for the CheepService, since every class that needs to access it uses information from the interface, and that interface uses from the other interfaces. 
 <br>
-<figure id="OnionClassDiagram">
-    <center><img src="Images\OnionClassDiagram.png" style="width:30%" alt="onion diagram">
-  <figcaption >Fig.XX OnionClassDiagram</figcaption></center>
-</figure>
+
+![OnionClassDiagram](Images/OnionClassDiagram.png){width=60%}
 
 ## Architecture of deployed application
 In the following figure a deployment diagram can be seen of our Chirp application.
 
-<figure>
-    <center><img src="Images/DeploymentDiagram.png" alt="Deploy diagram">
-  <figcaption>Fig.XX Deployment diagram</figcaption></center>
-</figure>
+
+![Deployment diagram](Images/DeploymentDiagram.png){width=60%}
 
 
 Chirp is a client-server application hosted on the Azure app service as a Web App. The web app is connected to a Azure SQL server where the database can be found. Furthermore the application makes use of a Azure AD B2C tenant for user-authentication. The different nodes means of communication is represented in the diagram.
@@ -84,10 +66,7 @@ In Figure SQD1. A sequence diagram of an unauthorized actor. Henceforth, referre
 
 The database sends the 32 cheeps to the repository. Which inserts each cheep into a CheepDTO before returning a list of 32 CheepDTOs. This list is sent back through the system, shown in Fig SQD1. Arriving in Chirp.Razor. It is weaved into the HTML, checking the if the user is Authorized. Before the page is returned to the UA. 
 
-<figure align = "center">
-    <img title="Sequence Diagram Unauthorized" style="width:30%" alt="Alt text" src="Images\SequenceDiagramUnauthorized.svg">
-    <figcaption style="  font-size:11px"><b>Fig. SQD1 - Sequence diagram for an unauthorized user </b></figcaption>
-</figure>
+![Sequence Diagram Unauthorized](Images/SequenceDiagramUnauthorized.svg){width=60%}
 
 Figure SQD2. Show a known actor accessing our site, logging in and sending a Cheep. The first Get request is the same as seen in Fig SQD1. It deviates during the authentication step as the actor presses the login link. As they log in, Microsoft Identity redirects them to Azure OIDC. Which then redirect to GitHub. 
 
@@ -96,11 +75,8 @@ After the actor has logged in, GitHub sends a token back to being logged on Azur
 Then the authorized user fills out the desired cheep and Chirps it. When that happens, Chirp.Razor constructs a CheepDTO and sends it through the core, where it is validated and sent to the repository. Afterwards it is committed to the database granted that Validation confirms. 
 
 Then, confirmation of success is sent back until the razorpage redirects to itself to reload. 
-<figure align = "center">
-    <img title="Sequence Diagram Authorized" style="width:30%" alt="Alt text" src="Images\SequenceDiagramAuthorized.svg">
-    <figcaption style="  font-size:11px"><b>Fig. SQD2 - Sequence diagram for an unauthorized user </b></figcaption>
-</figure>
 
+![Sequence Diagram Authorized](Images/SequenceDiagramAuthorized.svg){width=60%}
 
 
 # Process
@@ -117,28 +93,22 @@ To ensure the flow of the project, we use a tool developed by GitHub known as. G
 
 The build and test workflow can be found in . The activity diagram shows how GitHub ensures what is merged into main. This workflow is run on a pull request every time a commit is made to the branch in the pull request. This is to ensure that main will still work by building the project with dotnet and tests made for the project.
  Because it runs the tests as well, it ensures that any incoming changes do not affect the functionality. If anything fails, it will stop and prevent the branch from merging into main.
-<figure>
-   <center> <img src="Images/BuildAndTest.png"
-         alt="BuildAndTest Activity diagram">
-    <figcaption>Fig.XX Build and test activity diagram</figcaption></center>
-</figure>
+
+![Build and test activity diagram](Images/BuildAndTest.png){width=60%}
+
 
 #### Publish and release
 
 This workflow is made to automate the creation of a GitHub release when a tag is added (Appendix?). It will create a release of the tag. But first, the workflow builds a version for Windows, MacOS and Linux. After that, it will zip the files and add them to the release if a release was made.
-<figure>
-   <center> <img src="Images/PublishNewRelease.png"
-         alt="PublishNewRelease Activity diagram">
-    <figcaption>Fig.XX Publish new release activity diagram</figcaption></center>
-</figure>
+
+
+![Publish New Release Activity diagram](Images/PublishNewRelease.png){width=60%}
 
 #### Build and deploy
 This workflow can be seen here (Appendix?). The workflow is made so it will build the program and run the "publish" command to build a version for Linux to be run on the Azure web app. After the publish command, it uploads the artifacts so the next job can use the files. The deploy job will download the artefact and use the files to deploy to our Azure web app.
-<figure>
-   <center> <img src="Images/BuildAndDeploy.png"
-         alt="BuildAndDeploy Activity diagram">
-    <figcaption>Fig.XX Build and deploy activity diagram</figcaption></center>
-</figure>
+
+
+![Build And Deploy Activity diagram](Images/BuildAndDeploy.png){width=60%}
 
 <!-- Before putting anything into the workflow actions, we create test manually to run on the computer with the "dotnet test" command. There has been created an activity diagram showing this. For most test we try to implement it going how we expect the method or feature to behave, and after we've concluded that it works, we create a test to challenge this method. By example we can look at the Create(CreateCheepDTO)'s tests in the unit tests. <br> -->
 <!-- This can be found in the infrastructure tests in the tests for Cheep Repository.  -->
@@ -165,14 +135,12 @@ prerequisites:
 
 ## 1. Clone the repository
 Follow this link: [github.com/ITU-BDSA23-GROUP4](https://github.com/ITU-BDSA23-GROUP4/Chirp.git)
-<br>
 
-<figure>
-    <center><img src="Images/cloning.png" alt="Cloning">
-  <figcaption>Fig.XX Cloning</figcaption></center>
-</figure>
+![Fix.XX Cloning](Images/cloning.png){width=60%}
 
 copy the url and run the following command in your terminal where you want to clone the repository to.
+<br>
+
 ```bash
 git clone https://github.com/ITU-BDSA23-GROUP4/Chirp.git
 ```
@@ -186,10 +154,7 @@ naviagte to *Chirp/src/Chirp.Infrastructure*
 <br> delete all migrations file if they exists
 <br>
 
-<figure>
-    <center><img src="Images/deleteMigations.png" alt="Deletion">
-  <figcaption>Fig.XX Deletion of migrations</figcaption></center>
-</figure>
+![Fix.XX Deletion of migrations](Images/deleteMigations.png){width=60%}
 
 then run the following command
 
@@ -209,17 +174,12 @@ To get there go to "Containers" and click on your container.<br/>
 1. Go to the "Containers"
 2. Open your Container ours is "chirpdb"
 
-<figure>
-    <center><img src="https://github.com/ITU-BDSA23-GROUP4/Chirp/assets/143702901/83f988d8-291e-4af1-81df-2d21e834efab" style="50%" alt="Container">
-  <figcaption>Fig.XX Container</figcaption></center>
-</figure>
+
+![Fix.XX Container](https://github.com/ITU-BDSA23-GROUP4/Chirp/assets/143702901/83f988d8-291e-4af1-81df-2d21e834efab){width=50%}
 
 3. Open ```Exec```
 
-<figure>
-    <center><img src="https://github.com/ITU-BDSA23-GROUP4/Chirp/assets/143702901/797cb7e5-e011-4afc-8d0b-3aa77a429983" style="50%" alt="Exec">
-  <figcaption>Fig.XX Exec</figcaption></center>
-</figure>
+![Fix.XX Exec](https://github.com/ITU-BDSA23-GROUP4/Chirp/assets/143702901/797cb7e5-e011-4afc-8d0b-3aa77a429983){width=50%}
 
 Her you can run bash commands on your container and look around the container.<br/>
 We are here to use the MsSQL tool to make a database on this container. To do this we run this ```/opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P Admin123``` (the ```-U``` is the user in our case we will just use SA which is System Admin and ```-P``` is the password for SA) this will gain access to the MsSQL tool. Here we can run SQL commands. Bare in mind that this is a diffrent tool the usual and have different commands.<br/>
@@ -228,7 +188,7 @@ You can also give your docker container another name if you want to.
 
 
 ## 4. Running the program
-navigate to *src\Chirp.Razor* and run the following command
+navigate to *src\\Chirp.Razor* and run the following command
 ```bash
 dotnet run
 ```
