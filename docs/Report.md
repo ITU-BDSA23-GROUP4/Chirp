@@ -8,6 +8,14 @@ author:
 - "Niels Christian Skov Faber <nfab@itu.dk>"
 - "Oliver Asger-Sharp Johansen <oash@itu.dk>"
 numbersections: true
+header-includes: |
+ \usepackage{float}
+ \let\origfigure\figure
+ \let\endorigfigure\endfigure
+ \renewenvironment{figure}[1][2]{
+   \expandafter\origfigure\expandafter[H]
+   } {
+ \endorigfigure }
 ---
 
 # Design and Architecture of _Chirp!_
@@ -162,7 +170,7 @@ Then run the following command
 dotnet ef migrations add InitialCreate
 dotnet ef database update
 ```
-## 3. Setting up docker
+## 3. Setting up docker {#sec:dockerguide}
 To setup the Docker container for development on own pc you need to run the following command:
 ```docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=Admin123" -p 1433:1433 --name chirpdb --hostname chirpdb -d mcr.microsoft.com/mssql/server:2022-latest```
 <br />
@@ -233,7 +241,8 @@ context.Database.EnsureCreated();
 
 
 ## Razor.Tests
-To run the tests you need to setup and download docker. A complete guide for downloading and setting up docker correctly with our application can be found [here](#3-setting-up-docker)
+To run the tests you need to setup and download docker. A complete guide for downloading and setting up docker correctly with our application can be found here: [@sec:dockerguide]
+
 After following the guide cd into the Chirp.Razor.tests folder and run the following command
 ```bash
 dotnet test
@@ -266,7 +275,7 @@ The playwright test differs from the razor test in that it, mimics user behavior
 
 # Ethics
 ## License
-We chose the [MIT license](https://licenses.nuget.org/MIT) for our application, with the major reason being it's open-source nature towards programming-collaboration. Furthermore all the dependencies which we use in our application are also under the MIT license except one, which encourages the collaborative nature of the programming community. A list of all our dependencies and their licenses can be found [here](../License.md). One of our packages is under the [Apache-license](https://licenses.nuget.org/Apache-2.0), which is fine since both are permissive licenses meaning they are able to be used together. This is also stated in our license file. 
+We chose the [MIT license](https://licenses.nuget.org/MIT)for our application, with the major reason being it's open-source nature towards programming-collaboration. Furthermore all the dependencies which we use in our application are also under the MIT license except one, which encourages the collaborative nature of the programming community. A list of all our dependencies and their licenses can be found [here](../License.md). One of our packages is under the [Apache-license](https://licenses.nuget.org/Apache-2.0), which is fine since both are permissive licenses meaning they are able to be used together. This is also stated in our license file. 
 
 ## LLMs, ChatGPT, CoPilot, and others
 In this section we will go over the AI help that has been through out the process of creating the project.
