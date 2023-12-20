@@ -60,7 +60,6 @@ Illustrate typical scenarios of a user journey through your Chirp! application. 
 
 Make sure that the illustrations are in line with the actual behavior of your application.
 
-## Sequence diagram
 <!-- Figugres are refered to as SQDX as in Sequence Diagram X -->
 ## Sequence diagram
 In Figure SQD1. A sequence diagram of an unauthorized actor. Hereafter, referred to as UA, accessing our project. It shows the UA sending the HTTP get request to receive the website. After the initial request, the Chirp.Razor starts to build the HTML. Here, an asynchronous object creation message is sent through the interface in the core and onto the repository. The repository returns the same for all actors sending this request. Using Linq, the repository inquires the SQL database for the 32 most recent cheeps. 
