@@ -99,11 +99,7 @@ This workflow is run on a pull request every time a commit is made to the branch
 This ensures that main will stay functional by building and testing the project with dotnet and our test suite. If anything fails, it will stop and prevent 
 the branch from merging into main.
 
-Lore ipsum @fig:label
-
-
-
-![Build and test activity diagram](Images/BuildAndTest.png){width=60 #fig:Buildtest}
+![Build and test activity diagram](Images/BuildAndTest.png){width=60% #fig:Buildtest}
 
 #### Publish and release
 
@@ -122,9 +118,7 @@ This workflow can be seen here (Appendix?). The workflow is made so it will buil
 <!-- This can be found in the infrastructure tests in the tests for Cheep Repository.  -->
 <!-- We start by testing that what we want it to will work, and then we challenge it, by giving it some input that should throw validation exceptions. When we know both of these will pass, we can then move onto the workflows.  -->
 
-<br>
-...............................................
-<br>
+
 Before committing anything and thus starting the suitable workflow, we test locally with the `dotnet test` command. There is an activity diagram showing this. Tests are implemented with the logic of expected functionality in mind. Testing that the method in question works as expected. It should react as expected, both with harmless and malicious inputs.
 
 For example, the tests for the method Create(CreateCheepDTO) can be examined. They can be found in the infrastructure tests for the tests for Cheap Repository. First, we test that it works as intended with the intended input. After this, we challenge it in the test by giving it the wrong input and testing if validation exceptions are thrown.  
@@ -149,11 +143,9 @@ Follow this link: [github.com/ITU-BDSA23-GROUP4](https://github.com/ITU-BDSA23-G
 copy the url and run the following command in your terminal where you want to clone the repository to.
 <br>
 
-~~~
-
+```bash
 git clone https://github.com/ITU-BDSA23-GROUP4/Chirp.git
-
-~~~
+```
 
 ## 2. Running and installing migrations
 naviate to the root folder of the program, run the following command in your terminal.
@@ -161,12 +153,12 @@ naviate to the root folder of the program, run the following command in your ter
 --global dotnet-ef
 ```
 naviagte to *Chirp/src/Chirp.Infrastructure*
-<br> delete all migrations file if they exists
+<br> Delete all migrations file if they exists
 <br>
 
 ![Fix.XX Deletion of migrations](Images/deleteMigations.png){width=60%}
 
-then run the following command
+Then run the following command
 
 ```bash
 dotnet ef migrations add InitialCreate
