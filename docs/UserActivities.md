@@ -3,7 +3,9 @@ For each user activity bellow, there's a headline describing their scenario. The
 If a user is logged in, there's a few possible user activities as shown bellow. These diagrams show what the user can experience when following or unfollowing, how the user can see who they're following and vice versa, how they write and share a new cheep, how to delete their information and what happens upon login and logout.
 If a new user wants register they will need to login with github. Since this will redirect from our own razor pages, this hasn't been included in the activity diagrams.
 
-![ActivityDiagramArchitecture](Images\ActivityDiagramArchitecture.png)
+![ActivityDiagramArchitecture](Images\ActivityDiagramArchitecture1.png)
+![ActivityDiagramArchitecture](Images\ActivityDiagramArchitecture2.png)
+![ActivityDiagramArchitecture](Images\ActivityDiagramArchitecture3.png)
 
 The userpage will show more detailed information than who's following you, the user can find their claims (such as their email and username), they'll be able to read about how we're using their information, it's also the location of the Forget Me feature (which deletes their profile and information).
 Most of these diagrams are not very detailed, to see more detail of the application you can run it with the help of our guide (How to make _Chirp!_ work locally). There you will see the interface as well as our applications behavior. 
