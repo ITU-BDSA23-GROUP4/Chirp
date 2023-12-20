@@ -17,14 +17,14 @@ Provide an illustration of your domain model. Make sure that it is correct and c
 <!-- ![Illustration of the _Chirp!_ data model as UML class diagram.](Images/domain_model.png) -->
 
 ## Architecture — In the small
-In the Onion Architecture diagram bellow you'll see our applications. In the centre we have our core package. This is the lowest layer of the application. Then we move outwards for the layers with a larger impact, and end with our SQL-Server and razor pages, which interacts with our Azure application. 
+In the Onion Architecture diagram bellow you'll see our applications. In the centre we have our core package. This is the lowest layer of the application. Then we move outwards through the layers end with our  SQL-Server and razor pages, which interacts with our Azure application. 
 <br>
 
 ![Onion Architecture Diagram](Images/OnionArchitectureDiagram.png){width=60%}
 
-These layers can be seen more detailed in our class diagram. There is one for each package, and they show everything needed to know about our classes. We've chosen to do this for more simplicity in reading the diagrams. The diagrams show each package and how the classes interact with each other. To see how they interact with the other layers, see [OnionClassDiagram](#OnionClassDiagram) further down.
+In order not to inundate the diagram. The details of the classes are kept minimal in the Onion class diagram [OnionClassDiagram](#OnionClassDiagram). There is a UML class diagram for each package. All of these are shown in the Onion class diagram. This is done to keep the diagrams clear and readable. The interaction between layers and packages is shown in the Onion class diagram. The internal interaction is shown in the UML class Diagrams. 
 
-You will see in our repositories, that we're deleting the author at some point, this was a project demand. We had two possibilities; delete the user in the sense that they will no longer be traceable, that is make everything anonymous and delete their information, or we had the possibility of just deleting everything that the user ever touched. We chose to be sure that the user wouldn't come back complaining that their username/normal name still was in a cheep, so we deleted everything that they touched. This was also the easier approach since we could delete everything that contained that user's id or name, instead of altering everything. 
+You will see in our repositories, that we're deleting the author at some point, this was a project demand. We had two possibilities; delete the user in the sense that they will no longer be traceable, that is make everything anonymous and delete their information, or we had the possibility of deleting everything that the user ever touched. We chose to be sure that the user wouldn't come back complaining that their username/normal name still was in a cheep, so we deleted everything that they touched. This was also the easier approach since we could delete everything that contained that user's id or name, instead of altering everything. 
 <br>
 
 
@@ -51,7 +51,8 @@ In the following figure a deployment diagram can be seen of our Chirp applicatio
 ![Deployment diagram](Images/DeploymentDiagram.png){width=60%}
 
 
-Chirp is a client-server application hosted on the Azure app service as a Web App. The web app is connected to a Azure SQL server where the database can be found. Furthermore the application makes use of a Azure AD B2C tenant for user-authentication. The different nodes means of communication is represented in the diagram.
+Chirp is a client-server application hosted on the Azure app service as a Web App. The web app is connected to an Azure SQL server where the database can be found. Furthermore the application makes use of an Azure AD B2C tenant for user-authentication. Each node and its means of communication are represented in the diagram. 
+ 
 
 
 ## User activities
@@ -87,12 +88,17 @@ Then, confirmation of success is sent back until the razorpage redirects to itse
 <!-- Describe briefly the illustration, i.e., how you application is built, tested, released, and deployed. -->
 ### GitHub workflows
 
-To ensure the flow of the project, we use a tool developed by GitHub known as. GitHub Action, otherwise known as workflow. This will also entail when the workflows are activated and used.
+To ensure the flow of the project, we use a tool developed by GitHub known as. GitHub Action, otherwise known as a workflow. This will also entail when the workflows are activated and used.
 
 #### Build and Test
 
-The build and test workflow can be found in . The activity diagram shows how GitHub ensures what is merged into main. This workflow is run on a pull request every time a commit is made to the branch in the pull request. This is to ensure that main will still work by building the project with dotnet and tests made for the project.
- Because it runs the tests as well, it ensures that any incoming changes do not affect the functionality. If anything fails, it will stop and prevent the branch from merging into main.
+The build and test workflow can be found in [here](#BuildTest). The activity diagram shows how GitHub ensures what is merged into main. This workflow is run on a pull request every time a commit is made to the branch in the pull request. This is to ensure that main will still work by building the project with dotnet and tests made for the project.
+Because it runs the tests as well, it ensures that any incoming changes do not affect the functionality. If anything fails, it will stop and prevent the branch from merging into main.
+
+[BuildTest]: Images/BuildAndTest.png "Build and test activity diagram" 
+![Build and test activity diagram][image] 
+
+
 
 ![Build and test activity diagram](Images/BuildAndTest.png){width=60%}
 
