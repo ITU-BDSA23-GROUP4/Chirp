@@ -18,7 +18,6 @@ namespace Chirp.Infrastructure
             _db = db;
         }
 
-
         /// <summary>
         ///  Adds an Author to the data base with all required fields Note 
         ///  followed and followers list are not required
@@ -53,28 +52,6 @@ namespace Chirp.Infrastructure
             }
         }
 
-        public async Task<AuthorDTO> GetAuthorByID(Guid ID)
-        { 
-            var author = await _db.Authors.Where(author => author.AuthorId == ID).Select(authorDTO => new AuthorDTO
-            {
-                AuthorId = ID,
-                Name = authorDTO.Name,
-                Email = authorDTO.Email,
-                Cheeps = GetAllCheepsFromAuthor(authorDTO.Name, _db),
-                Followed = GetAllFollowedAuthor(authorDTO.AuthorId, _db),
-                Followers = GetAllFollowers(authorDTO.AuthorId, _db)
-            }).FirstAsync();
-            
-            if (author != null)
-            {
-                return author;
-            }
-            else
-            {
-                throw new ArgumentException("Author with ID " + ID + " does not exist");
-            }
-        }
-
         public async Task<AuthorDTO> GetAuthorByName(string name)
         {
             var author = await _db.Authors.Where(author => author.Name == name).Select(authorDTO => new AuthorDTO
@@ -95,6 +72,7 @@ namespace Chirp.Infrastructure
                 throw new ArgumentException("Author with name " + name + " does not exist");
             }
         }
+
         /// <summary>
         /// Finds an Author in the Databse based on Email needs to be exact. 
         /// </summary>
