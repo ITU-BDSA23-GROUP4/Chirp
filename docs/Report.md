@@ -22,7 +22,7 @@ In the Onion Architecture diagram bellow you'll see our applications. In the cen
 
 ![Onion Architecture Diagram](Images/OnionArchitectureDiagram.png){width=60%}
 
-In order not to inundate the diagram. The details of the classes are kept minimal in the Onion class diagram [OnionClassDiagram](#OnionClassDiagram). There is a UML class diagram for each package. All of these are shown in the Onion class diagram. This is done to keep the diagrams clear and readable. The interaction between layers and packages is shown in the Onion class diagram. The internal interaction is shown in the UML class Diagrams. 
+In order not to overwhelm the diagram. The details of the classes are kept minimal in the Onion class diagram [OnionClassDiagram](#OnionClassDiagram). There is a UML class diagram for each package. All of these are shown in the Onion class diagram. This is done to keep the diagrams clear and readable. The interaction between layers and packages is shown in the Onion class diagram. The internal interaction is shown in the UML class Diagrams. 
 
 You will see in our repositories, that we're deleting the author at some point, this was a project demand. We had two possibilities; delete the user in the sense that they will no longer be traceable, that is make everything anonymous and delete their information, or we had the possibility of deleting everything that the user ever touched. We chose to be sure that the user wouldn't come back complaining that their username/normal name still was in a cheep, so we deleted everything that they touched. This was also the easier approach since we could delete everything that contained that user's id or name, instead of altering everything. 
 <br>
@@ -67,7 +67,7 @@ In Figure SQD1. A sequence diagram of an unauthorized actor. Hereafter, referred
 
 The database sends the 32 cheeps to the repository. Which inserts each cheep into a CheepDTO before returning a list of 32 CheepDTOs. This list is sent back through the system, shown in Fig SQD1. Arriving in Chirp.Razor. It is weaved into the HTML, checking the if the user is Authorized. Before the page is returned to the UA. 
 
-![Sequence Diagram Unauthorized](Images/SequenceDiagramUnauthorized.svg){width=60%}
+![Sequence Diagram Unauthorized](Images/SequenceDiagramUnauthorized.png){width=60%}
 
 Figure SQD2. Show a known actor accessing our site, logging in and sending a Cheep. The first Get request is the same as seen in Fig SQD1. It deviates during the authentication step as the actor presses the login link. As they log in, Microsoft Identity redirects them to Azure OIDC. Which then redirect to GitHub. 
 
@@ -77,7 +77,7 @@ Then the authorized user fills out the desired cheep and Chirps it. When that ha
 
 Then, confirmation of success is sent back until the razorpage redirects to itself to reload. 
 
-![Sequence Diagram Authorized](Images/SequenceDiagramAuthorized.svg){width=60%}
+![Sequence Diagram Authorized](Images/SequenceDiagramAuthorized.png){width=60%}
 
 
 # Process
@@ -92,14 +92,18 @@ To ensure the flow of the project, we use a tool developed by GitHub known as. G
 
 #### Build and Test
 
-The build and test workflow can be found [here](#BuildTest). The activity diagram shows how GitHub ensures what is merged into main does not damage it. 
+The build and test workflow can be found [@fig:Buildtest] . The activity diagram shows how GitHub ensures what is merged into main does not damage it. 
+
+
 This workflow is run on a pull request every time a commit is made to the branch belonging to the pull request. 
-This ensures that main will stay functional by building and testing the project with dotnet and our test suite. If anything fails, it will stop and prevent the branch from merging into main.
+This ensures that main will stay functional by building and testing the project with dotnet and our test suite. If anything fails, it will stop and prevent 
+the branch from merging into main.
 
-[BuildTest]: Images/BuildAndTest.png "Build and test activity diagram" 
-![Build and test activity diagram][image]{width=60%}
+Lore ipsum @fig:label
 
 
+
+![Build and test activity diagram](Images/BuildAndTest.png){width=60 #fig:Buildtest}
 
 #### Publish and release
 
@@ -145,9 +149,11 @@ Follow this link: [github.com/ITU-BDSA23-GROUP4](https://github.com/ITU-BDSA23-G
 copy the url and run the following command in your terminal where you want to clone the repository to.
 <br>
 
-```bash
+~~~
+
 git clone https://github.com/ITU-BDSA23-GROUP4/Chirp.git
-```
+
+~~~
 
 ## 2. Running and installing migrations
 naviate to the root folder of the program, run the following command in your terminal.
