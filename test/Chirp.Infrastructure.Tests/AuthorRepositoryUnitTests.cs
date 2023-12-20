@@ -265,4 +265,24 @@ public class AuthorRepositoryUnitTests
         AuthorDTO author = await repository.GetAuthorByName("TestName4");
         author.Name.Should().BeEquivalentTo(testAuthor.Name);
     }
+
+    [Fact]
+    public async void UnitTestDoesAuthorExistTrue()
+    {
+        // Act
+        bool result = await repository.DoesAuthorExist("TestEmail");
+
+        // Assert
+        result.Should().BeTrue();
+    }
+
+    [Fact]
+    public async void UnitTestDoesAuthorExistFalse()
+    {
+        //Act
+        bool result = await repository.DoesAuthorExist("TestEmailWrong");
+
+        //Assert
+        result.Should().BeFalse();
+    }
 }
