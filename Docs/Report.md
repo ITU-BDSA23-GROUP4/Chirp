@@ -233,8 +233,6 @@ navigate to *src\Chirp.Razor* and run the following command
 dotnet run
 ```
 
-
-## How to run test suite locally
 # How to run test locally
 The test suite of Chirp consists of 3 test folders each targeting their own part of the application, Infrastructure, Razor and playwright tests. All the tests are found in *Chirp/test/*
 
