@@ -23,35 +23,6 @@ public class CheepRepository : ICheepRepository
         _db = db;
     }
 
-    public async Task AddCheep(Guid authorId, string text)
-    {
-        try
-        {    
-            int TLength = text.Length; //Sets a scalable length that we can use for if statement
-            var author = GetAuthorById(authorId);
-            if (TLength <= 160 && TLength > 0 && author != null)
-            {
-                _db.Add(new Cheep
-                {
-                    CheepId = Guid.NewGuid(),
-                    Author = author,
-                    Text = text,
-                    Likes = 0,
-                    TimeStamp = DateTime.Now
-                });
-            }
-            else
-            {
-                throw new ArgumentException("Message is above 160 characters or empty");
-            }
-            await _db.SaveChangesAsync();
-        }
-        catch (Exception)
-        {
-            throw;
-        }
-    }
-
     public async Task DeleteCheepsFromAuthor(Guid authorid){
         //Deletes all cheeps from a given author        
         var author = GetAuthorById(authorid); //Gets the author from the database

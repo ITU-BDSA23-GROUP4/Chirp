@@ -19,11 +19,6 @@ public class CheepService : ICheepService
         _authorRepository = authorRepository;
     }
 
-    public async Task AddCheep(Guid authorId, string text)
-    {
-       await _cheepRepository.AddCheep(authorId, text);
-    }
-
     public List<CheepDTO> GetCheeps(int? pageNum)
     {
         return _cheepRepository.GetCheeps(pageNum);

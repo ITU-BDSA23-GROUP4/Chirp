@@ -10,7 +10,6 @@ public interface ICheepService
 {
     List<CheepDTO> GetCheeps(int? pageNum);
     List<CheepDTO> GetCheepsFromAuthor(string author, int? pageNum);
-    Task AddCheep(Guid authorId, string text);
     Task<AuthorDTO> GetAuthorByName(string name);
     int GetCountOfAllCheepFromAuthor(string author);
     Task<AuthorDTO> GetAuthorByEmail(string email);
