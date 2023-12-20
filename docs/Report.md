@@ -165,7 +165,7 @@ git clone https://github.com/ITU-BDSA23-GROUP4/Chirp.git
 ```
 
 ## Running and installing migrations - Step 2
-naviate to the root folder of the program, run the following command in your terminal.
+navigate to the root folder of the program, run the following command in your terminal.
 ```bash
 --global dotnet-ef
 ```
