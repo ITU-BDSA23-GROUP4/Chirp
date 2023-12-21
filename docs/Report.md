@@ -176,6 +176,7 @@ Another more simple *"issue-creation-flow"* was also used. If a developer found 
 prerequisites:
 1. [download .NET](https://dotnet.microsoft.com/en-us/download)
 2. IDE of your choice
+3. [Install Docker](https://www.docker.com/products/docker-desktop/)
 
 
 ## 1. Clone the repository
