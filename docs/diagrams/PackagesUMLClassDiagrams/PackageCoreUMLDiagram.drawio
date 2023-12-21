@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram id="C7YrkhICm45DaJ5SDR4q" name="Page-1">
-        <mxGraphModel dx="766" dy="727" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" background="#ffffff" math="0" shadow="0">
+        <mxGraphModel dx="524" dy="618" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" background="#ffffff" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -13,13 +13,13 @@
                 <mxCell id="3" value="&lt;font color=&quot;#030303&quot;&gt;CheepDTO&lt;/font&gt;" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;strokeColor=#000000;fillColor=none;" parent="1" vertex="1">
                     <mxGeometry x="1041" y="254" width="160" height="108" as="geometry"/>
                 </mxCell>
-                <mxCell id="4" value="&lt;font color=&quot;#0d0d0d&quot;&gt;+ guid CheepId&lt;br&gt;+ string AuthorName&lt;br&gt;+ int Likes&lt;br&gt;+ string Message&lt;br&gt;+ Datetime Timestamp&lt;/font&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="3" vertex="1">
+                <mxCell id="4" value="&lt;font color=&quot;#0d0d0d&quot;&gt;+ CheepId : Guid&lt;br&gt;+ AuthorName : string&lt;br&gt;+ Likes : int&lt;br&gt;+ Message : string&lt;br&gt;+ TimeStamp :&amp;nbsp;&lt;/font&gt;&lt;span style=&quot;color: rgb(13, 13, 13);&quot;&gt;DateTime&lt;/span&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="3" vertex="1">
                     <mxGeometry y="26" width="160" height="82" as="geometry"/>
                 </mxCell>
                 <mxCell id="5" value="&lt;font color=&quot;#0d0d0d&quot;&gt;AuthorDTO&lt;/font&gt;" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;fillColor=none;strokeWidth=1;strokeColor=#030303;" parent="1" vertex="1">
                     <mxGeometry x="1031" y="410" width="180" height="121" as="geometry"/>
                 </mxCell>
-                <mxCell id="6" value="&lt;font color=&quot;#0d0d0d&quot;&gt;+ guid AuthorID&lt;br&gt;+ string Name&lt;br&gt;+ string Email&lt;br&gt;+ List &amp;lt;CheepDTO&amp;gt; Cheeps&lt;br&gt;+ List &amp;lt;AuthorDTO&amp;gt; Followed&lt;br&gt;+ List &amp;lt;AuthorDTO&amp;gt; Followers&lt;br&gt;&lt;/font&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="5" vertex="1">
+                <mxCell id="6" value="&lt;font color=&quot;#0d0d0d&quot;&gt;+ AuthorID : Guid&lt;br&gt;+ Name : string&lt;br&gt;+ Email : string&lt;br&gt;+ Cheeps :&amp;nbsp;&lt;/font&gt;&lt;span style=&quot;color: rgb(13, 13, 13);&quot;&gt;List&amp;lt;CheepDTO&amp;gt;&lt;/span&gt;&lt;font color=&quot;#0d0d0d&quot;&gt;&lt;br&gt;+ Followed :&amp;nbsp;&lt;/font&gt;&lt;span style=&quot;color: rgb(13, 13, 13);&quot;&gt;List&amp;lt;AuthorDTO&amp;gt;&lt;/span&gt;&lt;font color=&quot;#0d0d0d&quot;&gt;&lt;br&gt;+ Followers :&amp;nbsp;&lt;/font&gt;&lt;span style=&quot;color: rgb(13, 13, 13);&quot;&gt;List&amp;lt;AuthorDTO&amp;gt;&lt;/span&gt;&lt;font color=&quot;#0d0d0d&quot;&gt;&lt;br&gt;&lt;/font&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="5" vertex="1">
                     <mxGeometry y="26" width="180" height="95" as="geometry"/>
                 </mxCell>
                 <mxCell id="7" value="&lt;font color=&quot;#000000&quot;&gt;CheepDTO*&lt;/font&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
@@ -28,7 +28,7 @@
                 <mxCell id="8" value="&lt;font color=&quot;#000000&quot;&gt;CheepCreateDTO&lt;/font&gt;" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;strokeColor=#000000;fillColor=none;" parent="1" vertex="1">
                     <mxGeometry x="1397" y="346" width="160" height="70" as="geometry"/>
                 </mxCell>
-                <mxCell id="9" value="&lt;font color=&quot;#000000&quot;&gt;+ Author string&lt;br&gt;+ Text string&lt;/font&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="8" vertex="1">
+                <mxCell id="9" value="&lt;font color=&quot;#000000&quot;&gt;+ Author : string&lt;br&gt;+ Text : string&lt;/font&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="8" vertex="1">
                     <mxGeometry y="26" width="160" height="44" as="geometry"/>
                 </mxCell>
                 <mxCell id="10" value="&lt;font color=&quot;#0d0d0d&quot; style=&quot;font-size: 19px;&quot;&gt;Chirp.Core&lt;/font&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">

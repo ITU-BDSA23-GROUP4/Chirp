@@ -173,7 +173,7 @@ namespace Chirp.Infrastructure
         }
 
         // Helper method: Retrieves all cheeps related to the given author from the db.
-        private  static List<CheepDTO> GetAllCheepsFromAuthor(string Name, ChirpDBContext _dbcontext)
+        private static List<CheepDTO> GetAllCheepsFromAuthor(string Name, ChirpDBContext _dbcontext)
         {
             List<CheepDTO> cheepsToReturn = new List<CheepDTO>();
             try
@@ -197,11 +197,11 @@ namespace Chirp.Infrastructure
         }
 
         // Helper method: Retrieves all followed authors from the AuthorAuthor entity in the db.
-        private static List<AuthorDTO> GetAllFollowedAuthor(Guid AuthorId, ChirpDBContext DBcontext)
+        private static List<AuthorDTO> GetAllFollowedAuthor(Guid AuthorId, ChirpDBContext _dbcontext)
         {
             List<AuthorDTO> followed = new List<AuthorDTO>();
 
-            var Author = DBcontext.Authors.Where(a => a.AuthorId == AuthorId)
+            var Author = _dbcontext.Authors.Where(a => a.AuthorId == AuthorId)
                 .Include(a => a.Followed)
                 .FirstOrDefault();
 
