@@ -165,6 +165,11 @@ This section will describe what features and implementation weren't completed an
 <br>
 This figure shows the Project board of Chirp on the day of the hand-in. We have four issues that haven't been implemented before the deadline. All four issues are under the Todo section. None of them are in the project requirements. That is to say, they were formulated under the *Wildstyle* development section. They were, adding tags to cheeps, being able to cheep a meme, trending cheeps and a re-cheep feature. As can be seen from the project board the re-cheep feature had an assigned developer but wasn't completed in time as other requirements had to be met. One *Wildstyle* feature was implemented a like button on the Cheeps. The like implementation is although quite simple. A user can't see which cheep they've liked and they can like, a Cheep infinitely many times.
 
+Three issues regarding the old retired Chirp CLI application is closed, but not implemented. The issues can be seen in the far right column, and is:
+- Adding automatic deployment from GitHub to the host service containing the web api.
+- Changing the application to use the database on the web service instead of the local hosted database
+- Ensuring that the test coverage are adequate after refactoring our wep api
+
 ## Issue creation
 ![Fig.XX Flow of issues](Images/teamwork.png){width=60%}
 <br>
