@@ -236,13 +236,17 @@ To get there go to "Containers" and click on your container.<br/>
 
 ![Docker Exec](https://github.com/ITU-BDSA23-GROUP4/Chirp/assets/143702901/797cb7e5-e011-4afc-8d0b-3aa77a429983){width=75% #fig:DockerExec}
 
-Her you can run bash commands on your container and look around the container.<br/>
-We are here to use the MsSQL tool to make a database on this container. To do this we run this ```/opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P Admin123``` (the ```-U``` is the user in our case we will just use SA which is System Admin and ```-P``` is the password for SA) this will gain access to the MsSQL tool. Here we can run SQL commands. Bare in mind that this is a diffrent tool the usual and have different commands.<br/>
-The last part is to add the docker connectionstring to the user secrets. Navigate to src/Chirp.Razor and run command 
+Here you can run bash commands on your container and look around the container.<br/>
+We are here to use the MsSQL tool to make a database on this container. To do this we run this ```/opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P Admin123``` (the ```-U``` is the user in our case we will just use SA which is System Admin and ```-P``` is the password for SA) this will gain access to the MsSQL tool. Here we can run SQL commands. Bare in mind that this is a different tool the usual and have different commands.<br/>
+The last part is to add the docker connectionstring to the user secrets. Navigate to src/Chirp.Razor and run this command. **Attention:** the line below is one continuous line and should be written like that, although the space between the ChirpDB" and "Server=localhost has to be there.
 
 ```bash
-dotnet user-secrets set "ConnectionStrings:ChirpDB" "Server=localhost,1433;Database=ChirpDB;User=SA;Password=Admin123;TrustServerCertificate=True;MultipleActiveResultSets=True;"
+dotnet user-secrets set "ConnectionStrings:ChirpDB" 
+"Server=localhost,1433;Database=ChirpDB;User=SA;
+Password=Admin123;TrustServerCertificate=True;
+MultipleActiveResultSets=True;"
 ```
+
 
 You can also give your docker container another name if you want to.
 
