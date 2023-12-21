@@ -93,13 +93,13 @@ The database sends the 32 cheeps to the repository. Which inserts each cheep int
     <figcaption style="  font-size:11px"><b>Fig. SQD1 - Sequence diagram for an unauthorized user </b></figcaption>
 </figure>
 
-Figure SQD2. Show a known actor accessing our site, logging in and sending a Cheep. The first Get request is the same as seen in Fig SQD1. It deviates during the authentication step as the actor presses the login link. As they log in, Microsoft Identity redirects them to Azure OIDC. Which then redirect to GitHub. 
+Figure SQD2. Shows a known actor accessing our site, logging in and sending a Cheep. The first Get request is the same as seen in Fig SQD1. It deviates during the authentication step as the actor presses the login link. As the actor logs in, Microsoft Identity redirects them to Azure OIDC. Which then redirects to GitHub. 
 
-After the actor has logged in, GitHub sends a token back to being logged on Azure. Their token is in the URL. With it confirmed, the Razor page HTML Will change. 
+After the actor has logged in, GitHub sends a token back to be checked by Azure. The token is in the URL. With it confirmed, the Razor page HTML Will change. 
 
-Then the authorized user fills out the desired cheep and Chirps it. When that happens, Chirp.Razor constructs a CheepDTO and sends it through the core, where it is validated and sent to the repository. Afterwards it is committed to the database granted that Validation confirms. 
+Then the authorized user fills out the desired cheep and Chirps it. When that happens, Chirp.Razor constructs a CheepDTO and sends it through the core, where it is validated and sent to the repository. Afterwards it is committed to the database granted that the validation confirms. 
 
-Then, confirmation of success is sent back until the razorpage redirects to itself to reload. 
+Then, confirmation of success is sent back, at which point the razorpage redirects to itself to reload the content. 
 <figure align = "center">
     <img title="Sequence Diagram Authorized" style="width:30%" alt="Alt text" src="Images\SequenceDiagramAuthorized.svg">
     <figcaption style="  font-size:11px"><b>Fig. SQD2 - Sequence diagram for an unauthorized user </b></figcaption>
@@ -115,7 +115,9 @@ Then, confirmation of success is sent back until the razorpage redirects to itse
 <!-- Describe briefly the illustration, i.e., how you application is built, tested, released, and deployed. -->
 ### GitHub workflows
 
-To ensure the flow of the project, we use a tool developed by GitHub known as. GitHub Action, otherwise known as workflow. This will also entail when the workflows are activated and used.
+To ensure the flow of the project, we use a tool developed by GitHub known as. GitHub Action, otherwise known as workflow. 
+<!-- I do not understand this sentence, what is entailed exactly? - Lukas -->
+This will also entail when the workflows are activated and used.
 
 #### Build and Test
 
