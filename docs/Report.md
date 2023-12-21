@@ -48,7 +48,7 @@ We chose to be sure that the user wouldn't come back complaining that their user
 This was also the easier approach since we could delete everything that contained that user's id or name, instead of altering everything.
 The implementation chosen also allowed us to let some of the data in the database, be deleted through cascading, instead of having to write logic for it.
 
-The method IncreaseLikeAttribute in the CheepRepository, which can be seen in the diagram [@fig:InfrastructureUML], reveals that like is an attribute on the Cheep entity since its only parameters are a Cheep id and not an author id. This is the simplest implementation of the feature, we could come up with. We have chosen to use this implementation due to the overall time constraint of the project. It has the impact, that it is not possible to see or retrieve data from the database, about who has liked a cheep. It is possible for each author to look multiple times. It is not possible to regret a like in the current state of the application, although a dislike method could be implemented.
+The method IncreaseLikeAttribute in the CheepRgeepository, which can be seen in the diagram [@fig:InfrastructureUML], reveals that like is an attribute on the Cheep entity since its only parameters are a Cheep id and not an author id. This is the simplest implementation of the feature, we could come up with. We have chosen to use this implementation due to the overall time constraint of the project. It has the impact, that it is not possible to see or retrieve data from the database, about who has liked a cheep. It is possible for each author to look multiple times. It is not possible to regret a like in the current state of the application, although a dislike method could be implemented.
 <br>
 
 ![UML Class Core](Images/PackageCoreUMLDiagram.png){width=70% #fig:CoreUML}
@@ -120,7 +120,7 @@ Then, confirmation of success is sent back, at which point the razorpage redirec
 To ensure the flow of the project, we use a tool developed by GitHub known as. GitHub Action, otherwise known as a workflow. This will also include when the workflows are activated and used.
 
 #### Build and Test
-
+<br>
 The build and test workflow can be found on [@fig:Buildtest]. The activity diagram shows how GitHub ensures what is merged into main does not damage it. 
 
 
@@ -131,13 +131,14 @@ the branch from merging into main.
 ![Build and test activity diagram](Images/BuildAndTestSmall.png){width=60% #fig:Buildtest}
 
 #### Publish and release
-
+<br>
 This workflow is made to automate the creation of a GitHub release when a tag is added, see [@fig:PublishRelease]. It will create a release of the tag. But first, the workflow in succession builds a version for Windows, MacOS and Linux. After that, it will zip the files and add them to the release if a release was made.
 
 
 ![Publish New Release Activity diagram](Images/PublishNewReleaseSmall.png){width=75% #fig:PublishRelease}
 
 #### Build and deploy
+<br>
 This workflow can be seen on [@fig:BuildDeploy]. The workflow is made so it will build the program and run the "publish" command to build a version for Linux to be run on the Azure web app. After the publish command, it uploads the artefacts so the next job can use the files of the artefacts. The deploy job will download the artefacts and use their files to deploy to our Azure web app.
 
 
