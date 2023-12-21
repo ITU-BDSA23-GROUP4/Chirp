@@ -121,7 +121,7 @@ This will also entail when the workflows are activated and used.
 
 #### Build and Test
 
-The build and test workflow can be found in . The activity diagram shows how GitHub ensures what is merged into main. This workflow is run on a pull request every time a commit is made to the branch in the pull request. This is to ensure that main will still work by building the project with dotnet and tests made for the project.
+The build and test workflow can be found in <!-- in what? -->. The activity diagram shows how GitHub ensures what is merged into main. This workflow is run on a pull request every time a commit is made to the branch in the pull request. This is to ensure that main will still work by building the project with dotnet and tests made for the project.
  Because it runs the tests as well, it ensures that any incoming changes do not affect the functionality. If anything fails, it will stop and prevent the branch from merging into main.
 <figure>
    <center> <img src="Images/BuildAndTestSmall.png"
