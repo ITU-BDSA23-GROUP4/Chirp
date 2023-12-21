@@ -83,7 +83,7 @@ Chirp is a client-server application hosted on the Azure app service as a Web Ap
 For each user activity bellow, there's a headline describing their scenario. There's one activity diagram which shows the application for a non-authorized user. Since most of our features requires the user to be logged in we had no need to show more. This diagram shows what the user can see as their only available page, the public page, with no additional features like a cheepbox or the possibility of following/unfollowing. They can show a specific page of the author for a cheep if they press their name. 
 
 If a user is logged in, there's a few possible user activities as shown bellow. These diagrams show what the user experiences when following or unfollowing, how the user can see who they're following and vice versa, how they write and share a new cheep, how to delete their information and what happens upon login and logout.
-If a new user wants register they will need to login with github. Since this will redirect from our own razor pages, this hasn't been included in the activity diagrams.
+If a new user wants to register they will need to login with github. Since this will redirect them from our own razor pages, this hasn't been included in the activity diagrams.
 
 ![ActivityDiagramArchitecture](Images/ActivityDiagramArchitecture1.png)
 
@@ -95,17 +95,17 @@ The userpage will show more detailed information than who's following you, the u
 Most of these diagrams are not very detailed, to see more detail of the application you can run it with the help of our guide (How to make _Chirp!_ work locally). There you will see the interface as well as our applications behavior. 
 
 ## Sequence diagram
-In [@fig:SQD1]. A sequence diagram of an unauthorized actor. Hereafter, referred to as UA, accessing our project. It shows the UA sending the HTTP Get request to receive the website. After the initial request, the Chirp.Razor starts to build the HTML. Here, an asynchronous object creation message is sent through the interface in the core and onto the repository.The repository returns the same static content for all actors sending this request. Using Linq, the repository queries the SQL database for the 32 most recent cheeps. 
+In [@fig:SQD1]. A sequence diagram of an unauthorized actor. Hereafter, referred to as UA, accessing our project. It shows the UA sending the HTTP Get request to receive the website. After the initial request, the Chirp.Razor starts to build the HTML. Here, an asynchronous object creation message is sent through the interface in the core and onto the repository. The repository returns the same static content for all actors sending this request. Using Linq, the repository queries the SQL database for the 32 most recent cheeps. 
 
-The database sends the 32 cheeps to the repository. Which inserts each cheep into a CheepDTO before returning a list of 32 CheepDTOs. This list is sent back through the system, shown in [@fig:SQD1]. Arriving in Chirp.Razor. It is weaved into the HTML, checking the if the user is Authorized. Before the page is returned to the UA. 
+The database sends the 32 cheeps to the repository. Which inserts each cheep into a CheepDTO before returning a list of 32 CheepDTOs. This list is sent back through the system, shown in [@fig:SQD1]. Arriving in Chirp.Razor. It is weaved into the HTML, checking if the user is Authorized. Before the page is returned to the UA. 
 
 ![Sequence Diagram Unauthorized](Images/SequenceDiagramUnauthorized.png){width=70% #fig:SQD1}
 
-[@fig:SQD2] show a known actor accessing our site, logging in and sending a Cheep. The first Get request is the same as seen in [@fig:SQD1]. It deviates during the authentication step as the actor presses the login link. As the actor logs log in, Microsoft Identity redirects them to Azure OIDC. Which then redirect to GitHub. 
+[@fig:SQD2] show a known actor accessing our site, logging in and sending a Cheep. The first Get request is the same as seen in [@fig:SQD1]. It deviates during the authentication step as the actor presses the login link. As the actor logs log in, Microsoft Identity redirects them to Azure OIDC., which then redirect to GitHub. 
 
-After the actor has logged in, GitHub sends a token back to be checked by Azure. The token is in the URL. With it confirmed, the Razor page HTML Will change. 
+After the actor has logged in, GitHub sends a token back to be checked by Azure. The token is in the URL. With it confirmed, the Razor page HTML will change. 
 
-Then the authorized user fills out the desired cheep and Chirps it. When that happens, Chirp.Razor constructs a CheepDTO and sends it through the core, where it is validated and sent to the repository. Afterwards it is committed to the database granted tha validation confirms. 
+Then the authorized user fills out the desired cheep and Chirps it (posts it). When that happens, Chirp.Razor constructs a CheepDTO and sends it through the core, where it is validated and sent to the repository. Afterwards it is committed to the database granted that the validation confirms. 
 
 Then, confirmation of success is sent back, at which point the razorpage redirects to itself to reload the content. 
 
@@ -123,7 +123,7 @@ To ensure the flow of the project, we use a tool developed by GitHub known as. G
 
 #### Build and Test
 
-The build and test workflow can be found on [@fig:Buildtest]. The activity diagram shows how GitHub ensures what is merged into main does not damage it. 
+The build and test workflow can be found on [@fig:Buildtest]. The activity diagram shows how GitHub ensures that what is merged into main does not damage it. 
 
 
 This workflow is run on a pull request every time a commit is made to the branch belonging to the pull request. 
@@ -150,7 +150,7 @@ This workflow can be seen on [@fig:BuildDeploy]. The workflow is made so it will
 <!-- We start by testing that what we want it to will work, and then we challenge it, by giving it some input that should throw validation exceptions. When we know both of these will pass, we can then move onto the workflows.  -->
 
 
-Before committing anything and thus starting the suitable workflow, we test locally with the `dotnet test` command. There is an activity diagram showing this. Tests are implemented with the logic of expected functionality in mind. Testing that the method in question works as expected. It should react as expected, both with harmless and malicious inputs.
+Before committing anything and thus starting the suitable workflow, we test locally with the `dotnet test` command. There is an activity diagram showing this. Tests are implemented with the logic of expected functionality in mind, testing that the method in question works as expected. It should react as expected, both with harmless and malicious inputs.
 
 For example, the tests for the method Create(CreateCheepDTO) can be examined. They can be found in the infrastructure tests for the tests for Cheap Repository. First, we test that it works as intended with the intended input. After this, we challenge it in the test by giving it the wrong input and testing if validation exceptions are thrown.  
 
@@ -222,7 +222,7 @@ dotnet ef database update
 To setup the Docker container for development on your own pc you need to run the following command:
 ```docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=Admin123" -p 1433:1433 --name chirpdb --hostname chirpdb -d mcr.microsoft.com/mssql/server:2022-latest```
 <br />
-After this the Container should have been created and a new Image can be seen in your Docker Desktop app. With the new lines of code in Program.cs it should create the database on the container. We can all just use the same command since the connectionstring is already made for this password. hostname and port.
+After this the Container should have been created and a new Image can be seen in your Docker Desktop app. With the new lines of code in Program.cs it should create the database on the container. We can all just use the same command since the connectionstring is already made for this password, hostname and port.
 
 ### Setup Database on docker 
 The last step is to create the database on the docker server. To do this you are to navigate to the ```Exec``` on your new server. <br/>
