@@ -17,7 +17,8 @@ Provide an illustration of your domain model. Make sure that it is correct and c
 <!-- ![Illustration of the _Chirp!_ data model as UML class diagram.](Images/domain_model.png) -->
 
 ## Architecture — In the small
-In the Onion Architecture diagram bellow you'll see our applications. In the centre we have our core package. This is the lowest layer of the application. Then we move outwards for the layers with a larger impact, and end with our SQL-Server and razor pages, which interacts with our Azure application. 
+In the Onion Architecture diagram bellow you'll see our applications. In the centre we have our core package. This is the lowest layer of the application, contains no dependencies and is not likely to change. As we move outwards through the layers the layeris get more specific, is dependent on the earlier layers and is more likely to change. 
+At the most outer layer we end with our SQL-Server and razor pages, which interacts with our Azure application as external elements. 
 <br>
 
 <figure align = "center">
