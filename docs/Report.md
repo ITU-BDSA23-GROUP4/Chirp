@@ -54,26 +54,26 @@ The method IncreaseLikeAttribute in the CheepRepository, which can be seen in th
 
 ![UML Class Core](Images/PackageCoreUMLDiagram.png){width=60% #fig:CoreUML}
 
-![UML Class Infrastructure](Images/PackageInfrastructureUMLDiagram.png ){width=60% #fig:InfrastructureUML}
+![UML Class Infrastructure](Images/PackageInfrastructureUMLDiagram.png ){width=75% #fig:InfrastructureUML}
 
 ![UML Class Razor](Images/PackageRazorUMLDiagrams.png){width=60% #fig:RazorUML}
 
 ![UML Class Pages](Images/PackagePagesUMLDiagram.png){width=60% #fig:PagesUML}
 
 The Onion Architecture (otherwise known as Clean Architecture), is great for having low coupling and high cohesion. When looking at the UML in the more specified onion diagram bellow, there is no unnecessary communication between scripts. 
-Having low coupling increasethe readability and maintainability of the program. Since there are less dependencies to take into account, even though some of the repositories contain a fair amount of methods.
+Having low coupling increase the readability and maintainability of the program. Since there are less dependencies to take into account, even though some of the repositories contain a fair amount of methods.
 When moving outward you'll see the packages only use entities further in or in the same layer.
 
 It is worth mentioning that the only way of interacting with the repositories is through their interfaces, which is an important factor in making sure the application has low coupling. The same goes for the CheepService, since every class that needs to access it uses information from the interface, and that interface uses from the other interfaces. 
 
 
-![OnionClassDiagram](Images/OnionClassDiagram.png){width=60% #fig:OnionClassDiagram}
+![OnionClassDiagram](Images/OnionClassDiagram.png){width=75% #fig:OnionClassDiagram}
 
 ## Architecture of deployed application
 In [@fig:Deployment] a deployment diagram can be seen of our Chirp application.
 
 
-![Deployment diagram](Images/DeploymentDiagram.png){width=60% #fig:Deployment}
+![Deployment diagram](Images/DeploymentDiagram.png){width=75% #fig:Deployment}
 
 
 Chirp is a client-server application hosted on the Azure app service as a Web App. The web app is connected to an Azure SQL server where the database can be found. Furthermore the application makes use of an Azure AD B2C tenant for user-authentication. Each node and its means of communication are represented in the diagram. 
@@ -100,7 +100,7 @@ In [@fig:SQD1]. A sequence diagram of an unauthorized actor. Hereafter, referred
 
 The database sends the 32 cheeps to the repository. Which inserts each cheep into a CheepDTO before returning a list of 32 CheepDTOs. This list is sent back through the system, shown in [@fig:SQD1]. Arriving in Chirp.Razor. It is weaved into the HTML, checking the if the user is Authorized. Before the page is returned to the UA. 
 
-![Sequence Diagram Unauthorized](Images/SequenceDiagramUnauthorized.png){width=60% #fig:SQD1}
+![Sequence Diagram Unauthorized](Images/SequenceDiagramUnauthorized.png){width=70% #fig:SQD1}
 
 [@fig:SQD2] show a known actor accessing our site, logging in and sending a Cheep. The first Get request is the same as seen in [@fig:SQD1]. It deviates during the authentication step as the actor presses the login link. As the actor logs log in, Microsoft Identity redirects them to Azure OIDC. Which then redirect to GitHub. 
 
@@ -110,7 +110,7 @@ Then the authorized user fills out the desired cheep and Chirps it. When that ha
 
 Then, confirmation of success is sent back, at which point the razorpage redirects to itself to reload the content. 
 
-![Sequence Diagram Authorized](Images/SequenceDiagramAuthorized.png){width=60% #fig:SQD2}
+![Sequence Diagram Authorized](Images/SequenceDiagramAuthorized.png){width=70% #fig:SQD2}
 
 # Process
 ## Build, test, release, and deployment
@@ -138,7 +138,7 @@ the branch from merging into main.
 This workflow is made to automate the creation of a GitHub release when a tag is added, see [@fig:PublishRelease]. It will create a release of the tag. But first, the workflow in succession builds a version for Windows, MacOS and Linux. After that, it will zip the files and add them to the release if a release was made.
 
 
-![Publish New Release Activity diagram](Images/PublishNewReleaseSmall.png){width=60% #fig:PublishRelease}
+![Publish New Release Activity diagram](Images/PublishNewReleaseSmall.png){width=75% #fig:PublishRelease}
 
 #### Build and deploy
 This workflow can be seen on [@fig:BuildDeploy]. The workflow is made so it will build the program and run the "publish" command to build a version for Linux to be run on the Azure web app. After the publish command, it uploads the artefacts so the next job can use the files of the artefacts. The deploy job will download the artefacts and use their files to deploy to our Azure web app.
@@ -160,7 +160,7 @@ This section will describe what features and implementation weren't completed an
 
 ## Project Board
 
-![Project Board](Images/ProjectBoard.png){width=60%}
+![Project Board](Images/ProjectBoard.png){width=75%}
 
 
 This figure shows the Project board of Chirp on the day of the hand-in. We have four issues that haven't been implemented before the deadline. All four issues are under the Todo section. None of them are in the project requirements. That is to say, they were formulated under the *Wildstyle* development section. They were, adding tags to cheeps, being able to cheep a meme, trending cheeps and a re-cheep feature. As can be seen from the project board the re-cheep feature had an assigned developer but wasn't completed in time as other requirements had to be met. One *Wildstyle* feature was implemented a like button on the Cheeps. Although the like implementation is missing some functionality. A user can't see which cheep they've liked and they can like, a Cheep infinitely many times.
@@ -230,11 +230,11 @@ To get there go to "Containers" and click on your container.<br/>
 2. Open your Container ours is "chirpdb"
 
 
-![Docker Container](https://github.com/ITU-BDSA23-GROUP4/Chirp/assets/143702901/83f988d8-291e-4af1-81df-2d21e834efab){width=50% #fig:DockerContain}
+![Docker Container](https://github.com/ITU-BDSA23-GROUP4/Chirp/assets/143702901/83f988d8-291e-4af1-81df-2d21e834efab){width=75% #fig:DockerContain}
 
 3. Open ```Exec```
 
-![Docker Exec](https://github.com/ITU-BDSA23-GROUP4/Chirp/assets/143702901/797cb7e5-e011-4afc-8d0b-3aa77a429983){width=50% #fig:DockerExec}
+![Docker Exec](https://github.com/ITU-BDSA23-GROUP4/Chirp/assets/143702901/797cb7e5-e011-4afc-8d0b-3aa77a429983){width=75% #fig:DockerExec}
 
 Her you can run bash commands on your container and look around the container.<br/>
 We are here to use the MsSQL tool to make a database on this container. To do this we run this ```/opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P Admin123``` (the ```-U``` is the user in our case we will just use SA which is System Admin and ```-P``` is the password for SA) this will gain access to the MsSQL tool. Here we can run SQL commands. Bare in mind that this is a diffrent tool the usual and have different commands.<br/>
