@@ -59,7 +59,7 @@ The method IncreaseLikeAttribute in the CheepRepository, which can be seen in th
 
 ![UML Class Pages](Images/PackagePagesUMLDiagram.png){width=60% #fig:PagesUML}
 
-The Onion Architecture (otherwise known as Clean Architecture), is great for having low coupling and high cohesion. When looking at the UML in the more specified onion diagram bellow, there is no unnecessary communication between scripts. 
+The Onion Architecture (otherwise known as Clean Architecture), is great for having low coupling and high cohesion. When looking at the UML in the more specified onion diagram bellow, there is no unnecessary communication between classes. 
 Having low coupling increase the readability and maintainability of the program. Since there are less dependencies to take into account, even though some of the repositories contain a fair amount of methods.
 When moving outward you'll see the packages only use entities further in or in the same layer.
 
@@ -82,7 +82,7 @@ Chirp is a client-server application hosted on the Azure app service as a Web Ap
 ## User activities
 For each user activity bellow, there's a headline describing their scenario. There's one activity diagram which shows the application for a non-authorized user. Since most of our features requires the user to be logged in we had no need to show more. This diagram shows what the user can see as their only available page, the public page, with no additional features like a cheepbox or the possibility of following/unfollowing. They can show a specific page of the author for a cheep if they press their name. 
 
-If a user is logged in, there's a few possible user activities as shown bellow. These diagrams show what the user can experience when following or unfollowing, how the user can see who they're following and vice versa, how they write and share a new cheep, how to delete their information and what happens upon login and logout.
+If a user is logged in, there's a few possible user activities as shown bellow. These diagrams show what the user experiences when following or unfollowing, how the user can see who they're following and vice versa, how they write and share a new cheep, how to delete their information and what happens upon login and logout.
 If a new user wants register they will need to login with github. Since this will redirect from our own razor pages, this hasn't been included in the activity diagrams.
 
 ![ActivityDiagramArchitecture](Images/ActivityDiagramArchitecture1.png)
