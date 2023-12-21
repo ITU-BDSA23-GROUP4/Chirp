@@ -182,7 +182,7 @@ Whenever a sizable pull request was made. We had an internal understanding that 
 Another more simple *"issue-creation-flow"* was also used. If a developer found a bug within the application or other small adjustments were made. An issue was created. This created good documentation for the other developers so all group members could understand why a pull request was made.
 
 # How to make Chirp! work locally
-prerequisites:
+Prerequisites:
 
 1. [download .NET](https://dotnet.microsoft.com/en-us/download)
 
@@ -206,7 +206,7 @@ Navigate to the root folder of the program, run the following command in your te
 ```bash
 --global dotnet-ef
 ```
-naviagte to *Chirp/src/Chirp.Infrastructure*
+navigate to *Chirp/src/Chirp.Infrastructure*
 <br> Delete all migrations file if they exists
 <br>
 
