@@ -219,13 +219,13 @@ dotnet ef migrations add InitialCreate
 dotnet ef database update
 ```
 ## Setting up docker - Step 3 {#sec:dockerguide} 
-To setup the Docker container for development on own pc you need to run the following command:
+To setup the Docker container for development on your own pc you need to run the following command:
 ```docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=Admin123" -p 1433:1433 --name chirpdb --hostname chirpdb -d mcr.microsoft.com/mssql/server:2022-latest```
 <br />
 After this the Container should have been created and a new Image can be seen in your Docker Desktop app. With the new lines of code in Program.cs it should create the database on the container. We can all just use the same command since the connectionstring is already made for this password. hostname and port.
 
 ### Setup Database on docker 
-The last step is to create the database on the docker server to do this you are to navigate to the ```Exec``` on your new server. <br/>
+The last step is to create the database on the docker server. To do this you are to navigate to the ```Exec``` on your new server. <br/>
 To get there go to "Containers" and click on your container.<br/>
 
 1. Go to the "Containers"
@@ -254,7 +254,7 @@ You can also give your docker container another name if you want to.
 
 
 ## Running the program - Step 4
-navigate to *src\\Chirp.Razor* and run the following command
+Navigate to *src\\Chirp.Razor* and run the following command
 ```bash
 dotnet run
 ```
@@ -281,7 +281,7 @@ if (_connection != null)  //Takes care of the null exception
 }
 context.Database.EnsureCreated();
 ```
-### what is tested
+### What is tested
 - AuthorRepositoryUnitTests
 <br> This class targets our AuthorRepository. It performs unit tests for almost every method created in the repository with both correct and incorrect input. e.g. finding author by email or adding a follower.
 
@@ -289,13 +289,13 @@ context.Database.EnsureCreated();
 <br> This class targets our CheepRepository. It specifically targets the methods around the creation of Cheeps. e.g. Adding a Cheep and checking if a Cheep is not empty
 
 - CheepRepositoryUnitTests
-<br> This class targets our AuthorRepository. It performs unit tests on liking a cheep. e.g. liking increases a Cheeps total likes.
+<br> This class targets our CheepRepository. It performs unit tests on liking a cheep. e.g. liking increases a Cheeps total likes.
 
 - InMemoryDatabaseTests
 <br> This class tests if the in memory database is created correctly which is crucial for the other classes since they all rely on it.
 
 - RestrictedCheepsUnitTests
-<br> This class targets the Cheepvalidator. It performs unit tests to check if a Cheep has the correct information, such as not being empty or over 160 characters and having a valid author..
+<br> This class targets the Cheepvalidator. It performs unit tests to check if a Cheep has the correct information, such as not being empty or over 160 characters and having a valid author.
 
 
 ## Razor.Tests
@@ -344,7 +344,7 @@ ChatGPT is one of the AI's that we have used through out the project for smaller
 
 ### Github CoPilot
 
-Github CoPilot has been used through out the project to help with speeding up the process of writing code. This range from repetitive code to unit tests. This is where CoPilot shines with helping auto completion. With the recommendation that you get from CoPilot may not work since the AI can't know the full extend of the program.
+Github CoPilot has been used through out the project to help with speeding up the process of writing code. This range from repetitive code to unit tests. This is where CoPilot shines with helping auto completion. However, the recommendation that you get from CoPilot may not work since the AI can't know the full extend of the program.
 
 <!-- ChatGBT and/or CoPilot
 ChatGBT was used for small questions, or just the simple things as refactoring through the code
