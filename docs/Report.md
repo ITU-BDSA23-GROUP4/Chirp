@@ -84,7 +84,7 @@ Make sure that the illustrations are in line with the actual behavior of your ap
 
 <!-- Figugres are refered to as SQDX as in Sequence Diagram X -->
 ## Sequence diagram
-Figure SQD1 shows a sequence diagram of an unauthorized actor, from now on referred to as UA, accessing our project. It shows the UA sending the HTTP Get request to receive the webpage. After the initial request, the Chirp.Razor starts to build the HTML. Here, an asynchronous object creation message is sent through the interface in the core and onto the repository. The repository returns the same for all actors sending this request. Using Linq, the repository inquires the SQL database for the 32 most recent cheeps. 
+Figure SQD1 shows a sequence diagram of an unauthorized actor, from now on referred to as UA, accessing our project. It shows the UA sending the HTTP Get request to receive the webpage. After the initial request, the Chirp.Razor starts to build the HTML. Here, an asynchronous object creation message is sent through the interface in the core and onto the repository. The repository returns the same static content for all actors sending this request. Using Linq, the repository inquires the SQL database for the 32 most recent cheeps. 
 
 The database sends the 32 cheeps to the repository. Which inserts each cheep into a CheepDTO before returning a list of 32 CheepDTOs. This list is sent back through the system, shown in Fig SQD1. Arriving in Chirp.Razor. It is weaved into the HTML, checking the if the user is Authorized. Before the page is returned to the UA. 
 
