@@ -306,7 +306,7 @@ After following the guide cd into the Chirp.Razor.tests folder and run the follo
 dotnet test
 ```
 ### what is tested
-The razor tests consist of one class, **IntegrationTest.cs**. The class creates a local instance of our web application using the [WebApplicationFactory class](https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.mvc.testing.webapplicationfactory-1?view=aspnetcore-8.0). With this we can test that our applications ui functions as we expect before we deploy it to azure. The test include, testing 32 Cheeps per page, ordering of Cheeps by date and the functionality of dynamic buttons.
+The razor tests consist of one class, **IntegrationTest.cs**. The class creates a local instance of our web application using the [WebApplicationFactory class](https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.mvc.testing.webapplicationfactory-1?view=aspnetcore-8.0). With this we can test that our applications UI functions as we expect before we deploy it to azure. The test include testing 32 Cheeps per page, ordering of Cheeps by date and the functionality of dynamic buttons.
 
 ## Playwright.tests
 To run the test first download playwright with the following command
@@ -316,9 +316,9 @@ To run the test first download playwright with the following command
   ```
 This install various browsers and tools to run UI tests. The browser we use is chromium based.
 <br>
-if you run in to issues with the version of .net replace net7.0 in the command with the correct version
+If you run in to issues with the version of .net replace net7.0 in the command with the correct version.
 <br>
-if you don't have powerShell installed follow these instructions
+If you don't have powerShell installed follow these instructions
 [Install PowerShell](https://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell?view=powershell-7.4)
 
 After completing these steps you can run the test with: 
@@ -328,7 +328,7 @@ dotnet test
 When you run the test a chromium based browser will open and the first step tries to log in. Here the automation stops and the user has to log in through Github themselves. **No passwords are saved!** After this step is completed playwright will do the rest itself.
 
 ### what is tested
-The playwright test differs from the razor test in that it, mimics user behavior on our live website compared to the razor test which test locally. The test navigates through different pages and interacts with the website's functionality confirming that what it interacts with is as expected in the test. 
+The playwright test differs from the razor test in that it, mimics user behavior on our live website compared to the razor test which test locally. The test navigates through different pages and interacts with the website's functionality, confirming that what it interacts with, is as expected in the test. 
 
 
 # Ethics
