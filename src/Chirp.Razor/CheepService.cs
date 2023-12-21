@@ -31,13 +31,13 @@ public class CheepService : ICheepService
         return _cheepRepository.GetCheepsFromAuthor(author, pageNum);
     }
 
-    public Task<AuthorDTO> GetAuthorByName(string name)
+    public async Task<AuthorDTO> GetAuthorByName(string name)
     {
-        return _authorRepository.GetAuthorByName(name);
+        return await _authorRepository.GetAuthorByName(name);
     }
 
-    public Task<AuthorDTO> GetAuthorByEmail(string email){
-        return _authorRepository.GetAuthorByEmail(email);
+    public async Task<AuthorDTO> GetAuthorByEmail(string email){
+        return await _authorRepository.GetAuthorByEmail(email);
     }
 
     public int GetCountOfAllCheepFromAuthor(string author)

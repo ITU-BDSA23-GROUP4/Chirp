@@ -82,8 +82,6 @@ public class CheepRepository : ICheepRepository
         return GetRangeOfCheeps(pageNum, cheepsToReturn);
     }
 
-
-
     private static List<CheepDTO> GetRangeOfCheeps(int? pageNum, List<CheepDTO> cheepsToReturn) 
     {
         // Calculate starting index from the given pagenumber
@@ -256,21 +254,7 @@ public class CheepRepository : ICheepRepository
         cheepsToReturn.AddRange(AuthorCheeps);
         cheepsToReturn.AddRange(FollowedCheeps);
         
-        //OrderByDescending doesn't sort the list but returns a new sequence, therefore we need to assign it to a new list
-        var sortedCheeps = cheepsToReturn.OrderByDescending(a => a.Timestamp.Ticks).ToList();
-        int? page = (pageNum - 1) * 32;
-        
-        if (cheepsToReturn.Count < 32)
-        {
-            return sortedCheeps.GetRange(0, cheepsToReturn.Count);
-        } if (page == null)
-        {
-            return sortedCheeps.GetRange(0, 32);
-        } else
-        {
-            int endIndex = Math.Min((int)page + 32, (int)cheepsToReturn.Count);
-            return sortedCheeps.GetRange((int)page, endIndex - (int)(page));
-        }
+        return GetRangeOfCheeps(pageNum, cheepsToReturn);
     }
 
     public int GetCountOfAllCheepsFromCombinedAuthor (string AuthorName)
@@ -278,8 +262,10 @@ public class CheepRepository : ICheepRepository
         List<CheepDTO> AuthorCheeps = GetAllCheepsFromAuthor(AuthorName);
         List<CheepDTO> FollowedCheeps = GetCheepsFromFollowed(AuthorName);
         List<CheepDTO> cheepsToReturn = new List<CheepDTO>();
+
         cheepsToReturn.AddRange(AuthorCheeps);
         cheepsToReturn.AddRange(FollowedCheeps);
+        
         return cheepsToReturn.Count;
     }
 }
