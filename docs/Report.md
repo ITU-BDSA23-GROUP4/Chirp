@@ -32,12 +32,8 @@ header-includes: |
 ## Domain Model
 Provide an illustration of your domain model. Make sure that it is correct and complete. In case you are using ASP.NET Identity, make sure to illustrate that accordingly.
 
-Bellow you'll see our domain model, this shows our application as a whole. The application that we've build is what we call a Twitter-clone. It has similar features to Twitter but isn't as advanced. We had project requirements that guided our way through this project, some of them were these: implement the onion architecture, the user should be able to read cheeps, the user should be able to write a cheep, the user should be able to read their claims, the user should be able to see the cheeps only from them self and those their following, and so on. This will be made more clear further down. 
+We haven't create a whole domain model, since our application is quite detailed, but in the next section you'll se package diagrams and a detailed onion architecture diagram, which shows how our application communicates between classes. The application that we've build is what we call a Twitter-clone. It has similar features to Twitter but isn't as advanced. We had project requirements that guided our way through this project, some of them were these: implement the onion architecture, the user should be able to read cheeps, the user should be able to write a cheep, the user should be able to read their claims, the user should be able to see the cheeps only from them self and those their following, and so on. This will be made more clear further down. 
 
-The domain model shows....
-<br>
-
-![Illustration of the _Chirp!_ data model as UML class diagram.](Images/domain_model.png)
 
 ## Architecture — In the small
 In the Onion Architecture diagram seen at [@fig:OnionArchitecture] you'll see our applications. In the centre we have our core package.
