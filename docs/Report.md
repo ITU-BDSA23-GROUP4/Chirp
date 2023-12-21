@@ -48,7 +48,6 @@ We chose to be sure that the user wouldn't come back complaining that their user
 This was also the easier approach since we could delete everything that contained that user's id or name, instead of altering everything.
 The implementation chosen also allowed us to let some of the data in the database, be deleted through cascading, instead of having to write logic for it.
 
-The method IncreaseLikeAttribute in the CheepRgeepository, which can be seen in the diagram [@fig:InfrastructureUML], reveals that like is an attribute on the Cheep entity since its only parameters are a Cheep id and not an author id. This is the simplest implementation of the feature, we could come up with. We have chosen to use this implementation due to the overall time constraint of the project. It has the impact, that it is not possible to see or retrieve data from the database, about who has liked a cheep. It is possible for each author to look multiple times. It is not possible to regret a like in the current state of the application, although a dislike method could be implemented.
 <br>
 
 ![UML Class Core](Images/PackageCoreUMLDiagram.png){width=70% #fig:CoreUML}
