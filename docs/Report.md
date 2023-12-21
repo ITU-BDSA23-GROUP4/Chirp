@@ -81,9 +81,19 @@ Chirp is a client-server application hosted on the Azure app service as a Web Ap
 
 
 ## User activities
-Illustrate typical scenarios of a user journey through your Chirp! application. That is, start illustrating the first page that is presented to a non-authorized user, illustrate what a non-authorized user can do with your Chirp! application, and finally illustrate what a user can do after authentication. 
+For each user activity bellow, there's a headline describing their scenario. There's one activity diagram which shows the application for a non-authorized user. Since most of our features requires the user to be logged in we had no need to show more. This diagram shows what the user can see as their only available page, the public page, with no additional features like a cheepbox or the possibility of following/unfollowing. They can show a specific page of the author for a cheep if they press their name. 
 
-Make sure that the illustrations are in line with the actual behavior of your application.
+If a user is logged in, there's a few possible user activities as shown bellow. These diagrams show what the user can experience when following or unfollowing, how the user can see who they're following and vice versa, how they write and share a new cheep, how to delete their information and what happens upon login and logout.
+If a new user wants register they will need to login with github. Since this will redirect from our own razor pages, this hasn't been included in the activity diagrams.
+
+![ActivityDiagramArchitecture](Images/ActivityDiagramArchitecture1.png)
+
+![ActivityDiagramArchitecture](Images/ActivityDiagramArchitecture2.png)
+
+![ActivityDiagramArchitecture](Images/ActivityDiagramArchitecture3.png)
+
+The userpage will show more detailed information than who's following you, the user can find their claims (such as their email and username), they'll be able to read about how we're using their information, it's also the location of the Forget Me feature (which deletes their profile and information).
+Most of these diagrams are not very detailed, to see more detail of the application you can run it with the help of our guide (How to make _Chirp!_ work locally). There you will see the interface as well as our applications behavior. 
 
 ## Sequence diagram
 In [@fig:SQD1]. A sequence diagram of an unauthorized actor. Hereafter, referred to as UA, accessing our project. It shows the UA sending the HTTP Get request to receive the website. After the initial request, the Chirp.Razor starts to build the HTML. Here, an asynchronous object creation message is sent through the interface in the core and onto the repository.The repository returns the same static content for all actors sending this request. Using Linq, the repository queries the SQL database for the 32 most recent cheeps. 

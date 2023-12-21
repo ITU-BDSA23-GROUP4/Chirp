@@ -4,7 +4,9 @@ If a user is logged in, there's a few possible user activities as shown bellow. 
 If a new user wants register they will need to login with github. Since this will redirect from our own razor pages, this hasn't been included in the activity diagrams.
 
 ![ActivityDiagramArchitecture](Images\ActivityDiagramArchitecture1.png)
+
 ![ActivityDiagramArchitecture](Images\ActivityDiagramArchitecture2.png)
+
 ![ActivityDiagramArchitecture](Images\ActivityDiagramArchitecture3.png)
 
 The userpage will show more detailed information than who's following you, the user can find their claims (such as their email and username), they'll be able to read about how we're using their information, it's also the location of the Forget Me feature (which deletes their profile and information).
