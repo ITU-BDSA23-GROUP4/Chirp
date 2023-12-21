@@ -29,7 +29,7 @@ At the most outer layer we end with our SQL-Server and razor pages, which intera
 
 These layers can be seen more detailed in our class diagram. There is one for each package, and they show everything needed to know about our classes. We've chosen to show every package independent for more simplicity in reading the diagrams. The diagrams show each package and how the classes interact with each other. To see how they interact with the other layers, see [OnionClassDiagram](#OnionClassDiagram) further down.
 
-You will see in our repositories, that we're deleting the author at some point, this was a project requirement. We had two possibilities; delete the user in the sense that they will no longer be traceable, that is make everything anonymous and delete their information, or we had the possibility of just deleting everything that the user ever touched.  We chose to give the user full control and ownership over their content, so we deleted everything that they touched. This was also the easier approach since we could delete everything that contained that user's id or name, instead of altering everything. 
+You will see in our repositories, that we're deleting the author at some point, this was a project requirement. We had two possibilities; delete the user in the sense that they will no longer be traceable, that is make everything anonymous and delete their information, or we had the possibility of just deleting everything that the user ever created.  We chose to give the user full control and ownership over their content, so we deleted everything that they had created. This was also the easier approach since we could delete everything that contained that user's id or name, instead of altering everything. 
 <br>
 
 
