@@ -30,7 +30,7 @@ header-includes: |
 # Design and Architecture of _Chirp!_
 
 ## Domain Model
-We haven't created a whole domain model,but we've created a partitioned domain model. Since our application is quite detailed, but in the next section, you'll see package diagrams [@fig:CoreUML; @fig:InfrastructureUML; @fig:RazorUML; @fig:PagesUML] and a detailed onion architecture diagram [@fig:OnionClassDiagram], which shows how our application communicates between classes. The application is heavily inspired by social media platforms such as X(formerly Twitter)
+We haven't created a whole domain model, but we've created a partitioned domain model. Since our application is quite detailed, but in the next section, you'll see package diagrams [@fig:CoreUML; @fig:InfrastructureUML; @fig:RazorUML; @fig:PagesUML] and a detailed onion architecture diagram [@fig:OnionClassDiagram], which shows how our application communicates between classes. The application is heavily inspired by social media platforms such as X(formerly Twitter)
 It has similar features to Twitter but isn't as advanced. We had project requirements that guided our way through this project, some of them were these: implement the onion architecture, the user should be able to read cheeps, the user should be able to write a cheep, the user should be able to read their claims, the user should be able to see the cheeps only from them self and those their following, and so on. This will be made more clear further down. 
 
 ## Architecture — In the small
@@ -44,7 +44,7 @@ At the outermost layer, we end with our SQL-Server and razor pages, which intera
 In order not to overwhelm the reader when looking at the diagram [@fig:OnionClassDiagram], details of the classes are kept minimal. There is a UML class diagram for each package. All of these are shown in the Onion class diagram. This is done to keep the diagrams clear and readable. The interaction between layers and packages is shown in the Onion class diagram. The internal interaction is shown in the UML class Diagrams [@fig:CoreUML; @fig:InfrastructureUML; @fig:RazorUML; @fig:PagesUML]. 
 
 You will see in our repositories, that we're deleting the author at some point, this was a project requirement. We had two possibilities; delete the user in the sense that they will no longer be traceable, that is make all their cheeps anonymous and delete their information, or we had the possibility of deleting everything that the user ever created. 
-We chose to be sure that the user wouldn't come back complaining that their username/normal name still was in a cheep, so we deleted everything that they created.  We chose to give the user full control and ownership over their content, so we deleted everything that they had created. 
+We chose to give the user full control to delete their content so we went with a strategy to delete all data related to the user. 
 
 This was also the easier approach since we could delete everything that contained that user's id or name, instead of altering everything.
 The implementation chosen also allowed us to let some of the data in the database, be deleted through cascading, instead of having to write logic for it.
@@ -115,7 +115,7 @@ Then, confirmation of success is sent back, at which point the razorpage redirec
 <!-- Describe briefly the illustration, i.e., how you application is built, tested, released, and deployed. -->
 ### GitHub workflows
 
-To ensure the flow of the project, we use a tool developed by GitHub known as GitHub Action, otherwise known as a workflow. This will also include when the workflows are activated and used.
+To ensure the flow of the project, we use a tool developed by GitHub known as GitHub Action, otherwise known as a workflow. These will be activated automatically, but can also be activated manually.
 
 #### Build and Test
 
