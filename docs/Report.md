@@ -43,7 +43,6 @@ At the outermost layer, we end with our SQL-Server and razor pages, which intera
 
 In order not to overwhelm the diagram. The details of the classes are kept minimal in the Onion class diagram seen on [@fig:OnionClassDiagram]. There is a UML class diagram for each package. All of these are shown in the Onion class diagram. This is done to keep the diagrams clear and readable. The interaction between layers and packages is shown in the Onion class diagram. The internal interaction is shown in the UML class Diagrams [@fig:CoreUML; @fig:InfrastructureUML; @fig:RazorUML; @fig:PagesUML]. 
 
-
 You will see in our repositories, that we're deleting the author at some point, this was a project demand. We had two possibilities; delete the user in the sense that they will no longer be traceable, that is make everything anonymous and delete their information, or we had the possibility of deleting everything that the user ever created. 
 We chose to be sure that the user wouldn't come back complaining that their username/normal name still was in a cheep, so we deleted everything that they created.  We chose to give the user full control and ownership over their content, so we deleted everything that they had created. 
 This was also the easier approach since we could delete everything that contained that user's id or name, instead of altering everything.
