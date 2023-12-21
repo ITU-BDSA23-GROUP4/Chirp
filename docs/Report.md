@@ -216,7 +216,7 @@ To setup the Docker container for development on your own pc you need to run the
 <br />
 After this the Container should have been created and a new Image can be seen in your Docker Desktop app. With the new lines of code in Program.cs it should create the database on the container. We can all just use the same command since the connectionstring is already made for this password, hostname and port.
 ### Setup Database on docker
-The last step is to create the database on the docker server to do this you are to navigate to the ```Exec``` on your new server. <br/>
+The last step is to create the database on the docker server. To do this you are to navigate to the ```Exec``` on your new server. <br/>
 To get there go to "Containers" and click on your container.<br/>
 
 1. Go to the "Containers"
