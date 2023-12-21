@@ -43,9 +43,14 @@ At the outermost layer, we end with our SQL-Server and razor pages, which intera
 
 In order not to overwhelm the diagram. The details of the classes are kept minimal in the Onion class diagram seen on [@fig:OnionClassDiagram]. There is a UML class diagram for each package. All of these are shown in the Onion class diagram. This is done to keep the diagrams clear and readable. The interaction between layers and packages is shown in the Onion class diagram. The internal interaction is shown in the UML class Diagrams [@fig:CoreULM; @fig:InfrastructureULM; @fig:RazorULM; @fig:PagesULM]. 
 
-You will see in our repositories, that we're deleting the author at some point, this was a project demand. We had two possibilities; delete the user in the sense that they will no longer be traceable, that is make everything anonymous and delete their information, or we had the possibility of deleting everything that the user ever touched. We chose to be sure that the user wouldn't come back complaining that their username/normal name still was in a cheep, so we deleted everything that they touched. This was also the easier approach since we could delete everything that contained that user's id or name, instead of altering everything. 
-<br>
 
+You will see in our repositories, that we're deleting the author at some point, this was a project demand. We had two possibilities; delete the user in the sense that they will no longer be traceable, that is make everything anonymous and delete their information, or we had the possibility of deleting everything that the user ever created. 
+We chose to be sure that the user wouldn't come back complaining that their username/normal name still was in a cheep, so we deleted everything that they created.  We chose to give the user full control and ownership over their content, so we deleted everything that they had created. 
+This was also the easier approach since we could delete everything that contained that user's id or name, instead of altering everything.
+The implementation chosen also allowed us to let some of the data in the database, be deleted through cascading, instead of having to write logic for it.
+
+The method IncreaseLikeAttribute in the CheepRepository, which can be seen in the diagram [@fig:InfrastructureULM], reveals that like is an attribute on the Cheep entity since its only parameters are a Cheep id and not an author id. This is the simplest implementation of the feature, we could come up with. We have chosen to use this implementation due to the overall time constraint of the project. It has the impact, that it is not possible to see or retrieve data from the database, about who has liked a cheep. It is possible for each author to look multiple times. It is not possible to regret a like in the current state of the application, although a dislike method could be implemented.
+<br>
 
 ![ULM Class Core](Images/PackageCoreUMLDiagram.png){width=60% #fig:CoreULM}
 
@@ -55,7 +60,9 @@ You will see in our repositories, that we're deleting the author at some point, 
 
 ![ULM Class Pages](Images/PackagePagesUMLDiagram.png){width=60% #fig:PagesULM}
 
-The Onion Architecture (otherwise known as Clean Architecture), is great for having low coupling and high cohesion. When looking at the UML in the more specified onion diagram bellow, there is no unnecessary communication between scripts, having low coupling making the readability of the program better, even though some of the repositories contain a fair amount of methods. When moving outward you'll see the packages only use entities further in or in the same layer.
+The Onion Architecture (otherwise known as Clean Architecture), is great for having low coupling and high cohesion. When looking at the UML in the more specified onion diagram bellow, there is no unnecessary communication between scripts. 
+Having low coupling making the readability and maintainability of the program better, since there are less dependencies to take into account, even though some of the repositories contain a fair amount of methods.
+When moving outward you'll see the packages only use entities further in or in the same layer.
 
 It is worth mentioning that the only way of interacting with the repositories is through their interfaces, which is an important factor in making sure the application has low coupling. The same goes for the CheepService, since every class that needs to access it uses information from the interface, and that interface uses from the other interfaces. 
 
