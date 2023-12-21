@@ -204,7 +204,7 @@ Navigate to the root folder of the program, run the following command in your te
 ```bash
 --global dotnet-ef
 ```
-naviagte to *Chirp/src/Chirp.Infrastructure*
+navigate to *Chirp/src/Chirp.Infrastructure*
 <br> Delete all migrations file if they exists
 <br>
 
@@ -252,7 +252,7 @@ You can also give your docker container another name if you want to.
 
 
 ## Running the program - Step 4
-navigate to *src\\Chirp.Razor* and run the following command
+Navigate to *src\\Chirp.Razor* and run the following command
 ```bash
 dotnet run
 ```
