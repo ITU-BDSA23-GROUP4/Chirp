@@ -31,9 +31,9 @@ These layers can be seen more detailed in our class diagram. There is one for ea
 
 You will see in our repositories, that we're deleting the author at some point, this was a project requirement. We had two possibilities; delete the user in the sense that they will no longer be traceable, that is make everything anonymous and delete their information, or we had the possibility of just deleting everything that the user ever created.  We chose to give the user full control and ownership over their content, so we deleted everything that they had created. 
 This was also the easier approach since we could delete everything that contained that user's id or name, instead of altering everything.
-The implementation chosen, also allowed us to letting som of the data in the database, be deleted thorugh cascading, instead of having to write logic for it.
+The implementation chosen, also allowed us to letting som of the data in the database, be deleted through cascading, instead of having to write logic for it.
 
-The method IncreaseLikeAttribute in the CheepRepository, which can be seen in the diagram [ULM Class Infrastructure](#ULMClassInfrastructure), reveals that likes is an attribute on the Cheep entity, since its only parameters are a cheep id, and not an author id. This is the simpliest implementation of the feature, we could come up with. We have chosen to use this implementation due to the overall time constraint of the project. It has the impact, that it is not possible to see or retrieve data from the database, about who has liked a cheep. It is possible for each author to look mulitple times. It is not possible to regeret a like in the current state of the application, altough a dislike method could be implemented.
+The method IncreaseLikeAttribute in the CheepRepository, which can be seen in the diagram [ULM Class Infrastructure](#ULMClassInfrastructure), reveals that likes is an attribute on the Cheep entity, since its only parameters are a cheep id, and not an author id. This is the simplest implementation of the feature, we could come up with. We have chosen to use this implementation due to the overall time constraint of the project. It has the impact, that it is not possible to see or retrieve data from the database, about who has liked a cheep. It is possible for each author to look multiple times. It is not possible to regret a like in the current state of the application, although a dislike method could be implemented.
 <br>
 
 <figure align = "center">
@@ -82,7 +82,6 @@ Illustrate typical scenarios of a user journey through your Chirp! application. 
 
 Make sure that the illustrations are in line with the actual behavior of your application.
 
-## Sequence diagram
 <!-- Figugres are refered to as SQDX as in Sequence Diagram X -->
 ## Sequence diagram
 In Figure SQD1. A sequence diagram of an unauthorized actor. Henceforth, referred to as UA, accessing our project. It shows the UA sending the HTTP get request to receive the website. After the initial request, the Chirp.Razor starts to build the HTML. Here, an asynchronous object creation message is sent through the interface in the core and onto the repository. The repository returns the same for all actors sending this request. Using Linq, the repository inquires the SQL database for the 32 most recent cheeps. 
