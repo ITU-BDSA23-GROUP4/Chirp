@@ -67,7 +67,7 @@ When moving outward you'll see the packages only use entities further in, or in 
 It is worth mentioning that the only way of interacting with the repositories is through their interfaces, which is an important factor in making sure the application has low coupling. The same goes for the CheepService, since every class that needs to access it uses information from the interface, and that interface uses from the other interfaces. 
 
 
-![OnionClassDiagram](Images/OnionClassDiagram.png){width=80% #fig:OnionClassDiagram}
+![OnionClassDiagram](Images/OnionClassDiagram.png){width=100% #fig:OnionClassDiagram}
 
 ## Architecture of deployed application
 In [@fig:Deployment] a deployment diagram can be seen of our Chirp application.
@@ -150,7 +150,7 @@ This section will describe what features and implementation weren't completed an
 
 ## Project Board
 
-![Project Board](Images/ProjectBoard.png){width=75%}
+![Project Board](Images/ProjectBoard.png){width=100%}
 
 
 This figure shows the Project board of Chirp on the day of the hand-in. We have four issues that haven't been implemented before the deadline. All four issues are under the Todo section. None of them are in the project requirements. That is to say, they were formulated under the *Wildstyle* development section. They were, adding tags to cheeps, being able to cheep a meme, trending cheeps and a re-cheep feature. As can be seen from the project board the re-cheep feature had an assigned developer but wasn't completed in time as other requirements had to be met. One *Wildstyle* feature was implemented a like button on the Cheeps. Although the like implementation is missing some functionality. A user can't see which cheep they've liked and they can like, a Cheep infinitely many times.
