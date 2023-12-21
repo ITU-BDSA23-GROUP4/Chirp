@@ -41,7 +41,7 @@ At the outermost layer, we end with our SQL-Server and razor pages, which intera
 
 ![Onion Architecture Diagram](Images/OnionArchitectureDiagram.png){width=60% #fig:OnionArchitecture}
 
-In order not to overwhelm the diagram. The details of the classes are kept minimal in the Onion class diagram seen on [@fig:OnionClassDiagram]. There is a UML class diagram for each package. All of these are shown in the Onion class diagram. This is done to keep the diagrams clear and readable. The interaction between layers and packages is shown in the Onion class diagram. The internal interaction is shown in the UML class Diagrams [@fig:CoreULM; @fig:InfrastructureULM; @fig:RazorULM; @fig:PagesULM]. 
+In order not to overwhelm the diagram. The details of the classes are kept minimal in the Onion class diagram seen on [@fig:OnionClassDiagram]. There is a UML class diagram for each package. All of these are shown in the Onion class diagram. This is done to keep the diagrams clear and readable. The interaction between layers and packages is shown in the Onion class diagram. The internal interaction is shown in the UML class Diagrams [@fig:CoreUML; @fig:InfrastructureUML; @fig:RazorUML; @fig:PagesUML]. 
 
 
 You will see in our repositories, that we're deleting the author at some point, this was a project demand. We had two possibilities; delete the user in the sense that they will no longer be traceable, that is make everything anonymous and delete their information, or we had the possibility of deleting everything that the user ever created. 
@@ -49,16 +49,16 @@ We chose to be sure that the user wouldn't come back complaining that their user
 This was also the easier approach since we could delete everything that contained that user's id or name, instead of altering everything.
 The implementation chosen also allowed us to let some of the data in the database, be deleted through cascading, instead of having to write logic for it.
 
-The method IncreaseLikeAttribute in the CheepRepository, which can be seen in the diagram [@fig:InfrastructureULM], reveals that like is an attribute on the Cheep entity since its only parameters are a Cheep id and not an author id. This is the simplest implementation of the feature, we could come up with. We have chosen to use this implementation due to the overall time constraint of the project. It has the impact, that it is not possible to see or retrieve data from the database, about who has liked a cheep. It is possible for each author to look multiple times. It is not possible to regret a like in the current state of the application, although a dislike method could be implemented.
+The method IncreaseLikeAttribute in the CheepRepository, which can be seen in the diagram [@fig:InfrastructureUML], reveals that like is an attribute on the Cheep entity since its only parameters are a Cheep id and not an author id. This is the simplest implementation of the feature, we could come up with. We have chosen to use this implementation due to the overall time constraint of the project. It has the impact, that it is not possible to see or retrieve data from the database, about who has liked a cheep. It is possible for each author to look multiple times. It is not possible to regret a like in the current state of the application, although a dislike method could be implemented.
 <br>
 
-![ULM Class Core](Images/PackageCoreUMLDiagram.png){width=60% #fig:CoreULM}
+![UML Class Core](Images/PackageCoreUMLDiagram.png){width=60% #fig:CoreUML}
 
-![ULM Class Infrastructure](Images/PackageInfrastructureUMLDiagram.png ){width=60% #fig:InfrastructureULM}
+![UML Class Infrastructure](Images/PackageInfrastructureUMLDiagram.png ){width=60% #fig:InfrastructureUML}
 
-![ULM Class Razor](Images/PackageRazorUMLDiagrams.png){width=60% #fig:RazorULM}
+![UML Class Razor](Images/PackageRazorUMLDiagrams.png){width=60% #fig:RazorUML}
 
-![ULM Class Pages](Images/PackagePagesUMLDiagram.png){width=60% #fig:PagesULM}
+![UML Class Pages](Images/PackagePagesUMLDiagram.png){width=60% #fig:PagesUML}
 
 The Onion Architecture (otherwise known as Clean Architecture), is great for having low coupling and high cohesion. When looking at the UML in the more specified onion diagram bellow, there is no unnecessary communication between scripts. 
 Having low coupling increasethe readability and maintainability of the program. Since there are less dependencies to take into account, even though some of the repositories contain a fair amount of methods.
@@ -121,20 +121,20 @@ This workflow is run on a pull request every time a commit is made to the branch
 This ensures that main will stay functional by building and testing the project with dotnet and our test suite. If anything fails, it will stop and prevent 
 the branch from merging into main.
 
-![Build and test activity diagram](Images/BuildAndTest.png){width=60% #fig:Buildtest}
+![Build and test activity diagram](Images/BuildAndTestSmall.png){width=60% #fig:Buildtest}
 
 #### Publish and release
 
 This workflow is made to automate the creation of a GitHub release when a tag is added, see [@fig:PublishRelease]. It will create a release of the tag. But first, the workflow in succession builds a version for Windows, MacOS and Linux. After that, it will zip the files and add them to the release if a release was made.
 
 
-![Publish New Release Activity diagram](Images/PublishNewRelease.png){width=60% #fig:PublishRelease}
+![Publish New Release Activity diagram](Images/PublishNewReleaseSmall.png){width=60% #fig:PublishRelease}
 
 #### Build and deploy
 This workflow can be seen on [@fig:BuildDeploy]. The workflow is made so it will build the program and run the "publish" command to build a version for Linux to be run on the Azure web app. After the publish command, it uploads the artefacts so the next job can use the files of the artefacts. The deploy job will download the artefacts and use their files to deploy to our Azure web app.
 
 
-![Build And Deploy Activity diagram](Images/BuildAndDeploy.png){width=60% #fig:BuildDeploy}
+![Build And Deploy Activity diagram](Images/BuildAndDeploySmall.png){width=60% #fig:BuildDeploy}
 
 <!-- Before putting anything into the workflow actions, we create test manually to run on the computer with the "dotnet test" command. There has been created an activity diagram showing this. For most test we try to implement it going how we expect the method or feature to behave, and after we've concluded that it works, we create a test to challenge this method. By example we can look at the Create(CreateCheepDTO)'s tests in the unit tests. <br> -->
 <!-- This can be found in the infrastructure tests in the tests for Cheep Repository.  -->
@@ -149,8 +149,10 @@ For example, the tests for the method Create(CreateCheepDTO) can be examined. Th
 This section will describe what features and implementation weren't completed and how the group worked with creation of issues and development. <br>
 
 ## Project Board
-![Fix.XX Project Board](Images/ProjectBoard.png){width=60%}
-<br>
+
+![Project Board](Images/ProjectBoard.png){width=60%}
+
+
 This figure shows the Project board of Chirp on the day of the hand-in. We have four issues that haven't been implemented before the deadline. All four issues are under the Todo section. None of them are in the project requirements. That is to say, they were formulated under the *Wildstyle* development section. They were, adding tags to cheeps, being able to cheep a meme, trending cheeps and a re-cheep feature. As can be seen from the project board the re-cheep feature had an assigned developer but wasn't completed in time as other requirements had to be met. One *Wildstyle* feature was implemented a like button on the Cheeps. Although the like implementation is missing some functionality. A user can't see which cheep they've liked and they can like, a Cheep infinitely many times.
 
 
@@ -160,8 +162,9 @@ Three issues regarding the old retired Chirp CLI application is closed, but not 
 - Ensuring that the test coverage are adequate after refactoring our wep api
 
 ## Issue creation
+
 ![Flow of issues](Images/teamwork.png){width=60% #fig:issues}
-<br>
+
 This activity diagram shows the flow of our work process. At first, the new requirements are read and understood, and then the group gathers and tries to formulate the tasks into small issues which ideally can be completed within a day's worth of work. If a formulation gets accepted by the group it gets posted on the issue board on Github. A developer assigns themselves to an issue to let others know what they are working on. When the developer feels like they've implemented the feature adequately they commit and create a pull request. When a pull request is posted two reviewers from the group are needed to further merge it to main and deploy. When reviewing the code a reviewer can request changes and then further work on the issue is required. This process repeats until two reviewers accept the changes and then the code can be merged with main. 
 
 Another more simple *"issue-creation-flow"* was also used. If a developer found a bug within the application or other small adjustments were made. An issue was created. This created good documentation for the other developers so all group members could understand why a pull request was made.
