@@ -60,6 +60,7 @@ The method IncreaseLikeAttribute in the CheepRepository, which can be seen in th
 
 ![UML Class Pages](Images/PackagePagesUMLDiagram.png){width=60% #fig:PagesUML}
 
+
 The Onion Architecture (otherwise known as Clean Architecture), is great for having low coupling and high cohesion. When looking at the UML in the more specified onion diagram below, there is no unnecessary communication between scripts. 
 Having low coupling increase the readability and maintainability of the program. Since there are less dependencies to take into account, even though some of the repositories contain a fair amount of methods.
 When moving outward you'll see the packages only use entities further in, or in the same layer.
@@ -95,15 +96,15 @@ The userpage will show more detailed information than who's following you, the u
 ## Sequence diagram
 In [@fig:SQD1]. A sequence diagram of an unauthorized actor. Hereafter, referred to as UA, accessing our project. It shows the UA sending the HTTP Get request to receive the website. After the initial request, the Chirp.Razor starts to build the HTML. Here, an asynchronous object creation message is sent through the interface in the core and onto the repository. The repository returns the same static content for all actors sending this request. Using Linq, the repository queries the SQL database for the 32 most recent cheeps. 
 
-The database sends the 32 cheeps to the repository. Which inserts each cheep into a CheepDTO before returning a list of 32 CheepDTOs. This list is sent back through the system, shown in [@fig:SQD1]. Arriving in Chirp.Razor. It is weaved into the HTML, checking if the user is Authorized. Before the page is returned to the UA. 
+The database sends all cheeps to the repository and the repository picks 32 out of the cheeps from the database. Which inserts each cheep into a CheepDTO before returning a list of 32 CheepDTOs. This list is sent back through the system, shown in [@fig:SQD1]. Arriving in Chirp.Razor. It is weaved into the HTML, checking the if the user is Authorized. Before the page is returned to the UA. 
 
 ![Sequence Diagram Unauthorized](Images/SequenceDiagramUnauthorized.png){width=70% #fig:SQD1}
 
-[@fig:SQD2] show a known actor accessing our site, logging in and sending a Cheep. The first Get request is the same as seen in [@fig:SQD1]. It deviates during the authentication step as the actor presses the login link. As the actor logs in, Microsoft Identity redirects using the OIDC protocl with the B2C tenant login flow. Which then redirect to GitHub. 
+[@fig:SQD2] show a known actor accessing our site, logging in and sending a Cheep. The first Get request is the same as seen in [@fig:SQD1]. It deviates during the authentication step as the actor presses the login link. As the actor logs in, Microsoft Identity redirects them to Azure OIDC. Which then redirect to GitHub. 
 
 After the actor has logged in, GitHub sends a token back to be checked by Azure. The token is in the URL. With it confirmed, the Razor page HTML Will change. 
 
-Then the authorized user fills out the desired cheep and Chirps it. When that happens, Chirp.Razor constructs a CheepDTO and sends it through the core, where it is validated and sent to the repository. Afterwards it is committed to the database granted tha validation confirms. 
+Then the authorized user fills out the desired cheep and Chirps it. When that happens, Chirp.Razor constructs a CheepDTO and sends it through the core, where it is validated and sent to the repository. Afterwards it is committed to the database granted the validation confirms. 
 
 Then, confirmation of success is sent back, at which point the razorpage redirects to itself to reload the content. 
 
@@ -164,8 +165,11 @@ This figure shows the Project board of Chirp on the day of the hand-in. We have 
 
 
 Three issues regarding the old retired Chirp CLI application is closed, but not implemented. The issues can be seen in the far right column, and is:
+
 - Adding automatic deployment from GitHub to the host service containing the web api.
+  
 - Changing the application to use the database on the web service instead of the local hosted database
+  
 - Ensuring that the test coverage are adequate after refactoring our wep api
 
 ## Issue creation
@@ -186,7 +190,6 @@ Prerequisites:
 2. IDE of your choice
 
 3. [download docker](https://docs.docker.com/get-docker/)
-
 
 ## Clone the repository - Step 1
 Follow this link: [github.com/ITU-BDSA23-GROUP4](https://github.com/ITU-BDSA23-GROUP4/Chirp.git)
