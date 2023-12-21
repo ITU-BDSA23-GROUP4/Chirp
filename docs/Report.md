@@ -35,7 +35,7 @@ Provide an illustration of your domain model. Make sure that it is correct and c
 
 ## Architecture — In the small
 In the Onion Architecture diagram seen at [@fig:OnionArchitecture] you'll see our applications. In the centre we have our core package.
-This is the lowest layer of the application, contains no dependencies and is not likely to change. As we move outwards through the layers. The layers get more specific and dependent on the earlier layers and are more likely to change. 
+This is the lowest layer of the application, contains no dependencies and is not likely to change. As we move outwards through the layers, the layers get more specific and dependent on the earlier layers and are more likely to change. 
 At the outermost layer, we end with our SQL-Server and razor pages, which interact with our Azure application as external elements. 
 <br>
 
@@ -43,7 +43,7 @@ At the outermost layer, we end with our SQL-Server and razor pages, which intera
 
 In order not to overwhelm the diagram. The details of the classes are kept minimal in the Onion class diagram seen on [@fig:OnionClassDiagram]. There is a UML class diagram for each package. All of these are shown in the Onion class diagram. This is done to keep the diagrams clear and readable. The interaction between layers and packages is shown in the Onion class diagram. The internal interaction is shown in the UML class Diagrams [@fig:CoreUML; @fig:InfrastructureUML; @fig:RazorUML; @fig:PagesUML]. 
 
-You will see in our repositories, that we're deleting the author at some point, this was a project demand. We had two possibilities; delete the user in the sense that they will no longer be traceable, that is make everything anonymous and delete their information, or we had the possibility of deleting everything that the user ever created. 
+You will see in our repositories, that we're deleting the author at some point, this was a project requirement. We had two possibilities; delete the user in the sense that they will no longer be traceable, that is make everything anonymous and delete their information, or we had the possibility of deleting everything that the user ever created. 
 We chose to be sure that the user wouldn't come back complaining that their username/normal name still was in a cheep, so we deleted everything that they created.  We chose to give the user full control and ownership over their content, so we deleted everything that they had created. 
 This was also the easier approach since we could delete everything that contained that user's id or name, instead of altering everything.
 The implementation chosen also allowed us to let some of the data in the database, be deleted through cascading, instead of having to write logic for it.
