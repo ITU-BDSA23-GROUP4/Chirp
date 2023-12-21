@@ -41,14 +41,15 @@ At the outermost layer, we end with our SQL-Server and razor pages, which intera
 
 ![Onion Architecture Diagram](Images/OnionArchitectureDiagram.png){width=60% #fig:OnionArchitecture}
 
-In order not to overwhelm the diagram. The details of the classes are kept minimal in the Onion class diagram seen on [@fig:OnionClassDiagram]. There is a UML class diagram for each package. All of these are shown in the Onion class diagram. This is done to keep the diagrams clear and readable. The interaction between layers and packages is shown in the Onion class diagram. The internal interaction is shown in the UML class Diagrams [@fig:CoreUML; @fig:InfrastructureUML; @fig:RazorUML; @fig:PagesUML]. 
+In order not to overwhelm the reader when looking at the diagram [@fig:OnionClassDiagram], details of the classes are kept minimal. There is a UML class diagram for each package. All of these are shown in the Onion class diagram. This is done to keep the diagrams clear and readable. The interaction between layers and packages is shown in the Onion class diagram. The internal interaction is shown in the UML class Diagrams [@fig:CoreUML; @fig:InfrastructureUML; @fig:RazorUML; @fig:PagesUML]. 
 
 You will see in our repositories, that we're deleting the author at some point, this was a project demand. We had two possibilities; delete the user in the sense that they will no longer be traceable, that is make everything anonymous and delete their information, or we had the possibility of deleting everything that the user ever created. 
-We chose to be sure that the user wouldn't come back complaining that their username/normal name still was in a cheep, so we deleted everything that they created.  We chose to give the user full control and ownership over their content, so we deleted everything that they had created. 
+We chose to be sure that the user wouldn't come back complaining that their username/normal name still was in a cheep, so we deleted everything that they created. By doing this the user has full control over the deletion of their data. 
+
 This was also the easier approach since we could delete everything that contained that user's id or name, instead of altering everything.
 The implementation chosen also allowed us to let some of the data in the database, be deleted through cascading, instead of having to write logic for it.
 
-The method IncreaseLikeAttribute in the CheepRepository, which can be seen in the diagram [@fig:InfrastructureUML], reveals that like is an attribute on the Cheep entity since its only parameters are a Cheep id and not an author id. This is the simplest implementation of the feature, we could come up with. We have chosen to use this implementation due to the overall time constraint of the project. It has the impact, that it is not possible to see or retrieve data from the database, about who has liked a cheep. It is possible for each author to look multiple times. It is not possible to regret a like in the current state of the application, although a dislike method could be implemented.
+The method IncreaseLikeAttribute in the CheepRepository, which can be seen in the diagram [@fig:InfrastructureUML], reveals that like is an attribute on the Cheep entity since its only parameters are a Cheep id and not an author id. This is the simplest implementation of the feature, we could come up with. We have chosen to use this implementation due to the overall time constraint of the project. It has the impact, that it is not possible to see or retrieve data from the database, about who has liked a cheep. It is possible for each author to like multiple times. It is not possible to regret a like in the current state of the application, although a dislike method could be implemented.
 <br>
 
 ![UML Class Core](Images/PackageCoreUMLDiagram.png){width=60% #fig:CoreUML}
@@ -59,9 +60,9 @@ The method IncreaseLikeAttribute in the CheepRepository, which can be seen in th
 
 ![UML Class Pages](Images/PackagePagesUMLDiagram.png){width=60% #fig:PagesUML}
 
-The Onion Architecture (otherwise known as Clean Architecture), is great for having low coupling and high cohesion. When looking at the UML in the more specified onion diagram bellow, there is no unnecessary communication between scripts. 
+The Onion Architecture (otherwise known as Clean Architecture), is great for having low coupling and high cohesion. When looking at the UML in the more specified onion diagram below, there is no unnecessary communication between scripts. 
 Having low coupling increase the readability and maintainability of the program. Since there are less dependencies to take into account, even though some of the repositories contain a fair amount of methods.
-When moving outward you'll see the packages only use entities further in or in the same layer.
+When moving outward you'll see the packages only use entities further in, or in the same layer.
 
 It is worth mentioning that the only way of interacting with the repositories is through their interfaces, which is an important factor in making sure the application has low coupling. The same goes for the CheepService, since every class that needs to access it uses information from the interface, and that interface uses from the other interfaces. 
 
@@ -76,13 +77,11 @@ In [@fig:Deployment] a deployment diagram can be seen of our Chirp application.
 
 
 Chirp is a client-server application hosted on the Azure app service as a Web App. The web app is connected to an Azure SQL server where the database can be found. Furthermore the application makes use of an Azure AD B2C tenant for user-authentication. Each node and its means of communication are represented in the diagram. 
- 
-
 
 ## User activities
-For each user activity bellow, there's a headline describing their scenario. There's one activity diagram which shows the application for a non-authorized user. Since most of our features requires the user to be logged in we had no need to show more. This diagram shows what the user can see as their only available page, the public page, with no additional features like a cheepbox or the possibility of following/unfollowing. They can show a specific page of the author for a cheep if they press their name. 
+For each user activity below, there's a headline describing their scenario. There's one activity diagram which shows the application for a non-authorized user. Since most of our features requires the user to be logged in we had no need to show more. This diagram shows what the user can see as their only available page, the public page, with no additional features like a cheepbox or the possibility of following/unfollowing. They can show a specific page of the author for a cheep if they press their name. 
 
-If a user is logged in, there's a few possible user activities as shown bellow. These diagrams show what the user can experience when following or unfollowing, how the user can see who they're following and vice versa, how they write and share a new cheep, how to delete their information and what happens upon login and logout.
+If a user is logged in, there's a few possible user activities as shown below. These diagrams show what the user can experience when following or unfollowing, how the user can see who they're following and vice versa, how they write and share a new cheep, how to delete their information and what happens upon login and logout.
 If a new user wants register they will need to login with github. Since this will redirect from our own razor pages, this hasn't been included in the activity diagrams.
 
 ![ActivityDiagramArchitecture](Images/ActivityDiagramArchitecture1.png)
@@ -92,16 +91,15 @@ If a new user wants register they will need to login with github. Since this wil
 ![ActivityDiagramArchitecture](Images/ActivityDiagramArchitecture3.png)
 
 The userpage will show more detailed information than who's following you, the user can find their claims (such as their email and username), they'll be able to read about how we're using their information, it's also the location of the Forget Me feature (which deletes their profile and information).
-Most of these diagrams are not very detailed, to see more detail of the application you can run it with the help of our guide (How to make _Chirp!_ work locally). There you will see the interface as well as our applications behavior. 
 
 ## Sequence diagram
-In [@fig:SQD1]. A sequence diagram of an unauthorized actor. Hereafter, referred to as UA, accessing our project. It shows the UA sending the HTTP Get request to receive the website. After the initial request, the Chirp.Razor starts to build the HTML. Here, an asynchronous object creation message is sent through the interface in the core and onto the repository.The repository returns the same static content for all actors sending this request. Using Linq, the repository queries the SQL database for the 32 most recent cheeps. 
+In [@fig:SQD1]. A sequence diagram of an unauthorized actor. Hereafter, referred to as UA, accessing our project. It shows the UA sending the HTTP Get request to receive the website. After the initial request, the Chirp.Razor starts to build the HTML. Here, an asynchronous object creation message is sent through the interface in the core and onto the repository. The repository returns the same static content for all actors sending this request. Using Linq, the repository queries the SQL database for the 32 most recent cheeps. 
 
-The database sends the 32 cheeps to the repository. Which inserts each cheep into a CheepDTO before returning a list of 32 CheepDTOs. This list is sent back through the system, shown in [@fig:SQD1]. Arriving in Chirp.Razor. It is weaved into the HTML, checking the if the user is Authorized. Before the page is returned to the UA. 
+The database sends the 32 cheeps to the repository. Which inserts each cheep into a CheepDTO before returning a list of 32 CheepDTOs. This list is sent back through the system, shown in [@fig:SQD1]. Arriving in Chirp.Razor. It is weaved into the HTML, checking if the user is Authorized. Before the page is returned to the UA. 
 
 ![Sequence Diagram Unauthorized](Images/SequenceDiagramUnauthorized.png){width=70% #fig:SQD1}
 
-[@fig:SQD2] show a known actor accessing our site, logging in and sending a Cheep. The first Get request is the same as seen in [@fig:SQD1]. It deviates during the authentication step as the actor presses the login link. As the actor logs log in, Microsoft Identity redirects them to Azure OIDC. Which then redirect to GitHub. 
+[@fig:SQD2] show a known actor accessing our site, logging in and sending a Cheep. The first Get request is the same as seen in [@fig:SQD1]. It deviates during the authentication step as the actor presses the login link. As the actor logs in, Microsoft Identity redirects using the OIDC protocl with the B2C tenant login flow. Which then redirect to GitHub. 
 
 After the actor has logged in, GitHub sends a token back to be checked by Azure. The token is in the URL. With it confirmed, the Razor page HTML Will change. 
 
@@ -119,7 +117,7 @@ Then, confirmation of success is sent back, at which point the razorpage redirec
 <!-- Describe briefly the illustration, i.e., how you application is built, tested, released, and deployed. -->
 ### GitHub workflows
 
-To ensure the flow of the project, we use a tool developed by GitHub known as. GitHub Action, otherwise known as a workflow. This will also include when the workflows are activated and used.
+To ensure the flow of the project, we use a tool developed by GitHub known as GitHub Action, otherwise known as a workflow. This will also include when the workflows are activated and used.
 
 #### Build and Test
 
@@ -174,7 +172,7 @@ Three issues regarding the old retired Chirp CLI application is closed, but not 
 
 ![Flow of issues](Images/teamwork.png){width=60% #fig:issues}
 
-This activity diagram shows the flow of our work process. At first, the new requirements are read and understood, and then the group gathers and tries to formulate the tasks into small issues which ideally can be completed within a day's worth of work. If a formulation gets accepted by the group it gets posted on the issue board on Github. A developer assigns themselves to an issue to let others Aknow what they are working on. When the developer feels like they've implemented the feature adequately, that is the acceptance criteria are met, they commit and create a pull request. When a pull request is posted a minimum of two reviewers from the group are needed to further merge it to main and deploy. When reviewing the code a reviewer can request changes and then further work on the issue is required. This process repeats until two reviewers accept the changes and then the code can be merged into main. 
+This activity diagram shows the flow of our work process. At first, the new requirements are read and understood, and then the group gathers and tries to formulate the tasks into small issues which ideally can be completed within a day's worth of work. If a formulation gets accepted by the group it gets posted on the issue board on Github. A developer assigns themselves to an issue to let others know what they are working on. When the developer feels like they've implemented the feature adequately, that is the acceptance criteria are met, they commit and create a pull request. When a pull request is posted a minimum of two reviewers from the group are needed to further merge it to main and deploy. When reviewing the code a reviewer can request changes and then further work on the issue is required. This process repeats until two reviewers accept the changes and then the code can be merged into main. 
 
 Whenever a sizable pull request was made. We had an internal understanding that even after the minimum requirements of two approved reviews. We would wait a day. This was done to include everyone and provide them with an opportunity to request changes to ensure readability and collaboration with the rest of the application.
 
@@ -187,13 +185,15 @@ Prerequisites:
 
 2. IDE of your choice
 
+3. [download docker](https://docs.docker.com/get-docker/)
+
 
 ## Clone the repository - Step 1
 Follow this link: [github.com/ITU-BDSA23-GROUP4](https://github.com/ITU-BDSA23-GROUP4/Chirp.git)
 
 ![Cloning from git](Images/cloning.png){width=60% #fig:Cloning}
 
-Copy the url and run the following command in your terminal where you want to clone the repository to.
+Copy the url and run the following command in your terminal in the directory you want to clone the repository to.
 <br>
 
 ```bash
