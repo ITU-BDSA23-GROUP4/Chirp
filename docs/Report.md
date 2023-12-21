@@ -206,7 +206,8 @@ Navigate to the root folder of the program, run the following command in your te
 --global dotnet-ef
 ```
 navigate to *Chirp/src/Chirp.Infrastructure*
-<br> Delete all migrations file if they exists
+<br> 
+Delete all migrations file if they exists.
 <br>
 
 ![Deletion of migrations](Images/deleteMigations.png){width=60% #fig:Migrations}
