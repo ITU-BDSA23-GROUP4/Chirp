@@ -92,13 +92,13 @@ The database sends the 32 cheeps to the repository. Which inserts each cheep int
 
 ![Sequence Diagram Unauthorized](Images/SequenceDiagramUnauthorized.png){width=60% #fig:SQD1}
 
-[@fig:SQD2] show a known actor accessing our site, logging in and sending a Cheep. The first Get request is the same as seen in [@fig:SQD1]. It deviates during the authentication step as the actor presses the login link. As they log in, Microsoft Identity redirects them to Azure OIDC. Which then redirect to GitHub. 
+[@fig:SQD2] show a known actor accessing our site, logging in and sending a Cheep. The first Get request is the same as seen in [@fig:SQD1]. It deviates during the authentication step as the actor presses the login link. As the actor logs log in, Microsoft Identity redirects them to Azure OIDC. Which then redirect to GitHub. 
 
-After the actor has logged in, GitHub sends a token back to being logged on Azure. Their token is in the URL. With it confirmed, the Razor page HTML Will change. 
+After the actor has logged in, GitHub sends a token back to be checked by Azure. The token is in the URL. With it confirmed, the Razor page HTML Will change. 
 
-Then the authorized user fills out the desired cheep and Chirps it. When that happens, Chirp.Razor constructs a CheepDTO and sends it through the core, where it is validated and sent to the repository. Afterwards it is committed to the database granted that Validation confirms. 
+Then the authorized user fills out the desired cheep and Chirps it. When that happens, Chirp.Razor constructs a CheepDTO and sends it through the core, where it is validated and sent to the repository. Afterwards it is committed to the database granted tha validation confirms. 
 
-Then, confirmation of success is sent back until the razorpage redirects to itself to reload. 
+Then, confirmation of success is sent back, at which point the razorpage redirects to itself to reload the content. 
 
 ![Sequence Diagram Authorized](Images/SequenceDiagramAuthorized.png){width=60% #fig:SQD2}
 
@@ -110,7 +110,7 @@ Then, confirmation of success is sent back until the razorpage redirects to itse
 <!-- Describe briefly the illustration, i.e., how you application is built, tested, released, and deployed. -->
 ### GitHub workflows
 
-To ensure the flow of the project, we use a tool developed by GitHub known as. GitHub Action, otherwise known as a workflow. This will also entail when the workflows are activated and used.
+To ensure the flow of the project, we use a tool developed by GitHub known as. GitHub Action, otherwise known as a workflow. This will also include when the workflows are activated and used.
 
 #### Build and Test
 
@@ -153,8 +153,14 @@ This section will describe what features and implementation weren't completed an
 <br>
 This figure shows the Project board of Chirp on the day of the hand-in. We have four issues that haven't been implemented before the deadline. All four issues are under the Todo section. None of them are in the project requirements. That is to say, they were formulated under the *Wildstyle* development section. They were, adding tags to cheeps, being able to cheep a meme, trending cheeps and a re-cheep feature. As can be seen from the project board the re-cheep feature had an assigned developer but wasn't completed in time as other requirements had to be met. One *Wildstyle* feature was implemented a like button on the Cheeps. Although the like implementation is missing some functionality. A user can't see which cheep they've liked and they can like, a Cheep infinitely many times.
 
+
+Three issues regarding the old retired Chirp CLI application is closed, but not implemented. The issues can be seen in the far right column, and is:
+- Adding automatic deployment from GitHub to the host service containing the web api.
+- Changing the application to use the database on the web service instead of the local hosted database
+- Ensuring that the test coverage are adequate after refactoring our wep api
+
 ## Issue creation
-![Fig.XX Flow of issues](Images/teamwork.png){width=60%}
+![Flow of issues](Images/teamwork.png){width=60% #fig:issues}
 <br>
 This activity diagram shows the flow of our work process. At first, the new requirements are read and understood, and then the group gathers and tries to formulate the tasks into small issues which ideally can be completed within a day's worth of work. If a formulation gets accepted by the group it gets posted on the issue board on Github. A developer assigns themselves to an issue to let others know what they are working on. When the developer feels like they've implemented the feature adequately they commit and create a pull request. When a pull request is posted two reviewers from the group are needed to further merge it to main and deploy. When reviewing the code a reviewer can request changes and then further work on the issue is required. This process repeats until two reviewers accept the changes and then the code can be merged with main. 
 
