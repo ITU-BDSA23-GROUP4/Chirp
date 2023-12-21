@@ -56,7 +56,7 @@ The method IncreaseLikeAttribute in the CheepRepository, which can be seen in th
     <figcaption style="  font-size:11px"><b>Fig. XX - ULM Package Diagram of the Chirp.Razor/Pages </b></figcaption>
 </figure>
 
-The Onion Architecture (otherwise known as Clean Architecture), is great for having low coupling and high cohesion. When looking at the UML in the more specified onion diagram bellow, there is no unnecessary communication between scripts. Having low coupling making the readability of the program better, even though some of the repositories contain a fair amount of methods. When moving outward you'll see the packages only use entities further in or in the same layer.
+The Onion Architecture (otherwise known as Clean Architecture), is great for having low coupling and high cohesion. When looking at the UML in the more specified onion diagram bellow, there is no unnecessary communication between scripts. Having low coupling making the readability and maintainability of the program better, since there are less dependencies to take into account, even though some of the repositories contain a fair amount of methods. When moving outward you'll see the packages only use entities further in or in the same layer.
 
 It is worth mentioning that the only way of interacting with the repositories is through their interfaces, which is an important factor in making sure the application has low coupling. The same goes for the CheepService, since every class that needs to access it uses information from the interface, and that interface uses from the other interfaces. 
 <br>
