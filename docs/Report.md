@@ -211,7 +211,7 @@ dotnet ef migrations add InitialCreate
 dotnet ef database update
 ```
 ## 3. Setting up docker
-To setup the Docker container for development on own pc you need to run the following command:
+To setup the Docker container for development on your own pc you need to run the following command:
 ```docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=Admin123" -p 1433:1433 --name chirpdb --hostname chirpdb -d mcr.microsoft.com/mssql/server:2022-latest```
 <br />
 After this the Container should have been created and a new Image can be seen in your Docker Desktop app. With the new lines of code in Program.cs it should create the database on the container. We can all just use the same command since the connectionstring is already made for this password. hostname and port.
