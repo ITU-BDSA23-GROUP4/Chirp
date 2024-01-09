@@ -21,7 +21,7 @@
 
   <ItemGroup>
     <EmbeddedResource Include="../../data/**/*" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.14" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.15" />
   </ItemGroup>
 
   <ItemGroup>
