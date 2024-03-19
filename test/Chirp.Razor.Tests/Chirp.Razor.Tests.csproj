@@ -22,9 +22,9 @@
     
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
     
-    <PackageReference Include="Testcontainers" Version="3.6.0" />
+    <PackageReference Include="Testcontainers" Version="3.8.0" />
     
-    <PackageReference Include="Testcontainers.MsSql" Version="3.6.0" />
+    <PackageReference Include="Testcontainers.MsSql" Version="3.8.0" />
     <PackageReference Include="xunit" Version="2.6.3" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.5.5">
       <PrivateAssets>all</PrivateAssets>
